@@ -4,11 +4,14 @@ Run: uvicorn app.main:app --reload --port 8000
 """
 from __future__ import annotations
 
+import json
 import time
 from contextlib import asynccontextmanager
 from datetime import date
+from functools import lru_cache
+from pathlib import Path
 
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, Query, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 
 from . import stage0_document, stage1, stage2, stage3, stage4, stage5_translate
@@ -89,6 +92,66 @@ async def health():
         "status": "ok",
         "locked_conversations": len(_LOCKED_DATES),
         "pending_bifurcations": len(_PENDING_BIFURCATION),
+    }
+
+
+_RULINGS_PATH = Path(__file__).resolve().parents[1] / "data" / "rulings_index.json"
+
+
+@lru_cache(maxsize=1)
+def _load_rulings_index() -> dict:
+    if not _RULINGS_PATH.is_file():
+        return {
+            "generatedOn": None,
+            "courts": {},
+            "branchCounts": {},
+            "caseTypeMapping": [],
+            "rulings": [],
+        }
+    return json.loads(_RULINGS_PATH.read_text(encoding="utf-8"))
+
+
+@app.get("/api/rulings")
+async def list_rulings(
+    court: str | None = Query(None, description="Substring match on court name"),
+    branch: str | None = Query(
+        None, description="criminal | civil | other | writ (case-insensitive)"
+    ),
+    q: str | None = Query(
+        None, description="Substring match on title, caseType, or caseNumber"
+    ),
+    limit: int = Query(50, ge=1, le=400),
+):
+    """Read-only rulings index built by scripts/build_rulings_index.py."""
+    index = _load_rulings_index()
+    rows = index.get("rulings") or []
+
+    if court:
+        needle = court.casefold()
+        rows = [r for r in rows if needle in str(r.get("court", "")).casefold()]
+    if branch:
+        want = branch.casefold()
+        rows = [r for r in rows if str(r.get("branch", "")).casefold() == want]
+    if q:
+        needle = q.casefold()
+        rows = [
+            r
+            for r in rows
+            if needle in str(r.get("title", "")).casefold()
+            or needle in str(r.get("caseType", "")).casefold()
+            or needle in str(r.get("caseNumber", "")).casefold()
+        ]
+
+    # Newest first (ISO dates sort lexicographically)
+    rows = sorted(rows, key=lambda r: r.get("decidedOn") or "", reverse=True)
+    clipped = rows[:limit]
+
+    return {
+        "generatedOn": index.get("generatedOn"),
+        "courts": index.get("courts"),
+        "count": len(clipped),
+        "totalMatching": len(rows),
+        "rulings": clipped,
     }
 
 
