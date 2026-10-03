@@ -13,7 +13,15 @@ const LANGS: { code: Lang; label: string; name: string }[] = [
   { code: "mr", label: "MR", name: "Marathi" },
 ];
 
-export function Header() {
+/** `minimal`: wordmark and language switch only (sign-in screens). */
+export function Header({
+  minimal = false,
+  account,
+}: {
+  minimal?: boolean;
+  /** Signed-in view: shows the email, a Dashboard link and Log out. */
+  account?: { email: string; dashboard: string; logout: string };
+}) {
   const { lang, setLang } = usePrefs();
   const L = getLandingCopy(lang);
   const [active, setActive] = useState<"how" | "evidence" | null>(null);
@@ -47,11 +55,12 @@ export function Header() {
   return (
     <header className={styles.header}>
       <ScrollProgress />
-      <div className={`container ${styles.inner}`}>
+      <div className={`container ${styles.inner} ${minimal ? styles.innerMinimal : ""}`}>
         <Link href="/" className={styles.wordmark}>
           LawShift
         </Link>
 
+        {!minimal ? (
         <nav className={styles.links} aria-label="Primary">
           <Link
             href="/#how"
@@ -71,13 +80,20 @@ export function Header() {
             {L.navAbout}
           </Link>
         </nav>
+        ) : null}
 
         <div className={styles.actions}>
           <div className={styles.langWrap}>
-            <span className={styles.langLabel} id="answer-lang">
-              {L.answersIn}
-            </span>
-            <div className={styles.langGroup} role="group" aria-labelledby="answer-lang">
+            {!minimal ? (
+              <span className={styles.langLabel} id="answer-lang">
+                {L.answersIn}
+              </span>
+            ) : null}
+            <div
+              className={styles.langGroup}
+              role="group"
+              {...(minimal ? { "aria-label": "Language" } : { "aria-labelledby": "answer-lang" })}
+            >
               {LANGS.map((l) => (
                 <button
                   key={l.code}
@@ -94,9 +110,26 @@ export function Header() {
             </div>
           </div>
 
-          <Link href="/#chat" className={styles.tryBtn}>
-            {L.tryACase}
-          </Link>
+          {account ? (
+            <>
+              <span className={styles.accountEmail}>{account.email}</span>
+              <Link href="/dashboard" className={styles.loginLink}>
+                {account.dashboard}
+              </Link>
+              <Link href="/login" className={styles.logoutBtn}>
+                {account.logout}
+              </Link>
+            </>
+          ) : !minimal ? (
+            <>
+              <Link href="/login" className={styles.loginLink}>
+                {L.navLogin}
+              </Link>
+              <Link href="/register" className={styles.tryBtn}>
+                {L.navRegister}
+              </Link>
+            </>
+          ) : null}
         </div>
       </div>
     </header>

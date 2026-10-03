@@ -213,3 +213,75 @@
     display: none;
   }
 }
+
+.loginLink {
+  padding: 0.45rem 0.8rem;
+  border-radius: var(--radius);
+  color: var(--ink);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .loginLink:hover {
+    background: var(--sunken);
+    color: var(--ink);
+  }
+}
+
+@media (max-width: 560px) {
+  .loginLink {
+    display: none;
+  }
+}
+
+/* Sign-in screens: wordmark on the left, language switch on the right. */
+.innerMinimal {
+  grid-template-columns: 1fr auto;
+}
+
+.innerMinimal .langWrap {
+  margin: 0;
+}
+
+/* Signed-in header */
+.accountEmail {
+  max-width: 14rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0 0.5rem;
+  color: var(--ink-secondary);
+  font-size: 0.85rem;
+}
+
+.logoutBtn {
+  padding: 0.45rem 0.9rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  color: var(--ink);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 160ms ease, transform 140ms var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .logoutBtn:hover {
+    background: var(--sunken);
+    color: var(--ink);
+  }
+}
+
+.logoutBtn:active {
+  transform: scale(0.97);
+}
+
+@media (max-width: 1180px) {
+  .accountEmail {
+    display: none;
+  }
+}

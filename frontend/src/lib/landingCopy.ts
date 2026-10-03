@@ -8,6 +8,8 @@ export type LandingCopy = {
   navAbout: string;
   answersIn: string;
   tryACase: string;
+  navLogin: string;
+  navRegister: string;
 
   heroTitle: string;
   heroLead: string;
@@ -123,6 +125,8 @@ const en: LandingCopy = {
   navAbout: "Research notes",
   answersIn: "Answers in",
   tryACase: "Try a case",
+  navLogin: "Log in",
+  navRegister: "Register",
 
   heroTitle: "The day it happened decides which law applies.",
   heroLead:
@@ -278,6 +282,8 @@ const hi: LandingCopy = {
   navAbout: "अनुसंधान नोट्स",
   answersIn: "उत्तर की भाषा",
   tryACase: "एक केस आज़माएँ",
+  navLogin: "लॉग इन",
+  navRegister: "पंजीकरण",
 
   heroTitle: "जिस दिन घटना हुई, वही तय करता है कौन-सा कानून लागू होगा।",
   heroLead:
@@ -433,6 +439,8 @@ const mr: LandingCopy = {
   navAbout: "संशोधन नोंदी",
   answersIn: "उत्तराची भाषा",
   tryACase: "एक खटला वापरून पहा",
+  navLogin: "लॉग इन",
+  navRegister: "नोंदणी",
 
   heroTitle: "घटना झाली त्या दिवशी कोणता कायदा लागू होतो हे ठरते.",
   heroLead:
