@@ -1,0 +1,16 @@
+{
+  "original_corpus": {
+    "label": "original_corpus",
+    "n": 635,
+    "strict_recall_at_5": 0.8299212598425196,
+    "relaxed_recall_at_5": 0.84251968503937,
+    "additional_hits_from_relaxed_metric": 8
+  },
+  "augmented_corpus": {
+    "label": "augmented_corpus",
+    "n": 635,
+    "strict_recall_at_5": 0.8078740157480315,
+    "relaxed_recall_at_5": 0.8141732283464567,
+    "additional_hits_from_relaxed_metric": 4
+  }
+}

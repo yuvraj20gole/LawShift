@@ -1,0 +1,199 @@
+/* A navy panel that holds the three recorded cases in time order. The bronze
+   cutoff runs between the first case and the others, so the date alone decides
+   the side. One authored moment on load: the cutoff draws, then the cases
+   settle in order. */
+
+.panel {
+  margin: 0;
+  padding: 1.25rem 1.25rem 1.1rem;
+  border-radius: 12px;
+  background: var(--night);
+  color: var(--on-night);
+  box-shadow:
+    0 1px 2px rgba(11, 22, 48, 0.2),
+    0 24px 48px -20px rgba(11, 22, 48, 0.55);
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.cell {
+  margin: 0;
+  display: flex;
+  animation: settle 600ms var(--ease-out) calc(700ms + var(--i) * 260ms) backwards;
+}
+
+.case {
+  display: grid;
+  gap: 0.35rem;
+  width: 100%;
+  text-align: left;
+  padding: 0.95rem 1.1rem 0.9rem;
+  border: 0;
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+  transition:
+    transform 160ms var(--ease-out),
+    box-shadow 160ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .case:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px -8px rgba(0, 0, 0, 0.5);
+  }
+
+  .case:hover .try {
+    text-decoration-color: currentColor;
+  }
+}
+
+.case:active {
+  transform: scale(0.985);
+}
+
+.case:focus-visible {
+  outline: 2px solid var(--cutoff);
+  outline-offset: 2px;
+}
+
+.top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.date {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.tag {
+  flex: none;
+  padding: 0.12rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.tagIpc {
+  background: var(--ipc);
+}
+
+.tagBns {
+  background: var(--bns);
+}
+
+.facts {
+  color: var(--ink-secondary);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.resultRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: 0.1rem 0.75rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--rule);
+}
+
+.result {
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  font-weight: 650;
+}
+
+.ipc {
+  color: var(--ipc);
+}
+
+.bns {
+  color: var(--bns);
+}
+
+.resultNote {
+  grid-column: 1 / -1;
+  font-size: 0.82rem;
+  color: var(--ink-secondary);
+  line-height: 1.4;
+}
+
+.try {
+  justify-self: end;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--bns);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+  text-decoration-color: transparent;
+  transition: text-decoration-color 160ms ease;
+}
+
+/* The cutoff: a bronze rule with its date. */
+.cutoff {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0.15rem 0;
+  animation: fade 400ms ease-out 450ms backwards;
+}
+
+.cutLine {
+  flex: 1;
+  height: 2px;
+  background: var(--cutoff);
+  transform-origin: left;
+  animation: draw 700ms var(--ease-in-out) 200ms backwards;
+}
+
+.cutLine:last-child {
+  transform-origin: right;
+}
+
+.cutPill {
+  padding: 0.28rem 0.8rem;
+  border-radius: 999px;
+  background: var(--cutoff);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.caption {
+  margin: 1rem 0 0;
+  font-size: 0.8rem;
+  color: var(--on-night-2);
+}
+
+@keyframes draw {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes settle {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}

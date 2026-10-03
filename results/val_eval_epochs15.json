@@ -1,0 +1,20 @@
+{
+  "method": "Cascade + fine-tuned bge-small (epochs=15) on VAL",
+  "k": 5,
+  "n": 635,
+  "precision_at_k": 0.16566929133858266,
+  "recall_at_k": 0.8283464566929134,
+  "mrr": 0.635249343832021,
+  "ndcg_at_k": 0.6840240478847937,
+  "section_pattern_trigger_rate": 0.2141732283464567,
+  "hit_rate_by_question_type": {
+    "scenario": 0.773109243697479,
+    "consequence": 0.69,
+    "definitional_topic": 0.9375,
+    "elements": 0.74,
+    "definitional_section": 1.0,
+    "exceptions": 0.8252427184466019
+  },
+  "epochs": 15,
+  "model_path": "models/finetuned-bge-small-ipc-bns-e15"
+}

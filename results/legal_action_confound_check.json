@@ -1,0 +1,26 @@
+{
+  "raw_WITH_section_number": {
+    "label": "raw_with_section",
+    "n": 175,
+    "recall_at_5": 0.9371428571428572,
+    "mrr": 0.6928571428571428
+  },
+  "raw_WITHOUT_section_number": {
+    "label": "raw_without_section",
+    "n": 125,
+    "recall_at_5": 0.872,
+    "mrr": 0.7170666666666666
+  },
+  "keyword_WITH_section_number": {
+    "label": "kw_with_section",
+    "n": 175,
+    "recall_at_5": 0.17714285714285713,
+    "mrr": 0.08
+  },
+  "keyword_WITHOUT_section_number": {
+    "label": "kw_without_section",
+    "n": 125,
+    "recall_at_5": 0.376,
+    "mrr": 0.288
+  }
+}

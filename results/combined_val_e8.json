@@ -1,0 +1,19 @@
+{
+  "method": "Combined GSMS-B+GovIntel (epochs=8) on VAL",
+  "k": 5,
+  "n": 635,
+  "precision_at_k": 0.15999999999999998,
+  "recall_at_k": 0.8,
+  "mrr": 0.6053018372703413,
+  "ndcg_at_k": 0.6544489556534646,
+  "section_pattern_trigger_rate": 0.2141732283464567,
+  "hit_rate_by_question_type": {
+    "scenario": 0.7310924369747899,
+    "consequence": 0.67,
+    "definitional_topic": 0.9107142857142857,
+    "elements": 0.7,
+    "definitional_section": 1.0,
+    "exceptions": 0.7864077669902912
+  },
+  "model_path": "models/finetuned-bge-small-combined-e8"
+}

@@ -1,0 +1,294 @@
+{
+  "sources": {
+    "rule_only": "results/stage4_verifier_ruleonly.json",
+    "rule_app_conc_3b": "results/stage4_verifier_eval.json"
+  },
+  "tp": 2,
+  "fp": 4,
+  "fn": 3,
+  "tn": 31,
+  "precision": 0.3333333333333333,
+  "recall": 0.4,
+  "results": [
+    {
+      "case_number": 1,
+      "rule_only_flagged": true,
+      "rule_app_conc_flagged": false,
+      "both_agree_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 2,
+      "rule_only_flagged": true,
+      "rule_app_conc_flagged": false,
+      "both_agree_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 3,
+      "rule_only_flagged": true,
+      "rule_app_conc_flagged": false,
+      "both_agree_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 4,
+      "rule_only_flagged": true,
+      "rule_app_conc_flagged": false,
+      "both_agree_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 5,
+      "rule_only_flagged": true,
+      "rule_app_conc_flagged": false,
+      "both_agree_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 6,
+      "rule_only_flagged": true,
+      "rule_app_conc_flagged": true,
+      "both_agree_flag": true,
+      "known_mismatch": true
+    },
+    {
+      "case_number": 7,
+      "rule_only_flagged": true,
+      "rule_app_conc_flagged": false,
+      "both_agree_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 8,
+      "rule_only_flagged": true,
+      "rule_app_conc_flagged": false,
+      "both_agree_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 9,
+      "rule_only_flagged": true,
+      "rule_app_conc_flagged": false,
+      "both_agree_flag": false,
+      "known_mismatch": true
+    },
+    {
+      "case_number": 10,
+      "rule_only_flagged": true,
+      "rule_app_conc_flagged": false,
+      "both_agree_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 11,
+      "rule_only_flagged": true,
+      "rule_app_conc_flagged": false,
+      "both_agree_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 12,
+      "rule_only_flagged": true,
+      "rule_app_conc_flagged": false,
+      "both_agree_flag": false,
+      "known_mismatch": true
+    },
+    {
+      "case_number": 13,
+      "rule_only_flagged": true,
+      "rule_app_conc_flagged": false,
+      "both_agree_flag": false,
+      "known_mismatch": true
+    },
+    {
+      "case_number": 14,
+      "rule_only_flagged": true,
+      "rule_app_conc_flagged": false,
+      "both_agree_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 15,
+      "rule_only_flagged": true,
+      "rule_app_conc_flagged": false,
+      "both_agree_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 16,
+      "rule_only_flagged": true,
+      "rule_app_conc_flagged": false,
+      "both_agree_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 17,
+      "rule_only_flagged": true,
+      "rule_app_conc_flagged": false,
+      "both_agree_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 18,
+      "rule_only_flagged": true,
+      "rule_app_conc_flagged": false,
+      "both_agree_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 19,
+      "rule_only_flagged": true,
+      "rule_app_conc_flagged": false,
+      "both_agree_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 20,
+      "rule_only_flagged": true,
+      "rule_app_conc_flagged": false,
+      "both_agree_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 21,
+      "rule_only_flagged": true,
+      "rule_app_conc_flagged": true,
+      "both_agree_flag": true,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 22,
+      "rule_only_flagged": true,
+      "rule_app_conc_flagged": false,
+      "both_agree_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 23,
+      "rule_only_flagged": false,
+      "rule_app_conc_flagged": false,
+      "both_agree_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 24,
+      "rule_only_flagged": false,
+      "rule_app_conc_flagged": false,
+      "both_agree_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 25,
+      "rule_only_flagged": false,
+      "rule_app_conc_flagged": false,
+      "both_agree_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 26,
+      "rule_only_flagged": true,
+      "rule_app_conc_flagged": false,
+      "both_agree_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 27,
+      "rule_only_flagged": true,
+      "rule_app_conc_flagged": false,
+      "both_agree_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 28,
+      "rule_only_flagged": true,
+      "rule_app_conc_flagged": false,
+      "both_agree_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 29,
+      "rule_only_flagged": true,
+      "rule_app_conc_flagged": true,
+      "both_agree_flag": true,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 30,
+      "rule_only_flagged": true,
+      "rule_app_conc_flagged": false,
+      "both_agree_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 31,
+      "rule_only_flagged": true,
+      "rule_app_conc_flagged": false,
+      "both_agree_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 32,
+      "rule_only_flagged": true,
+      "rule_app_conc_flagged": false,
+      "both_agree_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 33,
+      "rule_only_flagged": true,
+      "rule_app_conc_flagged": false,
+      "both_agree_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 34,
+      "rule_only_flagged": true,
+      "rule_app_conc_flagged": false,
+      "both_agree_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 35,
+      "rule_only_flagged": true,
+      "rule_app_conc_flagged": true,
+      "both_agree_flag": true,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 36,
+      "rule_only_flagged": true,
+      "rule_app_conc_flagged": true,
+      "both_agree_flag": true,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 37,
+      "rule_only_flagged": true,
+      "rule_app_conc_flagged": false,
+      "both_agree_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 38,
+      "rule_only_flagged": true,
+      "rule_app_conc_flagged": false,
+      "both_agree_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 39,
+      "rule_only_flagged": true,
+      "rule_app_conc_flagged": true,
+      "both_agree_flag": true,
+      "known_mismatch": true
+    },
+    {
+      "case_number": 40,
+      "rule_only_flagged": true,
+      "rule_app_conc_flagged": false,
+      "both_agree_flag": false,
+      "known_mismatch": false
+    }
+  ]
+}

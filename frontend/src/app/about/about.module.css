@@ -1,0 +1,149 @@
+.main {
+  padding: 2.5rem 0 4rem;
+}
+
+.back {
+  margin: 0 0 1.25rem;
+}
+
+.back a {
+  color: var(--ink-secondary);
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.back a:hover {
+  color: var(--ink);
+}
+
+.h1 {
+  margin: 0 0 0.75rem;
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 3.4vw, 2.65rem);
+  font-weight: var(--weight-display);
+  letter-spacing: -0.022em;
+}
+
+.lede {
+  margin: 0 0 1.75rem;
+  max-width: var(--measure);
+  color: var(--ink-secondary);
+  font-weight: var(--weight-body);
+}
+
+.pullquote {
+  margin: 0 0 2.25rem;
+  padding: 1.15rem 0;
+  max-width: 40rem;
+  border-top: 1px solid var(--rule-strong);
+  border-bottom: 1px solid var(--rule-strong);
+  background: transparent;
+}
+
+.pullquote p {
+  margin: 0 0 0.75rem;
+  font-family: var(--font-serif);
+  font-size: clamp(1.15rem, 2vw, 1.35rem);
+  font-style: italic;
+  font-weight: 450;
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  text-wrap: pretty;
+}
+
+.pullquote cite {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-style: normal;
+  font-weight: var(--weight-ui);
+  color: var(--ink-tertiary);
+  letter-spacing: 0.01em;
+}
+
+.block {
+  margin-bottom: 1.75rem;
+  max-width: var(--measure);
+}
+
+.block h2 {
+  margin: 0 0 0.45rem;
+  font-size: 1.05rem;
+  font-weight: 650;
+}
+
+.block p {
+  margin: 0;
+  color: var(--ink-secondary);
+  line-height: 1.55;
+  font-weight: var(--weight-body);
+}
+
+.block code {
+  font-size: 0.86em;
+  color: var(--ink);
+}
+
+.disclaimer {
+  margin: 2.5rem 0 0;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.85rem;
+  color: var(--ink-tertiary);
+}
+
+/* Centred column: everything sits on the page's centre line. */
+.narrow {
+  max-width: 46rem;
+}
+
+.h1,
+.lede,
+.pullquote,
+.disclaimer {
+  text-align: center;
+  margin-inline: auto;
+}
+
+.lede,
+.pullquote {
+  max-width: 40rem;
+}
+
+.block {
+  margin-inline: auto;
+  max-width: none;
+}
+
+.main {
+  padding: 3.5rem 0 5rem;
+}
+
+/* Back link: top-left, in line with the wordmark. */
+.back {
+  margin: 0 0 1.5rem;
+  text-align: left;
+}
+
+.back a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 44px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.back a span {
+  font-size: 1.3rem;
+  line-height: 1;
+  transition: transform 180ms var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .back a:hover span {
+    transform: translateX(-4px);
+  }
+}

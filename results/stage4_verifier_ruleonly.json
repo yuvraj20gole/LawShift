@@ -1,0 +1,416 @@
+{
+  "model": "qwen2.5:3b-instruct",
+  "tp": 5,
+  "fp": 32,
+  "fn": 0,
+  "tn": 3,
+  "known_mismatch_cases": [
+    6,
+    9,
+    12,
+    13,
+    39
+  ],
+  "results": [
+    {
+      "case_number": 1,
+      "question_type": "exceptions",
+      "chunk_id": "BNSS_433",
+      "parsed_rule": "When an appeal under this section is laid before another Judge of that Court, and that Judge so requires, the appeal shall be re-heard and decided by a larger Bench of Judges.",
+      "parsed_conclusion": "The third tie-breaking judge does not have to conduct a completely new trial with all the witnesses.",
+      "verdict": "NOT_SUPPORTED",
+      "explanation": "NOT_SUPPORTED The Rule mandates a \"larger Bench\" for re-hearing, implying multiple judges beyond just one tie-breaker. This suggests a thorough review rather than a new trial with witnesses.",
+      "known_mismatch": false
+    },
+    {
+      "case_number": 2,
+      "question_type": "exceptions",
+      "chunk_id": "BSA_160",
+      "parsed_rule": "In order to corroborate the testimony of a witness, any former statement made by such witness relating to the same fact, at or about the time when the fact took place, or before any authority legally competent to investigate the fact, may be proved.",
+      "parsed_conclusion": "No, a witness cannot use a diary entry they wrote five years after the event to corroborate their current testimony.",
+      "verdict": "NOT_SUPPORTED",
+      "explanation": "NOT_SUPPORTED\n\nThe Rule allows for former statements made \"before any authority legally competent to investigate the fact\" and does not specify a time limit beyond this condition. The Rule does not explicitly contradict using a diary entry written five years after the event, as long as it was made before an investigating authority.",
+      "known_mismatch": false
+    },
+    {
+      "case_number": 3,
+      "question_type": "exceptions",
+      "chunk_id": "BNSS_439",
+      "parsed_rule": "\"On examining any record under section 438 or otherwise, the High Court or the Sessions Judge may direct the Chief Judicial Magistrate by himself or by any of the Magistrates subordinate to him to make, and the Chief Judicial Magistrate may himself make or direct any subordinate Magistrate to make, further inquiry into any complaint which has been dismissed under section 226 or sub-section (4) of section 227, or into the case of any person accused of an offence who has been discharged: Provided that no Court shall make any direction under this section for inquiry into the case of any person who has been discharged unless such person has had an opportunity of showing cause why such direction should not be made.\"",
+      "parsed_conclusion": "Section 439 does not give the Sessions Judge the power to directly *convict* a person who was previously discharged.",
+      "verdict": "NOT_SUPPORTED",
+      "explanation": "NOT_SUPPORTED The Rule states that the Sessions Judge can direct further inquiry, but does not mention any power to directly convict.",
+      "known_mismatch": false
+    },
+    {
+      "case_number": 4,
+      "question_type": "exceptions",
+      "chunk_id": "BNS_343",
+      "parsed_rule": "Whoever fraudulently or dishonestly, or with intent to cause damage or injury to the public or to any person, cancels, destroys or defaces, or attempts to cancel, destroy or deface, or secretes or attempts to secrete any document which is or purports to be a will, or an authority to adopt a son, or any valuable security, or commits mischief in respect of such document, shall be punished with imprisonment for life, or with imprisonment of either description for a term which may extend to seven years, and shall also be liable to fine.",
+      "parsed_conclusion": "No, the person is not guilty under Section 343.",
+      "verdict": "NOT_SUPPORTED",
+      "explanation": "NOT_SUPPORTED The Rule supports a conviction under Section 343 as it covers actions like cancelling, destroying, defacing documents related to wills, adoption authorities, and valuable securities.",
+      "known_mismatch": false
+    },
+    {
+      "case_number": 5,
+      "question_type": "exceptions",
+      "chunk_id": "BNSS_128",
+      "parsed_rule": "\"When an Executive Magistrate receives information that there is within his local jurisdiction a person taking precautions to conceal his presence and that there is reason to believe that he is doing so with a view to committing a cognizable offence, the Magistrate may, in the manner hereinafter provided, require such person to show cause why he should not be ordered to execute a bond or bail bond for his good behaviour for such period, not exceeding one year, as the Magistrate thinks fit.\"",
+      "parsed_conclusion": "The authority to require a suspected person to show cause under Section 128 of BNSS 2023 lies with the Executive Magistrate.",
+      "verdict": "NOT_SUPPORTED",
+      "explanation": "NOT_SUPPORTED The Rule specifies actions based on information about concealment and a belief in an offense, but does not explicitly state who has authority to require show cause. It only outlines what can be done by the Magistrate.",
+      "known_mismatch": false
+    },
+    {
+      "case_number": 6,
+      "question_type": "exceptions",
+      "chunk_id": "BNS_26",
+      "parsed_rule": "Nothing, which is not intended to cause death, is an offence by reason of any harm which it may cause, or be intended by the doer to cause, or be known by the doer to be likely to cause, to any person for whose benefit it is done in good faith, and who has given a consent, whether express or implied, to suffer that harm, or to take the risk of that harm.",
+      "parsed_conclusion": "No, the defense does not apply to euthanasia where a doctor intentionally gives a lethal injection to a consenting patient to end their suffering.",
+      "verdict": "NOT_SUPPORTED",
+      "explanation": "NOT_SUPPORTED The Rule specifically mentions \"Nothing, which is not intended to cause death\" and does not address euthanasia or intentional lethal injections.",
+      "known_mismatch": true
+    },
+    {
+      "case_number": 7,
+      "question_type": "exceptions",
+      "chunk_id": "BNSS_324",
+      "parsed_rule": "\"In every case in which a commission is issued under section 319,\nthe inquiry, trial or other proceeding may be adjourned for a specified time reasonably sufficient for the\nexecution and return of the commission.\"",
+      "parsed_conclusion": "No, the judge is not *forced* to adjourn the entire trial just because one witness is being examined by commission; they may adjourn only the relevant portion.",
+      "verdict": "NOT_SUPPORTED",
+      "explanation": "NOT_SUPPORTED The Rule states \"may adjourn for a specified time reasonably sufficient\", which allows for partial adjournment, not just any adjournment.",
+      "known_mismatch": false
+    },
+    {
+      "case_number": 8,
+      "question_type": "exceptions",
+      "chunk_id": "BNSS_9",
+      "parsed_rule": "The High Court may, whenever it appears to it to be expedient or necessary, confer the powers of a Judicial Magistrate of the first class or of the second class on any member of the Judicial Service of the State, functioning as a Judge in a Civil Court.",
+      "parsed_conclusion": "Yes, it is possible for a Civil Court Judge to exercise the powers of a Criminal Magistrate if granted such authority by the High Court.",
+      "verdict": "NOT_SUPPORTED",
+      "explanation": "NOT_SUPPORTED The Rule only grants powers to a Judicial Magistrate of the first class or second class, not necessarily criminal magistrate powers.",
+      "known_mismatch": false
+    },
+    {
+      "case_number": 9,
+      "question_type": "exceptions",
+      "chunk_id": "BNS_303",
+      "parsed_rule": "Whoever commits theft shall be punished with imprisonment of either description for a term which may extend to three years, or with fine, or with both and in case of second or subsequent conviction of any person under this section, he shall be punished with rigorous imprisonment for a term which shall not be less than one year but which may extend to five years and with fine.",
+      "parsed_conclusion": "Yes, the person has committed theft.",
+      "verdict": "NOT_SUPPORTED",
+      "explanation": "NOT_SUPPORTED The Rule describes punishments for theft, but does not provide evidence to support or conclude that a person has committed theft.",
+      "known_mismatch": true
+    },
+    {
+      "case_number": 10,
+      "question_type": "exceptions",
+      "chunk_id": "BNSS_30",
+      "parsed_rule": "\"Police officers superior in rank to an officer in charge of a police station may exercise the same powers, throughout the local area to which they are appointed, as may be exercised by such officer within the limits of his station.\"",
+      "parsed_conclusion": "A superior officer's power extends beyond just administrative tasks and encompasses all powers exercisable by an officer in charge of a police station within their local area.",
+      "verdict": "NOT_SUPPORTED",
+      "explanation": "NOT_SUPPORTED The Rule specifically mentions \"powers as may be exercised\" and does not extend to all powers, only those exercisable within their station's limits.",
+      "known_mismatch": false
+    },
+    {
+      "case_number": 11,
+      "question_type": "exceptions",
+      "chunk_id": "BNS_11",
+      "parsed_rule": "\"Whenever any person is convicted of an offence for which under this Sanhita the Court has power to sentence him to rigorous imprisonment, the Court may, by its sentence, order that the offender shall be kept in solitary confinement for any portion or portions of the imprisonment to which he is sentenced, not exceeding three months in the whole, according to the following scale, namely: — (a) a time not exceeding one month if the term of imprisonment shall not exceed six months; (b) a time not exceeding two months if the term of imprisonment shall exceed six months and shall not exceed one year; (c) a time not exceeding three months if the term of imprisonment shall exceed one year.\"",
+      "parsed_conclusion": "The total duration of solitary confinement cannot exceed three months based on the total length of the sentence.",
+      "verdict": "NOT_SUPPORTED",
+      "explanation": "NOT_SUPPORTED\n\nThe Rule specifies a maximum duration for solitary confinement as three months, but it does not state this applies to any portion or portions of the imprisonment. It only states that \"the Court may, by its sentence, order that the offender shall be kept in solitary confinement for any portion or portions of the imprisonment.\" This allows for solitary confinement to exceed three months if ordered within a longer total sentence.",
+      "known_mismatch": false
+    },
+    {
+      "case_number": 12,
+      "question_type": "exceptions",
+      "chunk_id": "BNSS_163",
+      "parsed_rule": "The State Government may, either on its own motion or on the application of any person aggrieved, rescind or alter any order made by it under the proviso to sub-section (4).",
+      "parsed_conclusion": "An emergency order under Section 163 can last longer than two months if directed by the State Government.",
+      "verdict": "NOT_SUPPORTED",
+      "explanation": "NOT_SUPPORTED The Rule discusses rescinding or altering orders made under proviso to sub-section (4) and does not mention anything about emergency orders under Section 163.",
+      "known_mismatch": true
+    },
+    {
+      "case_number": 13,
+      "question_type": "exceptions",
+      "chunk_id": "BNSS_487",
+      "parsed_rule": "Nothing in this section, section 478 or section 480, shall be deemed to require the release of any person liable to be detained for some matter other than that in respect of which the bond or bail bond was executed.",
+      "parsed_conclusion": "No, the jailor cannot wait until the next morning to process the release because his shift is ending.",
+      "verdict": "NOT_SUPPORTED",
+      "explanation": "NOT_SUPPORTED The Rule discusses liability for detention and bond execution, not timing of release processing.",
+      "known_mismatch": true
+    },
+    {
+      "case_number": 14,
+      "question_type": "exceptions",
+      "chunk_id": "BSA_67",
+      "parsed_rule": "If a document is required by law to be attested, it shall not be used as evidence until one attesting witness at least has been called for the purpose of proving its execution, if there be an attesting witness alive, and subject to the process of the Court and capable of giving evidence. Provided that it shall not be necessary to call an attesting witness in proof of the execution of any document, not being a will, which has been registered in accordance with the provisions of the Indian Registration Act, 1908 (16 of 1908), unless its execution by the person by whom it purports to have been executed is specifically denied.",
+      "parsed_conclusion": "It is not always necessary to call an attesting witness for a registered sale deed if no one denies who signed it.",
+      "verdict": "NOT_SUPPORTED",
+      "explanation": "NOT_SUPPORTED The Rule states it is not necessary to call an attesting witness in proof of the execution of any document, not being a will, which has been registered in accordance with the provisions of the Indian Registration Act, 1908 (16 of 1908), unless its execution by the person by whom it purports to have been executed is specifically denied. The Conclusion does not specify that denial and hence cannot be directly supported by this part of the Rule.",
+      "known_mismatch": false
+    },
+    {
+      "case_number": 15,
+      "question_type": "exceptions",
+      "chunk_id": "BNSS_125",
+      "parsed_rule": "(1) When a Court of Session or Court of a Magistrate of the first class convicts a person of any of the offences specified in sub-section (2) or of abetting any such offence and is of opinion that it is necessary to take security from such person for keeping the peace, the Court may, at the time of passing sentence on such person, order him to execute a bond or bail bond, for keeping the peace for such period, not exceeding three years, as it thinks fit.",
+      "parsed_conclusion": "The maximum duration for which a court can order someone to keep the peace under this section is three years.",
+      "verdict": "NOT_SUPPORTED",
+      "explanation": "NOT_SUPPORTED The Rule specifies \"not exceeding three years\" but does not state it is the maximum duration.",
+      "known_mismatch": false
+    },
+    {
+      "case_number": 16,
+      "question_type": "exceptions",
+      "chunk_id": "BNSS_450",
+      "parsed_rule": "\"Any Judicial Magistrate may recall any case made over by him under sub-section (2) of section 212 to any other Magistrate and may inquire into or try such cases himself.\"",
+      "parsed_conclusion": "The retrieved text does not provide sufficient information to determine if a regular First Class Magistrate can withdraw a case from another First Class Magistrate who sits in the next courtroom over.",
+      "verdict": "NOT_SUPPORTED",
+      "explanation": "NOT_SUPPORTED The Rule specifically mentions \"Any Judicial Magistrate\" and does not limit its applicability to First Class Magistrates, thus contradicting the conclusion's assumption about a regular First Class Magistrate.",
+      "known_mismatch": false
+    },
+    {
+      "case_number": 17,
+      "question_type": "exceptions",
+      "chunk_id": "BNSS_356",
+      "parsed_rule": "No appeal shall lie against the judgment under this section unless the proclaimed offender presents himself before the Court of appeal.",
+      "parsed_conclusion": "No, a lawyer cannot immediately file an appeal to the High Court while the offender is still hiding abroad.",
+      "verdict": "NOT_SUPPORTED",
+      "explanation": "NOT_SUPPORTED The Rule specifies an appeal against a judgment under this section requires the proclaimed offender to present himself before the Court of Appeal, not a lawyer. There is no provision in the given rule about lawyers filing appeals on behalf of offenders who are hiding abroad.",
+      "known_mismatch": false
+    },
+    {
+      "case_number": 18,
+      "question_type": "exceptions",
+      "chunk_id": "BNSS_162",
+      "parsed_rule": "\"A District Magistrate or Sub-divisional Magistrate, or any other Executive Magistrate or Deputy Commissioner of Police empowered by the State Government or the District Magistrate in this behalf, may order any person not to repeat or continue a public nuisance...\"",
+      "parsed_conclusion": "No, a random Executive Magistrate cannot issue a prohibition order under Section 162 of BNSS 2023.",
+      "verdict": "NOT_SUPPORTED",
+      "explanation": "NOT_SUPPORTED The Rule states \"any Executive Magistrate\", which includes a random Executive Magistrate, being empowered to issue such orders.",
+      "known_mismatch": false
+    },
+    {
+      "case_number": 19,
+      "question_type": "exceptions",
+      "chunk_id": "BSA_33",
+      "parsed_rule": "When any statement of which evidence is given forms part of a longer statement, or of a conversation or part of an isolated document, or is contained in a document which forms part of a book, or is contained in part of electronic record or of a connected series of letters or papers, evidence shall be given of so much and no more of the statement, conversation, document, electronic record, book or series of letters or papers as the Court considers necessary in that particular case to the full understanding of the nature and effect of the statement, and of the circumstances under which it was made.",
+      "parsed_conclusion": "The statutory text does not provide a rigid rule on exactly how many sentences surrounding a statement must be included; rather, it allows for discretion based on the Court's judgment.",
+      "verdict": "NOT_SUPPORTED",
+      "explanation": "NOT_SUPPORTED The Rule explicitly mentions considering \"so much and no more\" which implies a limitation rather than discretion.",
+      "known_mismatch": false
+    },
+    {
+      "case_number": 20,
+      "question_type": "exceptions",
+      "chunk_id": "BNSS_63",
+      "parsed_rule": "\"Every summons issued by a Court under this Sanhita shall be,—in writing, in duplicate, signed by the presiding officer of such Court or by such other officer as the High Court may, from time to times, by rule direct...\"",
+      "parsed_conclusion": "A physical summons is not necessarily required to be signed specifically by the presiding officer of the Court.",
+      "verdict": "NOT_SUPPORTED",
+      "explanation": "NOT_SUPPORTED The Rule explicitly states \"signed by the presiding officer of such Court\", which directly contradicts the conclusion that a physical summons is not necessarily required to be signed specifically by the presiding officer.",
+      "known_mismatch": false
+    },
+    {
+      "case_number": 21,
+      "question_type": "elements",
+      "chunk_id": "BSA_22",
+      "parsed_rule": "A confession is irrelevant if it appears to the Court that the making of the confession was caused by any inducement, threat, coercion or promise having reference to the charge against the accused person, proceeding from a person in authority and sufficient to give the accused person grounds which would appear reasonable for supposing he could gain an advantage or avoid an evil of a temporal nature.",
+      "parsed_conclusion": "A confession is deemed irrelevant if caused by inducement, threat, coercion, or promise from authority sufficient to influence the accused.",
+      "verdict": "NOT_SUPPORTED",
+      "explanation": "NOT_SUPPORTED The Rule specifies \"temporal nature\" while the Conclusion does not.",
+      "known_mismatch": false
+    },
+    {
+      "case_number": 22,
+      "question_type": "consequence",
+      "chunk_id": "BNSS_452",
+      "parsed_rule": "\"A Sessions Judge or Magistrate making an order under section 448, section 449, section 450 or section 451 shall record his reasons for making it.\"",
+      "parsed_conclusion": "Judges who fail to record their reasons for transferring criminal cases will be in violation of the law as stated.",
+      "verdict": "NOT_SUPPORTED",
+      "explanation": "NOT_SUPPORTED\n\nThe Rule only specifies that a Sessions Judge or Magistrate must record reasons for making orders under specified sections, but it does not state anything about transferring criminal cases. Therefore, there is no direct support from the given rule to conclude that judges who fail to record their reasons will be in violation of law regarding transfer of criminal cases.",
+      "known_mismatch": false
+    },
+    {
+      "case_number": 23,
+      "question_type": "definitional_topic",
+      "chunk_id": "BNSS_192",
+      "parsed_rule": "\"Every police officer making an investigation under this Chapter shall day by day enter his proceedings in the investigation in a diary, setting forth the time at which the information reached him, the time at which he began and closed his investigation, the place or places visited by him, and a statement of the circumstances ascertained through his investigation.\"",
+      "parsed_conclusion": "Police officers are required to keep a daily log of their investigation activities as per the rule provided in the statutory text.",
+      "verdict": "SUPPORTED",
+      "explanation": "SUPPORTED\n\nThe Rule explicitly states that \"Every police officer making an investigation under this Chapter shall day by day enter his proceedings in the investigation in a diary,\" which directly supports the conclusion that Police officers are required to keep a daily log of their investigation activities.",
+      "known_mismatch": false
+    },
+    {
+      "case_number": 24,
+      "question_type": "definitional_topic",
+      "chunk_id": "BNSS_479",
+      "parsed_rule": "No such person shall in any case be detained during the period of investigation, inquiry or trial for more than the maximum period of imprisonment provided for the said offence under that law.",
+      "parsed_conclusion": "A person cannot be held in jail for more than the maximum period of imprisonment provided for the offense during their trial.",
+      "verdict": "SUPPORTED",
+      "explanation": "SUPPORTED\n\nThe Rule states \"No such person shall in any case be detained during the period of investigation, inquiry or trial for more than the maximum period of imprisonment provided for the said offence under that law.\" This directly supports the conclusion by specifying that detention (jail) is limited to no longer than the maximum possible sentence for the offense.",
+      "known_mismatch": false
+    },
+    {
+      "case_number": 25,
+      "question_type": "definitional_topic",
+      "chunk_id": "BNSS_485",
+      "parsed_rule": "Before any person is released on bond or bail bond, a bond for such sum of money as the police officer or Court, as the case may be, thinks sufficient shall be executed by such person, and, when he is released on bond or bail bond, by one or more sufficient sureties conditioned that such person shall attend at the time and place mentioned in the bond, and shall continue so to attend until otherwise directed by the police officer or Court, as the case may be.",
+      "parsed_conclusion": "Giving bail involves executing a bond rather than simply handing over cash, requiring both the accused and one or more sureties.",
+      "verdict": "SUPPORTED",
+      "explanation": "SUPPORTED\n\nThe Rule explicitly states \"a bond for such sum of money as the police officer or Court, as the case may be, thinks sufficient shall be executed,\" which directly aligns with the conclusion's assertion that giving bail involves executing a bond.",
+      "known_mismatch": false
+    },
+    {
+      "case_number": 26,
+      "question_type": "consequence",
+      "chunk_id": "BSA_71",
+      "parsed_rule": "An attested document not required by law to be attested may be proved as if it was unattested.",
+      "parsed_conclusion": "The procedural benefit is that it allows over-formalized documents not required by law to be treated as unattested, streamlining the evidentiary process.",
+      "verdict": "NOT_SUPPORTED",
+      "explanation": "NOT_SUPPORTED The Rule specifically mentions \"not required by law to be attested\", which directly contradicts allowing documents not required by law to be treated as unattested.",
+      "known_mismatch": false
+    },
+    {
+      "case_number": 27,
+      "question_type": "scenario",
+      "chunk_id": "BNS_144",
+      "parsed_rule": "Whoever, knowingly or having reason to believe that a person has been trafficked, engages such person for sexual exploitation in any manner, shall be punished with rigorous imprisonment for a term which shall not be less than three years, but which may extend to seven years, and shall also be liable to fine.",
+      "parsed_conclusion": "The man has committed the crime of Exploitation of a Trafficked Person as described in Section 144 of BNS 2023.",
+      "verdict": "NOT_SUPPORTED",
+      "explanation": "NOT_SUPPORTED The Rule specifies punishment for knowingly engaging trafficked persons in sexual exploitation, but does not explicitly cover \"Exploitation of a Trafficked Person\" as described in Section 144 of BNS 2023.",
+      "known_mismatch": false
+    },
+    {
+      "case_number": 28,
+      "question_type": "scenario",
+      "chunk_id": "BSA_139",
+      "parsed_rule": "No particular number of witnesses shall in any case be required for the proof of any fact.",
+      "parsed_conclusion": "The argument that the case must be dismissed due to lack of corroborating eyewitnesses will not succeed based on the statutory text provided.",
+      "verdict": "NOT_SUPPORTED",
+      "explanation": "NOT_SUPPORTED The Rule states \"No particular number of witnesses shall in any case be required for the proof of any fact,\" which does not address whether a sufficient number of eyewitnesses is needed, thus neither directly supports nor contradicts the conclusion about dismissing a case due to lack of corroborating eyewitnesses.",
+      "known_mismatch": false
+    },
+    {
+      "case_number": 29,
+      "question_type": "definitional_section",
+      "chunk_id": "BNSS_351",
+      "parsed_rule": "\"In every inquiry or trial, for the purpose of enabling the accused personally to explain any circumstances appearing in the evidence against him, the Court—(a) may at any stage, without previously warning the accused put such questions to him as the Court considers necessary; (b) shall, after the witnesses for the prosecution have been examined and before he is called on for his defence, question him generally on the case.\"",
+      "parsed_conclusion": "Section 351 of BNSS 2023 mandates a mandatory mechanism for the accused to explain evidence through personal questioning by the court.",
+      "verdict": "NOT_SUPPORTED",
+      "explanation": "NOT_SUPPORTED The Rule allows for questioning at various stages without mandating it as a mandatory mechanism.",
+      "known_mismatch": false
+    },
+    {
+      "case_number": 30,
+      "question_type": "scenario",
+      "chunk_id": "BNS_20",
+      "parsed_rule": "Nothing is an offence which is done by a child under seven years of age.",
+      "parsed_conclusion": "No, a six-year-old cannot be charged with manslaughter for accidentally shooting someone while holding a loaded gun, as such an act is not considered an offence by law.",
+      "verdict": "NOT_SUPPORTED",
+      "explanation": "NOT_SUPPORTED The Rule states \"Nothing is an offence which is done by a child under seven years of age.\" This does not address whether such actions can be charged as manslaughter, only that they are not considered offences. Therefore, it neither supports nor contradicts the conclusion about charging a six-year-old with manslaughter.",
+      "known_mismatch": false
+    },
+    {
+      "case_number": 31,
+      "question_type": "scenario",
+      "chunk_id": "BNSS_2",
+      "parsed_rule": "A report made by a police officer in a case which discloses, after investigation, the commission of a non-cognizable offense shall be deemed to be a complaint; and the police officer by whom such report is made shall be deemed to be the complainant.",
+      "parsed_conclusion": "The case is legally categorized as a complaint based on the investigation's disclosure of a non-cognizable offense.",
+      "verdict": "NOT_SUPPORTED",
+      "explanation": "NOT_SUPPORTED The Rule states that a report disclosing a non-cognizable offense makes the police officer's report a complaint, but does not state that such an offense automatically categorizes the case as a complaint.",
+      "known_mismatch": false
+    },
+    {
+      "case_number": 32,
+      "question_type": "elements",
+      "chunk_id": "BNSS_41",
+      "parsed_rule": "\"When any offence is committed in the presence of a Magistrate, whether Executive or Judicial, within his local jurisdiction, he may himself arrest or order any person to arrest the offender\" (emphasis added) and \"(2) Any Magistrate, whether Executive or Judicial, may at any time arrest or direct the arrest, in his presence, within his local jurisdiction, of any person for whose arrest he is competent at the time and in the circumstances to issue a warrant.\"",
+      "parsed_conclusion": "A Magistrate must be present and have authority to issue a warrant for a past crime to arrest someone under these conditions.",
+      "verdict": "NOT_SUPPORTED",
+      "explanation": "NOT_SUPPORTED (emphasis added)",
+      "known_mismatch": false
+    },
+    {
+      "case_number": 33,
+      "question_type": "scenario",
+      "chunk_id": "BSA_67",
+      "parsed_rule": "If a document is required by law to be attested, it shall not be used as evidence until one attesting witness at least has been called for the purpose of proving its execution, if there be an attesting witness alive, and subject to the process of the Court and capable of giving evidence.",
+      "parsed_conclusion": "The lawyer must call at least one of the two witnesses to testify in order to comply with the law's requirement for proof of execution.",
+      "verdict": "NOT_SUPPORTED",
+      "explanation": "NOT_SUPPORTED The Rule specifies calling an attesting witness for proof, but does not require at least two witnesses; it only requires one alive and capable.",
+      "known_mismatch": false
+    },
+    {
+      "case_number": 34,
+      "question_type": "scenario",
+      "chunk_id": "BNSS_290",
+      "parsed_rule": "\"A person accused of an offence may file an application for plea bargaining within a period of thirty days from the date of framing of charge in the Court in which such offence is pending for trial.\"",
+      "parsed_conclusion": "The court will not accept the man's application for plea bargaining as it has exceeded the statutory time limit of thirty days from the date of framing of charge.",
+      "verdict": "NOT_SUPPORTED",
+      "explanation": "NOT_SUPPORTED The rule specifies a period of thirty days from the date of framing of charge, but does not mention anything about rejecting an application after this period. It only states when an application can be filed, not what happens if it is filed outside that timeframe.",
+      "known_mismatch": false
+    },
+    {
+      "case_number": 35,
+      "question_type": "definitional_section",
+      "chunk_id": "BNS_341",
+      "parsed_rule": "Whoever makes or counterfeits any seal, plate or other instrument for making an impression, intending that the same shall be used for the purpose of committing any forgery which would be punishable under section 338 of this Sanhita, or, with such intent, has in his possession any such seal, plate or other instrument, knowing the same to be counterfeit, shall be punished with imprisonment for life, or with imprisonment of either description for a term which may extend to seven years, and shall also be liable to fine.",
+      "parsed_conclusion": "Section 341 of BNS 2023 prescribes penalties for making or possessing counterfeit seals and plates with intent to commit forgery, as per the prescribed punishments.",
+      "verdict": "NOT_SUPPORTED",
+      "explanation": "NOT_SUPPORTED\n\nThe Rule specifies punishments for making or possessing counterfeit seals and plates with intent to commit forgery under section 338, but does not mention any penalties in section 341.",
+      "known_mismatch": false
+    },
+    {
+      "case_number": 36,
+      "question_type": "elements",
+      "chunk_id": "BNSS_255",
+      "parsed_rule": "\"If, after taking the evidence for the prosecution, examining the accused and hearing the prosecution and the defence on the point, the Judge considers that there is no evidence that the accused committed the offence, the Judge shall record an order of acquittal.\"",
+      "parsed_conclusion": "Three procedural steps must be completed after taking evidence for the prosecution and hearing both sides before a judge can consider recording an order of acquittal under Section 255.",
+      "verdict": "NOT_SUPPORTED",
+      "explanation": "NOT_SUPPORTED The Rule specifies a consideration after completing these steps, not their necessity.",
+      "known_mismatch": false
+    },
+    {
+      "case_number": 37,
+      "question_type": "consequence",
+      "chunk_id": "BNS_159",
+      "parsed_rule": "Whoever abets the committing of mutiny by an officer, soldier, sailor or airman, in the Army, Navy or Air Force of the Government of India or attempts to seduce any such officer, soldier, sailor or airman from his allegiance or his duty, shall be punished with imprisonment for life, or with imprisonment of either description for a term which may extend to ten years, and shall also be liable to fine.",
+      "parsed_conclusion": "The consequence for attempting to seduce military personnel from their duty is imprisonment for life or a term that may extend up to ten years, along with a fine.",
+      "verdict": "NOT_SUPPORTED",
+      "explanation": "NOT_SUPPORTED The Rule specifies \"imprisonment for life, or imprisonment of either description for a term which may extend to ten years\" for abetting mutiny or attempting to seduce military personnel. It does not mention any fines in conjunction with these punishments.",
+      "known_mismatch": false
+    },
+    {
+      "case_number": 38,
+      "question_type": "elements",
+      "chunk_id": "BNSS_151",
+      "parsed_rule": "\"(a) No Executive Magistrate or police officer acting under any of the said sections in good faith;\"",
+      "parsed_conclusion": "An Executive Magistrate or police officer acting in good faith is protected from being deemed to have committed an offence under sub-section (2).",
+      "verdict": "NOT_SUPPORTED",
+      "explanation": "NOT_SUPPORTED (a) No Executive Magistrate or police officer acting under any of the said sections in good faith; This rule states no protection, contradicting the conclusion.",
+      "known_mismatch": false
+    },
+    {
+      "case_number": 39,
+      "question_type": "scenario",
+      "chunk_id": "BNSS_193",
+      "parsed_rule": "(4) Where a superior officer of police has been appointed under section 177, the report shall, in any case in which the State Government by general or special order so directs, be submitted through that officer, and he may, pending the orders of the Magistrate, direct the officer in charge of the police station to make further investigation.",
+      "parsed_conclusion": "The police cannot investigate the new evidence as the case has already been deemed closed upon filing their final report with the court.",
+      "verdict": "NOT_SUPPORTED",
+      "explanation": "NOT_SUPPORTED The Rule discusses submission and further investigation through a superior officer, but does not address the closure status of cases or the police's ability to investigate new evidence.",
+      "known_mismatch": true
+    },
+    {
+      "case_number": 40,
+      "question_type": "scenario",
+      "chunk_id": "BNS_86",
+      "parsed_rule": "For the purposes of section 85, “cruelty” means—(a) any wilful conduct which is of such a nature as is likely to drive the woman to commit suicide or cause grave injury or danger to life, limb or health (whether mental or physical) of the woman; or (b) harassment of the woman where such harassment is with a view to coercing her or any person related to her to meet any unlawful demand for any property or valuable security or is on account of failure by her or any person related to her to meet such demand.",
+      "parsed_conclusion": "Yes, this psychological abuse legally counts as \"cruelty.\"",
+      "verdict": "NOT_SUPPORTED",
+      "explanation": "NOT_SUPPORTED\n\nThe Rule specifically mentions \"wilful conduct which is of such a nature as is likely to drive the woman to commit suicide\" and \"harassment with a view to coercing her,\" but does not include psychological abuse within its definition of \"cruelty.\"",
+      "known_mismatch": false
+    }
+  ]
+}

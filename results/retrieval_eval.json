@@ -1,0 +1,88 @@
+{
+  "bm25": {
+    "method": "BM25",
+    "k": 5,
+    "n": 1000,
+    "precision_at_k": 0.07239999999999999,
+    "recall_at_k": 0.362,
+    "mrr": 0.25858333333333333,
+    "ndcg_at_k": 0.2844154780931071,
+    "hit_rate_by_question_type": {
+      "elements": 0.5078534031413613,
+      "exceptions": 0.44594594594594594,
+      "definitional_topic": 0.3132530120481928,
+      "scenario": 0.39751552795031053,
+      "definitional_section": 0.2342857142857143,
+      "consequence": 0.2641509433962264
+    }
+  },
+  "dense": {
+    "method": "Dense (MiniLM)",
+    "k": 5,
+    "n": 1000,
+    "precision_at_k": 0.119,
+    "recall_at_k": 0.595,
+    "mrr": 0.4461333333333333,
+    "ndcg_at_k": 0.48330891335074844,
+    "hit_rate_by_question_type": {
+      "elements": 0.6544502617801047,
+      "exceptions": 0.722972972972973,
+      "definitional_topic": 0.6927710843373494,
+      "scenario": 0.6211180124223602,
+      "definitional_section": 0.4857142857142857,
+      "consequence": 0.39622641509433965
+    }
+  },
+  "hybrid": {
+    "method": "Hybrid (RRF, BM25+Dense)",
+    "k": 5,
+    "n": 1000,
+    "precision_at_k": 0.11339999999999999,
+    "recall_at_k": 0.567,
+    "mrr": 0.3991666666666666,
+    "ndcg_at_k": 0.44086819613637024,
+    "hit_rate_by_question_type": {
+      "elements": 0.7068062827225131,
+      "exceptions": 0.6621621621621622,
+      "definitional_topic": 0.5903614457831325,
+      "scenario": 0.6024844720496895,
+      "definitional_section": 0.4685714285714286,
+      "consequence": 0.3584905660377358
+    }
+  },
+  "weighted_fusion": {
+    "method": "Weighted Fusion (0.85 dense / 0.15 BM25)",
+    "k": 5,
+    "n": 1000,
+    "precision_at_k": 0.12319999999999999,
+    "recall_at_k": 0.616,
+    "mrr": 0.48168333333333335,
+    "ndcg_at_k": 0.5153232652885598,
+    "hit_rate_by_question_type": {
+      "elements": 0.7120418848167539,
+      "exceptions": 0.722972972972973,
+      "definitional_topic": 0.7108433734939759,
+      "scenario": 0.6335403726708074,
+      "definitional_section": 0.5028571428571429,
+      "consequence": 0.4088050314465409
+    }
+  },
+  "cascade": {
+    "method": "Cascade (exact section short-circuit + dense)",
+    "k": 5,
+    "n": 1000,
+    "precision_at_k": 0.14,
+    "recall_at_k": 0.7,
+    "mrr": 0.5237666666666666,
+    "ndcg_at_k": 0.5680703378823422,
+    "hit_rate_by_question_type": {
+      "elements": 0.6858638743455497,
+      "exceptions": 0.7702702702702703,
+      "definitional_topic": 0.6927710843373494,
+      "scenario": 0.6149068322981367,
+      "definitional_section": 1.0,
+      "consequence": 0.41509433962264153
+    },
+    "section_pattern_trigger_rate": 0.226
+  }
+}

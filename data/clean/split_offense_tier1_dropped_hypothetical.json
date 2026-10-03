@@ -1,0 +1,169 @@
+[
+  {
+    "split": "train",
+    "question": "A person sends fraudulent emails on March 15, 2024 promising investment returns and induces the victim to transfer \u00e2\u201a\u00b950,000. Identify the applicable IPC section, explain whether BNS 2023 would apply if the same act occurred on August 1, 2024, and state the mandatory BNSS procedure and BSA evidence rule for electronic records.",
+    "assistant_reply": "For the March 15, 2024 act, IPC 1860 Section 417 (punishment for cheating) applies with imprisonment up to 1 year or fine or both. If the same act occurred on August 1, 2024, BNS 2023 Section 318 would apply instead as the BNS came into force on July 1, 2024. Under BNSS Section 283, cheating is triable summarily by Chief Judicial Magistrate or Magistrate of first class. Under BNSS Section 202, when cheating is committed by electronic communications, it is triable where such communications were sent or received. Under BSA Section 61, electronic records are admissible as documentary evidence, and Section 63 specifies the conditions for admissibility of electronic records including computer output.\n\nLegal Analysis (IRAC):\nIssue: Which law governs cheating by electronic means and what are the procedural and evidentiary rules?\nRule: IPC 417/BNS 318 define cheating. BNSS 283 permits summary trial. BNSS 202 provides special territorial jurisdiction for electronic cheating. BSA 61-63 govern electronic evidence admissibility.\nApplication: Pre-July 1, 2024: IPC 417 applies. Post-July 1, 2024: BNS 318 applies. Both scenarios permit summary trial under BNSS 283. Electronic communications trigger BNSS 202 jurisdiction. Email evidence admissible under BSA 61 and 63.\nConclusion: IPC 417 for March 2024; BNS 318 for August 2024; BNSS 283 (summary trial), BNSS 202 (territorial jurisdiction), BSA 61-63 (electronic evidence) apply to both.\n\nCore legal principle: Cheating offenses transitioned from IPC to BNS on July 1, 2024; electronic cheating has special territorial jurisdiction under BNSS 202 and summary trial under BNSS 283; electronic evidence is admissible under BSA 61-63.",
+    "matched_continuing_language": false,
+    "matched_multi_date": true,
+    "dates_found_in_question": [
+      "August 1, 2024",
+      "March 15, 2024"
+    ],
+    "parsed_dates": [
+      "2024-03-15",
+      "2024-08-01"
+    ]
+  },
+  {
+    "split": "train",
+    "question": "If the same theft with preparation for causing hurt had occurred on August 10, 2024 instead of June 15, 2024, which substantive law would apply and what would be the corresponding section number?",
+    "assistant_reply": "If the act occurred on August 10, 2024, after July 1, 2024, the Bharatiya Nyaya Sanhita 2023 would apply instead of the Indian Penal Code 1860. The corresponding provision would be BNS 2023 Section 307 (Theft after preparation made for causing death, hurt or restraint in order to committing of theft). The elements remain substantially similar: theft plus preparation for causing death, hurt, or restraint to facilitate the theft, escape, or retention of property. The punishment under BNS Section 307 would also be rigorous imprisonment up to ten years and fine. The procedural and evidentiary framework under BNSS and BSA would apply instead of CrPC and IEA.\n\nLegal Analysis (IRAC):\nIssue: Which law applies to theft with preparation committed on August 10, 2024?\nRule: BNS 2023 came into force on July 1, 2024 per Section 1. Offenses after this date are governed by BNS.\nApplication: August 10, 2024 is after July 1, 2024, so BNS 2023 Section 307 applies instead of IPC 1860 Section 382.\nConclusion: BNS 2023 Section 307 governs the offense.\n\nCore legal principle: BNS 2023 applies to offenses committed on or after July 1, 2024; IPC 1860 applies to offenses committed before that date.",
+    "matched_continuing_language": false,
+    "matched_multi_date": true,
+    "dates_found_in_question": [
+      "August 10, 2024",
+      "June 15, 2024"
+    ],
+    "parsed_dates": [
+      "2024-06-15",
+      "2024-08-10"
+    ]
+  },
+  {
+    "split": "train",
+    "question": "If the same dowry death incident had occurred on August 10, 2024 instead of June 15, 2024, which substantive law would apply and what would be the key differences in trial procedure?",
+    "assistant_reply": "For an offense on August 10, 2024 (after July 1, 2024), BNS 2023 Section 80 would apply as the substantive law instead of IPC 304B. The definition and punishment remain substantially identical. However, key procedural differences under BNSS include: mandatory audio-video recording of search and seizure under BNSS 105; electronic mode of trial proceedings under BNSS 530; and victim compensation scheme under BNSS 396. The BSA 118 presumption remains applicable. Additionally, BNSS 176 in-camera trial mandate continues, and BNSS 184 medical examination provisions may apply if cruelty involved sexual violence.\n\nLegal Analysis (IRAC):\nIssue: Which law governs a dowry death on August 10, 2024 and what procedural changes apply?\nRule: BNS 80 applies post-July 1, 2024. BNSS introduces electronic recording (105), e-trials (530), victim compensation (396), while maintaining in-camera trials (176).\nApplication: August 10, 2024 offense falls under BNS 80. Trial must incorporate audio-video documentation, may proceed electronically, and victim compensation scheme is available.\nConclusion: BNS 80 governs substantively; BNSS 105, 396, 530 provide enhanced procedural and victim protections.\n\nCore legal principle: The temporal cutoff of July 1, 2024 determines whether IPC or BNS applies, with BNSS introducing electronic procedures and victim compensation schemes.",
+    "matched_continuing_language": false,
+    "matched_multi_date": true,
+    "dates_found_in_question": [
+      "August 10, 2024",
+      "June 15, 2024"
+    ],
+    "parsed_dates": [
+      "2024-06-15",
+      "2024-08-10"
+    ]
+  },
+  {
+    "split": "train",
+    "question": "If the same assembly and rioting incident occurred on August 15, 2024 instead of June 15, 2024, which substantive code would apply and what would be the corresponding section?",
+    "assistant_reply": "For an offense committed on August 15, 2024 (after July 1, 2024), the Bharatiya Nyaya Sanhita 2023 would apply, not the Indian Penal Code 1860. The corresponding provision is BNS 2023 Section 191 (Rioting), which replaces IPC Section 146/147. The punishment structure remains similar but the section numbering changes. The BNSS 2023 procedural provisions would apply for investigation and trial, including Section 148 for dispersal and Section 173 for FIR registration in cognizable cases.\n\nLegal Analysis (IRAC):\nIssue: Which code applies to rioting committed on August 15, 2024?\nRule: BNS 2023 came into force on July 1, 2024 per Section 1. Offenses after this date fall under BNS; offenses before remain under IPC.\nApplication: August 15, 2024 is after July 1, 2024, so BNS 2023 Section 191 applies instead of IPC 147.\nConclusion: BNS 2023 Section 191 governs rioting committed on August 15, 2024.\n\nCore legal principle: BNS 2023 applies to offenses committed on or after July 1, 2024; IPC 1860 applies to offenses committed before that date.",
+    "matched_continuing_language": false,
+    "matched_multi_date": true,
+    "dates_found_in_question": [
+      "August 15, 2024",
+      "June 15, 2024"
+    ],
+    "parsed_dates": [
+      "2024-06-15",
+      "2024-08-15"
+    ]
+  },
+  {
+    "split": "train",
+    "question": "A cheating offense was committed on June 15, 2024. Which code applies and why? What changes if the same act occurred on July 2, 2024?",
+    "assistant_reply": "For the June 15, 2024 act, IPC 1860 Section 417 applies because the Bharatiya Nyaya Sanhita 2023 came into force on July 1, 2024. The IPC continues to govern offenses committed before this date. For the same act committed on July 2, 2024, BNS 2023 Section 318 would apply as the BNS had then come into force. The punishment quantum remains identical (imprisonment up to one year or fine or both), but procedural aspects would be governed by BNSS 2023 rather than CrPC 1973.\n\nLegal Analysis (IRAC):\nIssue: Which substantive criminal code applies to cheating committed on June 15, 2024 versus July 2, 2024?\nRule: BNS 2023 Section 1 provides that it comes into force on July 1, 2024. Offenses committed before this date are governed by IPC 1860.\nApplication: June 15, 2024: IPC 417 applies. July 2, 2024: BNS 318 applies. Both prescribe identical punishment but different procedural codes apply (CrPC 1973 for pre-July 2024, BNSS 2023 for post-July 2024).\nConclusion: IPC 417 for June 2024; BNS 318 for July 2024; punishment identical but procedural framework differs.\n\nCore legal principle: The BNS 2023 came into force on July 1, 2024 per Section 1; offenses committed before this date continue to be governed by IPC 1860.",
+    "matched_continuing_language": false,
+    "matched_multi_date": true,
+    "dates_found_in_question": [
+      "July 2, 2024",
+      "June 15, 2024"
+    ],
+    "parsed_dates": [
+      "2024-06-15",
+      "2024-07-02"
+    ]
+  },
+  {
+    "split": "train",
+    "question": "If the same act of sexual intercourse with a married woman had occurred on August 5, 2024 instead of June 15, 2024, which substantive law would apply and what would be the key differences in the legal framework?",
+    "assistant_reply": "If the act occurred on August 5, 2024 (after July 1, 2024), the Bharatiya Nyaya Sanhita 2023 would apply, not the IPC. However, Section 497 IPC has been decriminalized and does not have a direct equivalent in BNS. The BNS does not contain a specific adultery offense. The conduct might potentially fall under BNS Section 82 (marrying again during lifetime of husband or wife) if there was a fraudulent marriage, or BNS Section 83 (marriage ceremony fraudulently gone through without lawful marriage), or BNS Section 69 (sexual intercourse by employing deceitful means) if deception was used. The key difference is that consensual adultery between adults is no longer a criminal offense under BNS, reflecting the Supreme Court's constitutional concerns in Joseph Shine v. Union of India (2018) where IPC 497 was struck down as unconstitutional. The procedural requirement of BNSS Section 219 would still apply to any related offense against marriage under BNS Sections 81-84.\n\nLegal Analysis (IRAC):\nIssue: Which law applies to adultery committed after July 1, 2024 and what changed?\nRule: BNS replaced IPC on July 1, 2024; BNS omits adultery offense; related provisions may apply.\nApplication: August 5, 2024 date triggers BNS. No direct adultery offense exists. Potential application of Sections 69, 82, or 83 depending on circumstances.\nConclusion: BNS applies but adultery is decriminalized; only related offenses with different elements may apply.\n\nCore legal principle: IPC 497 was not retained in BNS; post-July 1, 2024 adultery is decriminalized; related offenses under BNS Sections 69, 82, 83 may apply depending on facts; temporal cutoff determines applicable code.",
+    "matched_continuing_language": false,
+    "matched_multi_date": true,
+    "dates_found_in_question": [
+      "August 5, 2024",
+      "June 15, 2024"
+    ],
+    "parsed_dates": [
+      "2024-06-15",
+      "2024-08-05"
+    ]
+  },
+  {
+    "split": "train",
+    "question": "A person is arrested on March 10, 2024 for counterfeiting currency notes. Which law applies and why? If the same act occurred on August 10, 2024, which section would apply?",
+    "assistant_reply": "For the act on March 10, 2024, IPC 1860 Section 489A applies because the BNS 2023 came into force on July 1, 2024. For the act on August 10, 2024, BNS 2023 Section 178 applies as the successor provision. Section 178 of BNS 2023 consolidates counterfeiting of coin, Government stamps, currency-notes or bank-notes. The punishment quantum remains substantially similar: imprisonment for life or imprisonment up to ten years with fine.\n\nLegal Analysis (IRAC):\nIssue: Which law governs counterfeiting acts before and after July 1, 2024?\nRule: BNS 2023 Section 1 provides that the Sanhita came into force on July 1, 2024. IPC 1860 was repealed from that date.\nApplication: March 10, 2024 falls before commencement, so IPC 489A applies. August 10, 2024 falls after commencement, so BNS 178 applies.\nConclusion: Pre-July 1, 2024: IPC 489A; Post-July 1, 2024: BNS 178.\n\nCore legal principle: The BNS 2023 replaced the IPC 1860 from July 1, 2024; acts before that date are governed by IPC, acts after by BNS.",
+    "matched_continuing_language": false,
+    "matched_multi_date": true,
+    "dates_found_in_question": [
+      "August 10, 2024",
+      "March 10, 2024"
+    ],
+    "parsed_dates": [
+      "2024-03-10",
+      "2024-08-10"
+    ]
+  },
+  {
+    "split": "train",
+    "question": "A bank manager approves a fraudulent loan on January 20, 2024, knowing it will cause loss to the bank whose interest he was bound to protect. Which code applies and what if the same act occurred on August 5, 2024? Explain the temporal jurisdiction rule.",
+    "assistant_reply": "For the January 20, 2024 act, IPC 1860 Section 418 applies because the BNS 2023 had not yet come into force. The punishment would be imprisonment up to three years or fine or both. For the same act on August 5, 2024, BNS 2023 Section 318 would apply as the BNS came into force on July 1, 2024 per BNS Section 1. The punishment framework remains similar. The temporal jurisdiction follows the 'date of offense' rule: the law in force at the time of commission governs, not the law at time of trial or discovery. This is based on the general principle against ex post facto laws embodied in Article 20(1) of the Constitution and BNS Section 1's commencement provision.\n\nLegal Analysis (IRAC):\nIssue: Which code applies to bank manager's fraudulent loan approval on January 20, 2024 versus August 5, 2024?\nRule: BNS Section 1: comes into force July 1, 2024. Article 20(1): no ex post facto laws. Date of offense determines applicable code.\nApplication: January 20, 2024: IPC 418 applies (3 years). August 5, 2024: BNS 318 applies. Both have similar punishment. Procedural law follows: CrPC 1973 for January, BNSS 2023 for August.\nConclusion: IPC 418 for January 2024; BNS 318 for August 2024; temporal jurisdiction based on offense date.\n\nCore legal principle: BNS 2023 came into force July 1, 2024; offenses committed before this date governed by IPC; Article 20(1) prohibits ex post facto punishment enhancement.",
+    "matched_continuing_language": false,
+    "matched_multi_date": true,
+    "dates_found_in_question": [
+      "August 5, 2024",
+      "January 20, 2024"
+    ],
+    "parsed_dates": [
+      "2024-01-20",
+      "2024-08-05"
+    ]
+  },
+  {
+    "split": "train",
+    "question": "A person used counterfeit notes on May 20, 2024. Which law applies? If the same act occurred on October 20, 2024, which section governs?",
+    "assistant_reply": "For May 20, 2024, IPC 1860 Section 489B applies as the act occurred before BNS commencement on July 1, 2024. For October 20, 2024, BNS 2023 Section 179 applies as the successor provision. The BNS 2023 Section 1 provides for commencement on July 1, 2024, repealing the IPC 1860 from that date. The punishment quantum remains substantially identical: imprisonment for life or up to ten years with fine.\n\nLegal Analysis (IRAC):\nIssue: Which law governs using counterfeit currency before and after July 1, 2024?\nRule: BNS 2023 Section 1: commencement July 1, 2024. IPC 489B pre-commencement; BNS 179 post-commencement.\nApplication: May 20, 2024: IPC 489B. October 20, 2024: BNS 179.\nConclusion: Pre-July 1, 2024: IPC 489B; Post-July 1, 2024: BNS 179.\n\nCore legal principle: Temporal jurisdiction depends on BNS commencement date of July 1, 2024; pre-commencement acts under IPC, post-commencement under BNS.",
+    "matched_continuing_language": false,
+    "matched_multi_date": true,
+    "dates_found_in_question": [
+      "May 20, 2024",
+      "October 20, 2024"
+    ],
+    "parsed_dates": [
+      "2024-05-20",
+      "2024-10-20"
+    ]
+  },
+  {
+    "split": "train",
+    "question": "A person impersonates a bank manager by email on June 20, 2024 to induce a loan transfer. Which code applies and why? What if the same act occurred on July 10, 2024 with video call personation?",
+    "assistant_reply": "For the June 20, 2024 email impersonation, IPC 1860 Section 419 applies as the BNS 2023 was not yet in force (commenced July 1, 2024). The punishment would be imprisonment up to three years or fine or both. For the July 10, 2024 video call personation, BNS 2023 Section 319 would apply. The mode of personation (email vs video call) does not change the substantive offense but affects evidence: email personation relies on BSA 61-63 for electronic record admissibility, while video call personation may additionally involve BSA 105 (burden of proving fact especially within knowledge) for identifying the accused as the person visible in the call, and potentially BSA 39 (opinions of experts) for voice identification or facial recognition evidence.\n\nLegal Analysis (IRAC):\nIssue: Which code applies to email personation on June 20, 2024 versus video call personation on July 10, 2024?\nRule: BNS Section 1: July 1, 2024 commencement. Date of offense determines code. Evidence rules vary by personation mode.\nApplication: June 20, 2024: IPC 419, email evidence under BSA 61-63. July 10, 2024: BNS 319, video evidence may require expert opinion under BSA 39 and BSA 105 for identity proof.\nConclusion: IPC 419 for June; BNS 319 for July; evidentiary approach differs by communication medium.\n\nCore legal principle: BNS 2023 commenced July 1, 2024; date of offense determines applicable code; different personation modes trigger different evidentiary rules under BSA.",
+    "matched_continuing_language": false,
+    "matched_multi_date": true,
+    "dates_found_in_question": [
+      "July 10, 2024",
+      "June 20, 2024"
+    ],
+    "parsed_dates": [
+      "2024-06-20",
+      "2024-07-10"
+    ]
+  },
+  {
+    "split": "eval",
+    "question": "On June 15, 2024, a civilian attempted to persuade an Air Force pilot to defect to a foreign power. The pilot refused and reported the incident. If the civilian had been apprehended on June 20, 2024, under which law would he have been charged, and what specific provision would apply? If the same act occurred on July 15, 2024, how would the charge differ?",
+    "assistant_reply": "On June 15, 2024, the IPC was still in force as the BNS came into effect on July 1, 2024. The civilian would have been charged under IPC Section 131, which corresponds to BNS Section 159. On July 15, 2024, the same act would attract charges under BNS Section 159. The substantive elements and punishment remain substantially identical between the two provisions, though the section numbering changed from 131 in the IPC to 159 in the BNS.\n\nLegal Analysis (IRAC):\nIssue: Straightforward application of the transition date rule\nRule: The BNS came into force on July 1, 2024, replacing the IPC.\nApplication: Straightforward application of the transition date rule\nConclusion: Pre-July 1, 2024 offences are charged under IPC Section 131; post-July 1, 2024 under BNS Section 159.\n\nCore legal principle: The BNS replaced the IPC on July 1, 2024, with Section 159 corresponding to IPC Section 131.",
+    "matched_continuing_language": false,
+    "matched_multi_date": true,
+    "dates_found_in_question": [
+      "July 15, 2024",
+      "June 15, 2024",
+      "June 20, 2024"
+    ],
+    "parsed_dates": [
+      "2024-06-15",
+      "2024-06-20",
+      "2024-07-15"
+    ]
+  }
+]

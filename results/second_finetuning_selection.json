@@ -1,0 +1,12 @@
+{
+  "winner_epochs": 8,
+  "winner_model_path": "models/finetuned-bge-small-ipc-bns-e8",
+  "winner_val_ndcg_at_k": 0.687102605596881,
+  "val_ndcg_by_epochs": {
+    "3": 0.6763590249404998,
+    "5": 0.6823951459267014,
+    "8": 0.687102605596881,
+    "15": 0.6840240478847937
+  },
+  "curve_shape": "dropped after peaking at epoch 8 (val NDCG@5 at 15 = 0.6840 < peak 0.6871) \u2014 overfitting signal; winner is epochs=8, not 15"
+}

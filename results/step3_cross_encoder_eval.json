@@ -1,0 +1,34 @@
+{
+  "baseline": {
+    "method": "Bi-encoder only (baseline)",
+    "k": 5,
+    "n": 635,
+    "recall_at_k": 0.8299212598425196,
+    "mrr": 0.6389501312335958,
+    "ndcg_at_k": 0.687102605596881,
+    "hit_rate_by_question_type": {
+      "scenario": 0.7899159663865546,
+      "consequence": 0.7,
+      "definitional_topic": 0.9285714285714286,
+      "elements": 0.73,
+      "definitional_section": 1.0,
+      "exceptions": 0.8252427184466019
+    }
+  },
+  "reranked": {
+    "method": "Bi-encoder retrieve top-30 + Cross-encoder rerank",
+    "k": 5,
+    "n": 635,
+    "recall_at_k": 0.7716535433070866,
+    "mrr": 0.633989501312336,
+    "ndcg_at_k": 0.6684194434869829,
+    "hit_rate_by_question_type": {
+      "scenario": 0.6554621848739496,
+      "consequence": 0.66,
+      "definitional_topic": 0.8303571428571429,
+      "elements": 0.73,
+      "definitional_section": 1.0,
+      "exceptions": 0.7669902912621359
+    }
+  }
+}

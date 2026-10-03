@@ -1,0 +1,260 @@
+.hero {
+  position: relative;
+  min-height: clamp(28rem, 72vh, 40rem);
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  background: var(--bg-hero);
+}
+
+/* Full-bleed split statute texture */
+.split {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.halfIpc,
+.halfBns {
+  position: relative;
+  overflow: hidden;
+  padding: 1.25rem 1.5rem;
+}
+
+.halfIpc {
+  /* Genuine teal wash — IPC / old law */
+  background:
+    linear-gradient(
+      160deg,
+      color-mix(in srgb, var(--accent-teal) 28%, transparent) 0%,
+      color-mix(in srgb, var(--accent-teal) 12%, transparent) 55%,
+      color-mix(in srgb, var(--bg-hero) 70%, var(--accent-teal) 30%) 100%
+    ),
+    color-mix(in srgb, var(--bg-hero) 72%, var(--accent-teal) 28%);
+  clip-path: polygon(0 0, 100% 0, 92% 100%, 0 100%);
+  margin-right: -6%;
+  z-index: 1;
+  box-shadow: inset 0 0 90px color-mix(in srgb, var(--accent-teal) 22%, transparent);
+}
+
+.halfBns {
+  /* Genuine amber wash — BNS / new law */
+  background:
+    linear-gradient(
+      200deg,
+      color-mix(in srgb, var(--accent) 32%, transparent) 0%,
+      color-mix(in srgb, var(--accent) 14%, transparent) 50%,
+      color-mix(in srgb, var(--bg-hero) 65%, var(--accent) 35%) 100%
+    ),
+    color-mix(in srgb, var(--bg-hero) 70%, var(--accent) 30%);
+  clip-path: polygon(8% 0, 100% 0, 100% 100%, 0 100%);
+  margin-left: -6%;
+  z-index: 0;
+  box-shadow: inset 0 0 90px color-mix(in srgb, var(--accent) 28%, transparent);
+}
+
+.statuteText {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 0.62rem;
+  line-height: 1.55;
+  letter-spacing: 0.01em;
+  white-space: pre-wrap;
+  word-break: break-word;
+  user-select: none;
+}
+
+.halfIpc .statuteText {
+  color: color-mix(in srgb, var(--accent-teal) 70%, var(--ink) 30%);
+  opacity: 0.55;
+}
+
+.halfBns .statuteText {
+  color: color-mix(in srgb, var(--accent) 75%, var(--ink) 25%);
+  opacity: 0.58;
+  text-shadow: 0 0 28px color-mix(in srgb, var(--accent) 40%, transparent);
+}
+
+.eraLabel,
+.eraLabelBns {
+  position: absolute;
+  bottom: 1rem;
+  font-size: 0.68rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.eraLabel {
+  left: 1.25rem;
+  color: var(--accent-teal);
+  opacity: 0.9;
+}
+
+.eraLabelBns {
+  right: 1.25rem;
+  color: var(--accent);
+  opacity: 0.95;
+}
+
+.divider {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  /* Soft teal→amber wash across the diagonal */
+  background: linear-gradient(
+    105deg,
+    color-mix(in srgb, var(--accent-teal) 18%, transparent) 0%,
+    transparent 42%,
+    color-mix(in srgb, var(--bg-hero) 50%, transparent) 50%,
+    transparent 58%,
+    color-mix(in srgb, var(--accent) 20%, transparent) 100%
+  );
+}
+
+.foreground {
+  position: relative;
+  z-index: 3;
+  padding: 4.5rem 0 4rem;
+}
+
+.copy {
+  max-width: 34rem;
+  padding: 1.35rem 1.4rem 1.45rem;
+  border-radius: 14px;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--bg-hero) 94%, transparent) 0%,
+    color-mix(in srgb, var(--bg-raised-hero) 88%, transparent) 100%
+  );
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 12px 40px color-mix(in srgb, #000 40%, transparent);
+  border: 1px solid color-mix(in srgb, var(--border) 70%, transparent);
+  animation: heroFadeIn 0.7s var(--ease-out) both;
+}
+
+.headline {
+  margin: 0 0 0.7rem;
+  font-family: var(--font-serif);
+  font-size: clamp(1.75rem, 3.2vw, 2.55rem);
+  font-weight: var(--weight-display);
+  line-height: 1.14;
+  letter-spacing: -0.026em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.support {
+  margin: 0 0 1.15rem;
+  font-size: 0.98rem;
+  font-weight: var(--weight-body);
+  line-height: 1.5;
+  color: var(--ink-secondary);
+  max-width: 28rem;
+}
+
+.ctaRow {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.7rem 1.2rem;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: var(--accent-ink) !important;
+  font-weight: 600;
+  font-size: 0.92rem;
+  text-decoration: none;
+  border: 1px solid var(--accent);
+  transition:
+    filter var(--motion-enter) var(--ease-out),
+    transform var(--motion-press) var(--ease-out),
+    box-shadow var(--motion-enter) var(--ease-out);
+}
+
+.cta:hover,
+.cta:focus-visible {
+  filter: brightness(1.08);
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--accent) 28%, transparent);
+  color: var(--accent-ink) !important;
+  text-decoration: none;
+}
+
+.cta:active {
+  transform: scale(0.975);
+  filter: brightness(0.98);
+  color: var(--accent-ink) !important;
+}
+
+@keyframes heroFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 720px) {
+  .hero {
+    min-height: 26rem;
+  }
+
+  .split {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+
+  .halfIpc {
+    clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
+    margin-right: 0;
+    margin-bottom: -8%;
+  }
+
+  .halfBns {
+    clip-path: polygon(0 12%, 100% 0, 100% 100%, 0 100%);
+    margin-left: 0;
+    margin-top: -8%;
+  }
+
+  .divider {
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--accent-teal) 18%, transparent) 0%,
+      transparent 42%,
+      color-mix(in srgb, var(--bg-hero) 50%, transparent) 50%,
+      transparent 58%,
+      color-mix(in srgb, var(--accent) 20%, transparent) 100%
+    );
+  }
+
+  .foreground {
+    padding: 3rem 0 2.75rem;
+  }
+
+  .copy {
+    padding: 1.1rem 1.15rem 1.2rem;
+  }
+
+  .statuteText {
+    font-size: 0.55rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .copy {
+    animation: none;
+  }
+}

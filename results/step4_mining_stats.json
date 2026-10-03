@@ -1,0 +1,10 @@
+{
+  "n_examples": 5083,
+  "n_with_at_least_one_hard_negative": 5083,
+  "avg_same_chapter_negatives": 1.9864253393665159,
+  "avg_embedding_negatives": 2.0,
+  "avg_combined_capped": 2.979539641943734,
+  "same_chapter_requested": 2,
+  "embedding_requested": 2,
+  "combined_cap": 3
+}

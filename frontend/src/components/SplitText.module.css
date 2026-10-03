@@ -1,0 +1,32 @@
+.w {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  /* room for ascenders and descenders inside the mask */
+  padding: 0.14em 0.04em 0.18em;
+  margin: -0.14em -0.04em -0.18em;
+}
+
+.wi {
+  display: inline-block;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .wi {
+    transition: transform 900ms var(--ease-out) calc(var(--base, 0ms) + var(--i) * 45ms);
+  }
+
+  .split[data-pending="true"] .wi {
+    transform: translateY(115%);
+  }
+
+  .immediate .wi {
+    animation: wordUp 900ms var(--ease-out) calc(var(--base, 0ms) + var(--i) * 70ms) backwards;
+  }
+}
+
+@keyframes wordUp {
+  from {
+    transform: translateY(115%);
+  }
+}

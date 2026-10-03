@@ -1,0 +1,50 @@
+{
+  "e8": {
+    "overall": 0.8283898305084746,
+    "by_source": {
+      "GSMS-B_val": 0.8299212598425196,
+      "GovIntel_clean": 0.8252427184466019
+    },
+    "by_source_route": {
+      "GSMS-B_val|BNS": {
+        "n": 635,
+        "recall_at_5": 0.8299212598425196
+      },
+      "GovIntel_clean|BNS": {
+        "n": 7,
+        "recall_at_5": 0.2857142857142857
+      },
+      "GovIntel_clean|IPC": {
+        "n": 302,
+        "recall_at_5": 0.8377483443708609
+      }
+    }
+  },
+  "combined_e5": {
+    "overall": 0.8252118644067796,
+    "by_source": {
+      "GSMS-B_val": 0.8015748031496063,
+      "GovIntel_clean": 0.8737864077669902
+    },
+    "by_source_route": {
+      "GSMS-B_val|BNS": {
+        "n": 635,
+        "recall_at_5": 0.8015748031496063
+      },
+      "GovIntel_clean|BNS": {
+        "n": 7,
+        "recall_at_5": 0.7142857142857143
+      },
+      "GovIntel_clean|IPC": {
+        "n": 302,
+        "recall_at_5": 0.8774834437086093
+      }
+    }
+  },
+  "n_total": 944,
+  "n_gsms_val": 635,
+  "n_govintel_clean": 309,
+  "n_govintel_clean_ipc": 302,
+  "n_govintel_clean_bns": 7,
+  "note": "Act-aware cascade identical to end_to_end_pipeline.py. GSMS-B val was not used in either model's training. GovIntel_clean excludes exact question duplicates of govintel_extracted_v2.jsonl (combined-e5 train). Clean GovIntel BNS n is very small."
+}

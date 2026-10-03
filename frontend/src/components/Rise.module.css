@@ -1,0 +1,12 @@
+.rise {
+  transition:
+    opacity 650ms var(--ease-out) calc(var(--d, 0) * 90ms),
+    transform 650ms var(--ease-out) calc(var(--d, 0) * 90ms);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .rise[data-pending="true"] {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+}

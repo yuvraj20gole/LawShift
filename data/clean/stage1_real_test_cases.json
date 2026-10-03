@@ -1,0 +1,152 @@
+[
+  {
+    "text": "A person commits erasure of stamp usage marks on May 20, 2024. Which substantive law applies and what would be the procedural consequence if discovered and prosecuted after July 1, 2024?",
+    "date_mentioned_in_question": "May 20, 2024",
+    "assistant_routing_discussion": "For the May 20, 2024 act, IPC 1860 Section 263 applies because the offense was committed before the BNS 2023 commencement date of July 1, 2024. The temporal jurisdiction principle under BNS Section 358 (repeal and savings) and BNSS Section 531 ensures that pre-commencement offenses continue to be go"
+  },
+  {
+    "text": "A bookstore sold obscene magazines on June 25, 2024. It is the owner's first offense. Compare the punishment under IPC and BNS.",
+    "date_mentioned_in_question": "June 25, 2024",
+    "assistant_routing_discussion": "The offense occurred on June 25, 2024, before the BNS commencement date. Therefore, IPC Section 292 (Sale, etc., of obscene books, etc.) applies. Under the IPC, the punishment for first conviction was imprisonment up to two years and fine up to two thousand rupees. Under BNS Section 294, the punishm"
+  },
+  {
+    "text": "A person destroyed evidence of a dacoity on June 15, 2024. Does IPC Section 201 or BNS Section 238 apply, and what is the legal test for determining the applicable law?",
+    "date_mentioned_in_question": "June 15, 2024",
+    "assistant_routing_discussion": "IPC Section 201 applies, not BNS Section 238. The Bharatiya Nyaya Sanhita, 2023 came into force on July 1, 2024. Since the act of destroying evidence occurred on June 15, 2024, before this date, the Indian Penal Code 1860 governs the offence. Under IPC Section 201, the ingredients are substantially "
+  },
+  {
+    "text": "An individual harboured a person who escaped from police custody on June 15, 2024. Which code applies - IPC or BNS - and what is the temporal cutoff date?",
+    "date_mentioned_in_question": "June 15, 2024",
+    "assistant_routing_discussion": "The IPC applies, not the BNS. The Bharatiya Nyaya Sanhita, 2023 came into force on July 1, 2024. Since the act occurred on June 15, 2024, before this date, the Indian Penal Code 1860 Section 216 (harbouring offender who has escaped from custody or whose apprehension has been ordered) governs the off"
+  },
+  {
+    "text": "An offence committed on June 15, 2024 involving penetration with a woman under eighteen years of age without her consent was prosecuted under the IPC. If the trial concludes after July 1, 2024, under which law should the accused be punished, and what is the key difference in the punishment framework between IPC Section 376 and BNS Section 64 read with Section 65?",
+    "date_mentioned_in_question": "June 15, 2024",
+    "assistant_routing_discussion": "The offence would be tried under the IPC as it was committed before July 1, 2024, though the BNS procedural provisions may apply to the trial. Under IPC Section 376, the punishment for rape of a woman under sixteen was rigorous imprisonment not less than twenty years extendable to life, while under "
+  },
+  {
+    "text": "If the riot occurred on August 10, 2024, which law would govern the agent's liability - IPC or BNS?",
+    "date_mentioned_in_question": "August 10, 2024",
+    "assistant_routing_discussion": "The BNS 2023 would govern as it came into force on July 1, 2024. The applicable section would be BNS Section 193 (Liability of owner, occupier, etc), which is the successor provision to IPC Section 156. The substantive elements remain similar but the section numbering and text have been updated in t"
+  },
+  {
+    "text": "A lawyer intentionally interrupts a Judge during final arguments on August 10, 2024, shouting that the Judge is biased. Identify the applicable offense section, the mandatory BNSS procedure, and the BSA rule on contempt evidence.",
+    "date_mentioned_in_question": "August 10, 2024",
+    "assistant_routing_discussion": "The applicable offense is BNS Section 267 (intentional insult or interruption to public servant sitting in judicial proceeding), as the act occurred after July 1, 2024. Under BNSS Section 384, when such an offense is committed in the view or presence of any Civil, Criminal, or Revenue Court, the Cou"
+  },
+  {
+    "text": "A person is caught selling counterfeit banknotes to an undercover officer on September 5, 2024. Identify the applicable BNS section, the mandatory BNSS procedure for investigation of currency offenses, and the BSA rules governing expert and electronic evidence.",
+    "date_mentioned_in_question": "September 5, 2024",
+    "assistant_routing_discussion": "The applicable section is BNS 2023 Section 179 (using as genuine, forged or counterfeit coin, Government stamp, currency-notes or bank-notes), which is the successor to IPC 489B. Under BNSS Section 175, police have power to investigate cognizable cases including currency offenses. Under BNSS Section"
+  },
+  {
+    "text": "A person obstructs a police officer during riot control on August 10, 2024. Does IPC Section 152 or BNS Section 195 apply, and what procedural changes exist under BNSS?",
+    "date_mentioned_in_question": "August 10, 2024",
+    "assistant_routing_discussion": "BNS Section 195 applies, not IPC Section 152. The BNS 2023 came into force on July 1, 2024, so the August 10, 2024 offense is governed by BNS. BNS Section 195 corresponds to IPC Section 152 with identical language: 'Assaulting or obstructing public servant when suppressing riot, etc.' Under BNSS, th"
+  },
+  {
+    "text": "A person committed obscene acts in a public park on June 15, 2024. Would IPC Section 294 or BNS Section 296 apply, and what is the legal significance of the July 1, 2024 cutoff date?",
+    "date_mentioned_in_question": "June 15, 2024",
+    "assistant_routing_discussion": "IPC Section 294 would apply, not BNS Section 296. The Bharatiya Nyaya Sanhita, 2023 came into force on July 1, 2024. For offenses committed before this date, the Indian Penal Code 1860 continues to apply. IPC Section 294 (obscene acts and songs) was the governing provision with identical language to"
+  },
+  {
+    "text": "A dacoity with murder occurred on March 10, 2024. Does IPC 1860 or BNS 2023 apply, and what is the significance of the July 1, 2024 cutoff date?",
+    "date_mentioned_in_question": "March 10, 2024",
+    "assistant_routing_discussion": "IPC 1860 Section 396 applies because the offense was committed on March 10, 2024, before the BNS 2023 came into force on July 1, 2024. The Bharatiya Nyaya Sanhita 2023 replaced the IPC effective July 1, 2024. For offenses committed before that date, the IPC continues to apply. The equivalent BNS pro"
+  },
+  {
+    "text": "A person used a forged electronic bank guarantee on June 25, 2024 to secure a contract, but the fraud was discovered on August 20, 2024. Does IPC or BNS apply, and what is the legal significance of the 'use' date versus 'discovery' date?",
+    "date_mentioned_in_question": "June 25, 2024",
+    "assistant_routing_discussion": "The IPC applies to the substantive offense. The 'use' of the forged document on June 25, 2024 is the operative date for determining temporal jurisdiction, not the discovery date of August 20, 2024. Since the BNS came into force on July 1, 2024, the June 25, 2024 use falls under IPC Sections 470-471 "
+  },
+  {
+    "text": "A murder accused's brother offers \u00e2\u201a\u00b91,00,000 to a police officer on August 10, 2024, requesting that the officer not arrest the accused. The officer refuses but reports the offer. Identify the applicable BNS section for the brother's conduct, the BNSS procedure for the officer's report, and the BSA rule on whether the officer's testimony about the offer requires corroboration.",
+    "date_mentioned_in_question": "August 10, 2024",
+    "assistant_routing_discussion": "The brother's conduct falls under BNS Section 251 (offering gift to screen offender). Since the underlying offense (murder) is punishable with death, Section 251(a) applies with punishment up to seven years and fine. The officer's report triggers BNSS Section 173 (information in cognizable cases), r"
+  },
+  {
+    "text": "A theft from a dwelling house occurred on June 20, 2024, and is discovered on August 5, 2024. Which substantive law applies, and what is the limitation period for taking cognizance?",
+    "date_mentioned_in_question": "June 20, 2024",
+    "assistant_routing_discussion": "Since the offense occurred on June 20, 2024 (before July 1, 2024), IPC Section 380 applies substantively. Under BNSS Section 514, no court shall take cognizance of an offense after the period of limitation has expired. For theft (non-cognizable or cognizable depending on value and circumstances), th"
+  },
+  {
+    "text": "A case of alleged outraging modesty occurred on June 20, 2024. Which substantive law applies and what is the temporal rule governing this determination?",
+    "date_mentioned_in_question": "June 20, 2024",
+    "assistant_routing_discussion": "IPC Section 354 applies because the offense was committed on June 20, 2024, before the BNS 2023 came into force on July 1, 2024. BNS Section 74 (the post-2024 equivalent) would apply only to acts committed on or after July 1, 2024. The general principle is that penal statutes apply prospectively unl"
+  },
+  {
+    "text": "A minor girl was imported from Bangladesh on June 10, 2024, for prostitution. Which law applies and what is the temporal jurisdiction framework?",
+    "date_mentioned_in_question": "June 10, 2024",
+    "assistant_routing_discussion": "The IPC 1860 Section 366B (importation of girl from foreign country) applies as the act occurred before July 1, 2024. IPC 366B prescribed imprisonment up to 10 years for importation of a girl under 21 years from foreign country with intent for illicit intercourse. The BNS 2023 Section 141 is substan"
+  },
+  {
+    "text": "An employee broke open a locked cash box entrusted to him by his employer on June 30, 2024. The incident was discovered on July 2, 2024. Which law applies, and what is the IPC section corresponding to BNS Section 334?",
+    "date_mentioned_in_question": "June 30, 2024",
+    "assistant_routing_discussion": "The offense was committed on June 30, 2024, prior to the BNS commencement date of July 1, 2024. Therefore, the Indian Penal Code applies pursuant to Section 358(2) of the BNS which preserves liability for offenses committed under the repealed Code. The corresponding IPC section is IPC Section 454, w"
+  },
+  {
+    "text": "A person used counterfeit notes on May 20, 2024. Which law applies? If the same act occurred on October 20, 2024, which section governs?",
+    "date_mentioned_in_question": "May 20, 2024",
+    "assistant_routing_discussion": "For May 20, 2024, IPC 1860 Section 489B applies as the act occurred before BNS commencement on July 1, 2024. For October 20, 2024, BNS 2023 Section 179 applies as the successor provision. The BNS 2023 Section 1 provides for commencement on July 1, 2024, repealing the IPC 1860 from that date. The pun"
+  },
+  {
+    "text": "What is the punishment under Section 251 IPC, and how does the BNS 2023 equivalent compare for offenses committed after July 1, 2024?",
+    "date_mentioned_in_question": "July 1, 2024",
+    "assistant_routing_discussion": "Section 251 IPC prescribes imprisonment of either description up to 10 years plus fine. Under BNS 2023, the equivalent conduct is covered by Section 179 (using as genuine forged/counterfeit coin, Government stamp, currency-notes or bank-notes) with imprisonment up to 7 years plus fine, and Section 1"
+  },
+  {
+    "text": "An offence of abetting the suicide of a child was committed on 29 June 2024. Would it be governed by IPC Section 305 or BNS Section 107, and what is the difference in punishment?",
+    "date_mentioned_in_question": "29 June 2024",
+    "assistant_routing_discussion": "The offence was committed on 29 June 2024, when IPC Section 305 (abetment of suicide of child or insane person) was in force. Under Section 358(2) of BNS, the IPC provision continues to apply. IPC Section 305 provided punishment with death or imprisonment for life or imprisonment up to ten years. BN"
+  },
+  {
+    "text": "IPC Section 138 punished abetment of acts of insubordination by soldiers with imprisonment up to two years or fine or both, similar to BNS Section 166. However, IPC Section 138 did not explicitly require that the act of insubordination be committed in consequence. How does this change in the BNS affect liability for abetment that occurs before July 1, 2024, but where the insubordination occurs after that date?",
+    "date_mentioned_in_question": "July 1, 2024",
+    "assistant_routing_discussion": "Under the IPC, the abetment of insubordination was punishable regardless of whether the insubordination was actually committed. Under the BNS Section 166, the offence is only complete if the act of insubordination is committed in consequence of the abetment. If the abetment occurred on June 30, 2024"
+  },
+  {
+    "text": "A man sings obscene songs near a public school on August 15, 2024, causing annoyance to parents and teachers. Police seize his songbook and recording device. Identify the applicable BNS section, the mandatory BNSS procedure for forfeiture of materials, and the BSA evidence rule governing admissibility of the seized electronic recordings.",
+    "date_mentioned_in_question": "August 15, 2024",
+    "assistant_routing_discussion": "The applicable section is BNS 2023 Section 296 (obscene acts and songs). Under BNSS Section 98, the State Government has power to declare publications forfeited and issue search-warrants for materials containing matter punishable under Section 296. Under BSA Section 63, electronic records are admiss"
+  },
+  {
+    "text": "A person committed an act of diminishing Indian coin weight on June 20, 2024. Which substantive criminal code applies and why?",
+    "date_mentioned_in_question": "June 20, 2024",
+    "assistant_routing_discussion": "The Indian Penal Code 1860 applies, specifically Section 247. The Bharatiya Nyaya Sanhita 2023 came into force on July 1, 2024 per BNS Section 1. Since the offense was committed on June 20, 2024, before this date, the IPC continues to apply. The equivalent BNS provision would be Section 187 (Person "
+  },
+  {
+    "text": "A man enters a residential building at night, hides in the shadows to avoid detection by the security guard, and is caught on CCTV. The incident occurred on June 15, 2024. Identify the applicable IPC section, the evidentiary status of the CCTV footage under BSA, and explain why BNS does not apply.",
+    "date_mentioned_in_question": "June 15, 2024",
+    "assistant_routing_discussion": "The applicable section is IPC 1860 Section 443 (lurking house-trespass) because the act occurred before July 1, 2024. Under BSA Section 61, the CCTV footage is admissible as electronic/digital record with the same legal effect as other documents, subject to Section 63 authentication. BNS 2023 does n"
+  },
+  {
+    "text": "A chemical factory worker carelessly left a container of toxic acid open on January 10, 2024. A colleague was injured on January 15, 2024. The trial begins in September 2024. Compare the fine limits under the IPC and BNS for this offense.",
+    "date_mentioned_in_question": "January 10, 2024",
+    "assistant_routing_discussion": "The offense was committed in January 2024, prior to the BNS commencement date of July 1, 2024. Therefore, IPC Section 284 (Negligent conduct with respect to poisonous substance) applies. Under the IPC, the fine was limited to one thousand rupees. Under BNS Section 286, the fine limit increased to fi"
+  },
+  {
+    "text": "An incident of rash driving causing hurt occurred on June 30, 2024. Compare the applicable provisions under IPC Sections 337 and 338 with BNS Section 125.",
+    "date_mentioned_in_question": "June 30, 2024",
+    "assistant_routing_discussion": "Since the offence occurred on June 30, 2024, the IPC applies. IPC Section 337 punished causing hurt by rash or negligent act endangering life with up to six months imprisonment or fine up to five hundred rupees. IPC Section 338 punished causing grievous hurt under similar circumstances with up to tw"
+  },
+  {
+    "text": "A litigant makes a false claim in court on June 25, 2024. Does IPC Section 209 or BNS Section 246 apply, and what is the transitional rule?",
+    "date_mentioned_in_question": "June 25, 2024",
+    "assistant_routing_discussion": "For an act committed on June 25, 2024, IPC Section 209 applies because it predates the July 1, 2024 commencement of BNS 2023. The transitional rule is contained in BNS Section 358 (repeal and savings), which provides that the IPC continues to apply to offenses committed before the BNS commencement d"
+  },
+  {
+    "text": "Under IPC Section 77, a Judge acting judicially was immune from prosecution. If a Judge passed an order on June 15, 2024, and is prosecuted on July 15, 2024, under BNS Section 257 for corruptly making a report contrary to law, how does the transition affect the defense under Section 15?",
+    "date_mentioned_in_question": "June 15, 2024",
+    "assistant_routing_discussion": "The act occurred when IPC Section 77 was in force. Under Section 358(3) of BNS, the act is deemed done under BNS Section 15. However, if the prosecution under Section 257 alleges corrupt intent (knowing the act was contrary to law), the defense under Section 15 fails because the Judge did not act in"
+  },
+  {
+    "text": "A mischief offense was committed on May 20, 2024. Which law applies and what is the temporal jurisdiction rule?",
+    "date_mentioned_in_question": "May 20, 2024",
+    "assistant_routing_discussion": "The Indian Penal Code 1860 Section 425 applies because the offense was committed before July 1, 2024. The Bharatiya Nyaya Sanhita 2023 came into force on July 1, 2024, and does not apply retroactively. The IPC equivalent BNS Section 324 would govern only offenses committed on or after that date. The"
+  },
+  {
+    "text": "Police raid a workshop and find dies and plates capable of counterfeiting property marks. The raid occurred on May 20, 2024. Identify the applicable law, explain the temporal jurisdiction, and state the mandatory police procedure for seizure and evidence handling.",
+    "date_mentioned_in_question": "May 20, 2024",
+    "assistant_routing_discussion": "The applicable section is IPC 1860 Section 485 (making or possession of instrument for counterfeiting property mark). BNS 2023 does not apply as the act occurred before July 1, 2024. Under BNSS Section 106, the police officer may seize property suspected to be stolen or created through offense commi"
+  }
+]

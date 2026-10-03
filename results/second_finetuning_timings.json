@@ -1,0 +1,24 @@
+{
+  "3": {
+    "wall_clock_seconds": 1007.9715940952301,
+    "note": "from prior fine-tuning run"
+  },
+  "5": {
+    "wall_clock_seconds": 1756.4092230796814,
+    "warmup_steps": 31,
+    "batch_size": 16,
+    "training_pairs": 5083
+  },
+  "8": {
+    "wall_clock_seconds": 2129.1535840034485,
+    "warmup_steps": 31,
+    "batch_size": 16,
+    "training_pairs": 5083
+  },
+  "15": {
+    "wall_clock_seconds": 3896.2831449508667,
+    "warmup_steps": 31,
+    "batch_size": 16,
+    "training_pairs": 5083
+  }
+}

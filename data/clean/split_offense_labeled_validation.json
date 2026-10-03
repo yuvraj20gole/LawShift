@@ -1,0 +1,77 @@
+[
+  {
+    "case_number": 2,
+    "question": "A company accountant is accused of forging a valuable security (promissory note) on January 10, 2024, possessing it until March 2024, and using it to obtain bank credit on August 15, 2024. The prosecution seeks to introduce electronic records of the forged document. What is the complete procedural and evidentiary framework governing this multi-phase offense?",
+    "label": "genuine_split"
+  },
+  {
+    "case_number": 4,
+    "question": "A person removed revenue stamps from documents on June 28, 2024, but was not discovered until July 10, 2024. The stamps were reused on July 5, 2024. Which law governs the removal and the reuse?",
+    "label": "genuine_split"
+  },
+  {
+    "case_number": 12,
+    "question": "A person erased usage marks from stamps on June 29, 2024, and sold the stamps on July 2, 2024. Which law applies to the erasure and the sale?",
+    "label": "genuine_split"
+  },
+  {
+    "case_number": 18,
+    "question": "A forged will was created on June 20, 2024 and used to claim property on September 5, 2024. Does the IPC or BNS govern this offense, and what is the legal test for determining temporal applicability?",
+    "label": "genuine_split"
+  },
+  {
+    "case_number": 70,
+    "question": "An assertion prejudicial to national integration was published on June 25, 2024. Compare IPC Section 153B and BNS Section 197. If the publication was continuous (online blog updated daily), how would the transition date of July 1, 2024 affect jurisdiction?",
+    "label": "genuine_split"
+  },
+  {
+    "case_number": 85,
+    "question": "A group of three persons began a continuing unlawful activity of extortion on June 15, 2024, and continued their operations through July 10, 2024. Analyze whether Section 111 (Organised Crime), which has no IPC equivalent, can be applied to the entire criminal activity or only the portion occurring after July 1, 2024.",
+    "label": "genuine_split"
+  },
+  {
+    "case_number": 98,
+    "question": "Compare the elements of IPC Section 153 and BNS Section 192. If provocation was given on June 28, 2024, but the riot occurred on July 3, 2024, which law governs the provocation and which governs the riot, given Section 358(3) of the BNS?",
+    "label": "genuine_split"
+  },
+  {
+    "case_number": 146,
+    "question": "Under IPC Section 120A, conspiracy was defined but the requirement of an overt act was interpreted through judicial decisions. On June 30, 2024, A concealed a design to commit robbery punishable under IPC Section 392. The concealment was discovered on July 5, 2024. Explain which law governs the charge and whether the punishment calculation differs materially between the IPC and BNS frameworks.",
+    "label": "genuine_split"
+  },
+  {
+    "case_number": 156,
+    "question": "A person manufactured dies for making fictitious stamps on June 28, 2024, but did not use them until July 5, 2024. Which law applies?",
+    "label": "genuine_split"
+  },
+  {
+    "case_number": 14,
+    "question": "On June 30, 2024, a civilian abetted an assault by a sailor on his superior officer, and the assault was committed on July 2, 2024. The civilian is apprehended on July 5, 2024. Under which provision should the civilian be charged, and why does the date of the assault matter?",
+    "label": "ambiguous"
+  },
+  {
+    "case_number": 24,
+    "question": "An employee falsified paper accounting records on June 20, 2024, then converted them to electronic format on July 10, 2024, and the fraud was discovered on September 5, 2024. Does IPC or BNS apply, and how does the conversion to electronic format affect temporal jurisdiction?",
+    "label": "ambiguous"
+  },
+  {
+    "case_number": 54,
+    "question": "A publication was printed on June 15, 2024 containing hate speech. The State Government issued a forfeiture notification on August 10, 2024. Which substantive criminal law applies to the hate speech content, and does this affect the validity of the forfeiture under BNSS Section 98?",
+    "label": "ambiguous"
+  },
+  {
+    "case_number": 79,
+    "question": "A riot occurs on June 20, 2024 involving force used by an unlawful assembly. Does IPC or BNS apply, and how does the temporal jurisdiction analysis differ if the assembly formed before July 1, 2024 but the force was used after?",
+    "label": "ambiguous"
+  },
+  {
+    "case_number": 123,
+    "question": "A plaintiff obtained a fraudulent decree on June 20, 2024, but executed it on July 10, 2024. Which law governs the offense of obtaining the decree, and which governs the execution if they are considered separate acts?",
+    "label": "ambiguous"
+  },
+  {
+    "case_number": 139,
+    "question": "A false claim was filed in court on June 15, 2024, but the first hearing where the claimant made oral submissions supporting the false claim occurred on July 5, 2024. Determine when the offense was completed and which law applies.",
+    "label": "ambiguous"
+  }
+]

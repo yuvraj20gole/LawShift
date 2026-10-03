@@ -1,0 +1,294 @@
+{
+  "sources": {
+    "ruleonly_14b": "results/stage4_verifier_ruleonly_14b.json",
+    "rac_3b": "results/stage4_verifier_eval.json"
+  },
+  "tp": 2,
+  "fp": 2,
+  "fn": 3,
+  "tn": 33,
+  "precision": 0.5,
+  "recall": 0.4,
+  "results": [
+    {
+      "case_number": 1,
+      "ruleonly_14b_flagged": true,
+      "rac_3b_flagged": false,
+      "both_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 2,
+      "ruleonly_14b_flagged": true,
+      "rac_3b_flagged": false,
+      "both_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 3,
+      "ruleonly_14b_flagged": true,
+      "rac_3b_flagged": false,
+      "both_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 4,
+      "ruleonly_14b_flagged": true,
+      "rac_3b_flagged": false,
+      "both_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 5,
+      "ruleonly_14b_flagged": false,
+      "rac_3b_flagged": false,
+      "both_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 6,
+      "ruleonly_14b_flagged": true,
+      "rac_3b_flagged": true,
+      "both_flag": true,
+      "known_mismatch": true
+    },
+    {
+      "case_number": 7,
+      "ruleonly_14b_flagged": true,
+      "rac_3b_flagged": false,
+      "both_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 8,
+      "ruleonly_14b_flagged": true,
+      "rac_3b_flagged": false,
+      "both_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 9,
+      "ruleonly_14b_flagged": true,
+      "rac_3b_flagged": false,
+      "both_flag": false,
+      "known_mismatch": true
+    },
+    {
+      "case_number": 10,
+      "ruleonly_14b_flagged": false,
+      "rac_3b_flagged": false,
+      "both_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 11,
+      "ruleonly_14b_flagged": false,
+      "rac_3b_flagged": false,
+      "both_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 12,
+      "ruleonly_14b_flagged": true,
+      "rac_3b_flagged": false,
+      "both_flag": false,
+      "known_mismatch": true
+    },
+    {
+      "case_number": 13,
+      "ruleonly_14b_flagged": true,
+      "rac_3b_flagged": false,
+      "both_flag": false,
+      "known_mismatch": true
+    },
+    {
+      "case_number": 14,
+      "ruleonly_14b_flagged": false,
+      "rac_3b_flagged": false,
+      "both_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 15,
+      "ruleonly_14b_flagged": false,
+      "rac_3b_flagged": false,
+      "both_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 16,
+      "ruleonly_14b_flagged": true,
+      "rac_3b_flagged": false,
+      "both_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 17,
+      "ruleonly_14b_flagged": true,
+      "rac_3b_flagged": false,
+      "both_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 18,
+      "ruleonly_14b_flagged": true,
+      "rac_3b_flagged": false,
+      "both_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 19,
+      "ruleonly_14b_flagged": false,
+      "rac_3b_flagged": false,
+      "both_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 20,
+      "ruleonly_14b_flagged": true,
+      "rac_3b_flagged": false,
+      "both_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 21,
+      "ruleonly_14b_flagged": false,
+      "rac_3b_flagged": true,
+      "both_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 22,
+      "ruleonly_14b_flagged": true,
+      "rac_3b_flagged": false,
+      "both_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 23,
+      "ruleonly_14b_flagged": false,
+      "rac_3b_flagged": false,
+      "both_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 24,
+      "ruleonly_14b_flagged": false,
+      "rac_3b_flagged": false,
+      "both_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 25,
+      "ruleonly_14b_flagged": false,
+      "rac_3b_flagged": false,
+      "both_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 26,
+      "ruleonly_14b_flagged": true,
+      "rac_3b_flagged": false,
+      "both_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 27,
+      "ruleonly_14b_flagged": true,
+      "rac_3b_flagged": false,
+      "both_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 28,
+      "ruleonly_14b_flagged": false,
+      "rac_3b_flagged": false,
+      "both_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 29,
+      "ruleonly_14b_flagged": true,
+      "rac_3b_flagged": true,
+      "both_flag": true,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 30,
+      "ruleonly_14b_flagged": false,
+      "rac_3b_flagged": false,
+      "both_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 31,
+      "ruleonly_14b_flagged": false,
+      "rac_3b_flagged": false,
+      "both_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 32,
+      "ruleonly_14b_flagged": true,
+      "rac_3b_flagged": false,
+      "both_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 33,
+      "ruleonly_14b_flagged": true,
+      "rac_3b_flagged": false,
+      "both_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 34,
+      "ruleonly_14b_flagged": true,
+      "rac_3b_flagged": false,
+      "both_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 35,
+      "ruleonly_14b_flagged": false,
+      "rac_3b_flagged": true,
+      "both_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 36,
+      "ruleonly_14b_flagged": true,
+      "rac_3b_flagged": true,
+      "both_flag": true,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 37,
+      "ruleonly_14b_flagged": false,
+      "rac_3b_flagged": false,
+      "both_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 38,
+      "ruleonly_14b_flagged": true,
+      "rac_3b_flagged": false,
+      "both_flag": false,
+      "known_mismatch": false
+    },
+    {
+      "case_number": 39,
+      "ruleonly_14b_flagged": true,
+      "rac_3b_flagged": true,
+      "both_flag": true,
+      "known_mismatch": true
+    },
+    {
+      "case_number": 40,
+      "ruleonly_14b_flagged": true,
+      "rac_3b_flagged": false,
+      "both_flag": false,
+      "known_mismatch": false
+    }
+  ]
+}

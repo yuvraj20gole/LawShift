@@ -1,0 +1,16 @@
+{
+  "n_multi_date_candidates": 187,
+  "n_multi_unparseable": 0,
+  "n_tier1_straddling": 161,
+  "n_tier1_train": 145,
+  "n_tier1_eval": 16,
+  "n_tier1_also_continuing_language": 26,
+  "n_language_only": 345,
+  "n_tier2_sample": 25,
+  "tier2_sample_seed": 42,
+  "tier2_sample_tp": 3,
+  "tier2_sample_fp": 22,
+  "tier2_sample_fp_rate": 0.88,
+  "cutoff": "2024-07-01",
+  "note": "Tier 1 = 2+ distinct question dates with at least one < 2024-07-01 and at least one >= 2024-07-01. Tier 2 = random sample of continuing-language-only (no multi-date signal). No routing correctness judged in this script."
+}

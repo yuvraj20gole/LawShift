@@ -1,0 +1,60 @@
+{
+  "original-e8": {
+    "method": "Cascade + fine-tuned bge-small (epochs=8) on VAL",
+    "k": 5,
+    "n": 635,
+    "precision_at_k": 0.1659842519685039,
+    "recall_at_k": 0.8299212598425196,
+    "mrr": 0.6389501312335958,
+    "ndcg_at_k": 0.687102605596881,
+    "section_pattern_trigger_rate": 0.2141732283464567,
+    "hit_rate_by_question_type": {
+      "scenario": 0.7899159663865546,
+      "consequence": 0.7,
+      "definitional_topic": 0.9285714285714286,
+      "elements": 0.73,
+      "definitional_section": 1.0,
+      "exceptions": 0.8252427184466019
+    },
+    "epochs": 8,
+    "model_path": "models/finetuned-bge-small-ipc-bns-e8"
+  },
+  "hardneg-e3": {
+    "method": "Hard-negative fine-tune (epochs=3) on VAL",
+    "k": 5,
+    "n": 635,
+    "precision_at_k": 0.15905511811023623,
+    "recall_at_k": 0.7952755905511811,
+    "mrr": 0.600262467191601,
+    "ndcg_at_k": 0.6493494796022983,
+    "section_pattern_trigger_rate": 0.2141732283464567,
+    "hit_rate_by_question_type": {
+      "scenario": 0.7310924369747899,
+      "consequence": 0.67,
+      "definitional_topic": 0.8928571428571429,
+      "elements": 0.73,
+      "definitional_section": 1.0,
+      "exceptions": 0.7475728155339806
+    },
+    "model_path": "models/finetuned-bge-small-hardneg-e3"
+  },
+  "hardneg-e8": {
+    "method": "Hard-negative fine-tune (epochs=8) on VAL",
+    "k": 5,
+    "n": 635,
+    "precision_at_k": 0.15937007874015746,
+    "recall_at_k": 0.7968503937007874,
+    "mrr": 0.6043832020997375,
+    "ndcg_at_k": 0.652817249479936,
+    "section_pattern_trigger_rate": 0.2141732283464567,
+    "hit_rate_by_question_type": {
+      "scenario": 0.7226890756302521,
+      "consequence": 0.68,
+      "definitional_topic": 0.8928571428571429,
+      "elements": 0.72,
+      "definitional_section": 1.0,
+      "exceptions": 0.7669902912621359
+    },
+    "model_path": "models/finetuned-bge-small-hardneg-e8"
+  }
+}

@@ -1,0 +1,452 @@
+.shell {
+  color: var(--ink);
+  border: 1px solid var(--rule-strong);
+  border-radius: 6px;
+  background: var(--surface);
+  box-shadow: 0 1px 0 var(--rule), 0 18px 36px -24px rgba(18, 22, 31, 0.3);
+  padding: 1rem;
+}
+
+.thread {
+  min-height: 300px;
+  max-height: min(72vh, 680px);
+  overflow-y: auto;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--paper);
+  padding: 1.1rem 1.15rem;
+  margin-bottom: 0.85rem;
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.emptyTitle {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.emptyBody {
+  margin: 0;
+  color: var(--ink-secondary);
+  font-size: 0.95rem;
+  max-width: 52ch;
+}
+
+.examples {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-top: 0.4rem;
+}
+
+.example {
+  text-align: left;
+  border: 1px solid var(--rule-strong);
+  background: var(--surface);
+  color: var(--ink);
+  border-radius: var(--radius);
+  padding: 0.65rem 0.8rem;
+  font-size: 0.9rem;
+  line-height: 1.45;
+  transition:
+    border-color 160ms ease,
+    background 160ms ease,
+    transform 140ms var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .example:hover:not(:disabled) {
+    border-color: var(--bns);
+    background: color-mix(in srgb, var(--bns) 5%, var(--surface));
+  }
+}
+
+.example:active:not(:disabled) {
+  transform: scale(0.99);
+}
+
+.example:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.messages {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.35rem;
+}
+
+.user,
+.assistant {
+  margin: 0;
+}
+
+.role {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ink-tertiary);
+  margin-bottom: 0.3rem;
+}
+
+.user p {
+  margin: 0;
+  white-space: pre-wrap;
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+.assistant p {
+  margin: 0;
+  white-space: pre-wrap;
+  line-height: 1.55;
+}
+
+.working {
+  color: var(--ink-tertiary);
+  font-size: 0.9rem;
+  animation: working 1.4s ease-in-out infinite;
+}
+
+@keyframes working {
+  50% {
+    opacity: 0.45;
+  }
+}
+
+.statute {
+  font-family: var(--font-serif);
+  font-size: 1.02rem;
+}
+
+.iracBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+
+.summaryLine {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: 1.15rem;
+  color: var(--bns);
+}
+
+/* Bare Act habit: the label sits in the margin, the text beside it. */
+.iracField {
+  display: grid;
+  grid-template-columns: 6.25rem minmax(0, 1fr);
+  gap: 0.15rem 1rem;
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--rule);
+}
+
+.iracLabel {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.92rem;
+  color: var(--ink-tertiary);
+  line-height: 1.7;
+}
+
+.fallbackNote {
+  font-size: 0.82rem;
+  color: var(--ink-tertiary);
+  line-height: 1.45;
+}
+
+.sourcesBlock {
+  display: grid;
+  grid-template-columns: 6.25rem minmax(0, 1fr);
+  gap: 0.15rem 1rem;
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--rule);
+}
+
+.sourcesList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.sourceItem {
+  margin: 0;
+}
+
+.sourceToggle {
+  display: flex;
+  width: 100%;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  text-align: left;
+  padding: 0.5rem 0.7rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+  transition:
+    border-color 160ms ease,
+    transform 140ms var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .sourceToggle:hover {
+    border-color: var(--bns);
+  }
+}
+
+.sourceToggle:active {
+  transform: scale(0.99);
+}
+
+.sourceToggle strong {
+  font-size: 0.88rem;
+  font-weight: 600;
+}
+
+.sourceToggle span {
+  font-size: 0.8rem;
+  color: var(--bns);
+  flex-shrink: 0;
+}
+
+.sourceTextWrap {
+  overflow: hidden;
+}
+
+.sourceText {
+  margin: 0.4rem 0 0;
+  padding: 0.7rem 0.8rem;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  font-family: var(--font-serif);
+  font-size: 0.93rem;
+  color: var(--ink-secondary);
+  white-space: pre-wrap;
+  line-height: 1.55;
+}
+
+.verifyOk,
+.verifyFlagged {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 0.6rem 0.75rem;
+  border-radius: var(--radius);
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+.verifyOk {
+  color: var(--ok);
+  background: var(--ok-wash);
+}
+
+.verifyFlagged {
+  color: var(--flag);
+  background: var(--flag-wash);
+}
+
+.verifyMark {
+  flex-shrink: 0;
+  display: flex;
+  margin-top: 0.15rem;
+}
+
+.verifyFlagged strong {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 650;
+}
+
+.verifyNote {
+  display: block;
+  margin: 0.15rem 0 0;
+  color: var(--ink-secondary);
+}
+
+.verifyLegend {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.9rem;
+  max-width: 52ch;
+}
+
+.composer {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.55rem;
+  align-items: end;
+}
+
+.composer button {
+  padding: 0.7rem 1.25rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--bns);
+  background: var(--bns);
+  color: var(--bns-ink);
+  font-weight: 600;
+  font-size: 0.92rem;
+  transition:
+    background 160ms ease,
+    transform 140ms var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .composer button:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--bns) 88%, black);
+  }
+}
+
+.composer button:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.composer button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.composer textarea {
+  resize: vertical;
+  min-height: 3.4rem;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+  line-height: 1.45;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.composer textarea::placeholder {
+  color: var(--ink-tertiary);
+}
+
+.composer textarea:focus {
+  border-color: var(--bns);
+  outline: none;
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--bns) 18%, transparent);
+}
+
+.note {
+  margin: 0.65rem 0 0;
+  font-size: 0.82rem;
+  color: var(--ink-tertiary);
+}
+
+.error {
+  margin: 0.45rem 0 0;
+  font-size: 0.88rem;
+  color: var(--flag);
+}
+
+.bifurcation {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.bifurcationOptions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.bifurcationBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.15rem;
+  text-align: left;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+  transition:
+    border-color 160ms ease,
+    background 160ms ease,
+    transform 140ms var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .bifurcationBtn:hover:not(:disabled) {
+    border-color: var(--bns);
+    background: color-mix(in srgb, var(--bns) 5%, var(--surface));
+  }
+}
+
+.bifurcationBtn:active:not(:disabled) {
+  transform: scale(0.99);
+}
+
+.bifurcationBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.bifurcationBtn strong {
+  font-size: 0.9rem;
+  color: var(--bns);
+}
+
+.bifurcationBtn span {
+  font-size: 0.85rem;
+  color: var(--ink-secondary);
+}
+
+@media (max-width: 560px) {
+  .composer {
+    grid-template-columns: 1fr;
+  }
+
+  .iracField,
+  .sourcesBlock {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* v6: a new answer arrives with a short rise; a recorded case dropped into the
+   composer pulses it once so you can see where it went. */
+.messages > li {
+  animation: msgIn 340ms var(--ease-out) backwards;
+}
+
+@keyframes msgIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+.composer textarea.landed {
+  animation: landed 900ms ease-out;
+}
+
+@keyframes landed {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--cutoff) 60%, transparent);
+    border-color: var(--cutoff);
+  }
+  100% {
+    box-shadow: 0 0 0 10px transparent;
+  }
+}

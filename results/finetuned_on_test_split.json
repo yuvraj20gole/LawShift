@@ -1,0 +1,18 @@
+{
+  "method": "Cascade + bge-small-en-v1.5 (after fine-tuning)",
+  "k": 5,
+  "n": 636,
+  "precision_at_k": 0.16415094339622638,
+  "recall_at_k": 0.8207547169811321,
+  "mrr": 0.6406184486373165,
+  "ndcg_at_k": 0.6860614569523059,
+  "section_pattern_trigger_rate": 0.22327044025157233,
+  "hit_rate_by_question_type": {
+    "definitional_topic": 0.8571428571428571,
+    "definitional_section": 1.0,
+    "consequence": 0.5981308411214953,
+    "exceptions": 0.8245614035087719,
+    "scenario": 0.7961165048543689,
+    "elements": 0.8411214953271028
+  }
+}

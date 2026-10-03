@@ -1,0 +1,21 @@
+{
+  "method": "Cascade + fine-tuned bge-small (epochs=8) on TEST",
+  "k": 5,
+  "n": 636,
+  "precision_at_k": 0.16823899371069181,
+  "recall_at_k": 0.8411949685534591,
+  "mrr": 0.6546907756813417,
+  "ndcg_at_k": 0.7016048324707717,
+  "section_pattern_trigger_rate": 0.22327044025157233,
+  "hit_rate_by_question_type": {
+    "definitional_topic": 0.8681318681318682,
+    "definitional_section": 1.0,
+    "consequence": 0.6074766355140186,
+    "exceptions": 0.8508771929824561,
+    "scenario": 0.8349514563106796,
+    "elements": 0.8785046728971962
+  },
+  "epochs": 8,
+  "model_path": "models/finetuned-bge-small-ipc-bns-e8",
+  "note": "Single held-out test evaluation of the val-selected winner."
+}

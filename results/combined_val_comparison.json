@@ -1,0 +1,79 @@
+{
+  "original-e8": {
+    "method": "Cascade + fine-tuned bge-small (epochs=8) on VAL",
+    "k": 5,
+    "n": 635,
+    "precision_at_k": 0.1659842519685039,
+    "recall_at_k": 0.8299212598425196,
+    "mrr": 0.6389501312335958,
+    "ndcg_at_k": 0.687102605596881,
+    "section_pattern_trigger_rate": 0.2141732283464567,
+    "hit_rate_by_question_type": {
+      "scenario": 0.7899159663865546,
+      "consequence": 0.7,
+      "definitional_topic": 0.9285714285714286,
+      "elements": 0.73,
+      "definitional_section": 1.0,
+      "exceptions": 0.8252427184466019
+    },
+    "epochs": 8,
+    "model_path": "models/finetuned-bge-small-ipc-bns-e8"
+  },
+  "combined-e3": {
+    "method": "Combined GSMS-B+GovIntel (epochs=3) on VAL",
+    "k": 5,
+    "n": 635,
+    "precision_at_k": 0.15874015748031495,
+    "recall_at_k": 0.7937007874015748,
+    "mrr": 0.591259842519685,
+    "ndcg_at_k": 0.64230590998343,
+    "section_pattern_trigger_rate": 0.2141732283464567,
+    "hit_rate_by_question_type": {
+      "scenario": 0.7226890756302521,
+      "consequence": 0.67,
+      "definitional_topic": 0.9017857142857143,
+      "elements": 0.7,
+      "definitional_section": 1.0,
+      "exceptions": 0.7669902912621359
+    },
+    "model_path": "models/finetuned-bge-small-combined-e3"
+  },
+  "combined-e5": {
+    "method": "Combined GSMS-B+GovIntel (epochs=5) on VAL",
+    "k": 5,
+    "n": 635,
+    "precision_at_k": 0.16031496062992126,
+    "recall_at_k": 0.8015748031496063,
+    "mrr": 0.6130446194225722,
+    "ndcg_at_k": 0.6605278330371755,
+    "section_pattern_trigger_rate": 0.2141732283464567,
+    "hit_rate_by_question_type": {
+      "scenario": 0.7563025210084033,
+      "consequence": 0.67,
+      "definitional_topic": 0.8928571428571429,
+      "elements": 0.71,
+      "definitional_section": 1.0,
+      "exceptions": 0.7766990291262136
+    },
+    "model_path": "models/finetuned-bge-small-combined-e5"
+  },
+  "combined-e8": {
+    "method": "Combined GSMS-B+GovIntel (epochs=8) on VAL",
+    "k": 5,
+    "n": 635,
+    "precision_at_k": 0.15999999999999998,
+    "recall_at_k": 0.8,
+    "mrr": 0.6053018372703413,
+    "ndcg_at_k": 0.6544489556534646,
+    "section_pattern_trigger_rate": 0.2141732283464567,
+    "hit_rate_by_question_type": {
+      "scenario": 0.7310924369747899,
+      "consequence": 0.67,
+      "definitional_topic": 0.9107142857142857,
+      "elements": 0.7,
+      "definitional_section": 1.0,
+      "exceptions": 0.7864077669902912
+    },
+    "model_path": "models/finetuned-bge-small-combined-e8"
+  }
+}

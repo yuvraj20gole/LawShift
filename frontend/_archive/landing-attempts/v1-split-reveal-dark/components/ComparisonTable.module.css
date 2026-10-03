@@ -1,0 +1,102 @@
+.section {
+  padding: 1rem 0 3.5rem;
+  background: var(--bg-neutral);
+}
+
+.heading {
+  margin: 0 0 0.6rem;
+  font-family: var(--font-serif);
+  font-size: clamp(1.55rem, 2.6vw, 2rem);
+  font-weight: var(--weight-heading);
+  letter-spacing: -0.018em;
+}
+
+.lede {
+  margin: 0 0 1.5rem;
+  max-width: var(--measure);
+  color: var(--ink-secondary);
+  font-size: 0.98rem;
+  font-weight: var(--weight-body);
+}
+
+.scroll {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg-raised-neutral);
+  box-shadow: var(--shadow-card);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 640px;
+  font-size: 0.9rem;
+}
+
+.table th,
+.table td {
+  padding: 0.85rem 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  transition:
+    background var(--motion-enter) var(--ease-out),
+    box-shadow var(--motion-enter) var(--ease-out);
+}
+
+.table thead th {
+  font-size: 0.75rem;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-tertiary);
+  background: var(--bg-muted);
+}
+
+.table tbody th {
+  font-weight: var(--weight-subhead);
+  color: var(--ink);
+  width: 28%;
+}
+
+.table tbody tr:last-child th,
+.table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.table tbody tr:nth-child(even) td,
+.table tbody tr:nth-child(even) th {
+  background: var(--table-stripe);
+}
+
+.table tbody tr:hover th,
+.table tbody tr:hover td {
+  background: color-mix(in srgb, var(--accent) 9%, var(--bg-elevated)) !important;
+}
+
+.table tbody tr:hover th {
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+.hl {
+  background: color-mix(in srgb, var(--accent) 7%, transparent) !important;
+}
+
+.table tbody tr:hover .hl {
+  background: color-mix(in srgb, var(--accent) 14%, var(--bg-elevated)) !important;
+}
+
+.yes {
+  color: var(--success);
+  font-weight: 550;
+}
+
+.no {
+  color: var(--danger);
+  font-weight: 550;
+}
+
+.partial {
+  color: var(--ink-secondary);
+}

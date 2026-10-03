@@ -1,0 +1,7 @@
+{
+  "wall_clock_seconds": 2239.6275680065155,
+  "warmup_steps": 31,
+  "batch_size": 16,
+  "training_pairs": 5083,
+  "epochs": 3
+}

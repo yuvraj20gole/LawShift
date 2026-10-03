@@ -1,0 +1,26 @@
+{
+  "extraction": {
+    "n_filtered_bns_bnss_bsa": 185,
+    "n_zero_citation": 98,
+    "n_multi_citation": 2,
+    "n_unmapped": 0,
+    "n_labeled": 85,
+    "note": "Gold extracted from expected_answer/required_facts with GovIntel-v2 Patterns A/B/C plus nyaya shorthand 'Section X BNS'. Subsections like 103(1) normalize to 103 before the single-unambiguous check and statutes lookup. Train/val/test splits were not used."
+  },
+  "original_e8": {
+    "label": "original-e8",
+    "n": 85,
+    "section_pattern_trigger_rate": 0.058823529411764705,
+    "recall_at_5": 0.6588235294117647,
+    "mrr": 0.5013725490196079,
+    "ndcg_at_5": 0.5410374119666976
+  },
+  "combined_e5": {
+    "label": "combined-e5",
+    "n": 85,
+    "section_pattern_trigger_rate": 0.058823529411764705,
+    "recall_at_5": 0.6823529411764706,
+    "mrr": 0.5292156862745099,
+    "ndcg_at_5": 0.5679475201811761
+  }
+}

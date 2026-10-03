@@ -1,0 +1,639 @@
+{
+  "known_mismatch_cases": [
+    6,
+    9,
+    12,
+    13,
+    39
+  ],
+  "baseline_3b": {
+    "model": "qwen2.5:3b-instruct",
+    "tp": 2,
+    "fp": 4,
+    "fn": 3,
+    "tn": 31,
+    "precision": 0.3333333333333333,
+    "recall": 0.4
+  },
+  "polarity": {
+    "tp": 2,
+    "fp": 9,
+    "fn": 3,
+    "tn": 26,
+    "precision": 0.18181818181818182,
+    "recall": 0.4,
+    "results": [
+      {
+        "case_number": 1,
+        "known_mismatch": false,
+        "polarity_verdict": "MATCH",
+        "application_polarity": "negative",
+        "conclusion_polarity": "negative",
+        "note": "app=negative concl=negative"
+      },
+      {
+        "case_number": 2,
+        "known_mismatch": false,
+        "polarity_verdict": "MATCH",
+        "application_polarity": "negative",
+        "conclusion_polarity": "negative",
+        "note": "app=negative concl=negative"
+      },
+      {
+        "case_number": 3,
+        "known_mismatch": false,
+        "polarity_verdict": "MATCH",
+        "application_polarity": "negative",
+        "conclusion_polarity": "negative",
+        "note": "app=negative concl=negative"
+      },
+      {
+        "case_number": 4,
+        "known_mismatch": false,
+        "polarity_verdict": "MATCH",
+        "application_polarity": "negative",
+        "conclusion_polarity": "negative",
+        "note": "app=negative concl=negative"
+      },
+      {
+        "case_number": 5,
+        "known_mismatch": false,
+        "polarity_verdict": "MISMATCH",
+        "application_polarity": "negative",
+        "conclusion_polarity": "affirmative",
+        "note": "app=negative concl=affirmative"
+      },
+      {
+        "case_number": 6,
+        "known_mismatch": true,
+        "polarity_verdict": "MISMATCH",
+        "application_polarity": "affirmative",
+        "conclusion_polarity": "negative",
+        "note": "app=affirmative concl=negative"
+      },
+      {
+        "case_number": 7,
+        "known_mismatch": false,
+        "polarity_verdict": "MISMATCH",
+        "application_polarity": "affirmative",
+        "conclusion_polarity": "negative",
+        "note": "app=affirmative concl=negative"
+      },
+      {
+        "case_number": 8,
+        "known_mismatch": false,
+        "polarity_verdict": "MATCH",
+        "application_polarity": "affirmative",
+        "conclusion_polarity": "affirmative",
+        "note": "app=affirmative concl=affirmative"
+      },
+      {
+        "case_number": 9,
+        "known_mismatch": true,
+        "polarity_verdict": "MATCH",
+        "application_polarity": "affirmative",
+        "conclusion_polarity": "affirmative",
+        "note": "app=affirmative concl=affirmative"
+      },
+      {
+        "case_number": 10,
+        "known_mismatch": false,
+        "polarity_verdict": "MISMATCH",
+        "application_polarity": "negative",
+        "conclusion_polarity": "affirmative",
+        "note": "app=negative concl=affirmative"
+      },
+      {
+        "case_number": 11,
+        "known_mismatch": false,
+        "polarity_verdict": "MATCH",
+        "application_polarity": "negative",
+        "conclusion_polarity": "negative",
+        "note": "app=negative concl=negative"
+      },
+      {
+        "case_number": 12,
+        "known_mismatch": true,
+        "polarity_verdict": "MISMATCH",
+        "application_polarity": "negative",
+        "conclusion_polarity": "affirmative",
+        "note": "app=negative concl=affirmative"
+      },
+      {
+        "case_number": 13,
+        "known_mismatch": true,
+        "polarity_verdict": "MATCH",
+        "application_polarity": "negative",
+        "conclusion_polarity": "negative",
+        "note": "app=negative concl=negative"
+      },
+      {
+        "case_number": 14,
+        "known_mismatch": false,
+        "polarity_verdict": "MATCH",
+        "application_polarity": "negative",
+        "conclusion_polarity": "negative",
+        "note": "app=negative concl=negative"
+      },
+      {
+        "case_number": 15,
+        "known_mismatch": false,
+        "polarity_verdict": "MISMATCH",
+        "application_polarity": "negative",
+        "conclusion_polarity": "affirmative",
+        "note": "app=negative concl=affirmative"
+      },
+      {
+        "case_number": 16,
+        "known_mismatch": false,
+        "polarity_verdict": "MATCH",
+        "application_polarity": "negative",
+        "conclusion_polarity": "negative",
+        "note": "app=negative concl=negative"
+      },
+      {
+        "case_number": 17,
+        "known_mismatch": false,
+        "polarity_verdict": "MATCH",
+        "application_polarity": "negative",
+        "conclusion_polarity": "negative",
+        "note": "app=negative concl=negative"
+      },
+      {
+        "case_number": 18,
+        "known_mismatch": false,
+        "polarity_verdict": "MATCH",
+        "application_polarity": "negative",
+        "conclusion_polarity": "negative",
+        "note": "app=negative concl=negative"
+      },
+      {
+        "case_number": 19,
+        "known_mismatch": false,
+        "polarity_verdict": "MISMATCH",
+        "application_polarity": "affirmative",
+        "conclusion_polarity": "negative",
+        "note": "app=affirmative concl=negative"
+      },
+      {
+        "case_number": 20,
+        "known_mismatch": false,
+        "polarity_verdict": "MATCH",
+        "application_polarity": "negative",
+        "conclusion_polarity": "negative",
+        "note": "app=negative concl=negative"
+      },
+      {
+        "case_number": 21,
+        "known_mismatch": false,
+        "polarity_verdict": "MISMATCH",
+        "application_polarity": "negative",
+        "conclusion_polarity": "affirmative",
+        "note": "app=negative concl=affirmative"
+      },
+      {
+        "case_number": 22,
+        "known_mismatch": false,
+        "polarity_verdict": "MATCH",
+        "application_polarity": "affirmative",
+        "conclusion_polarity": "affirmative",
+        "note": "app=affirmative concl=affirmative"
+      },
+      {
+        "case_number": 23,
+        "known_mismatch": false,
+        "polarity_verdict": "MATCH",
+        "application_polarity": "affirmative",
+        "conclusion_polarity": "affirmative",
+        "note": "app=affirmative concl=affirmative"
+      },
+      {
+        "case_number": 24,
+        "known_mismatch": false,
+        "polarity_verdict": "MATCH",
+        "application_polarity": "negative",
+        "conclusion_polarity": "negative",
+        "note": "app=negative concl=negative"
+      },
+      {
+        "case_number": 25,
+        "known_mismatch": false,
+        "polarity_verdict": "MATCH",
+        "application_polarity": "affirmative",
+        "conclusion_polarity": "affirmative",
+        "note": "app=affirmative concl=affirmative"
+      },
+      {
+        "case_number": 26,
+        "known_mismatch": false,
+        "polarity_verdict": "MATCH",
+        "application_polarity": "negative",
+        "conclusion_polarity": "negative",
+        "note": "app=negative concl=negative"
+      },
+      {
+        "case_number": 27,
+        "known_mismatch": false,
+        "polarity_verdict": "MATCH",
+        "application_polarity": "affirmative",
+        "conclusion_polarity": "affirmative",
+        "note": "app=affirmative concl=affirmative"
+      },
+      {
+        "case_number": 28,
+        "known_mismatch": false,
+        "polarity_verdict": "MATCH",
+        "application_polarity": "negative",
+        "conclusion_polarity": "negative",
+        "note": "app=negative concl=negative"
+      },
+      {
+        "case_number": 29,
+        "known_mismatch": false,
+        "polarity_verdict": "MATCH",
+        "application_polarity": "affirmative",
+        "conclusion_polarity": "affirmative",
+        "note": "app=affirmative concl=affirmative"
+      },
+      {
+        "case_number": 30,
+        "known_mismatch": false,
+        "polarity_verdict": "MISMATCH",
+        "application_polarity": "affirmative",
+        "conclusion_polarity": "negative",
+        "note": "app=affirmative concl=negative"
+      },
+      {
+        "case_number": 31,
+        "known_mismatch": false,
+        "polarity_verdict": "MATCH",
+        "application_polarity": "affirmative",
+        "conclusion_polarity": "affirmative",
+        "note": "app=affirmative concl=affirmative"
+      },
+      {
+        "case_number": 32,
+        "known_mismatch": false,
+        "polarity_verdict": "MATCH",
+        "application_polarity": "affirmative",
+        "conclusion_polarity": "affirmative",
+        "note": "app=affirmative concl=affirmative"
+      },
+      {
+        "case_number": 33,
+        "known_mismatch": false,
+        "polarity_verdict": "MATCH",
+        "application_polarity": "affirmative",
+        "conclusion_polarity": "affirmative",
+        "note": "app=affirmative concl=affirmative"
+      },
+      {
+        "case_number": 34,
+        "known_mismatch": false,
+        "polarity_verdict": "MATCH",
+        "application_polarity": "negative",
+        "conclusion_polarity": "negative",
+        "note": "app=negative concl=negative"
+      },
+      {
+        "case_number": 35,
+        "known_mismatch": false,
+        "polarity_verdict": "MISMATCH",
+        "application_polarity": "negative",
+        "conclusion_polarity": "affirmative",
+        "note": "app=negative concl=affirmative"
+      },
+      {
+        "case_number": 36,
+        "known_mismatch": false,
+        "polarity_verdict": "MATCH",
+        "application_polarity": "affirmative",
+        "conclusion_polarity": "affirmative",
+        "note": "app=affirmative concl=affirmative"
+      },
+      {
+        "case_number": 37,
+        "known_mismatch": false,
+        "polarity_verdict": "MATCH",
+        "application_polarity": "affirmative",
+        "conclusion_polarity": "affirmative",
+        "note": "app=affirmative concl=affirmative"
+      },
+      {
+        "case_number": 38,
+        "known_mismatch": false,
+        "polarity_verdict": "MISMATCH",
+        "application_polarity": "negative",
+        "conclusion_polarity": "affirmative",
+        "note": "app=negative concl=affirmative"
+      },
+      {
+        "case_number": 39,
+        "known_mismatch": true,
+        "polarity_verdict": "MATCH",
+        "application_polarity": "negative",
+        "conclusion_polarity": "negative",
+        "note": "app=negative concl=negative"
+      },
+      {
+        "case_number": 40,
+        "known_mismatch": false,
+        "polarity_verdict": "MATCH",
+        "application_polarity": "affirmative",
+        "conclusion_polarity": "affirmative",
+        "note": "app=affirmative concl=affirmative"
+      }
+    ]
+  },
+  "model_14b": {
+    "tp": 2,
+    "fp": 2,
+    "fn": 3,
+    "tn": 33,
+    "precision": 0.5,
+    "recall": 0.4,
+    "model": "qwen2.5:14b-instruct",
+    "results": [
+      {
+        "case_number": 1,
+        "known_mismatch": false,
+        "verifier_verdict": "MATCH",
+        "verifier_explanation": "MATCH\n\nThe conclusion logically follows from the rule and application because they both indicate that a new trial involving all witnesses is not necessarily required when the appeal is re-heard by a larger bench of judges.",
+        "note": "MATCH  The conclusion logically follows from the rule and application because they both indicate that a new trial involving all witnesses is not necessarily req"
+      },
+      {
+        "case_number": 2,
+        "known_mismatch": false,
+        "verifier_verdict": "MATCH",
+        "verifier_explanation": "MATCH\n\nThe Conclusion correctly follows from the Rule and Application because both specify that a former statement must be made at or about the time of the event or before legally competent authority, which excludes statements made five years after the fact.",
+        "note": "MATCH  The Conclusion correctly follows from the Rule and Application because both specify that a former statement must be made at or about the time of the even"
+      },
+      {
+        "case_number": 3,
+        "known_mismatch": false,
+        "verifier_verdict": "MATCH",
+        "verifier_explanation": "MATCH\n\nThe Conclusion correctly follows from the Rule and Application because they both indicate that a Sessions Judge cannot make a direct conviction for someone who has been discharged, aligning with the restriction on making directions for inquiry under section 439.",
+        "note": "MATCH  The Conclusion correctly follows from the Rule and Application because they both indicate that a Sessions Judge cannot make a direct conviction for someo"
+      },
+      {
+        "case_number": 4,
+        "known_mismatch": false,
+        "verifier_verdict": "MATCH",
+        "verifier_explanation": "MATCH\n\nThe Conclusion logically follows from the Application which states that the person's actions do not meet the criteria specified in Section 343, as they did not act fraudulently, dishonestly, nor with intent to cause damage or injury. Therefore, there is no contradiction between the Rule, Application, and Conclusion.",
+        "note": "MATCH  The Conclusion logically follows from the Application which states that the person's actions do not meet the criteria specified in Section 343, as they d"
+      },
+      {
+        "case_number": 5,
+        "known_mismatch": false,
+        "verifier_verdict": "MATCH",
+        "verifier_explanation": "MATCH\n\nThe Conclusion accurately reflects that under Section 128 of BNSS 2023, as per the Application, the Executive Magistrate has the authority to require a suspected person to show cause, which is consistent with the Rule provided.",
+        "note": "MATCH  The Conclusion accurately reflects that under Section 128 of BNSS 2023, as per the Application, the Executive Magistrate has the authority to require a s"
+      },
+      {
+        "case_number": 6,
+        "known_mismatch": true,
+        "verifier_verdict": "MISMATCH",
+        "verifier_explanation": "MISMATCH\n\nThe conclusion contradicts the application because it states that the defense does not apply, while the application logically deduces that the rule provided supports the applicability of the defense in the given scenario.",
+        "note": "MISMATCH  The conclusion contradicts the application because it states that the defense does not apply, while the application logically deduces that the rule pr"
+      },
+      {
+        "case_number": 7,
+        "known_mismatch": false,
+        "verifier_verdict": "MATCH",
+        "verifier_explanation": "MATCH\n\nThe conclusion correctly reflects that while an adjournment is allowed under the rule for executing and returning a commission, it does not mandate an adjournment of the entire trial but only the relevant portion where the witness examination is taking place.",
+        "note": "MATCH  The conclusion correctly reflects that while an adjournment is allowed under the rule for executing and returning a commission, it does not mandate an ad"
+      },
+      {
+        "case_number": 8,
+        "known_mismatch": false,
+        "verifier_verdict": "MATCH",
+        "verifier_explanation": "MATCH\n\nThe Conclusion correctly follows from the Rule and Application as it accurately states that a Civil Court Judge can exercise the powers of a Criminal Magistrate if granted such authority by the High Court, which is consistent with the provided legal framework.",
+        "note": "MATCH  The Conclusion correctly follows from the Rule and Application as it accurately states that a Civil Court Judge can exercise the powers of a Criminal Mag"
+      },
+      {
+        "case_number": 9,
+        "known_mismatch": true,
+        "verifier_verdict": "MATCH",
+        "verifier_explanation": "MATCH The Conclusion directly follows from the Application since it identifies the action as theft, which aligns with the definition provided in the Rule.",
+        "note": "MATCH The Conclusion directly follows from the Application since it identifies the action as theft, which aligns with the definition provided in the Rule."
+      },
+      {
+        "case_number": 10,
+        "known_mismatch": false,
+        "verifier_verdict": "MATCH",
+        "verifier_explanation": "MATCH\n\nThe Conclusion accurately reflects that superior officers have the same powers as an officer in charge of a police station within their local area, which includes all applicable powers beyond just administrative tasks, consistent with both the Rule and Application.",
+        "note": "MATCH  The Conclusion accurately reflects that superior officers have the same powers as an officer in charge of a police station within their local area, which"
+      },
+      {
+        "case_number": 11,
+        "known_mismatch": false,
+        "verifier_verdict": "MATCH",
+        "verifier_explanation": "MATCH\n\nThe Conclusion accurately reflects that the total duration of solitary confinement cannot exceed three months based on the length of the overall sentence, which is consistent with both the Rule and Application provided.",
+        "note": "MATCH  The Conclusion accurately reflects that the total duration of solitary confinement cannot exceed three months based on the length of the overall sentence"
+      },
+      {
+        "case_number": 12,
+        "known_mismatch": true,
+        "verifier_verdict": "MATCH",
+        "verifier_explanation": "MATCH\n\nThe Conclusion follows from the Application which specifies that an order can be extended for a period not exceeding six months if deemed necessary, thus it is correct to say such orders can last longer than two months.",
+        "note": "MATCH  The Conclusion follows from the Application which specifies that an order can be extended for a period not exceeding six months if deemed necessary, thus"
+      },
+      {
+        "case_number": 13,
+        "known_mismatch": true,
+        "verifier_verdict": "MATCH",
+        "verifier_explanation": "MATCH\n\nThe conclusion logically follows from the rule and application since both emphasize that the release cannot be delayed for reasons unrelated to the specific cause of detention, which in this case is the jailor's shift ending.",
+        "note": "MATCH  The conclusion logically follows from the rule and application since both emphasize that the release cannot be delayed for reasons unrelated to the speci"
+      },
+      {
+        "case_number": 14,
+        "known_mismatch": false,
+        "verifier_verdict": "MATCH",
+        "verifier_explanation": "MATCH\n\nThe conclusion correctly reflects that for a registered document like a sale deed, it is not necessary to call an attesting witness if no one specifically denies the execution of the document. This aligns with both the rule and its application as stated.",
+        "note": "MATCH  The conclusion correctly reflects that for a registered document like a sale deed, it is not necessary to call an attesting witness if no one specificall"
+      },
+      {
+        "case_number": 15,
+        "known_mismatch": false,
+        "verifier_verdict": "MATCH",
+        "verifier_explanation": "MATCH\n\nThe Conclusion correctly reflects that the maximum duration for which a court can order someone to keep the peace is three years, as stated in both the Rule and Application. There is no internal contradiction.",
+        "note": "MATCH  The Conclusion correctly reflects that the maximum duration for which a court can order someone to keep the peace is three years, as stated in both the R"
+      },
+      {
+        "case_number": 16,
+        "known_mismatch": false,
+        "verifier_verdict": "MATCH",
+        "verifier_explanation": "MATCH\n\nThe Conclusion accurately reflects that the given Rule does not specify whether it applies to First Class Magistrates exclusively or in general, thus correctly stating that there is insufficient information to determine if a regular First Class Magistrate can withdraw a case under the same conditions.",
+        "note": "MATCH  The Conclusion accurately reflects that the given Rule does not specify whether it applies to First Class Magistrates exclusively or in general, thus cor"
+      },
+      {
+        "case_number": 17,
+        "known_mismatch": false,
+        "verifier_verdict": "MATCH",
+        "verifier_explanation": "MATCH\n\nThe conclusion correctly follows from the rule and application since it states that an appeal cannot be filed while the offender is hiding abroad, which aligns with the requirement that the proclaimed offender must present themselves before the court to file an appeal.",
+        "note": "MATCH  The conclusion correctly follows from the rule and application since it states that an appeal cannot be filed while the offender is hiding abroad, which "
+      },
+      {
+        "case_number": 18,
+        "known_mismatch": false,
+        "verifier_verdict": "MATCH",
+        "verifier_explanation": "MATCH\n\nThe Conclusion correctly follows from the Rule and Application because they both emphasize that only Executive Magistrates specifically empowered by the State Government or District Magistrate can issue such orders, implying a \"random\" Executive Magistrate lacks this authority.",
+        "note": "MATCH  The Conclusion correctly follows from the Rule and Application because they both emphasize that only Executive Magistrates specifically empowered by the "
+      },
+      {
+        "case_number": 19,
+        "known_mismatch": false,
+        "verifier_verdict": "MATCH",
+        "verifier_explanation": "MATCH\n\nThe Conclusion accurately reflects that the statutory rule allows for judicial discretion in determining what portion of a statement or document is necessary, aligning with the Application's interpretation.",
+        "note": "MATCH  The Conclusion accurately reflects that the statutory rule allows for judicial discretion in determining what portion of a statement or document is neces"
+      },
+      {
+        "case_number": 20,
+        "known_mismatch": false,
+        "verifier_verdict": "MATCH",
+        "verifier_explanation": "MATCH\n\nThe Conclusion directly follows from the Application which interprets the Rule to mean that a summons can be signed either by the presiding officer or another designated officer, thus confirming that it does not always need to be specifically signed by the presiding officer.",
+        "note": "MATCH  The Conclusion directly follows from the Application which interprets the Rule to mean that a summons can be signed either by the presiding officer or an"
+      },
+      {
+        "case_number": 21,
+        "known_mismatch": false,
+        "verifier_verdict": "MATCH",
+        "verifier_explanation": "MATCH\n\nThe Conclusion accurately summarizes that a confession is irrelevant if it results from inducement, threat, coercion, or promise from authority sufficient to influence the accused, which aligns with the core principle stated in both the Rule and Application.",
+        "note": "MATCH  The Conclusion accurately summarizes that a confession is irrelevant if it results from inducement, threat, coercion, or promise from authority sufficien"
+      },
+      {
+        "case_number": 22,
+        "known_mismatch": false,
+        "verifier_verdict": "MATCH",
+        "verifier_explanation": "MATCH\n\nThe Conclusion correctly follows from the Rule and Application because it accurately states that judges must record their reasons for transferring criminal cases under specified sections, otherwise they will be in violation of the law.",
+        "note": "MATCH  The Conclusion correctly follows from the Rule and Application because it accurately states that judges must record their reasons for transferring crimin"
+      },
+      {
+        "case_number": 23,
+        "known_mismatch": false,
+        "verifier_verdict": "MATCH",
+        "verifier_explanation": "MATCH The Conclusion accurately reflects that police officers are required to keep a daily log of their investigation activities as per the provided Rule and Application, without introducing any contradictions or ignoring relevant details.",
+        "note": "MATCH The Conclusion accurately reflects that police officers are required to keep a daily log of their investigation activities as per the provided Rule and Ap"
+      },
+      {
+        "case_number": 24,
+        "known_mismatch": false,
+        "verifier_verdict": "MATCH",
+        "verifier_explanation": "MATCH\n\nThe Conclusion directly aligns with both the Rule and Application by stating that a person cannot be held in jail beyond the maximum period of imprisonment specified for their offense during trial, which is consistent with the given legal constraints.",
+        "note": "MATCH  The Conclusion directly aligns with both the Rule and Application by stating that a person cannot be held in jail beyond the maximum period of imprisonme"
+      },
+      {
+        "case_number": 25,
+        "known_mismatch": false,
+        "verifier_verdict": "MATCH",
+        "verifier_explanation": "MATCH\n\nThe Conclusion accurately reflects that giving bail involves executing a bond rather than simply handing over cash, which aligns with both the Rule and Application provided. It correctly emphasizes the requirement for sureties to ensure attendance at court proceedings as stated in the given legal provisions.",
+        "note": "MATCH  The Conclusion accurately reflects that giving bail involves executing a bond rather than simply handing over cash, which aligns with both the Rule and A"
+      },
+      {
+        "case_number": 26,
+        "known_mismatch": false,
+        "verifier_verdict": "MATCH",
+        "verifier_explanation": "MATCH\n\nThe Conclusion accurately reflects that over-formalized documents not required by law to be attested can be treated as unattested, which is consistent with both the Rule and Application provided.",
+        "note": "MATCH  The Conclusion accurately reflects that over-formalized documents not required by law to be attested can be treated as unattested, which is consistent wi"
+      },
+      {
+        "case_number": 27,
+        "known_mismatch": false,
+        "verifier_verdict": "MATCH",
+        "verifier_explanation": "MATCH\n\nThe Conclusion directly follows from the Rule and Application as it accurately reflects that the man's actions constitute engaging a trafficked person for sexual exploitation, which is punishable under Section 144 of BNS 2023.",
+        "note": "MATCH  The Conclusion directly follows from the Rule and Application as it accurately reflects that the man's actions constitute engaging a trafficked person fo"
+      },
+      {
+        "case_number": 28,
+        "known_mismatch": false,
+        "verifier_verdict": "MATCH",
+        "verifier_explanation": "MATCH\n\nThe Conclusion correctly follows from the Rule and Application because it states that the absence of corroborating eyewitnesses does not affect the admissibility of the victim's testimony, which aligns with the Rule that no specific number of witnesses is required to prove a fact.",
+        "note": "MATCH  The Conclusion correctly follows from the Rule and Application because it states that the absence of corroborating eyewitnesses does not affect the admis"
+      },
+      {
+        "case_number": 29,
+        "known_mismatch": false,
+        "verifier_verdict": "MATCH",
+        "verifier_explanation": "MATCH\n\nThe Conclusion accurately reflects that Section 351 of BNSS 2023 requires a mechanism for the court to question the accused about evidence, which aligns with the Rule and Application provided. There is no internal contradiction in this logical sequence.",
+        "note": "MATCH  The Conclusion accurately reflects that Section 351 of BNSS 2023 requires a mechanism for the court to question the accused about evidence, which aligns "
+      },
+      {
+        "case_number": 30,
+        "known_mismatch": false,
+        "verifier_verdict": "MATCH",
+        "verifier_explanation": "MATCH\n\nThe Conclusion correctly follows from the Rule and Application as it states that a six-year-old cannot be charged with an offence due to their age, aligning with the given rule.",
+        "note": "MATCH  The Conclusion correctly follows from the Rule and Application as it states that a six-year-old cannot be charged with an offence due to their age, align"
+      },
+      {
+        "case_number": 31,
+        "known_mismatch": false,
+        "verifier_verdict": "MATCH",
+        "verifier_explanation": "MATCH\n\nThe Conclusion directly follows from both the Rule and Application as it correctly states that the case is legally categorized as a complaint due to the investigation's disclosure of a non-cognizable offense.",
+        "note": "MATCH  The Conclusion directly follows from both the Rule and Application as it correctly states that the case is legally categorized as a complaint due to the "
+      },
+      {
+        "case_number": 32,
+        "known_mismatch": false,
+        "verifier_verdict": "MISMATCH",
+        "verifier_explanation": "MISMATCH\n\nThe Conclusion introduces the concept of a \"past crime,\" which is not addressed in the given Rule and Application, both of which focus on an offence committed in the presence of the Magistrate.",
+        "note": "MISMATCH  The Conclusion introduces the concept of a \"past crime,\" which is not addressed in the given Rule and Application, both of which focus on an offence c"
+      },
+      {
+        "case_number": 33,
+        "known_mismatch": false,
+        "verifier_verdict": "MATCH",
+        "verifier_explanation": "MATCH The Conclusion correctly follows from the Rule and Application as it states that calling at least one of the two available witnesses is necessary for the document to be used as evidence, which aligns with the requirement set forth in the Rule.",
+        "note": "MATCH The Conclusion correctly follows from the Rule and Application as it states that calling at least one of the two available witnesses is necessary for the "
+      },
+      {
+        "case_number": 34,
+        "known_mismatch": false,
+        "verifier_verdict": "MATCH",
+        "verifier_explanation": "MATCH\n\nThe Conclusion directly follows from the Rule and Application as it correctly states that the court will not accept the application due to the thirty-day time limit being exceeded.",
+        "note": "MATCH  The Conclusion directly follows from the Rule and Application as it correctly states that the court will not accept the application due to the thirty-day"
+      },
+      {
+        "case_number": 35,
+        "known_mismatch": false,
+        "verifier_verdict": "MATCH",
+        "verifier_explanation": "MATCH\n\nThe Conclusion accurately reflects that section 341 of BNS 2023 prescribes penalties for making or possessing counterfeit seals and plates with the intent to commit forgery, which aligns with the Rule and Application provided. There is no internal contradiction in this legal analysis.",
+        "note": "MATCH  The Conclusion accurately reflects that section 341 of BNS 2023 prescribes penalties for making or possessing counterfeit seals and plates with the inten"
+      },
+      {
+        "case_number": 36,
+        "known_mismatch": false,
+        "verifier_verdict": "MISMATCH",
+        "verifier_explanation": "MISMATCH\n\nThe conclusion incorrectly states that three procedural steps must be completed after taking evidence for the prosecution and hearing both sides, whereas the rule and application clearly indicate these steps are prerequisites to considering an order of acquittal, not subsequent actions.",
+        "note": "MISMATCH  The conclusion incorrectly states that three procedural steps must be completed after taking evidence for the prosecution and hearing both sides, wher"
+      },
+      {
+        "case_number": 37,
+        "known_mismatch": false,
+        "verifier_verdict": "MATCH",
+        "verifier_explanation": "MATCH\n\nThe Conclusion accurately reflects the consequences stated in the Rule for attempting to seduce military personnel from their duty, which includes imprisonment for life or up to ten years and a fine.",
+        "note": "MATCH  The Conclusion accurately reflects the consequences stated in the Rule for attempting to seduce military personnel from their duty, which includes impris"
+      },
+      {
+        "case_number": 38,
+        "known_mismatch": false,
+        "verifier_verdict": "MATCH",
+        "verifier_explanation": "MATCH\n\nThe Conclusion correctly reflects that Executive Magistrates and police officers acting in good faith are protected from being deemed to have committed an offence, which is consistent with the Rule and Application provided.",
+        "note": "MATCH  The Conclusion correctly reflects that Executive Magistrates and police officers acting in good faith are protected from being deemed to have committed a"
+      },
+      {
+        "case_number": 39,
+        "known_mismatch": true,
+        "verifier_verdict": "MISMATCH",
+        "verifier_explanation": "MISMATCH\n\nThe conclusion states that the case has been deemed closed upon filing their final report, which contradicts the application's implication that no special order was made to direct further investigation and thus the case would not be closed due to the filing of the final report. The rule also allows for a superior officer to direct further investigation pending orders from the Magistrate, indicating the possibility of ongoing or future investigations despite the submission of a final report.",
+        "note": "MISMATCH  The conclusion states that the case has been deemed closed upon filing their final report, which contradicts the application's implication that no spe"
+      },
+      {
+        "case_number": 40,
+        "known_mismatch": false,
+        "verifier_verdict": "MATCH",
+        "verifier_explanation": "MATCH\n\nThe Conclusion logically follows from the Rule and Application as they both align in recognizing the husband's behavior as harassment intended to coerce, which is likely to cause grave injury or mental health damage, thus qualifying under the legal definition of \"cruelty.\"",
+        "note": "MATCH  The Conclusion logically follows from the Rule and Application as they both align in recognizing the husband's behavior as harassment intended to coerce,"
+      }
+    ]
+  }
+}

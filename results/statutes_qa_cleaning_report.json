@@ -1,0 +1,31 @@
+{
+  "statutes": {
+    "rows_before": 1059,
+    "rows_after": 1059,
+    "null_text_dropped": 0,
+    "duplicate_chunk_ids_dropped": 0,
+    "act_breakdown": {
+      "BNSS 2023": 531,
+      "BNS 2023": 358,
+      "BSA 2023": 170
+    }
+  },
+  "qa": {
+    "rows_before": 6354,
+    "rows_after_cleaning": 6354,
+    "null_rows_dropped": 0,
+    "duplicates_dropped": 0,
+    "chunk_id_mismatches": 0,
+    "chunk_id_mismatch_rate": 0.0,
+    "rows_usable_for_eval": 6354,
+    "mismatch_examples": [],
+    "question_type_breakdown": {
+      "definitional_topic": 1059,
+      "definitional_section": 1059,
+      "scenario": 1059,
+      "elements": 1059,
+      "exceptions": 1059,
+      "consequence": 1059
+    }
+  }
+}

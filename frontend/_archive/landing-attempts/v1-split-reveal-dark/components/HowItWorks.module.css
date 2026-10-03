@@ -1,0 +1,130 @@
+.section {
+  padding: 3.25rem 0 3.75rem;
+  background: var(--bg-how);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.panel {
+  width: 100%;
+}
+
+.heading {
+  margin: 0 0 0.55rem;
+  font-family: var(--font-serif);
+  font-size: clamp(1.55rem, 2.6vw, 2rem);
+  font-weight: var(--weight-heading);
+  letter-spacing: -0.018em;
+}
+
+.lede {
+  margin: 0 0 1.75rem;
+  font-weight: var(--weight-body);
+  color: var(--ink-secondary);
+  max-width: var(--measure);
+}
+
+.diagram {
+  display: flex;
+  align-items: stretch;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex: 1 1 180px;
+  min-width: 0;
+}
+
+.box {
+  flex: 1;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.15rem 1.05rem 1.1rem;
+  min-height: 128px;
+  background: var(--bg-raised-how);
+  color: var(--ink);
+  box-shadow: var(--shadow-card);
+}
+
+.num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.65rem;
+  height: 1.65rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 0.65rem;
+}
+
+.numteal {
+  border: 1px solid color-mix(in srgb, var(--accent-teal) 55%, var(--border));
+  background: color-mix(in srgb, var(--accent-teal) 22%, var(--bg-raised-how));
+  color: var(--accent-teal);
+}
+
+.numamber {
+  border: 1px solid color-mix(in srgb, var(--accent) 55%, var(--border));
+  background: color-mix(in srgb, var(--accent) 22%, var(--bg-raised-how));
+  color: var(--accent);
+}
+
+.numrose {
+  border: 1px solid color-mix(in srgb, var(--accent-rose) 55%, var(--border));
+  background: color-mix(in srgb, var(--accent-rose) 22%, var(--bg-raised-how));
+  color: var(--accent-rose);
+}
+
+.numgreen {
+  border: 1px solid color-mix(in srgb, var(--accent-green) 55%, var(--border));
+  background: color-mix(in srgb, var(--accent-green) 22%, var(--bg-raised-how));
+  color: var(--accent-green);
+}
+
+.title {
+  margin: 0 0 0.3rem;
+  font-weight: 650;
+  font-size: 1.02rem;
+  color: inherit;
+}
+
+.phrase {
+  margin: 0;
+  font-size: 0.86rem;
+  font-weight: var(--weight-body);
+  line-height: 1.35;
+  color: var(--ink-secondary);
+}
+
+.arrow {
+  width: 36px;
+  flex: 0 0 auto;
+  color: var(--ink-tertiary);
+}
+
+@media (max-width: 720px) {
+  .section {
+    padding: 2.5rem 0 3rem;
+  }
+
+  .diagram {
+    flex-direction: column;
+  }
+
+  .item {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .arrow {
+    transform: rotate(90deg);
+    align-self: center;
+    margin: 0.15rem 0;
+  }
+}

@@ -1,0 +1,196 @@
+.wrap {
+  width: 100%;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.sectionWrap {
+  margin-top: 0;
+}
+
+.wrap.drawn,
+.wrap.static {
+  opacity: 1;
+  transform: none;
+}
+
+.svg {
+  width: 100%;
+  height: auto;
+  max-height: 88px;
+  overflow: visible;
+}
+
+.sectionSvg {
+  max-height: 140px;
+}
+
+.labelLg {
+  font-size: 18px !important;
+  letter-spacing: 0.03em;
+}
+
+.track {
+  opacity: 0.5;
+}
+
+.segIpc,
+.segBns {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+}
+
+.drawn .segIpc {
+  animation: draw-line 1s cubic-bezier(0.22, 1, 0.36, 1) 0.12s forwards;
+}
+
+.drawn .segBns {
+  animation: draw-line 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.9s forwards;
+}
+
+.static .segIpc,
+.static .segBns {
+  stroke-dashoffset: 0;
+  animation: none;
+}
+
+.cutoff {
+  opacity: 0;
+}
+
+.drawn .cutoff {
+  animation: fade-in 0.4s ease 1s forwards;
+}
+
+.static .cutoff {
+  opacity: 1;
+}
+
+.markerGroup {
+  opacity: 0;
+}
+
+.drawn .markerGroup {
+  animation: travel 1.65s cubic-bezier(0.22, 1, 0.36, 1) 0.2s forwards;
+}
+
+.static .markerGroup {
+  opacity: 1;
+  transform: translateX(var(--travel));
+  animation: none;
+}
+
+.marker {
+  filter: drop-shadow(0 0 0 transparent);
+}
+
+.drawn .marker {
+  animation: marker-settle 2.8s ease 1.9s infinite;
+}
+
+.labelIpc,
+.labelCut,
+.labelBns {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  fill: var(--ink-tertiary);
+  opacity: 0;
+}
+
+.labelBns {
+  fill: var(--accent);
+  font-weight: 600;
+}
+
+.drawn .labelIpc {
+  animation: fade-in 0.4s ease 0.5s forwards;
+}
+
+.drawn .labelCut {
+  animation: fade-in 0.4s ease 1.05s forwards;
+}
+
+.drawn .labelBns {
+  animation: fade-in 0.4s ease 1.55s forwards;
+}
+
+.static .labelIpc,
+.static .labelCut,
+.static .labelBns {
+  opacity: 1;
+}
+
+@keyframes draw-line {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes fade-in {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes travel {
+  0% {
+    opacity: 0;
+    transform: translateX(0);
+  }
+  8% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(var(--travel));
+  }
+}
+
+@keyframes marker-settle {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 0 transparent);
+  }
+  50% {
+    filter: drop-shadow(0 0 5px color-mix(in srgb, var(--accent) 50%, transparent));
+  }
+}
+
+@media (max-width: 640px) {
+  .wrap {
+    margin-top: 1.35rem;
+  }
+
+  .labelIpc,
+  .labelCut,
+  .labelBns {
+    font-size: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .segIpc,
+  .segBns {
+    stroke-dashoffset: 0;
+    animation: none !important;
+  }
+
+  .cutoff,
+  .labelIpc,
+  .labelCut,
+  .labelBns,
+  .markerGroup {
+    opacity: 1;
+    animation: none !important;
+  }
+
+  .markerGroup {
+    transform: translateX(var(--travel));
+  }
+
+  .marker {
+    animation: none !important;
+  }
+}

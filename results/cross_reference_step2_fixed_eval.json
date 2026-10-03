@@ -1,0 +1,14 @@
+{
+  "n": 635,
+  "sections_with_crossrefs": 339,
+  "total_crossref_links": 927,
+  "strict_recall_at_5": 0.8299212598425196,
+  "relaxed_recall_at_5": 0.8440944881889764,
+  "additional_hits_from_relaxed_metric": 9,
+  "prior_run_for_comparison": {
+    "sections_with_crossrefs": 319,
+    "strict_recall_at_5": 0.8299,
+    "relaxed_recall_at_5": 0.8425,
+    "additional_hits": 8
+  }
+}

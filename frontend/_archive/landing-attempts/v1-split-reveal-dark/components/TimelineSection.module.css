@@ -1,0 +1,44 @@
+.section {
+  padding: 5.5rem 0;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.inner {
+  width: min(90%, 1120px);
+  margin-inline: auto;
+  padding-inline: 0;
+}
+
+.kicker {
+  margin: 0 0 0.65rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.heading {
+  margin: 0 0 2.75rem;
+  font-family: var(--font-serif);
+  font-size: clamp(1.55rem, 2.8vw, 2.1rem);
+  font-weight: var(--weight-heading);
+  letter-spacing: -0.02em;
+  max-width: 28rem;
+  line-height: 1.25;
+}
+
+.timeline {
+  width: 100%;
+}
+
+@media (max-width: 640px) {
+  .section {
+    padding: 3.5rem 0;
+  }
+
+  .heading {
+    margin-bottom: 1.75rem;
+  }
+}

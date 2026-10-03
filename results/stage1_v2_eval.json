@@ -1,0 +1,146 @@
+{
+  "real_govintel_accuracy": 1.0,
+  "stress_test_score": "14/14",
+  "stress_results": [
+    {
+      "text": "Someone cheated me last March, taking Rs 20,000.",
+      "note": "relative date, unparseable",
+      "extracted_date": "None",
+      "matched_text": null,
+      "extracted_route": "CLARIFY",
+      "expected_route": "CLARIFY",
+      "reason": "no_date_found",
+      "correct": true
+    },
+    {
+      "text": "This happened a few months ago at my shop.",
+      "note": "vague, no date",
+      "extracted_date": "None",
+      "matched_text": null,
+      "extracted_route": "CLARIFY",
+      "expected_route": "CLARIFY",
+      "reason": "no_date_found",
+      "correct": true
+    },
+    {
+      "text": "He threatened me recently over a land dispute.",
+      "note": "vague, no date",
+      "extracted_date": "None",
+      "matched_text": null,
+      "extracted_route": "CLARIFY",
+      "expected_route": "CLARIFY",
+      "reason": "no_date_found",
+      "correct": true
+    },
+    {
+      "text": "My neighbour keeps harassing me and I want to file a complaint.",
+      "note": "no date mentioned",
+      "extracted_date": "None",
+      "matched_text": null,
+      "extracted_route": "CLARIFY",
+      "expected_route": "CLARIFY",
+      "reason": "no_date_found",
+      "correct": true
+    },
+    {
+      "text": "Someone stole my phone at the railway station.",
+      "note": "no date mentioned",
+      "extracted_date": "None",
+      "matched_text": null,
+      "extracted_route": "CLARIFY",
+      "expected_route": "CLARIFY",
+      "reason": "no_date_found",
+      "correct": true
+    },
+    {
+      "text": "I am filing this complaint on 10 August 2024 regarding an incident that occurred on 15 March 2024.",
+      "note": "filing date first, offense date second",
+      "extracted_date": "2024-03-15",
+      "matched_text": "15 March 2024",
+      "extracted_route": "IPC",
+      "expected_route": "IPC",
+      "reason": "multi_date_context_resolved",
+      "correct": true
+    },
+    {
+      "text": "The FIR was registered on 2 July 2024. The actual assault took place on 28 June 2024.",
+      "note": "FIR date first, assault date second",
+      "extracted_date": "2024-06-28",
+      "matched_text": "28 June 2024",
+      "extracted_route": "IPC",
+      "expected_route": "IPC",
+      "reason": "multi_date_context_resolved",
+      "correct": true
+    },
+    {
+      "text": "As of today's date, 20 August 2024, I want to report a theft that happened on 5 June 2024.",
+      "note": "today's date first, theft date second",
+      "extracted_date": "2024-06-05",
+      "matched_text": "5 June 2024",
+      "extracted_route": "IPC",
+      "expected_route": "IPC",
+      "reason": "multi_date_context_resolved",
+      "correct": true
+    },
+    {
+      "text": "On 10 July 2024 the police recorded my statement about the incident of 25 June 2024.",
+      "note": "statement date vs incident date",
+      "extracted_date": "2024-06-25",
+      "matched_text": "25 June 2024",
+      "extracted_route": "IPC",
+      "expected_route": "IPC",
+      "reason": "multi_date_context_resolved",
+      "correct": true
+    },
+    {
+      "text": "The incident occurred on 30 June 2024.",
+      "note": "one day before cutoff",
+      "extracted_date": "2024-06-30",
+      "matched_text": "30 June 2024",
+      "extracted_route": "IPC",
+      "expected_route": "IPC",
+      "reason": "single_date",
+      "correct": true
+    },
+    {
+      "text": "The incident occurred on 1 July 2024.",
+      "note": "exactly on cutoff",
+      "extracted_date": "2024-07-01",
+      "matched_text": "1 July 2024",
+      "extracted_route": "BNS",
+      "expected_route": "BNS",
+      "reason": "single_date",
+      "correct": true
+    },
+    {
+      "text": "The incident occurred on 2 July 2024.",
+      "note": "one day after cutoff",
+      "extracted_date": "2024-07-02",
+      "matched_text": "2 July 2024",
+      "extracted_route": "BNS",
+      "expected_route": "BNS",
+      "reason": "single_date",
+      "correct": true
+    },
+    {
+      "text": "It happened on 15/03/24.",
+      "note": "2-digit year, DD/MM assumed",
+      "extracted_date": "2024-03-15",
+      "matched_text": "15/03/24",
+      "extracted_route": "IPC",
+      "expected_route": "IPC",
+      "reason": "single_date",
+      "correct": true
+    },
+    {
+      "text": "Incident date: 07-01-2024",
+      "note": "ambiguous numeric DD-MM vs MM-DD",
+      "extracted_date": "None",
+      "matched_text": "07-01-2024",
+      "extracted_route": "CLARIFY",
+      "expected_route": null,
+      "reason": "ambiguous_numeric_format",
+      "correct": true
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "raw_full_text": {
+    "label": "raw_full_text",
+    "n": 300,
+    "recall_at_5": 0.91,
+    "mrr": 0.7029444444444444,
+    "keyword_extraction_matched": 0
+  },
+  "keyword_extracted_phrase": {
+    "label": "keyword_extracted_phrase",
+    "n": 300,
+    "recall_at_5": 0.26,
+    "mrr": 0.16666666666666666,
+    "keyword_extraction_matched": 213
+  }
+}

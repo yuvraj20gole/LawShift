@@ -1,0 +1,118 @@
+{
+  "n": 302,
+  "combined_e5_acc": 0.8774834437086093,
+  "e8_acc": 0.8377483443708609,
+  "n_disagreements": 18,
+  "combined_e5_only_correct": 15,
+  "e8_only_correct": 3,
+  "disagreements": [
+    {
+      "question": "A woman harboured her husband and his associates, knowing they had just committed dacoity, intending to screen them from arrest. The act occurred on J",
+      "gold_chunk_id": "IPC_216A",
+      "combined_e5_correct": true,
+      "original_e8_correct": false
+    },
+    {
+      "question": "A person violated a quarantine order on June 15, 2024. The police filed the charge sheet on July 10, 2024, citing BNS Section 273. The defense objects",
+      "gold_chunk_id": "IPC_271",
+      "combined_e5_correct": true,
+      "original_e8_correct": false
+    },
+    {
+      "question": "A clerk in a government office creates a false entry in a land registry record on February 20, 2024, intending that it appear in evidence in a pending",
+      "gold_chunk_id": "IPC_192",
+      "combined_e5_correct": true,
+      "original_e8_correct": false
+    },
+    {
+      "question": "A complaint of intent to disrobe is filed on August 10, 2024, alleging an incident on March 20, 2024. Which substantive law applies and why?",
+      "gold_chunk_id": "IPC_354B",
+      "combined_e5_correct": true,
+      "original_e8_correct": false
+    },
+    {
+      "question": "A person kept an unauthorized lottery office on June 20, 2024. Compare the fine limits under IPC and BNS for the publishing proposal offense.",
+      "gold_chunk_id": "IPC_294A",
+      "combined_e5_correct": true,
+      "original_e8_correct": false
+    },
+    {
+      "question": "A person is arrested on March 10, 2024 for counterfeiting coins. Does the BNS or IPC apply, and what is the specific IPC section that would govern?",
+      "gold_chunk_id": "IPC_231",
+      "combined_e5_correct": true,
+      "original_e8_correct": false
+    },
+    {
+      "question": "A man has sexual intercourse with a married woman on June 15, 2024 without her husband's consent. The husband files a complaint on August 10, 2024. Id",
+      "gold_chunk_id": "IPC_497",
+      "combined_e5_correct": true,
+      "original_e8_correct": false
+    },
+    {
+      "question": "A forged document was created on June 20, 2024. Which law applies and what is the temporal jurisdiction rule?",
+      "gold_chunk_id": "IPC_463",
+      "combined_e5_correct": false,
+      "original_e8_correct": true
+    },
+    {
+      "question": "A Magistrate delivered a corrupt acquittal on January 15, 2024. Which law applies and what is the significance of the 'corruptly or maliciously' requi",
+      "gold_chunk_id": "IPC_219",
+      "combined_e5_correct": true,
+      "original_e8_correct": false
+    },
+    {
+      "question": "A social media post defaming a business competitor was made on December 1, 2023. The complaint was filed on September 1, 2024. Does IPC or BNS apply, ",
+      "gold_chunk_id": "IPC_499",
+      "combined_e5_correct": true,
+      "original_e8_correct": false
+    },
+    {
+      "question": "A man threatens to burn down a shopkeeper's store unless he pays Rs. 50,000. The incident occurred on June 15, 2024. Identify the applicable offense s",
+      "gold_chunk_id": "IPC_385",
+      "combined_e5_correct": false,
+      "original_e8_correct": true
+    },
+    {
+      "question": "An acid attack occurred on June 20, 2024. Which substantive law applies and why? What procedural differences exist if the case were tried under IPC ve",
+      "gold_chunk_id": "IPC_326A",
+      "combined_e5_correct": true,
+      "original_e8_correct": false
+    },
+    {
+      "question": "A person gives false evidence in a court proceeding on March 10, 2024. Does IPC or BNS apply, and what is the temporal jurisdiction rule?",
+      "gold_chunk_id": "IPC_193",
+      "combined_e5_correct": false,
+      "original_e8_correct": true
+    },
+    {
+      "question": "An offence was committed on June 15, 2024, and the trial concluded on August 10, 2024. The court wishes to impose community service as part of the sen",
+      "gold_chunk_id": "IPC_53",
+      "combined_e5_correct": true,
+      "original_e8_correct": false
+    },
+    {
+      "question": "A man enters a residential building at night, hides in the shadows to avoid detection by the security guard, and is caught on CCTV. The incident occur",
+      "gold_chunk_id": "IPC_443",
+      "combined_e5_correct": true,
+      "original_e8_correct": false
+    },
+    {
+      "question": "A person is found with machinery and materials capable of producing counterfeit Indian currency notes on June 15, 2024. Identify the applicable offens",
+      "gold_chunk_id": "IPC_489A",
+      "combined_e5_correct": true,
+      "original_e8_correct": false
+    },
+    {
+      "question": "A newspaper publishes a defamatory article about a politician on June 15, 2024. The politician files a complaint on August 10, 2024. Identify the appl",
+      "gold_chunk_id": "IPC_499",
+      "combined_e5_correct": true,
+      "original_e8_correct": false
+    },
+    {
+      "question": "A person committed cheating by electronic means on June 20, 2024. Explain the temporal jurisdiction issue and whether the special jurisdictional rule ",
+      "gold_chunk_id": "IPC_415",
+      "combined_e5_correct": true,
+      "original_e8_correct": false
+    }
+  ]
+}

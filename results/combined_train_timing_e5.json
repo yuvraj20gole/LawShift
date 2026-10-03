@@ -1,0 +1,9 @@
+{
+  "wall_clock_seconds": 2392.0745420455933,
+  "warmup_steps": 57,
+  "batch_size": 16,
+  "training_pairs": 9121,
+  "gsms_pairs": 5083,
+  "govintel_pairs": 4038,
+  "epochs": 5
+}

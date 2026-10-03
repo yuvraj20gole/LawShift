@@ -1,0 +1,31 @@
+{
+  "n_starting": 161,
+  "n_dropped_hypothetical": 11,
+  "n_dropped_procedural_only": 136,
+  "n_kept_lt_two_date_spans": 0,
+  "n_remaining": 14,
+  "batch1_confirmed_sanity": [
+    {
+      "snippet": "forging a valuable security (promissory note) on January 10, 2024",
+      "survived": false,
+      "where": "procedural_only"
+    },
+    {
+      "snippet": "removed revenue stamps from documents on June 28, 2024",
+      "survived": true,
+      "where": "filtered"
+    },
+    {
+      "snippet": "erased usage marks from stamps on June 29, 2024",
+      "survived": true,
+      "where": "filtered"
+    },
+    {
+      "snippet": "forged will was created on June 20, 2024",
+      "survived": true,
+      "where": "filtered"
+    }
+  ],
+  "filter_too_aggressive": true,
+  "note": "Filter A = hypothetical rephrasing regex on the question. Filter B = >=2 date spans in the question with net offense-context score > 0 (expanded Batch-1 keyword lists, window 45). Cases with <2 date spans kept rather than dropped."
+}

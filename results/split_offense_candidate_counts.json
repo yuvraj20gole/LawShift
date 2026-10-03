@@ -1,0 +1,13 @@
+{
+  "n_combined_rows": 14280,
+  "n_train_rows": 12859,
+  "n_eval_rows": 1421,
+  "n_skipped_no_messages": 0,
+  "n_candidates": 532,
+  "n_continuing_language": 376,
+  "n_multi_date_question": 187,
+  "n_both_signals": 31,
+  "n_train_candidates": 475,
+  "n_eval_candidates": 57,
+  "note": "Candidate mine only. No routing correctness judged. Signals: continuing-language in user or assistant; 2+ distinct calendar dates in the user question."
+}

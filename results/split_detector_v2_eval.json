@@ -1,0 +1,323 @@
+{
+  "n_genuine": 9,
+  "n_correct": 9,
+  "accuracy_genuine": 1.0,
+  "n_ambiguous": 6,
+  "n_ambiguous_flagged_split": 2,
+  "excluded_two_separate_acts": [
+    77,
+    109,
+    116
+  ],
+  "note": "Catch rate on the hand-labeled 9 genuine splits. Keyword matching is word-boundary (keyword_in_context); 'use' is a standalone offense keyword.",
+  "genuine_results": [
+    {
+      "case_number": 2,
+      "label": "genuine_split",
+      "detector_kind": "split",
+      "detector_reason": "act_dates_straddle_cutoff",
+      "detector_periods": [
+        {
+          "date": "2024-01-10",
+          "route": "IPC",
+          "matched_text": "January 10, 2024",
+          "score": 2
+        },
+        {
+          "date": "2024-08-15",
+          "route": "BNS",
+          "matched_text": "August 15, 2024",
+          "score": 1
+        }
+      ],
+      "detector_single_route": null,
+      "correctly_flagged_as_split": true
+    },
+    {
+      "case_number": 4,
+      "label": "genuine_split",
+      "detector_kind": "split",
+      "detector_reason": "act_dates_straddle_cutoff",
+      "detector_periods": [
+        {
+          "date": "2024-06-28",
+          "route": "IPC",
+          "matched_text": "June 28, 2024",
+          "score": 0
+        },
+        {
+          "date": "2024-07-05",
+          "route": "BNS",
+          "matched_text": "July 5, 2024",
+          "score": 1
+        }
+      ],
+      "detector_single_route": null,
+      "correctly_flagged_as_split": true
+    },
+    {
+      "case_number": 12,
+      "label": "genuine_split",
+      "detector_kind": "split",
+      "detector_reason": "act_dates_straddle_cutoff",
+      "detector_periods": [
+        {
+          "date": "2024-06-29",
+          "route": "IPC",
+          "matched_text": "June 29, 2024",
+          "score": 2
+        },
+        {
+          "date": "2024-07-02",
+          "route": "BNS",
+          "matched_text": "July 2, 2024",
+          "score": 1
+        }
+      ],
+      "detector_single_route": null,
+      "correctly_flagged_as_split": true
+    },
+    {
+      "case_number": 18,
+      "label": "genuine_split",
+      "detector_kind": "split",
+      "detector_reason": "act_dates_straddle_cutoff",
+      "detector_periods": [
+        {
+          "date": "2024-06-20",
+          "route": "IPC",
+          "matched_text": "June 20, 2024",
+          "score": 3
+        },
+        {
+          "date": "2024-09-05",
+          "route": "BNS",
+          "matched_text": "September 5, 2024",
+          "score": 1
+        }
+      ],
+      "detector_single_route": null,
+      "correctly_flagged_as_split": true
+    },
+    {
+      "case_number": 70,
+      "label": "genuine_split",
+      "detector_kind": "split",
+      "detector_reason": "continuing_language_and_straddle",
+      "detector_periods": [
+        {
+          "date": "2024-06-25",
+          "route": "IPC",
+          "matched_text": "June 25, 2024",
+          "score": 1
+        },
+        {
+          "date": "2024-07-01",
+          "route": "BNS",
+          "matched_text": "July 1, 2024",
+          "score": 0
+        }
+      ],
+      "detector_single_route": null,
+      "correctly_flagged_as_split": true
+    },
+    {
+      "case_number": 85,
+      "label": "genuine_split",
+      "detector_kind": "split",
+      "detector_reason": "act_dates_straddle_cutoff",
+      "detector_periods": [
+        {
+          "date": "2024-06-15",
+          "route": "IPC",
+          "matched_text": "June 15, 2024",
+          "score": 2
+        },
+        {
+          "date": "2024-07-10",
+          "route": "BNS",
+          "matched_text": "July 10, 2024",
+          "score": 1
+        }
+      ],
+      "detector_single_route": null,
+      "correctly_flagged_as_split": true
+    },
+    {
+      "case_number": 98,
+      "label": "genuine_split",
+      "detector_kind": "split",
+      "detector_reason": "act_dates_straddle_cutoff",
+      "detector_periods": [
+        {
+          "date": "2024-06-28",
+          "route": "IPC",
+          "matched_text": "June 28, 2024",
+          "score": 3
+        },
+        {
+          "date": "2024-07-03",
+          "route": "BNS",
+          "matched_text": "July 3, 2024",
+          "score": 3
+        }
+      ],
+      "detector_single_route": null,
+      "correctly_flagged_as_split": true
+    },
+    {
+      "case_number": 146,
+      "label": "genuine_split",
+      "detector_kind": "split",
+      "detector_reason": "act_dates_straddle_cutoff",
+      "detector_periods": [
+        {
+          "date": "2024-06-30",
+          "route": "IPC",
+          "matched_text": "June 30, 2024",
+          "score": 1
+        },
+        {
+          "date": "2024-07-05",
+          "route": "BNS",
+          "matched_text": "July 5, 2024",
+          "score": 0
+        }
+      ],
+      "detector_single_route": null,
+      "correctly_flagged_as_split": true
+    },
+    {
+      "case_number": 156,
+      "label": "genuine_split",
+      "detector_kind": "split",
+      "detector_reason": "act_dates_straddle_cutoff",
+      "detector_periods": [
+        {
+          "date": "2024-06-28",
+          "route": "IPC",
+          "matched_text": "June 28, 2024",
+          "score": 1
+        },
+        {
+          "date": "2024-07-05",
+          "route": "BNS",
+          "matched_text": "July 5, 2024",
+          "score": 1
+        }
+      ],
+      "detector_single_route": null,
+      "correctly_flagged_as_split": true
+    }
+  ],
+  "ambiguous_results": [
+    {
+      "case_number": 14,
+      "label": "ambiguous",
+      "detector_kind": "split",
+      "detector_reason": "act_dates_straddle_cutoff",
+      "detector_periods": [
+        {
+          "date": "2024-06-30",
+          "route": "IPC",
+          "matched_text": "June 30, 2024",
+          "score": 1
+        },
+        {
+          "date": "2024-07-02",
+          "route": "BNS",
+          "matched_text": "July 2, 2024",
+          "score": 1
+        }
+      ],
+      "detector_single_route": null,
+      "correctly_flagged_as_split": true
+    },
+    {
+      "case_number": 24,
+      "label": "ambiguous",
+      "detector_kind": "single",
+      "detector_reason": "tied_fallback_first_date",
+      "detector_periods": [
+        {
+          "date": "2024-06-20",
+          "route": "IPC",
+          "matched_text": "June 20, 2024",
+          "score": null
+        }
+      ],
+      "detector_single_route": "IPC",
+      "correctly_flagged_as_split": false
+    },
+    {
+      "case_number": 54,
+      "label": "ambiguous",
+      "detector_kind": "single",
+      "detector_reason": "tied_fallback_first_date",
+      "detector_periods": [
+        {
+          "date": "2024-06-15",
+          "route": "IPC",
+          "matched_text": "June 15, 2024",
+          "score": null
+        }
+      ],
+      "detector_single_route": "IPC",
+      "correctly_flagged_as_split": false
+    },
+    {
+      "case_number": 79,
+      "label": "ambiguous",
+      "detector_kind": "split",
+      "detector_reason": "act_dates_straddle_cutoff",
+      "detector_periods": [
+        {
+          "date": "2024-06-20",
+          "route": "IPC",
+          "matched_text": "June 20, 2024",
+          "score": 2
+        },
+        {
+          "date": "2024-07-01",
+          "route": "BNS",
+          "matched_text": "July 1, 2024",
+          "score": 1
+        }
+      ],
+      "detector_single_route": null,
+      "correctly_flagged_as_split": true
+    },
+    {
+      "case_number": 123,
+      "label": "ambiguous",
+      "detector_kind": "single",
+      "detector_reason": "tied_fallback_first_date",
+      "detector_periods": [
+        {
+          "date": "2024-06-20",
+          "route": "IPC",
+          "matched_text": "June 20, 2024",
+          "score": null
+        }
+      ],
+      "detector_single_route": "IPC",
+      "correctly_flagged_as_split": false
+    },
+    {
+      "case_number": 139,
+      "label": "ambiguous",
+      "detector_kind": "single",
+      "detector_reason": "multi_date_context_resolved",
+      "detector_periods": [
+        {
+          "date": "2024-07-05",
+          "route": "BNS",
+          "matched_text": "July 5, 2024",
+          "score": null
+        }
+      ],
+      "detector_single_route": "BNS",
+      "correctly_flagged_as_split": false
+    }
+  ]
+}

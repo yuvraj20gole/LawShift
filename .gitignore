@@ -1,0 +1,51 @@
+# Python
+.venv/
+.venv.*/
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Node / Next.js
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+frontend/build/
+frontend/coverage/
+frontend/.vercel/
+*.tsbuildinfo
+
+# Secrets / env
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials.json
+secrets.json
+
+# Fine-tuned checkpoints (~1.3GB total; each model.safetensors ~127MB).
+# Share later via Git LFS or a separate download step — not for a normal clone.
+models/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*~
+
+# Local screenshots (not for repo)
+screenshots/
+
+# Misc local / tooling caches
+.impeccable/
+.cursor/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

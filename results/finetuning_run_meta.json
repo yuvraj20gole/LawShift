@@ -1,0 +1,10 @@
+{
+  "train_size": 5083,
+  "val_size": 635,
+  "test_size": 636,
+  "training_pairs": 5083,
+  "epochs": 3,
+  "batch_size": 16,
+  "warmup_steps": 31,
+  "finetuning_wall_clock_seconds": 1007.9715940952301
+}
