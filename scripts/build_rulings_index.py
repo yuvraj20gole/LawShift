@@ -438,22 +438,36 @@ def extract_sc_case_no_text(raw_html: str | None) -> str | None:
     return text or None
 
 
-def parse_sc_case_number(raw_html: str | None) -> str | None:
-    """Full case number from Case No text, normalized to PDF style.
+def parse_sc_case_number(raw_html: str | None) -> tuple[str | None, str]:
+    """Full case number from Case No text, plus kind (``case`` | ``diary``).
 
     Metadata uses e.g. ``CIVIL APPEAL No. 10658/2026``; PDFs print
-    ``Civil Appeal No. 10658 of 2026``. Unparseable → None.
+    ``Civil Appeal No. 10658 of 2026``. Diary rows use
+    ``DIARYNO AND DIARYYR No. 5988/2026`` → ``Diary No. 5988 of 2026``.
+    Unparseable number → (None, kind).
     """
     text = extract_sc_case_no_text(raw_html)
     if not text:
-        return None
+        return None, "case"
+
+    # Diary registration numbers (not a disposed case type label).
+    if re.search(r"\bDIARYNO\s+AND\s+DIARYYR\b|\bDIARY\s*NO\.?\b", text, re.I):
+        m = re.search(
+            r"No\.?\s*(\d+)\s*(?:/|\s+of\s+)\s*(\d{4})",
+            text,
+            re.I,
+        )
+        if not m:
+            return None, "diary"
+        return f"Diary No. {m.group(1)} of {m.group(2)}", "diary"
+
     m = re.search(
         r"^(.+?)\s+No\.?\s*(\d+)\s*(?:/|\s+of\s+)\s*(\d{4})\s*$",
         text,
         re.I,
     )
     if not m:
-        return None
+        return None, "case"
     kind = re.sub(r"\s+", " ", m.group(1)).strip()
     # Title-case the type words; keep parenthetical Civil/Criminal tidy.
     kind_norm = kind.title()
@@ -463,7 +477,7 @@ def parse_sc_case_number(raw_html: str | None) -> str | None:
         kind_norm,
         flags=re.I,
     )
-    return f"{kind_norm} No. {m.group(2)} of {m.group(3)}"
+    return f"{kind_norm} No. {m.group(2)} of {m.group(3)}", "case"
 
 
 def sc_case_type_from_row(
@@ -595,8 +609,9 @@ def make_entry(
     branch: str,
     link: str,
     case_number: str | None = None,
+    case_number_kind: str | None = None,
 ) -> dict:
-    return {
+    entry = {
         "court": court,
         "decidedOn": decided.isoformat(),
         "title": title.strip(),
@@ -607,6 +622,9 @@ def make_entry(
         "link": link,
         "linkKind": "archive",  # S3 OpenNyAI-style archive, not sci.gov.in / bombayhighcourt.nic.in
     }
+    if case_number_kind is not None:
+        entry["caseNumberKind"] = case_number_kind  # "case" | "diary"
+    return entry
 
 
 def bombay_case_number(title: str, case_type: str, case_no: str | None) -> str:
@@ -783,6 +801,7 @@ def collect_supreme_court(
                 continue
             branch = map_branch(case_type)
             path = rows.get("path", [None] * n)[i]
+            case_number, case_number_kind = parse_sc_case_number(raw_html)
             item = make_entry(
                 court="Supreme Court of India",
                 decided=decided,
@@ -790,7 +809,8 @@ def collect_supreme_court(
                 case_type=case_type,
                 branch=branch,
                 link=sc_pdf_link(year, path),
-                case_number=parse_sc_case_number(raw_html),
+                case_number=case_number,
+                case_number_kind=case_number_kind,
             )
             batch.append((decided, item))
 

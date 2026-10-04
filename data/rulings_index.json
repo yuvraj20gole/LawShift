@@ -1,5 +1,5 @@
 {
-  "generatedOn": "2026-10-04T06:26:50Z",
+  "generatedOn": "2026-10-04T07:31:33Z",
   "runDate": "2026-10-04",
   "courts": {
     "Supreme Court of India": {
@@ -577,7 +577,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_8_480_488_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -588,7 +589,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_8_564_574_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -599,7 +601,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_8_489_505_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -610,7 +613,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_8_550_563_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -621,7 +625,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_8_472_479_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -632,7 +637,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_8_453_471_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -643,7 +649,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_8_185_203_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -654,7 +661,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_8_104_159_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -665,7 +673,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_8_204_217_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -676,7 +685,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_8_88_103_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -687,7 +697,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_8_160_184_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -698,7 +709,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_8_218_253_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -709,7 +721,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_7_581_604_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -720,7 +733,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_7_571_580_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -731,7 +745,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_7_518_537_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -742,7 +757,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_7_504_517_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -753,7 +769,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_7_538_553_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -764,7 +781,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_7_554_570_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -775,7 +793,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_7_481_493_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -786,7 +805,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_7_494_503_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -797,7 +817,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_7_379_400_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -808,7 +829,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_7_175_186_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -819,7 +841,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_7_187_194_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -830,7 +853,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_7_113_141_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -841,7 +865,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_7_101_112_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -852,7 +877,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_7_75_100_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -863,7 +889,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_7_240_254_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -874,7 +901,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_7_255_296_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -885,7 +913,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_7_297_302_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -896,7 +925,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_7_220_239_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -907,7 +937,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_7_49_66_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -918,7 +949,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_7_39_48_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -929,7 +961,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_7_21_38_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -940,7 +973,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_7_11_20_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -951,7 +985,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_7_1_10_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -962,18 +997,20 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_7_142_174_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
       "decidedOn": "2026-06-01",
       "title": "CA RAMCHANDRA DALLARAM CHOUDHARY versus ADANI INFRASTRUCTURE AND DEVELOPERS PRIVATE LIMITED",
       "caseType": "INSC",
-      "caseNumber": "Diaryno And Diaryyr No. 5988 of 2026",
+      "caseNumber": "Diary No. 5988 of 2026",
       "branch": "other",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_7_208_219_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "diary"
     },
     {
       "court": "Supreme Court of India",
@@ -984,7 +1021,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_6_604_620_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -995,7 +1033,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_6_592_603_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1006,7 +1045,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_6_509_520_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1017,7 +1057,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_6_539_591_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1028,7 +1069,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_6_521_538_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1039,7 +1081,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_6_458_485_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1050,7 +1093,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_6_446_457_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1061,7 +1105,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_6_486_508_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1072,7 +1117,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_6_424_445_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1083,7 +1129,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_6_410_423_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1094,7 +1141,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_6_263_282_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1105,7 +1153,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_6_294_310_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1116,7 +1165,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_5_577_583_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1127,7 +1177,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_5_597_616_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1138,7 +1189,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_5_584_596_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1149,7 +1201,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_5_550_566_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1160,7 +1213,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_5_479_521_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1171,7 +1225,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_5_453_478_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1182,7 +1237,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_5_522_549_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1193,7 +1249,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_5_441_452_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1204,7 +1261,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_5_567_576_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1215,7 +1273,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_5_404_420_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1226,7 +1285,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_5_421_440_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1237,7 +1297,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_5_364_403_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1248,7 +1309,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_5_273_289_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1259,7 +1321,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_5_301_346_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1270,7 +1333,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_5_347_363_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1281,7 +1345,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_5_290_300_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1292,7 +1357,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_5_238_272_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1303,7 +1369,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_5_210_220_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1314,7 +1381,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_5_160_174_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1325,7 +1393,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_4_593_599_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1336,7 +1405,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_5_175_209_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1347,7 +1417,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_5_119_134_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1358,7 +1429,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_4_508_549_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1369,7 +1441,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_4_565_592_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1380,7 +1453,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_5_135_145_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1391,7 +1465,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_5_146_153_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1402,7 +1477,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_4_503_507_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1413,7 +1489,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_4_459_478_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1424,7 +1501,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_5_154_159_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1435,7 +1513,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_4_494_502_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1446,7 +1525,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_5_221_237_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1457,7 +1537,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_5_86_118_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1468,7 +1549,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_4_479_493_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1479,7 +1561,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_4_433_443_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1490,7 +1573,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_5_67_85_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1501,7 +1585,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_4_444_458_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1512,7 +1597,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_4_417_432_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1523,7 +1609,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_5_26_36_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1534,7 +1621,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_4_600_620_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1545,7 +1633,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_5_37_66_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1556,7 +1645,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_4_398_416_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1567,7 +1657,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_4_381_397_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1578,7 +1669,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_4_368_380_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1589,7 +1681,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_4_331_349_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1600,7 +1693,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_4_298_312_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1611,7 +1705,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_4_350_367_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1622,7 +1717,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_4_273_285_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1633,7 +1729,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_4_286_297_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1644,7 +1741,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_4_313_330_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1655,7 +1753,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_4_221_238_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1666,7 +1765,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_4_239_248_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1677,7 +1777,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_4_249_272_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1688,7 +1789,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_4_202_220_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1699,7 +1801,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_4_151_183_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1710,7 +1813,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_3_576_585_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1721,7 +1825,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_3_586_604_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1732,7 +1837,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_4_184_190_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1743,7 +1849,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_4_191_201_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1754,7 +1861,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_4_58_111_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1765,7 +1873,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_3_358_392_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1776,7 +1885,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_4_112_139_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1787,7 +1897,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_4_1_57_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1798,7 +1909,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_3_556_575_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1809,7 +1921,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_3_525_555_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1820,7 +1933,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_3_432_447_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1831,7 +1945,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_3_448_464_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1842,7 +1957,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_3_465_492_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1853,7 +1969,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_3_493_524_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1864,7 +1981,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_3_415_431_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1875,7 +1993,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_4_140_150_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1886,7 +2005,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_3_393_414_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1897,7 +2017,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_3_314_334_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1908,7 +2029,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_3_293_300_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1919,7 +2041,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_3_335_357_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1930,7 +2053,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_3_277_292_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1941,7 +2065,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_3_266_276_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1952,7 +2077,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_3_220_230_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1963,7 +2089,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_3_231_242_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1974,7 +2101,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_3_243_265_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1985,7 +2113,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_3_125_143_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -1996,7 +2125,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_3_144_159_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2007,7 +2137,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_3_160_175_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2018,7 +2149,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_3_113_124_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2029,7 +2161,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_3_68_86_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2040,7 +2173,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_2_596_609_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2051,7 +2185,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_2_610_614_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2062,18 +2197,20 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_3_45_67_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
       "decidedOn": "2026-02-09",
       "title": "STATE OF ODISHA & ORS. versus MANAGING COMMITTEE OF NAMATARA GIRLS HIGH SCHOOL",
       "caseType": "INSC",
-      "caseNumber": "Diaryno And Diaryyr No. 54941 of 2025",
+      "caseNumber": "Diary No. 54941 of 2025",
       "branch": "other",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_3_103_112_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "diary"
     },
     {
       "court": "Supreme Court of India",
@@ -2084,7 +2221,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_3_87_102_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2095,7 +2233,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_2_436_454_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2106,7 +2245,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_2_406_435_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2117,7 +2257,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_2_576_595_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2128,7 +2269,8 @@
       "branch": "other",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_3_176_178_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2139,7 +2281,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_2_455_480_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2150,7 +2293,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_2_497_544_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2161,7 +2305,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_2_398_401_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2172,7 +2317,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_2_545_557_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2183,7 +2329,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_2_381_397_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2194,7 +2341,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_3_1_27_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2205,7 +2353,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_2_362_369_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2216,7 +2365,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_2_481_496_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2227,7 +2377,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_3_28_44_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2238,7 +2389,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_2_370_380_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2249,7 +2401,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_2_295_322_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2260,7 +2413,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_2_558_575_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2271,7 +2425,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_2_285_294_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2282,7 +2437,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_2_257_269_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2293,7 +2449,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_1_904_922_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2304,7 +2461,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_2_200_256_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2315,7 +2473,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_1_850_903_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2326,7 +2485,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_1_821_849_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2337,7 +2497,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_2_191_199_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2348,7 +2509,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_1_590_608_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2359,7 +2521,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_1_580_589_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2370,7 +2533,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_2_144_167_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2381,7 +2545,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_1_517_579_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2392,7 +2557,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_1_439_466_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2403,7 +2569,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_1_467_483_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2414,7 +2581,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_2_128_138_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2425,7 +2593,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_1_424_438_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2436,7 +2605,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_1_740_769_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2447,7 +2617,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_1_409_423_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2458,7 +2629,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_2_86_106_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2469,7 +2641,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_1_395_408_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2480,7 +2653,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_1_227_302_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2491,7 +2665,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_2_47_61_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2502,7 +2677,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_1_167_182_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2513,7 +2689,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_1_332_371_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2524,7 +2701,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_1_119_129_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2535,7 +2713,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_1_141_166_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2546,7 +2725,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_2_31_46_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2557,7 +2737,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_1_183_190_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2568,7 +2749,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_1_372_394_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2579,7 +2761,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_1_130_140_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2590,7 +2773,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_1_191_205_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2601,7 +2785,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_2_1_30_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2612,7 +2797,8 @@
       "branch": "other",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_1_24_29_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2623,7 +2809,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_1_609_739_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2634,7 +2821,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_1_30_90_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2645,7 +2833,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_1_504_516_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2656,7 +2845,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_1_303_331_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2667,7 +2857,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_1_1_23_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2678,7 +2869,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2026/english/2026_1_91_118_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2689,7 +2881,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2025/english/2025_12_498_504_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2700,7 +2893,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2025/english/2025_12_593_610_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2711,7 +2905,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2025/english/2025_12_488_497_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2722,7 +2917,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2025/english/2025_12_426_438_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2733,7 +2929,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2025/english/2025_12_505_547_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2744,7 +2941,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2025/english/2025_12_408_416_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2755,7 +2953,8 @@
       "branch": "criminal",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2025/english/2025_12_439_442_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Supreme Court of India",
@@ -2766,7 +2965,8 @@
       "branch": "civil",
       "branchBasis": "case_type_mapping",
       "link": "https://indian-supreme-court-judgments.s3.ap-south-1.amazonaws.com/data/pdf/year=2025/english/2025_12_584_592_EN.pdf",
-      "linkKind": "archive"
+      "linkKind": "archive",
+      "caseNumberKind": "case"
     },
     {
       "court": "Bombay High Court",
