@@ -35,6 +35,15 @@ BOMBAY_WEEKS = 26
 # Synthetic / QA partition under court=27_1 — skip.
 BOMBAY_SKIP_BENCHES = frozenset({"testcase"})
 
+# Bench labels taken only from PDF document headers (verified), never invented.
+# Codes whose sample PDFs state only a jurisdiction (not a named bench) stay unset.
+BOMBAY_BENCH_LABELS: dict[str, str] = {
+    "hcaurdb": "Bench at Aurangabad",  # "BENCH AT AURANGABAD"
+    "hcbgoa": "High Court of Bombay at Goa",  # "IN THE HIGH COURT OF BOMBAY AT GOA"
+    "kolhcdb": "Circuit Bench at Kolhapur",  # "CIRCUIT BENCH AT KOLHAPUR"
+}
+BOMBAY_BENCH_LABEL_SOURCE = "document header"
+
 # Substantive merits outcomes kept for Bombay (normalized UPPER).
 # Routine "DISPOSED OFF" / withdrawals / transfers are listed separately and excluded.
 BOMBAY_OUTCOMES_KEPT = frozenset(
@@ -416,6 +425,47 @@ def normalize_case_type(raw: str | None) -> str:
     return t or "UNKNOWN"
 
 
+def extract_sc_case_no_text(raw_html: str | None) -> str | None:
+    """Pull the green 'Case No' font block from SC raw_html, if present."""
+    m = re.search(
+        r"Case\s*No\s*:?\s*</span>\s*<font[^>]*>\s*([^<]+)</font>",
+        raw_html or "",
+        re.I,
+    )
+    if not m:
+        return None
+    text = re.sub(r"\s+", " ", m.group(1)).strip()
+    return text or None
+
+
+def parse_sc_case_number(raw_html: str | None) -> str | None:
+    """Full case number from Case No text, normalized to PDF style.
+
+    Metadata uses e.g. ``CIVIL APPEAL No. 10658/2026``; PDFs print
+    ``Civil Appeal No. 10658 of 2026``. Unparseable → None.
+    """
+    text = extract_sc_case_no_text(raw_html)
+    if not text:
+        return None
+    m = re.search(
+        r"^(.+?)\s+No\.?\s*(\d+)\s*(?:/|\s+of\s+)\s*(\d{4})\s*$",
+        text,
+        re.I,
+    )
+    if not m:
+        return None
+    kind = re.sub(r"\s+", " ", m.group(1)).strip()
+    # Title-case the type words; keep parenthetical Civil/Criminal tidy.
+    kind_norm = kind.title()
+    kind_norm = re.sub(
+        r"\((Civil|Criminal|C)\)",
+        lambda x: f"({x.group(1).upper() if len(x.group(1)) == 1 else x.group(1).title()})",
+        kind_norm,
+        flags=re.I,
+    )
+    return f"{kind_norm} No. {m.group(2)} of {m.group(3)}"
+
+
 def sc_case_type_from_row(
     title: str,
     case_id: str | None,
@@ -424,14 +474,9 @@ def sc_case_type_from_row(
 ) -> str:
     """Supreme Court parquet has no case_type column — derive from raw_html Case No, then title."""
     text = f"{raw_html or ''} {description or ''} {title or ''} {case_id or ''}"
-    # Prefer explicit "Case No" block when present
-    m_case = re.search(
-        r"Case\s*No\s*:?\s*</span>\s*<font[^>]*>\s*([^<]+)</font>",
-        raw_html or "",
-        re.I,
-    )
-    if m_case:
-        text = m_case.group(1) + " " + text
+    case_no_text = extract_sc_case_no_text(raw_html)
+    if case_no_text:
+        text = case_no_text + " " + text
     patterns = [
         (r"Special\s+Leave\s+Petition\s*\(\s*Criminal\s*\)", "SLP(CRL)"),
         (r"Special\s+Leave\s+Petition\s*\(\s*Civil\s*\)", "SLP(C)"),
@@ -549,12 +594,14 @@ def make_entry(
     case_type: str,
     branch: str,
     link: str,
+    case_number: str | None = None,
 ) -> dict:
     return {
         "court": court,
         "decidedOn": decided.isoformat(),
         "title": title.strip(),
         "caseType": case_type,
+        "caseNumber": case_number,  # SC: parsed from Case No; null if unparseable
         "branch": branch,
         "branchBasis": "case_type_mapping",
         "link": link,
@@ -585,19 +632,23 @@ def make_bombay_entry(
     branch: str,
     link: str,
 ) -> dict:
-    return {
+    label = BOMBAY_BENCH_LABELS.get(bench)
+    entry = {
         "court": "Bombay High Court",
         "decidedOn": decided.isoformat(),
         "caseType": case_type,
         "caseNumber": case_number,
         "bench": bench,
-        "benchLabel": None,  # no place-name map in metadata; do not invent
+        "benchLabel": label,  # null unless document header states a named bench
         "disposalOutcome": disposal_outcome,
         "branch": branch,
         "branchBasis": "case_type_mapping",
         "link": link,
         "linkKind": "archive",
     }
+    if label:
+        entry["benchLabelSource"] = BOMBAY_BENCH_LABEL_SOURCE
+    return entry
 
 
 def last_n_iso_weeks(today: date, n: int) -> list[tuple[int, int]]:
@@ -739,6 +790,7 @@ def collect_supreme_court(
                 case_type=case_type,
                 branch=branch,
                 link=sc_pdf_link(year, path),
+                case_number=parse_sc_case_number(raw_html),
             )
             batch.append((decided, item))
 
@@ -949,8 +1001,13 @@ def collect_bombay_hc(s3, today: date) -> tuple[list[dict], dict]:
     wp_writ_kept = sum(1 for r in kept if r["branch"] == "writ")
     benches_kept = sorted({r["bench"] for r in kept if r.get("bench")})
 
-    # Metadata does not map path codes → place names; expose codes only.
-    benches_report = [{"code": code} for code in benches_kept]
+    # Labels only where a sample document header names a bench (see BOMBAY_BENCH_LABELS).
+    benches_report = []
+    for code in benches_kept:
+        row: dict = {"code": code, "benchLabel": BOMBAY_BENCH_LABELS.get(code)}
+        if code in BOMBAY_BENCH_LABELS:
+            row["benchLabelSource"] = BOMBAY_BENCH_LABEL_SOURCE
+        benches_report.append(row)
 
     outcomes_excluded_list = sorted(BOMBAY_OUTCOMES_EXCLUDED - {""})
     outcomes_kept_list = sorted(BOMBAY_OUTCOMES_KEPT)
@@ -1033,13 +1090,9 @@ def main() -> None:
     generated_on = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     print(f"Run date (Asia/Kolkata calendar): {today.isoformat()}")
 
-    existing_sc = load_existing_supreme_court()
-    if existing_sc:
-        print("Reusing existing Supreme Court slice from", OUT_PATH)
-        sc_rows, sc_stats = existing_sc
-    else:
-        print("Collecting Supreme Court…")
-        sc_rows, sc_stats = collect_supreme_court(s3, today)
+    # Always re-collect SC so caseNumber is parsed from Case No HTML.
+    print("Collecting Supreme Court…")
+    sc_rows, sc_stats = collect_supreme_court(s3, today)
 
     print("Collecting Bombay High Court…")
     hc_rows, hc_stats = collect_bombay_hc(s3, today)
@@ -1051,20 +1104,17 @@ def main() -> None:
     for ct, n in sorted(all_types.items(), key=lambda x: (-x[1], x[0])):
         mapping_report.append({"caseType": ct, "branch": map_branch(ct), "count": n})
 
+    sc_with_number = sum(1 for r in sc_rows if r.get("caseNumber"))
     sc_court_block = {
         "groupLabel": "Recent judgments",
         "newestRecordDate": sc_stats["newest"].isoformat() if sc_stats["newest"] else None,
         "oldestRecordDate": sc_stats["oldest"].isoformat() if sc_stats["oldest"] else None,
         "count": len(sc_rows),
+        "withCaseNumber": sc_with_number,
         "spanDays": sc_stats["span_days"],
         "weekHistogram": sc_stats["week_histogram"],
         "excludedFutureDated": sc_stats["future_count"],
     }
-    if existing_sc and sc_stats.get("court_meta"):
-        # Preserve any extra SC keys from the prior index, then force current labels/stats.
-        merged = dict(sc_stats["court_meta"])
-        merged.update(sc_court_block)
-        sc_court_block = merged
 
     payload = {
         "generatedOn": generated_on,
