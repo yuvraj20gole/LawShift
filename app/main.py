@@ -49,6 +49,80 @@ _LOCKED_DATES: dict[str, date] = {}
 _PENDING_BIFURCATION: dict[str, dict] = {}
 
 
+def _format_offense_date(d: date) -> str:
+    """Human date like '25 June 2024' (day without leading zero)."""
+    try:
+        return d.strftime("%-d %B %Y")
+    except ValueError:
+        return d.strftime("%d %B %Y").lstrip("0")
+
+
+def _same_cutoff_side(a: date, b: date) -> bool:
+    """True when both dates are before the cutoff, or both on/after it."""
+    return (a < stage2.CUTOFF) == (b < stage2.CUTOFF)
+
+
+def _code_short_name(code: str) -> str:
+    return "Indian Penal Code" if code == "IPC" else "Bharatiya Nyaya Sanhita"
+
+
+def _attach_date_lock_label(resp, label: str | None):
+    """Set date_lock_label on a response model when a same-side note applies."""
+    if not label:
+        return resp
+    return resp.model_copy(update={"date_lock_label": label})
+
+
+def _build_date_conflict_response(
+    *,
+    conversation_id: str,
+    message: str,
+    locked: date,
+    new_date: date,
+    language: str = "en",
+) -> BifurcationResponse:
+    """Ask which offence date applies when lock and message cross the cutoff."""
+    locked_label = _format_offense_date(locked)
+    new_label = _format_offense_date(new_date)
+    locked_code = stage2.route(locked)
+    new_code = stage2.route(new_date)
+    prompt = (
+        f"Earlier you gave {locked_label} ({_code_short_name(locked_code)}). "
+        f"This message says {new_label} ({_code_short_name(new_code)}). "
+        "Which is the date of the offence?"
+    )
+    options = [
+        BifurcationOption(
+            section=locked_label,
+            description=_code_short_name(locked_code),
+        ),
+        BifurcationOption(
+            section=new_label,
+            description=_code_short_name(new_code),
+        ),
+    ]
+    _PENDING_BIFURCATION[conversation_id] = {
+        "source": "date_conflict",
+        "message": message,
+        "language": language,
+        "date_choices": {
+            locked_label: locked,
+            new_label: new_date,
+        },
+        # Keep keys resolve_bifurcation expects for non-date paths unused here.
+        "by_section": {},
+        "offense_date": locked,
+        "matched_text": locked_label,
+        "reason": "date_conflict",
+        "route": locked_code,
+    }
+    return BifurcationResponse(
+        prompt=prompt,
+        options=options,
+        reason="date_conflict",
+    )
+
+
 def _warm_up_ollama_models() -> None:
     """Force 3B + 14B into memory together so cold-swap cost hits at startup."""
     print("[startup] Warming up Ollama models (3B + 14B)...", flush=True)
@@ -978,13 +1052,70 @@ def _build_code_mismatch_response(
 
 @app.post("/api/query")
 async def handle_query(req: QueryRequest):
-    # Stage 1: extract offence date (or reuse conversation lock)
-    locked = _LOCKED_DATES.get(req.conversation_id)
-    if locked is not None:
-        offense_date, matched_text, reason = locked, "(locked)", "conversation_lock"
-    else:
-        offense_date, matched_text, reason = stage1.extract_offense_date(req.message)
+    # A new message abandons a pending date_conflict choice (other pending
+    # bifurcations are left alone until overwritten by a later bif response).
+    pending = _PENDING_BIFURCATION.get(req.conversation_id)
+    if pending is not None and pending.get("source") == "date_conflict":
+        _PENDING_BIFURCATION.pop(req.conversation_id, None)
 
+    locked = _LOCKED_DATES.get(req.conversation_id)
+    date_lock_label: str | None = None
+
+    if locked is not None:
+        # Re-run Stage 1 on *this* message to detect a conflicting date.
+        extracted, span_in_msg, extract_reason = stage1.extract_offense_date(
+            req.message
+        )
+        if extracted is not None and extracted != locked:
+            if _same_cutoff_side(locked, extracted):
+                # Same IPC/BNS side — keep the lock; note which date we use.
+                date_lock_label = _format_offense_date(locked)
+            else:
+                # Opposite sides of 1 July 2024 — ask; no retrieval.
+                return _build_date_conflict_response(
+                    conversation_id=req.conversation_id,
+                    message=req.message,
+                    locked=locked,
+                    new_date=extracted,
+                    language=getattr(req, "language", "en"),
+                )
+        offense_date = locked
+        matched_text = "(locked)"
+        reason = "conversation_lock"
+        # For missing-facts stripping, prefer a date span from this message.
+        date_span_for_strip = span_in_msg or ""
+    else:
+        offense_date, matched_text, reason = stage1.extract_offense_date(
+            req.message
+        )
+        date_span_for_strip = matched_text or ""
+
+    return await _run_pipeline(
+        message=req.message,
+        conversation_id=req.conversation_id,
+        language=getattr(req, "language", "en"),
+        offense_date=offense_date,
+        matched_text=matched_text or "",
+        reason=reason,
+        date_span_for_strip=date_span_for_strip,
+        date_lock_label=date_lock_label,
+        establish_lock=(locked is None),
+    )
+
+
+async def _run_pipeline(
+    *,
+    message: str,
+    conversation_id: str,
+    language: str,
+    offense_date: date | None,
+    matched_text: str,
+    reason: str,
+    date_span_for_strip: str,
+    date_lock_label: str | None = None,
+    establish_lock: bool = True,
+):
+    """Shared Stage 2–4 path after the offence date is settled."""
     # Stage 2: deterministic gate
     if offense_date is None:
         if reason == "ambiguous_numeric_format":
@@ -1000,56 +1131,61 @@ async def handle_query(req: QueryRequest):
             reason="missing_date",
         )
 
-    if req.conversation_id not in _LOCKED_DATES:
-        _LOCKED_DATES[req.conversation_id] = offense_date
+    if establish_lock and conversation_id not in _LOCKED_DATES:
+        _LOCKED_DATES[conversation_id] = offense_date
 
     route = stage2.route(offense_date)  # "IPC" or "BNS"
 
-    # Strip date for the facts check: when the date is locked, re-match any
-    # date span in *this* message so we do not treat leftover digits as facts.
-    date_span_for_strip = matched_text
-    if reason == "conversation_lock":
-        _, span_in_msg, _ = stage1.extract_offense_date(req.message)
-        date_span_for_strip = span_in_msg or ""
-
-    if message_missing_offense_facts(req.message, date_span_for_strip):
+    if message_missing_offense_facts(message, date_span_for_strip):
         # Date stays locked; next turn with facts will reuse it.
-        return ClarifyResponse(
-            question=(
-                "I have the date. Describe what happened (who did what, "
-                "and to whom) so I can find the section."
+        return _attach_date_lock_label(
+            ClarifyResponse(
+                question=(
+                    "I have the date. Describe what happened (who did what, "
+                    "and to whom) so I can find the section."
+                ),
+                reason="missing_facts",
             ),
-            reason="missing_facts",
+            date_lock_label,
         )
 
     # Named IPC/BNS that is not the code in force for this date → mapping offer
     # (no retrieval). BNSS/BSA/CrPC and bare "section N" are left alone.
-    citations = extract_ipc_bns_citations(req.message)
+    citations = extract_ipc_bns_citations(message)
     mismatches = [(c, s) for c, s in citations if c != route]
     if mismatches:
-        return _build_code_mismatch_response(
-            message=req.message,
-            offense_date=offense_date,
-            matched_text=matched_text,
-            reason=reason,
-            route=route,
-            mismatches=mismatches,
-            conversation_id=req.conversation_id,
+        return _attach_date_lock_label(
+            _build_code_mismatch_response(
+                message=message,
+                offense_date=offense_date,
+                matched_text=matched_text,
+                reason=reason,
+                route=route,
+                mismatches=mismatches,
+                conversation_id=conversation_id,
+            ),
+            date_lock_label,
         )
 
     # Citation-only (date + meta + citations, no other content words) with a
     # matching-route code: show the statute + mapping; skip retrieval/writing.
-    if message_is_citation_only(req.message, date_span_for_strip):
+    if message_is_citation_only(message, date_span_for_strip):
         matching = [(c, s) for c, s in citations if c == route]
         if matching:
-            return _build_section_lookup(matching)
+            return _attach_date_lock_label(
+                _build_section_lookup(matching),
+                date_lock_label,
+            )
 
     # Stage 3: act-aware cascade on the RAW message (+ scores for bifurcation)
-    scored = stage3.cascade_search_with_scores(req.message, corpus_act=route, k=5)
+    scored = stage3.cascade_search_with_scores(message, corpus_act=route, k=5)
     if not scored:
-        return FailureResponse(
-            reason="no_mapping",
-            message="No matching statutory section was found for this query.",
+        return _attach_date_lock_label(
+            FailureResponse(
+                reason="no_mapping",
+                message="No matching statutory section was found for this query.",
+            ),
+            date_lock_label,
         )
 
     # Score-gap check needs descending scores; cascade order is preserved in `scored`
@@ -1072,8 +1208,8 @@ async def handle_query(req: QueryRequest):
                     description=stage3.option_description(chunk),
                 )
             )
-        _PENDING_BIFURCATION[req.conversation_id] = {
-            "message": req.message,
+        _PENDING_BIFURCATION[conversation_id] = {
+            "message": message,
             "offense_date": offense_date,
             "matched_text": matched_text,
             "reason": reason,
@@ -1084,26 +1220,33 @@ async def handle_query(req: QueryRequest):
                 for c, s in scored
                 if c.chunk_id in {x.chunk_id for x in candidates}
             ],
+            "date_lock_label": date_lock_label,
         }
         section_list = ", ".join(o.section for o in options)
-        return BifurcationResponse(
-            prompt=(
-                "Several statutory sections look equally plausible for this query. "
-                f"Which one should I analyse: {section_list}?"
+        return _attach_date_lock_label(
+            BifurcationResponse(
+                prompt=(
+                    "Several statutory sections look equally plausible for this query. "
+                    f"Which one should I analyse: {section_list}?"
+                ),
+                options=_with_describe_facts_option(options),
             ),
-            options=_with_describe_facts_option(options),
+            date_lock_label,
         )
 
     top_chunk = scored[0][0]  # cascade top — unchanged when no bifurcation
-    return _build_mapping(
-        message=req.message,
-        offense_date=offense_date,
-        matched_text=matched_text,
-        reason=reason,
-        route=route,
-        top_chunk=top_chunk,
-        retrieve_detail=f"Cascade retrieval, top match: {top_chunk.chunk_id}",
-        language=getattr(req, "language", "en"),
+    return _attach_date_lock_label(
+        _build_mapping(
+            message=message,
+            offense_date=offense_date,
+            matched_text=matched_text,
+            reason=reason,
+            route=route,
+            top_chunk=top_chunk,
+            retrieve_detail=f"Cascade retrieval, top match: {top_chunk.chunk_id}",
+            language=language,
+        ),
+        date_lock_label,
     )
 
 
@@ -1125,6 +1268,44 @@ async def resolve_bifurcation(req: ResolveBifurcationRequest):
         )
 
     chosen = req.chosen_section.strip()
+    language = getattr(req, "language", "en")
+
+    # Date-conflict: choosing a date replaces the lock and re-runs the held message.
+    if pending.get("source") == "date_conflict":
+        choices: dict = pending.get("date_choices") or {}
+        chosen_date: date | None = None
+        chosen_label = chosen
+        for label, d in choices.items():
+            if chosen == label or chosen.lower() == label.lower():
+                chosen_date = d
+                chosen_label = label
+                break
+        if chosen_date is None:
+            available = sorted(choices.keys())
+            return FailureResponse(
+                reason="ambiguous",
+                message=(
+                    f"Date '{req.chosen_section}' is not one of the pending options. "
+                    f"Available: {available}"
+                ),
+            )
+        _PENDING_BIFURCATION.pop(req.conversation_id, None)
+        _LOCKED_DATES[req.conversation_id] = chosen_date
+        # Re-run held message under the chosen date; skip re-checking the
+        # message's own date against the (just updated) lock.
+        held = pending["message"]
+        _, span_in_msg, _ = stage1.extract_offense_date(held)
+        return await _run_pipeline(
+            message=held,
+            conversation_id=req.conversation_id,
+            language=language,
+            offense_date=chosen_date,
+            matched_text=chosen_label,
+            reason="date_conflict_resolved",
+            date_span_for_strip=span_in_msg or chosen_label,
+            date_lock_label=None,
+            establish_lock=False,
+        )
 
     # Escape hatch: user rejected the offered sections and will describe facts.
     # Date stays locked; free-question counter is unchanged (no mapping).
@@ -1166,18 +1347,21 @@ async def resolve_bifurcation(req: ResolveBifurcationRequest):
     # Consume pending state so a second resolve does not silently reuse it
     _PENDING_BIFURCATION.pop(req.conversation_id, None)
 
-    return _build_mapping(
-        message=pending["message"],
-        offense_date=pending["offense_date"],
-        matched_text=pending["matched_text"],
-        reason=pending["reason"],
-        route=pending["route"],
-        top_chunk=chunk,
-        retrieve_detail=(
-            f"User-resolved bifurcation → {chunk.chunk_id} "
-            f"(skipped cascade re-retrieval)"
+    return _attach_date_lock_label(
+        _build_mapping(
+            message=pending["message"],
+            offense_date=pending["offense_date"],
+            matched_text=pending["matched_text"],
+            reason=pending["reason"],
+            route=pending["route"],
+            top_chunk=chunk,
+            retrieve_detail=(
+                f"User-resolved bifurcation → {chunk.chunk_id} "
+                f"(skipped cascade re-retrieval)"
+            ),
+            language=language,
         ),
-        language=getattr(req, "language", "en"),
+        pending.get("date_lock_label"),
     )
 
 

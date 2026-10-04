@@ -145,6 +145,17 @@ function localizeMappingLine(
   return item.mapping_line;
 }
 
+function withDateLockNote(
+  text: string,
+  label: unknown,
+  lang: string,
+  dict: { dateLockNote: (date: string) => string },
+): string {
+  if (typeof label !== "string" || !label.trim()) return text;
+  const note = dict.dateLockNote(label.trim());
+  return text ? `${note}\n\n${text}` : note;
+}
+
 function newConversationId() {
   return `web-${crypto.randomUUID()}`;
 }
@@ -269,7 +280,7 @@ export function ChatEntry({
         ].filter(Boolean);
         return {
           role: "assistant",
-          text: parts.join("\n\n"),
+          text: withDateLockNote(parts.join("\n\n"), data.date_lock_label, lang, t),
           summary: data.summary as string | undefined,
           irac,
           sources,
@@ -296,9 +307,12 @@ export function ChatEntry({
             : factsClarify
               ? t.clarifyFallbackFacts
               : t.clarifyFallback;
+        let text =
+          lang === "en" ? (data.question as string) || fallback : fallback;
+        text = withDateLockNote(text, data.date_lock_label, lang, t);
         return {
           role: "assistant",
-          text: lang === "en" ? (data.question as string) || fallback : fallback,
+          text,
           language: lang,
         };
       }
@@ -338,12 +352,14 @@ export function ChatEntry({
               mapping_line: localizeMappingLine(base, lang, t),
             };
           });
+        let text =
+          lang === "en"
+            ? (data.note as string) || t.sectionLookupNoteFallback
+            : t.sectionLookupNoteFallback;
+        text = withDateLockNote(text, data.date_lock_label, lang, t);
         return {
           role: "assistant",
-          text:
-            lang === "en"
-              ? (data.note as string) || t.sectionLookupNoteFallback
-              : t.sectionLookupNoteFallback,
+          text,
           language: lang,
           sectionLookup: items,
         };
@@ -351,23 +367,49 @@ export function ChatEntry({
       if (data.kind === "bifurcation") {
         const options = (data.options as BifurcationOption[]) || [];
         const mismatch = data.reason === "code_mismatch";
+        const dateConflict = data.reason === "date_conflict";
         const statuteSecs = statuteOptions(options)
           .map((o) => o.section)
           .join(", ");
+        const shortIpc = t.codeNameIpc.replace(/^the\s+/i, "");
+        const shortBns = t.codeNameBns.replace(/^the\s+/i, "");
         // Localise the escape option label; keep English sentinel for resolve.
-        const localized = options.map((o) =>
-          isDescribeFactsOption(o.section)
-            ? { section: DESCRIBE_FACTS_SENTINEL, description: t.bifurcationEscapeOption }
-            : o,
-        );
+        // Date-conflict options keep date labels; localise code descriptions.
+        const localized = options.map((o) => {
+          if (isDescribeFactsOption(o.section)) {
+            return {
+              section: DESCRIBE_FACTS_SENTINEL,
+              description: t.bifurcationEscapeOption,
+            };
+          }
+          if (dateConflict && lang !== "en") {
+            const isIpc = /penal|दंड|दंड/i.test(o.description);
+            return {
+              section: o.section,
+              description: isIpc ? shortIpc : shortBns,
+            };
+          }
+          return o;
+        });
+        let text: string;
+        if (lang === "en") {
+          text = (data.prompt as string) || "";
+        } else if (dateConflict && options.length >= 2) {
+          text = t.bifurcationDateConflictFallback(
+            options[0].section,
+            /penal/i.test(options[0].description) ? shortIpc : shortBns,
+            options[1].section,
+            /penal/i.test(options[1].description) ? shortIpc : shortBns,
+          );
+        } else if (mismatch) {
+          text = t.bifurcationMismatchFallback(statuteSecs);
+        } else {
+          text = t.bifurcationPrompt(statuteSecs);
+        }
+        text = withDateLockNote(text, data.date_lock_label, lang, t);
         return {
           role: "assistant",
-          text:
-            lang === "en"
-              ? (data.prompt as string) || ""
-              : mismatch
-                ? t.bifurcationMismatchFallback(statuteSecs)
-                : t.bifurcationPrompt(statuteSecs),
+          text,
           language: lang,
           bifurcationOptions: localized,
         };
@@ -375,7 +417,12 @@ export function ChatEntry({
       if (data.kind === "failure") {
         return {
           role: "assistant",
-          text: (data.message as string) || t.failureFallback,
+          text: withDateLockNote(
+            (data.message as string) || t.failureFallback,
+            data.date_lock_label,
+            lang,
+            t,
+          ),
           language: lang,
         };
       }

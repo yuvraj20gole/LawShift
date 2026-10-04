@@ -90,6 +90,13 @@ export type Dictionary = {
   codeNameIpc: string;
   codeNameBns: string;
   bifurcationEscapeOption: string;
+  dateLockNote: (date: string) => string;
+  bifurcationDateConflictFallback: (
+    earlierDate: string,
+    earlierCode: string,
+    laterDate: string,
+    laterCode: string,
+  ) => string;
   machineTranslatedNote: string;
   bifurcationPrompt: (sections: string) => string;
   bifurcationMismatchFallback: (sections: string) => string;
@@ -233,6 +240,12 @@ const en: Dictionary = {
   bifurcationEscapeOption:
     // Agent draft — needs native review
     "None of these. I will describe what happened",
+  dateLockNote: (date) =>
+    // Agent draft — needs native review
+    `Using the offence date you gave earlier: ${date}.`,
+  bifurcationDateConflictFallback: (earlierDate, earlierCode, laterDate, laterCode) =>
+    // Agent draft — needs native review
+    `Earlier you gave ${earlierDate} (${earlierCode}). This message says ${laterDate} (${laterCode}). Which is the date of the offence?`,
   machineTranslatedNote:
     "Machine-translated after the legal analysis was done. Check the English if it matters.",
   bifurcationPrompt: (sections) =>
@@ -387,6 +400,12 @@ const hi: Dictionary = {
   bifurcationEscapeOption:
     // Agent draft — needs native review
     "इनमें से कोई नहीं। मैं बताऊँगा कि क्या हुआ।",
+  dateLockNote: (date) =>
+    // Agent draft — needs native review
+    `आपकी पहले दी गई अपराध तिथि उपयोग हो रही है: ${date}।`,
+  bifurcationDateConflictFallback: (earlierDate, earlierCode, laterDate, laterCode) =>
+    // Agent draft — needs native review
+    `पहले आपने ${earlierDate} (${earlierCode}) दी थी। इस संदेश में ${laterDate} (${laterCode}) है। अपराध की तिथि कौन-सी है?`,
   machineTranslatedNote:
     "कानूनी विश्लेषण पूरा होने के बाद हिंदी में मशीन-अनुवाद किया गया। ज़रूरी हो तो अंग्रेज़ी पाठ देखें।",
   bifurcationPrompt: (sections) =>
@@ -541,6 +560,12 @@ const mr: Dictionary = {
   bifurcationEscapeOption:
     // Agent draft — needs native review
     "यापैकी कोणतेही नाही. काय घडले ते मी सांगतो.",
+  dateLockNote: (date) =>
+    // Agent draft — needs native review
+    `तुम्ही आधी दिलेली गुन्ह्याची तारीख वापरली जात आहे: ${date}.`,
+  bifurcationDateConflictFallback: (earlierDate, earlierCode, laterDate, laterCode) =>
+    // Agent draft — needs native review
+    `आधी तुम्ही ${earlierDate} (${earlierCode}) दिली. या संदेशात ${laterDate} (${laterCode}) आहे. गुन्ह्याची तारीख कोणती?`,
   machineTranslatedNote:
     "कायदेशीर विश्लेषणानंतर मराठीत मशीन-भाषांतर केले आहे. महत्त्वाचे असल्यास इंग्रजी मजकूर पाहा.",
   bifurcationPrompt: (sections) =>

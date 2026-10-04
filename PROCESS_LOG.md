@@ -745,4 +745,38 @@ Harness under `/tmp` (live `handle_query`; Stage 1 / retrieval / margin / Stage 
 
 ---
 
-*End of process log. Generated from files in `results/` as of the unified comparison run, plus GovIntel README figures verified against the live Hugging Face card, plus the split-offense review and `split_detector_v2_eval.json`, Stage 4 generation and verifier evals (§16), citation-fix verifier evaluation (§17), backend integration / bifurcation validation (§18), multilingual Stage 5 / IndicTrans2 fix (§19), Ollama Metal / Rosetta fix and Stage 4 warm-up (§20), landing-page + live chat UI verification (§21), missing-facts gate (§22), IPC↔BNS code-mismatch intercept (§23), and citation-only section lookup / bifurcation escape / date-lock diagnosis (§24).*
+## 25. Locked-date conflict when a later message names a different date
+
+### Failure
+
+Once a conversation locked an offence date, later messages that named a different date were ignored for routing. `_LOCKED_DATES` was reused unconditionally; Stage 1 was not compared with the lock. After “BNS 103 on 25 June 2024” and choosing IPC 302, “IPC 124A on 5 July 2024” stayed on the IPC lock and returned a mapped IPC 124A answer, whereas the same message in a fresh conversation offered BNS 152 via the code-mismatch path.
+
+### Rule
+
+When a lock exists and Stage 1 finds a date in the current message:
+
+- **Same date:** unchanged.
+- **Different date, same side of 1 July 2024** (both before, or both on/after): keep the lock for routing; attach `date_lock_label` so the client shows one line — “Using the offence date you gave earlier: {locked date}.” — and do not ask a question.
+- **Different date, opposite sides of the cutoff:** do **not** run retrieval. Return `BifurcationResponse` with `reason="date_conflict"`, the two dates as options, and prompt text naming each date’s code. Choosing a date replaces the lock and re-runs the held message under that date (`reason=date_conflict_resolved` so the message’s own date does not re-conflict). A new free-text message abandons the pending conflict and is processed normally (subject to the same check).
+- **No lock yet:** unchanged.
+
+Free-question quota: `date_conflict` does not decrement; a mapped answer after resolve counts once (same as other bifurcations).
+
+**Smallest schema change:** extend `BifurcationResponse.reason` with `"date_conflict"`; add optional `date_lock_label` on existing response kinds for the same-side note. Reuse the existing bifurcation resolve endpoint.
+
+Stage 1 is unchanged. Multi-date messages still yield a single extracted date (`multi_date_context_resolved` or `tied_fallback_first_date`); the conflict check compares that one date to the lock.
+
+### Test results
+
+Harness under `/tmp` (`lawshift_date_conflict_verify.py`, `lawshift_date_conflict_part3.py`):
+
+- **a** Lock 25 June → IPC 302; “IPC 124A on 5 July 2024” → `date_conflict`. Choose 5 July → lock 5 July / BNS, `code_mismatch` offering BNS 152. Choose 25 June → lock stays IPC; held message continues under IPC (`section_lookup` for IPC 124A).
+- **b** Lock 25 June; same-side “20 June 2024” follow-up → `date_lock_label=25 June 2024`, route IPC.
+- **c** Lock BNS date; “30 June 2024” → `date_conflict`.
+- **d** Pending `date_conflict` dropped when a new message arrives.
+- **e** Fresh conversations: same messages as a–c behave as before the lock (mismatch / map or bif on their own dates).
+- **f** Regressions: diagnosis nine pass; fact-free ~30; false-block 285 **0**; Stage 1 **44/44**; Recall@5 **0.841**; 85-set bif **47**; code-mismatch **6/6**; section_lookup **7/7**; stubbed landing counter **5 → 5 → 5 → 5 → 4** (date / section_lookup / date_conflict / choose mapped).
+
+---
+
+*End of process log. Generated from files in `results/` as of the unified comparison run, plus GovIntel README figures verified against the live Hugging Face card, plus the split-offense review and `split_detector_v2_eval.json`, Stage 4 generation and verifier evals (§16), citation-fix verifier evaluation (§17), backend integration / bifurcation validation (§18), multilingual Stage 5 / IndicTrans2 fix (§19), Ollama Metal / Rosetta fix and Stage 4 warm-up (§20), landing-page + live chat UI verification (§21), missing-facts gate (§22), IPC↔BNS code-mismatch intercept (§23), citation-only section lookup / bifurcation escape / date-lock diagnosis (§24), and locked-date conflict handling (§25).*

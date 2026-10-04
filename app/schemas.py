@@ -41,6 +41,14 @@ class MappingResponse(BaseModel):
         default=None,
         description="User-facing note when translation was skipped or used a fallback engine.",
     )
+    date_lock_label: str | None = Field(
+        default=None,
+        description=(
+            "When set, the client shows a one-line note that routing used this "
+            "earlier locked offence date (same side of the cutoff as a newer date "
+            "named in the message)."
+        ),
+    )
 
 
 class ClarifyResponse(BaseModel):
@@ -56,12 +64,20 @@ class ClarifyResponse(BaseModel):
         default=None,
         description="Why clarify was returned. None for older clients / unspecified.",
     )
+    date_lock_label: str | None = Field(
+        default=None,
+        description="Optional locked-date note; see MappingResponse.date_lock_label.",
+    )
 
 
 class FailureResponse(BaseModel):
     kind: Literal["failure"] = "failure"
     reason: Literal["no_mapping", "ambiguous", "source_unavailable"]
     message: str
+    date_lock_label: str | None = Field(
+        default=None,
+        description="Optional locked-date note; see MappingResponse.date_lock_label.",
+    )
 
 
 class BifurcationOption(BaseModel):
@@ -73,13 +89,19 @@ class BifurcationResponse(BaseModel):
     kind: Literal["bifurcation"] = "bifurcation"
     prompt: str
     options: list[BifurcationOption]
-    reason: Literal["score_gap", "code_mismatch"] | None = Field(
+    reason: Literal["score_gap", "code_mismatch", "date_conflict"] | None = Field(
         default=None,
         description=(
             "Optional cause. 'code_mismatch' when the user named IPC/BNS "
-            "that is not the code in force on the offence date. None or "
+            "that is not the code in force on the offence date. "
+            "'date_conflict' when a locked offence date and a new message date "
+            "fall on opposite sides of the 1 July 2024 cutoff. None or "
             "'score_gap' for ordinary close-score bifurcation."
         ),
+    )
+    date_lock_label: str | None = Field(
+        default=None,
+        description="Optional locked-date note; see MappingResponse.date_lock_label.",
     )
 
 
@@ -111,6 +133,10 @@ class SectionLookupResponse(BaseModel):
     kind: Literal["section_lookup"] = "section_lookup"
     note: str
     items: list[SectionLookupItem]
+    date_lock_label: str | None = Field(
+        default=None,
+        description="Optional locked-date note; see MappingResponse.date_lock_label.",
+    )
 
 
 class QueryRequest(BaseModel):
