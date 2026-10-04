@@ -46,6 +46,16 @@ class MappingResponse(BaseModel):
 class ClarifyResponse(BaseModel):
     kind: Literal["clarify"] = "clarify"
     question: str
+    reason: Literal[
+        "missing_date",
+        "ambiguous_date",
+        "missing_facts",
+        "code_mismatch",
+        "describe_facts",
+    ] | None = Field(
+        default=None,
+        description="Why clarify was returned. None for older clients / unspecified.",
+    )
 
 
 class FailureResponse(BaseModel):
@@ -63,6 +73,44 @@ class BifurcationResponse(BaseModel):
     kind: Literal["bifurcation"] = "bifurcation"
     prompt: str
     options: list[BifurcationOption]
+    reason: Literal["score_gap", "code_mismatch"] | None = Field(
+        default=None,
+        description=(
+            "Optional cause. 'code_mismatch' when the user named IPC/BNS "
+            "that is not the code in force on the offence date. None or "
+            "'score_gap' for ordinary close-score bifurcation."
+        ),
+    )
+
+
+class SectionLookupItem(BaseModel):
+    """One cited section returned without retrieval or IRAC writing."""
+
+    code: Literal["IPC", "BNS"]
+    section: str
+    heading: str
+    text: str
+    found: bool
+    mapping_line: str
+    # Structured mapping fields so the client can localise the line without
+    # re-parsing English prose. Optional for older clients.
+    mapping_status: Literal["equivalent", "none", "missing"] | None = None
+    equiv_code: Literal["IPC", "BNS"] | None = None
+    equiv_section: str | None = None
+    equiv_heading: str | None = None
+    mapping_type: Literal["section", "partial", "merged"] | None = None
+
+
+class SectionLookupResponse(BaseModel):
+    """Citation-only reply: show the statute (+ mapping) and ask for facts.
+
+    Smallest new kind so the client can render a collapsed statute panel
+    without treating this as a mapped answer (quota / IRAC).
+    """
+
+    kind: Literal["section_lookup"] = "section_lookup"
+    note: str
+    items: list[SectionLookupItem]
 
 
 class QueryRequest(BaseModel):
@@ -87,5 +135,9 @@ class ResolveBifurcationRequest(BaseModel):
 
 
 AssistantResponse = (
-    MappingResponse | ClarifyResponse | FailureResponse | BifurcationResponse
+    MappingResponse
+    | ClarifyResponse
+    | FailureResponse
+    | BifurcationResponse
+    | SectionLookupResponse
 )

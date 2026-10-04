@@ -644,4 +644,105 @@ Live browser checks (real network calls, not forced verifier payloads): counterf
 
 ---
 
-*End of process log. Generated from files in `results/` as of the unified comparison run, plus GovIntel README figures verified against the live Hugging Face card, plus the split-offense review and `split_detector_v2_eval.json`, Stage 4 generation and verifier evals (§16), citation-fix verifier evaluation (§17), backend integration / bifurcation validation (§18), multilingual Stage 5 / IndicTrans2 fix (§19), Ollama Metal / Rosetta fix and Stage 4 warm-up (§20), and landing-page + live chat UI verification (§21).*
+## 22. Missing-facts gate (date with no facts)
+
+### Failure
+
+After Stage 1 locked a date, fact-free follow-ups still went to Stage 3. Measured diagnosis (real `handle_query`, nothing stubbed):
+
+| Query | Status | Top-1 score |
+|---|---|---:|
+| "Which section is this case for" then "25/6/24" | mapped | 0.297 |
+| "25 June 2024" | bifurcation | 0.227 |
+| "Which law applies to this? 10 August 2024" | bifurcation | 0.317 |
+| "Tell me the section. 5 September 2024" | bifurcation | 0.278 |
+| "Is this legal? 12 March 2024" | bifurcation | 0.297 |
+| "Help. 1 July 2024" | mapped | 0.346 |
+
+Controls with real facts stayed higher (top-1 ≥ 0.469). There was no clarify that asked for facts once a date was known — only date clarify, then a confident wrong map or bifurcation on unrelated sections.
+
+`detect_bifurcation` (called from `handle_query` after sorting cascade scores) keeps a neighbour when `score >= top_score * (1 - margin)` with default `margin=0.10` (within 10% of top, checking the next three scores). That is a relative gap, not a quality floor, so low-scoring fact-free queries still bifurcated.
+
+### Fix
+
+In `handle_query`, after Stage 2 routes and **before** Stage 3 retrieval: strip the Stage 1 matched date text (re-extract a date span from the current message when the date is conversation-locked), lowercase, strip punctuation, drop stopwords and `MISSING_FACTS_META_WORDS`, drop pure digits. If zero content tokens remain, return `ClarifyResponse` with `reason="missing_facts"` and the message asking the user to describe what happened. Date stays locked. One leftover content word lets the query through.
+
+Frontend: same clarify path as date clarify (EN uses `data.question`; HI/MR use `clarifyFallbackFacts`). Free-question limit: `ChatEntry` decrements remaining after every `/api/query` response including clarify — date clarify already counted; missing_facts counts the same way.
+
+Upload: short extracts (&lt;20 chars) that Stage 1 can still parse as a date now reach `handle_query` so date-only documents return `missing_facts` instead of `source_unavailable`.
+
+No retrieval-score threshold was added.
+
+### Test results
+
+- **4a** Nine diagnosis queries: 1–6 → `clarify` / `missing_facts` (no retrieval). 7–9 → same status and top-5 as the diagnosis (bifurcation / mapped / mapped; scores unchanged to 1e-6).
+- **4b** After missing_facts on "25 June 2024", "a man sold obscene magazines" used locked `2024-06-25`, did not ask for the date again, returned bifurcation with IPC 292 top-1.
+- **4c** ~30 fact-free variants: 27 blocked. **3 not blocked** only because Stage 1 does not parse ISO `2024-07-01` (no date → missing_facts never runs); not a gate miss on dated text.
+- **4d** False-block: **0** on the 185 nyaya-eval filtered questions and a random 200 of the 636 test questions (each with `25 June 2024` appended). The published “85” set is the single-citation subset of those 185; all 185 passed, so the 85 do too. No list change.
+- **5** Top-1 score distribution (no threshold applied): fact-free n=30 min **0.162** / p10 **0.224** / median **0.318**; real+date n=385 min **−0.165** / p10 **0.205** / median **0.347**. The bands overlap — a score floor would cut real questions.
+- **4f** Date-only document text → `missing_facts`; fact-rich document → mapped (IPC 292).
+- **Stage 1** re-run: **44 of 44** (30 real + 14 stress) — same as earlier.
+- **Stage 3** re-run (cascade + e8 on `test.jsonl`): Recall@5 **0.8412** (535/636) — same as earlier **0.841**.
+
+---
+
+## 23. IPC↔BNS code mismatch (citation vs offence date)
+
+### Failure
+
+Users sometimes name a section in one code while the offence date routes to the other (for example BNS 103 on 25 June 2024, when IPC still applies). The pipeline could still run retrieval in the wrong corpus, or ignore the named section and return unrelated hits. A bare “section 302 on 5 July 2024” with no IPC/BNS prefix could bifurcate among homonymous BNS/BNSS sections instead of treating an explicit cross-code cite as a mapping problem.
+
+### Rule
+
+After Stage 2 locks the route, if the message contains an explicit **IPC** or **BNS** section citation and that code disagrees with the route, intercept **before** Stage 3: consult the IPC↔BNS mapping table. One or more equivalents → offer those sections in a bifurcation prompt and **do not** run retrieval. No table equivalent (including sections dropped in the new code, e.g. IPC 7) → clarify and ask for facts. **BNSS**, **BSA**, **CrPC**, and bare section numbers without an IPC/BNS prefix are unchanged — normal retrieval and score-gap bifurcation still apply.
+
+### Schema
+
+Reuse `BifurcationResponse` and `ClarifyResponse` with optional `reason="code_mismatch"` so the client can tell mapping offers apart from score-gap bifurcation. Resolution still goes through `resolve_bifurcation`; mapped answers decrement the free-question quota; clarify and bifurcation do not.
+
+### Test results
+
+Harness output in `/tmp/lawshift_mismatch_out.json` (live `handle_query`, Stage 3 loaded):
+
+- **Six** explicit mismatch cases: all `reason=code_mismatch`, empty top-5, `retrieval_ran=false` (BNS 103→IPC 302 on 25 June 2024; IPC 302→BNS 103 on 5 July 2024; Section 302 IPC same date; BNS 294→IPC 292; IPC 124A→BNS 152; IPC 201→BNS 238).
+- **IPC 7 on 5 July 2024** → clarify (`code_mismatch`), no mapping equivalent.
+- **BNS 1 on 25 June 2024** → bifurcation with IPC mapping options (live run lists IPC 1–3 when the table maps multiple IPC sections).
+- **Bare** “section 302 on 5 July 2024” → unchanged score-gap bifurcation (BNS 302 / BNSS 302 / BNSS 304), retrieval ran.
+- Matching-code controls (IPC 292 on IPC date, etc.) still map or bifurcate as before; BNSS/CrPC procedure cites unchanged.
+- Playwright free-question quota: **5 → 5 → 5 → 4** (initial; after date clarify; after mismatch bifurcation; after resolve to mapped).
+- Regressions: Stage 1 **44/44**; Stage 3 Recall@5 **0.8412** (535/636).
+- Nyaya **85** set with margin 0.10: **47** retrieval-only bifurcations (same as prior part B); one row that cited IPC 302 on a BNS-routed date now hits the code-mismatch intercept instead of score-gap bif.
+
+Citation extractor: strings like “BNS 2023 reforms and IPC 302” or “section 302 on 5 July 2024” without a code prefix before the section number do not register as explicit IPC/BNS cites (empty extract) — by design for bare-section queries.
+
+---
+
+## 24. Citation-only section lookup, bifurcation escape, and date-lock diagnosis
+
+### Citation-only finding
+
+After the missing-facts gate started letting **explicit citations** through (so “IPC 292 on 25 June 2024” was no longer blocked), those messages still ran Stage 3 retrieval and Stage 4 writing with **no offence facts**. The model then invented an issue line or bifurcated among dense neighbours of the named section. Users who only named a section were treated as if they had described a case.
+
+**Rule (unchanged retrieval / margin / prompts):** after Stage 2 and the existing code-mismatch intercept, if the message is **citation-only** — strip the matched date and every `EXPLICIT_CITATION_RE` span, then apply the same meta/stopword token filter as missing-facts; if nothing content-like remains — and the cited IPC/BNS code **matches** the date’s route, **skip retrieval and writing**. Return a new response kind `section_lookup` with up to three citations: code, section, corpus heading, full statute text as stored, and one mapping line (table type wording, or “No equivalent is recorded in our mapping table”). If the section is absent from the corpus: “`<code> <n> is not in the statute text we hold.`” One fixed note asks the user to describe what happened. Date stays locked; the free-question counter does **not** decrement (only mapped answers count). Code-mismatch behaviour is unchanged. A citation **plus** fact words is unchanged and still maps or bifurcates normally.
+
+**Schema:** smallest addition — `SectionLookupResponse` / `SectionLookupItem` beside the existing AssistantMessage union. Frontend reuses the collapsed **sources** panel pattern in chat and Workspace; HI/MR use fallback strings marked for native review (same pattern as date/mismatch clarify).
+
+**Bifurcation escape:** every bifurcation response (score-gap and code-mismatch) appends a final option “None of these. I will describe what happened”. Choosing it clears pending bifurcation, returns clarify (`reason=describe_facts`) asking the user to describe the facts and search again, keeps the date locked, and does not decrement the counter. Offered sections and the 0.10 margin are unchanged.
+
+### Date-lock diagnosis (read-only, this round)
+
+`_LOCKED_DATES` stores the first resolved offence date for a `conversation_id` and **never updates** when a later message contains a different date. Locked turns set Stage 1’s matched span to `(locked)`; the missing-facts strip re-extracts a date span from the *current* message so leftover digits are not treated as facts. Follow-up dates therefore do not re-route IPC↔BNS for that thread.
+
+Separately: IPC 7 is present in the corpus and in the mapping table (often as a dropped / definitional row). Dense score-gap bifurcation after a fact-rich query does not guarantee IPC 7 appears among the close-score options — that is retrieval neighbourhood behaviour, not a missing-chunk bug. Stage 4’s Issue line remains the single-sentence slot required by the generation prompt.
+
+### Test results
+
+Harness under `/tmp` (live `handle_query`; Stage 1 / retrieval / margin / Stage 4 / verifier / models untouched):
+
+- **1e** Citation-only → `section_lookup` for IPC 292 / 302 / 7, BNS 103 (both phrasings), Section 302 IPC; IPC 99999 → not-in-corpus line; date locked. Control with facts → normal bifurcation (IPC 292 / 293 + escape), not `section_lookup`.
+- **2b** Counterfeit case bifurcates BNS 180 / 179 + escape; after “None of these” → `describe_facts` clarify; facts follow-up → normal answer. Obscene example mapped without score-gap bif on this run; the citation+facts control still offered the escape on bif.
+- **3** Nine diagnosis: 9/9. Fact-free ~30: 27 blocked / 3 ISO no-date. False-block 285: **0**. Stage 1 **44/44**. Stage 3 Recall@5 **0.8412** (535/636). 85-set bif @0.10: **47**. Six code-mismatch: **6/6**. Stubbed quota: date **5**, section_lookup **5**, bifurcation **5**, choose mapped option **4**.
+
+---
+
+*End of process log. Generated from files in `results/` as of the unified comparison run, plus GovIntel README figures verified against the live Hugging Face card, plus the split-offense review and `split_detector_v2_eval.json`, Stage 4 generation and verifier evals (§16), citation-fix verifier evaluation (§17), backend integration / bifurcation validation (§18), multilingual Stage 5 / IndicTrans2 fix (§19), Ollama Metal / Rosetta fix and Stage 4 warm-up (§20), landing-page + live chat UI verification (§21), missing-facts gate (§22), IPC↔BNS code-mismatch intercept (§23), and citation-only section lookup / bifurcation escape / date-lock diagnosis (§24).*

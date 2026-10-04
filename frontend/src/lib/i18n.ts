@@ -72,8 +72,27 @@ export type Dictionary = {
   verifyOk: string;
   worthDoubleChecking: string;
   clarifyFallback: string;
+  clarifyFallbackFacts: string;
+  clarifyFallbackMismatch: string;
+  clarifyFallbackDescribeFacts: string;
+  sectionLookupNoteFallback: string;
+  sectionLookupNoEquivalent: string;
+  sectionLookupMissing: (code: string, section: string) => string;
+  sectionLookupMapping: (
+    otherCodeName: string,
+    phrase: string,
+    label: string,
+    heading: string,
+  ) => string;
+  mappingPhraseSection: string;
+  mappingPhrasePartial: string;
+  mappingPhraseMerged: string;
+  codeNameIpc: string;
+  codeNameBns: string;
+  bifurcationEscapeOption: string;
   machineTranslatedNote: string;
   bifurcationPrompt: (sections: string) => string;
+  bifurcationMismatchFallback: (sections: string) => string;
   failureFallback: string;
   unexpected: string;
   apiError: string;
@@ -184,10 +203,43 @@ const en: Dictionary = {
   verifyOk: "No inconsistency detected",
   worthDoubleChecking: "Worth double-checking",
   clarifyFallback: "I need a clearer offense date.",
+  clarifyFallbackFacts:
+    "I have the date. Describe what happened (who did what, and to whom) so I can find the section.",
+  clarifyFallbackMismatch:
+    // Agent draft — needs native review
+    "That section belongs to a different code than the one that applies on this date. No equivalent is recorded in our mapping table. Describe what happened so I can find the section.",
+  clarifyFallbackDescribeFacts:
+    // Agent draft — needs native review
+    "Describe what happened (who did what, and to whom) and I will search again.",
+  sectionLookupNoteFallback:
+    // Agent draft — needs native review
+    "You gave a section but no facts, so no analysis was written. Describe what happened to get one.",
+  sectionLookupNoEquivalent:
+    // Agent draft — needs native review
+    "No equivalent is recorded in our mapping table",
+  sectionLookupMissing: (code, section) =>
+    // Agent draft — needs native review
+    `${code} ${section} is not in the statute text we hold.`,
+  sectionLookupMapping: (otherCodeName, phrase, label, heading) => {
+    // Agent draft — needs native review
+    const suffix = heading ? ` (${heading})` : "";
+    return `In ${otherCodeName}, ${phrase} ${label}${suffix}.`;
+  },
+  mappingPhraseSection: "the corresponding section is",
+  mappingPhrasePartial: "partly matches",
+  mappingPhraseMerged: "merged into",
+  codeNameIpc: "the Indian Penal Code",
+  codeNameBns: "the Bharatiya Nyaya Sanhita",
+  bifurcationEscapeOption:
+    // Agent draft — needs native review
+    "None of these. I will describe what happened",
   machineTranslatedNote:
     "Machine-translated after the legal analysis was done. Check the English if it matters.",
   bifurcationPrompt: (sections) =>
     `Several statutory sections look equally plausible for this query. Which one should I analyse: ${sections}?`,
+  bifurcationMismatchFallback: (sections) =>
+    // Agent draft — needs native review
+    `You named a section from a code that is not in force on this offence date. In our mapping table the matching section(s) of the code that does apply are: ${sections}. Which should I analyse?`,
   failureFallback: "Could not complete this query.",
   unexpected: "Unexpected response from the pipeline.",
   apiError:
@@ -305,10 +357,43 @@ const hi: Dictionary = {
   verifyOk: "कोई असंगति नहीं मिली",
   worthDoubleChecking: "दोबारा जाँचने योग्य",
   clarifyFallback: "मुझे स्पष्ट अपराध तिथि चाहिए।",
+  clarifyFallbackFacts:
+    "तिथि मिल गई है। क्या हुआ था लिखें (किसने क्या किया, और किसके साथ), ताकि मैं धारा ढूँढ सकूँ।",
+  clarifyFallbackMismatch:
+    // Agent draft — needs native review
+    "यह धारा उस संहिता की नहीं है जो इस तिथि पर लागू होती है। हमारी मैपिंग तालिका में कोई समकक्ष दर्ज नहीं है। क्या हुआ था लिखें ताकि मैं धारा ढूँढ सकूँ।",
+  clarifyFallbackDescribeFacts:
+    // Agent draft — needs native review
+    "क्या हुआ था लिखें (किसने क्या किया, और किसके साथ) — मैं फिर से खोजूँगा।",
+  sectionLookupNoteFallback:
+    // Agent draft — needs native review
+    "आपने धारा दी है लेकिन तथ्य नहीं, इसलिए विश्लेषण नहीं लिखा गया। विश्लेषण के लिए क्या हुआ था बताएँ।",
+  sectionLookupNoEquivalent:
+    // Agent draft — needs native review
+    "हमारी मैपिंग तालिका में कोई समकक्ष दर्ज नहीं है",
+  sectionLookupMissing: (code, section) =>
+    // Agent draft — needs native review
+    `${code} ${section} हमारे पास रखे वैधानिक पाठ में नहीं है।`,
+  sectionLookupMapping: (otherCodeName, phrase, label, heading) => {
+    // Agent draft — needs native review
+    const suffix = heading ? ` (${heading})` : "";
+    return `${otherCodeName} में, ${phrase} ${label}${suffix}।`;
+  },
+  mappingPhraseSection: "समकक्ष धारा है",
+  mappingPhrasePartial: "आंशिक रूप से मेल खाती है",
+  mappingPhraseMerged: "में विलीन है",
+  codeNameIpc: "भारतीय दंड संहिता",
+  codeNameBns: "भारतीय न्याय संहिता",
+  bifurcationEscapeOption:
+    // Agent draft — needs native review
+    "इनमें से कोई नहीं। मैं बताऊँगा कि क्या हुआ।",
   machineTranslatedNote:
     "कानूनी विश्लेषण पूरा होने के बाद हिंदी में मशीन-अनुवाद किया गया। ज़रूरी हो तो अंग्रेज़ी पाठ देखें।",
   bifurcationPrompt: (sections) =>
     `इस प्रश्न के लिए कई वैधानिक धाराएँ लगभग समान रूप से उपयुक्त लगती हैं। मैं किसका विश्लेषण करूँ: ${sections}?`,
+  bifurcationMismatchFallback: (sections) =>
+    // Agent draft — needs native review
+    `आपने ऐसी संहिता की धारा लिखी है जो इस अपराध तिथि पर लागू नहीं होती। मैपिंग तालिका में लागू संहिता की समकक्ष धाराएँ हैं: ${sections}। मैं किसका विश्लेषण करूँ?`,
   failureFallback: "यह क्वेरी पूरी नहीं हो सकी।",
   unexpected: "पाइपलाइन से अप्रत्याशित प्रतिक्रिया।",
   apiError:
@@ -426,10 +511,43 @@ const mr: Dictionary = {
   verifyOk: "कोणतीही विसंगती आढळली नाही",
   worthDoubleChecking: "पुन्हा तपासण्यासारखे",
   clarifyFallback: "मला स्पष्ट गुन्हा तारीख हवी आहे.",
+  clarifyFallbackFacts:
+    "तारीख मिळाली आहे. काय झाले ते लिहा (कोणी काय केले, आणि कोणाशी), जेणेकरून मी कलम शोधू शकेन.",
+  clarifyFallbackMismatch:
+    // Agent draft — needs native review
+    "हे कलम त्या संहितेचे नाही जे या तारखेला लागू होते. आमच्या मॅपिंग तक्त्यात समकक्ष नोंद नाही. काय झाले ते लिहा जेणेकरून मी कलम शोधू शकेन.",
+  clarifyFallbackDescribeFacts:
+    // Agent draft — needs native review
+    "काय झाले ते लिहा (कोणी काय केले, आणि कोणाशी) — मी पुन्हा शोधेन.",
+  sectionLookupNoteFallback:
+    // Agent draft — needs native review
+    "तुम्ही कलम दिले आहे पण तथ्य नाहीत, म्हणून विश्लेषण लिहिले नाही. विश्लेषणासाठी काय झाले ते सांगा.",
+  sectionLookupNoEquivalent:
+    // Agent draft — needs native review
+    "आमच्या मॅपिंग तक्त्यात समकक्ष नोंद नाही",
+  sectionLookupMissing: (code, section) =>
+    // Agent draft — needs native review
+    `${code} ${section} आमच्याकडे असलेल्या वैधानिक मजकुरात नाही.`,
+  sectionLookupMapping: (otherCodeName, phrase, label, heading) => {
+    // Agent draft — needs native review
+    const suffix = heading ? ` (${heading})` : "";
+    return `${otherCodeName} मध्ये, ${phrase} ${label}${suffix}.`;
+  },
+  mappingPhraseSection: "समकक्ष कलम आहे",
+  mappingPhrasePartial: "अंशतः जुळते",
+  mappingPhraseMerged: "मध्ये विलीन आहे",
+  codeNameIpc: "भारतीय दंड संहिता",
+  codeNameBns: "भारतीय न्याय संहिता",
+  bifurcationEscapeOption:
+    // Agent draft — needs native review
+    "यापैकी कोणतेही नाही. काय घडले ते मी सांगतो.",
   machineTranslatedNote:
     "कायदेशीर विश्लेषणानंतर मराठीत मशीन-भाषांतर केले आहे. महत्त्वाचे असल्यास इंग्रजी मजकूर पाहा.",
   bifurcationPrompt: (sections) =>
     `या प्रश्नासाठी अनेक वैधानिक कलमे जवळपास सारखीच योग्य वाटतात. मी कोणत्याचे विश्लेषण करू: ${sections}?`,
+  bifurcationMismatchFallback: (sections) =>
+    // Agent draft — needs native review
+    `तुम्ही अशा संहितेचे कलम लिहिले आहे जे या गुन्ह्याच्या तारखेला लागू नाही. मॅपिंग तक्त्यात लागू संहितेची समकक्ष कलमे आहेत: ${sections}. मी कोणत्याचे विश्लेषण करू?`,
   failureFallback: "ही क्वेरी पूर्ण होऊ शकली नाही.",
   unexpected: "पाइपलाइनकडून अनपेक्षित प्रतिसाद.",
   apiError:

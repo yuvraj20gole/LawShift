@@ -10,6 +10,7 @@ it does not change retrieval ranking.
 from __future__ import annotations
 
 import os
+import re
 import sys
 from dataclasses import dataclass
 from pathlib import Path
@@ -177,7 +178,12 @@ def get_chunk_by_id(chunk_id: str, corpus_act: str) -> RetrievedChunk | None:
 
 
 def first_sentence(text: str) -> str:
-    """Short description: first sentence of statutory text (skip context header)."""
+    """Short description: first sentence of statutory text (skip context header).
+
+    Legacy helper: cuts at the first period, which often yields only the
+    section number (e.g. \"292.\") when the statute opens \"292. Heading…\".
+    Prefer option_description() for bifurcation UI text.
+    """
     cleaned = text.strip()
     # Drop leading [Context: ...] blocks common in corpus text
     if cleaned.startswith("[Context:"):
@@ -191,12 +197,63 @@ def first_sentence(text: str) -> str:
     return cleaned[:200].strip()
 
 
+_SECTION_NUM_PREFIX = re.compile(
+    r"^\s*\d+[A-Za-z]{0,3}\s*\.\s*",
+)
+
+
+def _unwrap_hyphen_linebreaks(s: str) -> str:
+    """Join statute line-break hyphens: 'bank-\\nnotes' → 'bank-notes'."""
+    return re.sub(r"-\s*\n\s*", "-", s)
+
+
+def option_description(chunk: RetrievedChunk, max_chars: int = 120) -> str:
+    """Bifurcation option label: corpus heading, else ~120 chars of body text.
+
+    Skips the leading \"292.\" section-number prefix so the snippet is readable.
+    Truncates at a word boundary when falling back to body text.
+    """
+    title = _unwrap_hyphen_linebreaks((chunk.section_title or "").strip())
+    # Some BNS titles were cut at a hard linebreak mid-hyphenation ("bank-").
+    # Rebuild from the statute opening when the stored title ends that way.
+    if title and title.lower() not in {"nan", "none", "null"} and not title.endswith("-"):
+        return title
+
+    cleaned = _unwrap_hyphen_linebreaks(chunk.text.strip())
+    if cleaned.startswith("[Context:"):
+        end = cleaned.find("]")
+        if end != -1:
+            cleaned = cleaned[end + 1 :].strip()
+
+    body = _SECTION_NUM_PREFIX.sub("", cleaned, count=1).strip()
+    # Also drop an em-dash / en-dash title separator if present without a period.
+    if body.startswith(("—", "–", "-")):
+        body = body.lstrip("—–-").strip()
+
+    # Prefer the heading-like span before the body proper (up to first .— or .\n).
+    for sep in (".—", ".—", ".\n"):
+        idx = body.find(sep)
+        if 0 < idx <= 160:
+            heading = body[:idx].strip()
+            if heading:
+                return heading
+
+    if len(body) <= max_chars:
+        return body
+    cut = body[:max_chars]
+    sp = cut.rfind(" ")
+    if sp > 40:
+        cut = cut[:sp]
+    return cut.rstrip() + ("…" if len(body) > len(cut) else "")
+
+
 __all__ = [
     "RetrievedChunk",
     "cascade_search_act_aware",
     "cascade_search_with_scores",
     "detect_bifurcation",
     "first_sentence",
+    "option_description",
     "get_chunk_by_id",
     "load",
 ]

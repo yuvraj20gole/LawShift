@@ -48,6 +48,20 @@ type Verification = {
   confidence_note?: string;
 };
 
+type SectionLookupItem = {
+  code: string;
+  section: string;
+  heading: string;
+  text: string;
+  found: boolean;
+  mapping_line: string;
+  mapping_status?: "equivalent" | "none" | "missing" | null;
+  equiv_code?: string | null;
+  equiv_section?: string | null;
+  equiv_heading?: string | null;
+  mapping_type?: "section" | "partial" | "merged" | null;
+};
+
 type Msg =
   | { role: "user"; text: string }
   | {
@@ -61,7 +75,75 @@ type Msg =
       engine?: "indictrans2" | "ollama_fallback" | "unavailable" | null;
       translationNote?: string | null;
       bifurcationOptions?: BifurcationOption[];
+      sectionLookup?: SectionLookupItem[];
     };
+
+/** English API sentinel for the bifurcation escape option. */
+const DESCRIBE_FACTS_SENTINEL = "None of these. I will describe what happened";
+
+function isDescribeFactsOption(section: string) {
+  const s = section.trim().toLowerCase();
+  return (
+    s.startsWith("none of these") ||
+    s.startsWith("इनमें से कोई नहीं") ||
+    s.startsWith("यापैकी कोणतेही नाही")
+  );
+}
+
+function statuteOptions(options: BifurcationOption[]) {
+  return options.filter((o) => !isDescribeFactsOption(o.section));
+}
+
+function localizeMappingLine(
+  item: SectionLookupItem,
+  lang: string,
+  dict: {
+    sectionLookupNoEquivalent: string;
+    sectionLookupMissing: (code: string, section: string) => string;
+    sectionLookupMapping: (
+      otherCodeName: string,
+      phrase: string,
+      label: string,
+      heading: string,
+    ) => string;
+    mappingPhraseSection: string;
+    mappingPhrasePartial: string;
+    mappingPhraseMerged: string;
+    codeNameIpc: string;
+    codeNameBns: string;
+  },
+): string {
+  if (lang === "en") return item.mapping_line;
+  if (item.mapping_status === "missing" || (!item.found && item.mapping_line)) {
+    return dict.sectionLookupMissing(item.code, item.section);
+  }
+  if (item.mapping_status === "none" || !item.equiv_section) {
+    // Prefer structured "none"; also cover English-only "No equivalent…" lines.
+    if (
+      item.mapping_status === "none" ||
+      item.mapping_line.startsWith("No equivalent")
+    ) {
+      return dict.sectionLookupNoEquivalent;
+    }
+  }
+  if (item.mapping_status === "equivalent" && item.equiv_code && item.equiv_section) {
+    const phrase =
+      item.mapping_type === "partial"
+        ? dict.mappingPhrasePartial
+        : item.mapping_type === "merged"
+          ? dict.mappingPhraseMerged
+          : dict.mappingPhraseSection;
+    const otherName =
+      item.equiv_code === "IPC" ? dict.codeNameIpc : dict.codeNameBns;
+    return dict.sectionLookupMapping(
+      otherName,
+      phrase,
+      `${item.equiv_code} ${item.equiv_section}`,
+      item.equiv_heading || "",
+    );
+  }
+  return item.mapping_line;
+}
 
 function newConversationId() {
   return `web-${crypto.randomUUID()}`;
@@ -204,22 +286,90 @@ export function ChatEntry({
         };
       }
       if (data.kind === "clarify") {
+        const factsClarify = data.reason === "missing_facts";
+        const mismatchClarify = data.reason === "code_mismatch";
+        const describeClarify = data.reason === "describe_facts";
+        const fallback = mismatchClarify
+          ? t.clarifyFallbackMismatch
+          : describeClarify
+            ? t.clarifyFallbackDescribeFacts
+            : factsClarify
+              ? t.clarifyFallbackFacts
+              : t.clarifyFallback;
         return {
           role: "assistant",
-          text: lang === "en" ? (data.question as string) || t.clarifyFallback : t.clarifyFallback,
+          text: lang === "en" ? (data.question as string) || fallback : fallback,
           language: lang,
+        };
+      }
+      if (data.kind === "section_lookup") {
+        const rawItems = Array.isArray(data.items) ? data.items : [];
+        const items: SectionLookupItem[] = rawItems
+          .filter((it): it is Record<string, unknown> => !!it && typeof it === "object")
+          .map((it) => {
+            const base: SectionLookupItem = {
+              code: typeof it.code === "string" ? it.code : "",
+              section: typeof it.section === "string" ? it.section : "",
+              heading: typeof it.heading === "string" ? it.heading : "",
+              text: typeof it.text === "string" ? it.text : "",
+              found: Boolean(it.found),
+              mapping_line:
+                typeof it.mapping_line === "string" ? it.mapping_line : "",
+              mapping_status:
+                it.mapping_status === "equivalent" ||
+                it.mapping_status === "none" ||
+                it.mapping_status === "missing"
+                  ? it.mapping_status
+                  : null,
+              equiv_code: typeof it.equiv_code === "string" ? it.equiv_code : null,
+              equiv_section:
+                typeof it.equiv_section === "string" ? it.equiv_section : null,
+              equiv_heading:
+                typeof it.equiv_heading === "string" ? it.equiv_heading : null,
+              mapping_type:
+                it.mapping_type === "section" ||
+                it.mapping_type === "partial" ||
+                it.mapping_type === "merged"
+                  ? it.mapping_type
+                  : null,
+            };
+            return {
+              ...base,
+              mapping_line: localizeMappingLine(base, lang, t),
+            };
+          });
+        return {
+          role: "assistant",
+          text:
+            lang === "en"
+              ? (data.note as string) || t.sectionLookupNoteFallback
+              : t.sectionLookupNoteFallback,
+          language: lang,
+          sectionLookup: items,
         };
       }
       if (data.kind === "bifurcation") {
         const options = (data.options as BifurcationOption[]) || [];
+        const mismatch = data.reason === "code_mismatch";
+        const statuteSecs = statuteOptions(options)
+          .map((o) => o.section)
+          .join(", ");
+        // Localise the escape option label; keep English sentinel for resolve.
+        const localized = options.map((o) =>
+          isDescribeFactsOption(o.section)
+            ? { section: DESCRIBE_FACTS_SENTINEL, description: t.bifurcationEscapeOption }
+            : o,
+        );
         return {
           role: "assistant",
           text:
             lang === "en"
               ? (data.prompt as string) || ""
-              : t.bifurcationPrompt(options.map((o) => o.section).join(", ")),
+              : mismatch
+                ? t.bifurcationMismatchFallback(statuteSecs)
+                : t.bifurcationPrompt(statuteSecs),
           language: lang,
-          bifurcationOptions: options,
+          bifurcationOptions: localized,
         };
       }
       if (data.kind === "failure") {
@@ -256,7 +406,11 @@ export function ChatEntry({
         });
         const data = await res.json();
         setMessages((m) => [...m, replyFromData(data)]);
-        setRemaining((n) => Math.max(0, n - 1));
+        // Free-question limit: only mapped answers count (not clarify /
+        // bifurcation / failure). Network errors never reach here.
+        if (data.kind === "mapping") {
+          setRemaining((n) => Math.max(0, n - 1));
+        }
       } catch {
         setError(t.apiError);
         setMessages((m) => m.slice(0, -1));
@@ -269,11 +423,16 @@ export function ChatEntry({
   );
 
   const resolveBifurcation = useCallback(
-    async (section: string) => {
-      if (!section || busy || outOfQuota) return;
+    async (section: string, display?: string) => {
+      if (!section || busy) return;
+      const escape = isDescribeFactsOption(section);
+      if (outOfQuota && !escape) return;
       setError(null);
       setBusy(true);
-      setMessages((m) => [...m, { role: "user", text: section }]);
+      setMessages((m) => [
+        ...m,
+        { role: "user", text: display ?? section },
+      ]);
       try {
         const res = await fetch(`${API_BASE}/api/query/resolve_bifurcation`, {
           method: "POST",
@@ -286,7 +445,10 @@ export function ChatEntry({
         });
         const data = await res.json();
         setMessages((m) => [...m, replyFromData(data)]);
-        setRemaining((n) => Math.max(0, n - 1));
+        // Mapped answer after a bifurcation choice counts once.
+        if (data.kind === "mapping") {
+          setRemaining((n) => Math.max(0, n - 1));
+        }
       } catch {
         setError(t.apiError);
         setMessages((m) => m.slice(0, -1));
@@ -495,22 +657,129 @@ export function ChatEntry({
                       <p className={styles.fallbackNote}>{m.translationNote}</p>
                     ) : null}
                   </div>
+                ) : m.role === "assistant" && m.sectionLookup?.length ? (
+                  <div className={styles.iracBlock}>
+                    <p className={styles.statute}>{m.text}</p>
+                    {m.sectionLookup.map((item, si) => {
+                      const key = `${i}:${si}`;
+                      const open = Boolean(expandedSources[key]);
+                      const cite = [item.code, item.section]
+                        .filter(Boolean)
+                        .join(" ");
+                      const title =
+                        item.found && item.heading
+                          ? `${cite} — ${item.heading}`
+                          : cite;
+                      return (
+                        <div key={`sl-${key}`}>
+                          {item.mapping_line ? (
+                            <p className={styles.statute}>{item.mapping_line}</p>
+                          ) : null}
+                          {!item.found ? (
+                            <p className={styles.statute}>
+                              <strong>{title || cite}</strong>
+                            </p>
+                          ) : null}
+                          {item.found && item.text ? (
+                            <div className={styles.sourcesBlock}>
+                              <span className={styles.iracLabel}>
+                                {t.sourcesHeading(1)}
+                              </span>
+                              <ul className={styles.sourcesList}>
+                                <li className={styles.sourceItem}>
+                                  <button
+                                    type="button"
+                                    className={styles.sourceToggle}
+                                    aria-expanded={open}
+                                    onClick={() => toggleSource(i, si)}
+                                  >
+                                    <strong>{title || cite}</strong>
+                                    <span>
+                                      {open
+                                        ? t.hideSourceText
+                                        : t.showSourceText}
+                                    </span>
+                                  </button>
+                                  <AnimatePresence initial={false}>
+                                    {open ? (
+                                      <motion.div
+                                        key="src"
+                                        className={styles.sourceTextWrap}
+                                        initial={
+                                          reduceMotion
+                                            ? { opacity: 0 }
+                                            : { height: 0, opacity: 0 }
+                                        }
+                                        animate={
+                                          reduceMotion
+                                            ? { opacity: 1 }
+                                            : { height: "auto", opacity: 1 }
+                                        }
+                                        exit={
+                                          reduceMotion
+                                            ? { opacity: 0 }
+                                            : { height: 0, opacity: 0 }
+                                        }
+                                        transition={
+                                          reduceMotion
+                                            ? { duration: 0.12 }
+                                            : {
+                                                height: {
+                                                  duration: 0.2,
+                                                  ease: [0.23, 1, 0.32, 1],
+                                                },
+                                                opacity: { duration: 0.15 },
+                                              }
+                                        }
+                                      >
+                                        <p className={styles.sourceText}>
+                                          {item.text}
+                                        </p>
+                                      </motion.div>
+                                    ) : null}
+                                  </AnimatePresence>
+                                </li>
+                              </ul>
+                            </div>
+                          ) : null}
+                        </div>
+                      );
+                    })}
+                  </div>
                 ) : m.role === "assistant" && m.bifurcationOptions?.length ? (
                   <div className={styles.bifurcation}>
                     <p className={styles.statute}>{m.text}</p>
                     <div className={styles.bifurcationOptions}>
-                      {m.bifurcationOptions.map((o) => (
-                        <button
-                          key={o.section}
-                          type="button"
-                          className={styles.bifurcationBtn}
-                          disabled={busy || outOfQuota}
-                          onClick={() => void resolveBifurcation(o.section)}
-                        >
-                          <strong>{o.section}</strong>
-                          <span>{o.description}</span>
-                        </button>
-                      ))}
+                      {m.bifurcationOptions.map((o) => {
+                        const escape = isDescribeFactsOption(o.section);
+                        const escapeLabel =
+                          o.description || t.bifurcationEscapeOption;
+                        return (
+                          <button
+                            key={o.section}
+                            type="button"
+                            className={styles.bifurcationBtn}
+                            disabled={busy || (outOfQuota && !escape)}
+                            onClick={() =>
+                              void resolveBifurcation(
+                                escape ? DESCRIBE_FACTS_SENTINEL : o.section,
+                                escape ? escapeLabel : o.section,
+                              )
+                            }
+                          >
+                            {escape ? (
+                              <strong>{escapeLabel}</strong>
+                            ) : (
+                              <>
+                                <strong>{o.section}</strong>
+                                {o.description ? (
+                                  <span>{o.description}</span>
+                                ) : null}
+                              </>
+                            )}
+                          </button>
+                        );
+                      })}
                     </div>
                   </div>
                 ) : (

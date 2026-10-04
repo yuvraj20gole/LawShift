@@ -5,6 +5,7 @@ Run: uvicorn app.main:app --reload --port 8000
 from __future__ import annotations
 
 import json
+import re
 import time
 from contextlib import asynccontextmanager
 from datetime import date
@@ -25,8 +26,21 @@ from .schemas import (
     QueryRequest,
     ResolveBifurcationRequest,
     SectionBadge,
+    SectionLookupItem,
+    SectionLookupResponse,
     Source,
 )
+
+# Bifurcation escape: last option; resolve clears pending and asks for facts.
+DESCRIBE_FACTS_OPTION = "None of these. I will describe what happened"
+DESCRIBE_FACTS_PROMPT = (
+    "Describe what happened (who did what, and to whom) and I will search again."
+)
+SECTION_LOOKUP_NOTE = (
+    "You gave a section but no facts, so no analysis was written. "
+    "Describe what happened to get one."
+)
+_NO_MAPPING_EQUIVALENT = "No equivalent is recorded in our mapping table"
 
 # Per-conversation locked offence date (frontend conversation_id contract).
 _LOCKED_DATES: dict[str, date] = {}
@@ -286,6 +300,682 @@ def _build_mapping(
     )
 
 
+# Words that ask about the law without describing what happened.
+# Reviewed list — extend carefully; one leftover content word lets the query through.
+MISSING_FACTS_META_WORDS: frozenset[str] = frozenset(
+    {
+        "which",
+        "what",
+        "section",
+        "sections",
+        "law",
+        "laws",
+        "act",
+        "acts",
+        "applies",
+        "apply",
+        "applicable",
+        "case",
+        "cases",
+        "legal",
+        "illegal",
+        "help",
+        "tell",
+        "me",
+        "this",
+        "that",
+        "these",
+        "those",
+        "offence",
+        "offense",
+        "crime",
+        "crimes",
+        "matter",
+        "issue",
+        "issues",
+        "date",
+        "dates",
+        "dated",
+        "day",
+        "month",
+        "year",
+        "please",
+        "ask",
+        "asking",
+        "know",
+        "find",
+        "finding",
+        "need",
+        "needed",
+        "want",
+        "wants",
+        "give",
+        "show",
+        "explain",
+        "about",
+        "regarding",
+        "under",
+        "indian",
+        "india",
+        "code",
+        "codes",
+        "current",
+        "new",
+        "old",
+        "ipc",
+        "bns",
+        "bnss",
+        "bsa",
+        "happened",
+        "happen",
+        "occurring",
+        "occurred",
+        "done",
+        "doing",
+        "did",
+    }
+)
+
+# Function words stripped alongside meta words (English).
+MISSING_FACTS_STOPWORDS: frozenset[str] = frozenset(
+    {
+        "a",
+        "an",
+        "the",
+        "and",
+        "or",
+        "but",
+        "if",
+        "then",
+        "than",
+        "so",
+        "not",
+        "no",
+        "nor",
+        "too",
+        "very",
+        "just",
+        "also",
+        "only",
+        "own",
+        "same",
+        "such",
+        "both",
+        "each",
+        "few",
+        "more",
+        "most",
+        "other",
+        "some",
+        "any",
+        "all",
+        "is",
+        "are",
+        "was",
+        "were",
+        "be",
+        "been",
+        "being",
+        "am",
+        "have",
+        "has",
+        "had",
+        "do",
+        "does",
+        "will",
+        "would",
+        "could",
+        "should",
+        "may",
+        "might",
+        "must",
+        "shall",
+        "can",
+        "of",
+        "to",
+        "for",
+        "in",
+        "on",
+        "at",
+        "by",
+        "with",
+        "from",
+        "as",
+        "into",
+        "between",
+        "through",
+        "during",
+        "before",
+        "after",
+        "above",
+        "below",
+        "how",
+        "when",
+        "where",
+        "why",
+        "who",
+        "whom",
+        "whose",
+        "i",
+        "you",
+        "he",
+        "she",
+        "it",
+        "we",
+        "they",
+        "my",
+        "your",
+        "his",
+        "her",
+        "its",
+        "our",
+        "their",
+        "there",
+        "here",
+        "out",
+        "up",
+        "down",
+        "over",
+        "again",
+        "further",
+        "once",
+        "because",
+        "until",
+        "while",
+        "against",
+        "among",
+        "across",
+        "within",
+        "without",
+        "via",
+        "per",
+        "vs",
+        "etc",
+    }
+)
+
+_MISSING_FACTS_DROP = MISSING_FACTS_META_WORDS | MISSING_FACTS_STOPWORDS
+
+# Explicit statute citation — lets the query through even with zero content words.
+# Number may carry a lettered suffix (124A). Act and number in either order;
+# "section"/"sec"/"s."/"u/s" also count as a citation cue next to the number.
+# Word boundaries prevent "applies. 10" (date day) from matching as "s." + 10.
+# Pattern (verbose form of EXPLICIT_CITATION_RE):
+#   (?<![A-Za-z])(?:IPC|BNS|BNSS|BSA|CrPC)\s*[#:]?\s*\d+[A-Za-z]{0,3}\b
+#   | (?<![A-Za-z])\d+[A-Za-z]{0,3}\s+(?:IPC|BNS|BNSS|BSA|CrPC)\b
+#   | (?<![A-Za-z])(?:sections?|sec\.?|s\.|u/s)\s*[#:]?\s*\d+[A-Za-z]{0,3}\b
+#   | (?<![A-Za-z])\d+[A-Za-z]{0,3}\s+(?:sections?|sec\.?|s\.|u/s)\b
+_SECTION_NUM_RE = r"\d+[A-Za-z]{0,3}"
+_ACT_RE = r"(?:IPC|BNS|BNSS|BSA|CrPC)"
+_SEC_WORD_RE = r"(?:sections?|sec\.?|s\.|u/s)"
+EXPLICIT_CITATION_RE = re.compile(
+    rf"(?:"
+    rf"(?<![A-Za-z])(?:{_ACT_RE})\s*[#:]?\s*{_SECTION_NUM_RE}\b"
+    rf"|(?<![A-Za-z]){_SECTION_NUM_RE}\s+(?:{_ACT_RE})\b"
+    rf"|(?<![A-Za-z])(?:{_SEC_WORD_RE})\s*[#:]?\s*{_SECTION_NUM_RE}\b"
+    rf"|(?<![A-Za-z]){_SECTION_NUM_RE}\s+(?:{_SEC_WORD_RE})\b"
+    rf")",
+    re.IGNORECASE,
+)
+
+
+def message_has_explicit_citation(message: str) -> bool:
+    """True when the message names a section number with an act or section cue."""
+    return EXPLICIT_CITATION_RE.search(message or "") is not None
+
+
+def content_tokens_after_date(
+    message: str, matched_date_text: str | None
+) -> list[str]:
+    """Tokens left after removing the matched date and meta/stop words.
+
+    Pure digits are dropped (section numbers / date remnants are not facts).
+    One leftover content token is enough for the query to proceed.
+    """
+    text = message or ""
+    if matched_date_text and matched_date_text not in {"", "(locked)"}:
+        # Remove the Stage 1 matched span (case-insensitive).
+        text = re.sub(re.escape(matched_date_text), " ", text, flags=re.I)
+    text = text.lower()
+    text = re.sub(r"[^\w\s]", " ", text)
+    tokens = [t for t in text.split() if t]
+    kept: list[str] = []
+    for t in tokens:
+        if t.isdigit():
+            continue
+        if t in _MISSING_FACTS_DROP:
+            continue
+        kept.append(t)
+    return kept
+
+
+def message_missing_offense_facts(
+    message: str, matched_date_text: str | None
+) -> bool:
+    """True when the message has a date context but no remaining content words.
+
+    Explicit citations (e.g. \"IPC 292\", \"Section 302\") count as content
+    even when every token would otherwise be stripped as meta/digits.
+    """
+    if message_has_explicit_citation(message):
+        return False
+    return len(content_tokens_after_date(message, matched_date_text)) == 0
+
+
+def message_is_citation_only(
+    message: str, matched_date_text: str | None
+) -> bool:
+    """True when only date + meta + explicit citation spans remain.
+
+    Removes the matched date and every EXPLICIT_CITATION_RE span, then
+    applies the same token filter as missing-facts. Any leftover content
+    word means the message is not citation-only (unchanged pipeline).
+    """
+    if not message_has_explicit_citation(message):
+        return False
+    text = message or ""
+    if matched_date_text and matched_date_text not in {"", "(locked)"}:
+        text = re.sub(re.escape(matched_date_text), " ", text, flags=re.I)
+    text = EXPLICIT_CITATION_RE.sub(" ", text)
+    return len(content_tokens_after_date(text, None)) == 0
+
+
+def _mapping_fields_for_section(
+    code: str, section: str
+) -> tuple[str, str, str | None, str | None, str | None, str | None]:
+    """English mapping_line plus structured fields for client localisation.
+
+    Returns
+    (mapping_line, mapping_status, equiv_code, equiv_section,
+     equiv_heading, mapping_type).
+    """
+    result = mapping_lookup.lookup(code, section)
+    pairs = result.get("pairs") or []
+    if not pairs:
+        return _NO_MAPPING_EQUIVALENT, "none", None, None, None, None
+    pair = pairs[0]
+    mtype = pair.get("mappingType") or "section"
+    if mtype == "dropped":
+        return _NO_MAPPING_EQUIVALENT, "none", None, None, None, None
+    phrase = _mapping_type_phrase(mtype)
+    if code == "IPC":
+        other = pair.get("bns")
+        if not other:
+            return _NO_MAPPING_EQUIVALENT, "none", None, None, None, None
+        equiv_code = "BNS"
+        equiv_section = str(other.get("section") or "")
+        equiv_heading = (other.get("heading") or "").strip()
+        other_name = _code_full_name("BNS")
+    else:
+        other = pair.get("ipc")
+        if not other:
+            return _NO_MAPPING_EQUIVALENT, "none", None, None, None, None
+        equiv_code = "IPC"
+        equiv_section = str(other.get("section") or "")
+        equiv_heading = (other.get("heading") or "").strip()
+        other_name = _code_full_name("IPC")
+    label = f"{equiv_code} {equiv_section}"
+    suffix = f" ({equiv_heading})" if equiv_heading else ""
+    line = f"In {other_name}, {phrase} {label}{suffix}."
+    mtype_norm = mtype if mtype in {"section", "partial", "merged"} else "section"
+    return line, "equivalent", equiv_code, equiv_section, equiv_heading, mtype_norm
+
+
+def _build_section_lookup(
+    citations: list[tuple[str, str]],
+) -> SectionLookupResponse:
+    """Statute + mapping for up to three matching-route citations; no IRAC."""
+    items: list[SectionLookupItem] = []
+    for code, sec in citations[:3]:
+        chunk_id = f"{code}_{sec}"
+        chunk = stage3.get_chunk_by_id(chunk_id, code)
+        if chunk is None:
+            items.append(
+                SectionLookupItem(
+                    code=code,  # type: ignore[arg-type]
+                    section=sec,
+                    heading="",
+                    text="",
+                    found=False,
+                    mapping_line=f"{code} {sec} is not in the statute text we hold.",
+                    mapping_status="missing",
+                )
+            )
+            continue
+        heading = (chunk.section_title or "").strip()
+        if heading.lower() in {"nan", "none", "null"}:
+            heading = ""
+        line, status, eq_code, eq_sec, eq_head, mtype = _mapping_fields_for_section(
+            code, sec
+        )
+        items.append(
+            SectionLookupItem(
+                code=code,  # type: ignore[arg-type]
+                section=sec,
+                heading=heading,
+                text=chunk.text or "",
+                found=True,
+                mapping_line=line,
+                mapping_status=status,  # type: ignore[arg-type]
+                equiv_code=eq_code,  # type: ignore[arg-type]
+                equiv_section=eq_sec,
+                equiv_heading=eq_head,
+                mapping_type=mtype,  # type: ignore[arg-type]
+            )
+        )
+    return SectionLookupResponse(note=SECTION_LOOKUP_NOTE, items=items)
+
+
+def _with_describe_facts_option(
+    options: list[BifurcationOption],
+) -> list[BifurcationOption]:
+    """Append the escape option; does not change which sections were offered."""
+    if any(
+        o.section.lower().startswith("none of these") for o in options
+    ):
+        return options
+    return options + [
+        BifurcationOption(section=DESCRIBE_FACTS_OPTION, description="")
+    ]
+
+
+def _is_describe_facts_choice(chosen: str) -> bool:
+    text = (chosen or "").strip()
+    low = text.lower()
+    if low.startswith("none of these"):
+        return True
+    # Accept localised labels if a client posts them instead of the sentinel.
+    if text.startswith("इनमें से कोई नहीं"):
+        return True
+    if text.startswith("यापैकी कोणतेही नाही"):
+        return True
+    return False
+
+
+def _equivalent_options_for_citation(
+    cited_code: str, cited_section: str, route: str
+) -> tuple[list[tuple[str, str, str, str]], str | None]:
+    """Look up mapping equivalents in the code that is in force (route).
+
+    Returns (options, mapping_type_for_prompt) where each option is
+    (label like 'IPC 302', section_number, heading, mapping_type).
+    Empty options means no recorded equivalent (including dropped).
+
+    Uses the mapping indexes directly so a BNS base section that maps
+    from several IPC rows (e.g. BNS 1 ← IPC 1, 2, 3…) yields multiple
+    reverse options — lookup() alone prefers exact subclause rows.
+    """
+    _rows, ipc_index, bns_index, bns_titles, _bns_texts = mapping_lookup._load()
+    options: list[tuple[str, str, str, str]] = []
+    primary_type: str | None = None
+    cited_key = (cited_section or "").strip().upper()
+
+    def _add(label: str, sec: str, heading: str, mtype: str) -> None:
+        nonlocal primary_type
+        if any(o[0] == label for o in options):
+            return
+        if primary_type is None:
+            primary_type = mtype
+        options.append((label, sec, heading or "", mtype))
+
+    if cited_code == "IPC" and route == "BNS":
+        rows = ipc_index.get(cited_key, [])
+        if not rows:
+            return [], None
+        for r in rows:
+            mtype = r.get("mapping_type") or "section"
+            if mtype == "dropped":
+                continue
+            base = str(r.get("bns_base_section") or r.get("bns_section") or "")
+            base = base.split("(")[0].strip()
+            if not base or base.lower().startswith("repealed"):
+                continue
+            heading = (
+                bns_titles.get(base.upper())
+                or r.get("bns_heading")
+                or ""
+            )
+            _add(f"BNS {base}", base, heading, mtype)
+            if len(options) >= 3:
+                break
+        return options, primary_type
+
+    if cited_code == "BNS" and route == "IPC":
+        base_m = re.match(r"^\s*(\d+[A-Za-z]{0,2})", cited_key)
+        base = base_m.group(1).upper() if base_m else cited_key
+        rows = bns_index.get(base, [])
+        if not rows:
+            # Fall back to public lookup (handles bnsOnly / exact forms)
+            result = mapping_lookup.lookup(cited_code, cited_section)
+            if not result.get("found"):
+                return [], None
+            for pair in result.get("pairs") or []:
+                mtype = pair.get("mappingType") or "section"
+                if mtype == "dropped":
+                    continue
+                card = pair.get("ipc")
+                if not card or not card.get("section"):
+                    continue
+                sec = str(card["section"]).split("(")[0].strip()
+                _add(
+                    f"IPC {sec}",
+                    sec,
+                    card.get("heading") or "",
+                    mtype,
+                )
+                if len(options) >= 3:
+                    break
+            return options, primary_type
+        for r in rows:
+            mtype = r.get("mapping_type") or "section"
+            if mtype == "dropped":
+                continue
+            sec = str(r.get("ipc_section") or "").split("(")[0].strip()
+            if not sec:
+                continue
+            _add(f"IPC {sec}", sec, r.get("ipc_heading") or "", mtype)
+            if len(options) >= 3:
+                break
+        return options, primary_type
+
+    return [], None
+
+
+def extract_ipc_bns_citations(message: str) -> list[tuple[str, str]]:
+    """IPC/BNS citations only, using the same spans EXPLICIT_CITATION_RE finds.
+
+    Returns unique (code, section) pairs. BNSS, BSA, CrPC, and bare
+    \"section 302\" (no code named) are omitted — not mismatches.
+    Year-like numbers (1900–2099) after BNS/IPC are ignored so prose
+    like \"BNS 2023\" is not treated as a section cite.
+    """
+    found: list[tuple[str, str]] = []
+    seen: set[tuple[str, str]] = set()
+    for m in EXPLICIT_CITATION_RE.finditer(message or ""):
+        span = m.group(0)
+        if re.search(r"\bBNSS\b|\bBSA\b|\bCrPC\b", span, re.I):
+            continue
+        # Prefer "Section 302 IPC" / "IPC Section 302" inside a wider window
+        start, end = m.span()
+        window = (message or "")[max(0, start - 24) : min(len(message or ""), end + 24)]
+        pair: tuple[str, str] | None = None
+        m1 = re.search(
+            rf"\b(IPC|BNS)\b\s*[#:]?\s*({_SECTION_NUM_RE})\b", window, re.I
+        )
+        m2 = re.search(
+            rf"\b({_SECTION_NUM_RE})\b\s+\b(IPC|BNS)\b", window, re.I
+        )
+        m3 = re.search(
+            rf"(?:{_SEC_WORD_RE})\s*[#:]?\s*({_SECTION_NUM_RE})\s*,?\s*\b(IPC|BNS)\b",
+            window,
+            re.I,
+        )
+        m4 = re.search(
+            rf"\b(IPC|BNS)\b\s+(?:{_SEC_WORD_RE})\s*[#:]?\s*({_SECTION_NUM_RE})\b",
+            window,
+            re.I,
+        )
+        if m3:
+            pair = (m3.group(2).upper(), m3.group(1))
+        elif m4:
+            pair = (m4.group(1).upper(), m4.group(2))
+        elif m1:
+            pair = (m1.group(1).upper(), m1.group(2))
+        elif m2:
+            pair = (m2.group(2).upper(), m2.group(1))
+        if pair is None:
+            continue
+        if pair[0] not in {"IPC", "BNS"}:
+            continue
+        # Drop year false-positives (e.g. "BNS 2023" in running text)
+        if re.fullmatch(r"(?:19|20)\d{2}", pair[1]):
+            continue
+        key = (pair[0], pair[1].upper())
+        if key in seen:
+            continue
+        seen.add(key)
+        found.append((pair[0], pair[1].upper()))
+    return found
+
+
+def _mapping_type_phrase(mapping_type: str | None) -> str:
+    t = (mapping_type or "section").lower()
+    if t == "partial":
+        return "partly matches"
+    if t == "merged":
+        return "merged into"
+    return "the corresponding section is"
+
+
+def _code_full_name(code: str) -> str:
+    return (
+        "the Indian Penal Code"
+        if code == "IPC"
+        else "the Bharatiya Nyaya Sanhita"
+    )
+
+
+def _build_code_mismatch_response(
+    *,
+    message: str,
+    offense_date: date,
+    matched_text: str,
+    reason: str,
+    route: str,
+    mismatches: list[tuple[str, str]],
+    conversation_id: str,
+) -> BifurcationResponse | ClarifyResponse:
+    """Offer mapped equivalents in the in-force code; skip retrieval."""
+    date_str = offense_date.strftime("%-d %B %Y") if hasattr(offense_date, "strftime") else str(offense_date)
+    # macOS/Linux: %-d may fail on some platforms — use day without leading zero safely
+    try:
+        date_str = offense_date.strftime("%-d %B %Y")
+    except ValueError:
+        date_str = offense_date.strftime("%d %B %Y").lstrip("0")
+
+    route_name = _code_full_name(route)
+    all_options: list[tuple[str, str, str, str]] = []
+    prompt_parts: list[str] = []
+    any_found = False
+
+    for cited_code, cited_sec in mismatches:
+        opts, mtype = _equivalent_options_for_citation(cited_code, cited_sec, route)
+        if not opts:
+            prompt_parts.append(
+                f"No equivalent is recorded in our mapping table for "
+                f"{cited_code} {cited_sec}."
+            )
+            continue
+        any_found = True
+        phrase = _mapping_type_phrase(mtype)
+        labels = [o[0] for o in opts]
+        if len(labels) == 1:
+            eq_text = f"{phrase} {labels[0]}"
+        else:
+            eq_text = f"{phrase} " + ", ".join(labels[:-1]) + f" and {labels[-1]}"
+        # Normalise "the corresponding section is IPC 302"
+        if phrase == "the corresponding section is":
+            mid = f"In our mapping table {eq_text}."
+        elif phrase == "partly matches":
+            mid = f"In our mapping table it partly matches {', '.join(labels)}."
+        else:  # merged into
+            mid = f"In our mapping table it is merged into {', '.join(labels)}."
+        prompt_parts.append(
+            f"You named {cited_code} {cited_sec}, but for an offence on {date_str} "
+            f"{route_name} applies. {mid}"
+        )
+        for o in opts:
+            if o[0] not in {x[0] for x in all_options}:
+                all_options.append(o)
+            if len(all_options) >= 3:
+                break
+        if len(all_options) >= 3:
+            break
+
+    if not any_found or not all_options:
+        # No equivalents at all — clarify, ask for facts
+        named = ", ".join(f"{c} {s}" for c, s in mismatches)
+        question = (
+            f"No equivalent is recorded in our mapping table for {named}. "
+            "Describe what happened (who did what, and to whom) so I can find the section."
+        )
+        if len(mismatches) == 1:
+            c, s = mismatches[0]
+            question = (
+                f"No equivalent is recorded in our mapping table for {c} {s}. "
+                "Describe what happened (who did what, and to whom) so I can find the section."
+            )
+        return ClarifyResponse(question=question, reason="code_mismatch")
+
+    prompt = " ".join(prompt_parts) + " Which would you like me to analyse?"
+
+    by_section: dict[str, stage3.RetrievedChunk] = {}
+    bif_options: list[BifurcationOption] = []
+    for label, sec, heading, _mtype in all_options[:3]:
+        chunk_id = f"{route}_{sec}"
+        chunk = stage3.get_chunk_by_id(chunk_id, route)
+        if chunk is None:
+            # Try without letter issues
+            chunk = stage3.get_chunk_by_id(chunk_id.upper(), route)
+        if chunk is None:
+            continue
+        by_section[sec] = chunk
+        by_section[chunk.chunk_id] = chunk
+        by_section[label] = chunk
+        bif_options.append(
+            BifurcationOption(
+                section=label,
+                description=heading or stage3.option_description(chunk),
+            )
+        )
+
+    if not bif_options:
+        named = ", ".join(f"{c} {s}" for c, s in mismatches)
+        return ClarifyResponse(
+            question=(
+                f"No equivalent is recorded in our mapping table for {named}. "
+                "Describe what happened (who did what, and to whom) so I can find the section."
+            ),
+            reason="code_mismatch",
+        )
+
+    _PENDING_BIFURCATION[conversation_id] = {
+        "message": message,
+        "offense_date": offense_date,
+        "matched_text": matched_text,
+        "reason": reason,
+        "route": route,
+        "by_section": by_section,
+        "scores": [],
+        "source": "code_mismatch",
+    }
+    return BifurcationResponse(
+        prompt=prompt,
+        options=_with_describe_facts_option(bif_options),
+        reason="code_mismatch",
+    )
+
+
 @app.post("/api/query")
 async def handle_query(req: QueryRequest):
     # Stage 1: extract offence date (or reuse conversation lock)
@@ -302,16 +992,57 @@ async def handle_query(req: QueryRequest):
                 question=(
                     f"I found the date '{matched_text}' but cannot tell whether it is "
                     "DD-MM or MM-DD. Please write the date in full (e.g. 15 March 2024)."
-                )
+                ),
+                reason="ambiguous_date",
             )
         return ClarifyResponse(
-            question="What date did this happen? I need this to know which law applies."
+            question="What date did this happen? I need this to know which law applies.",
+            reason="missing_date",
         )
 
     if req.conversation_id not in _LOCKED_DATES:
         _LOCKED_DATES[req.conversation_id] = offense_date
 
     route = stage2.route(offense_date)  # "IPC" or "BNS"
+
+    # Strip date for the facts check: when the date is locked, re-match any
+    # date span in *this* message so we do not treat leftover digits as facts.
+    date_span_for_strip = matched_text
+    if reason == "conversation_lock":
+        _, span_in_msg, _ = stage1.extract_offense_date(req.message)
+        date_span_for_strip = span_in_msg or ""
+
+    if message_missing_offense_facts(req.message, date_span_for_strip):
+        # Date stays locked; next turn with facts will reuse it.
+        return ClarifyResponse(
+            question=(
+                "I have the date. Describe what happened (who did what, "
+                "and to whom) so I can find the section."
+            ),
+            reason="missing_facts",
+        )
+
+    # Named IPC/BNS that is not the code in force for this date → mapping offer
+    # (no retrieval). BNSS/BSA/CrPC and bare "section N" are left alone.
+    citations = extract_ipc_bns_citations(req.message)
+    mismatches = [(c, s) for c, s in citations if c != route]
+    if mismatches:
+        return _build_code_mismatch_response(
+            message=req.message,
+            offense_date=offense_date,
+            matched_text=matched_text,
+            reason=reason,
+            route=route,
+            mismatches=mismatches,
+            conversation_id=req.conversation_id,
+        )
+
+    # Citation-only (date + meta + citations, no other content words) with a
+    # matching-route code: show the statute + mapping; skip retrieval/writing.
+    if message_is_citation_only(req.message, date_span_for_strip):
+        matching = [(c, s) for c, s in citations if c == route]
+        if matching:
+            return _build_section_lookup(matching)
 
     # Stage 3: act-aware cascade on the RAW message (+ scores for bifurcation)
     scored = stage3.cascade_search_with_scores(req.message, corpus_act=route, k=5)
@@ -338,7 +1069,7 @@ async def handle_query(req: QueryRequest):
             options.append(
                 BifurcationOption(
                     section=f"{chunk.act} {section_key}",
-                    description=stage3.first_sentence(chunk.text),
+                    description=stage3.option_description(chunk),
                 )
             )
         _PENDING_BIFURCATION[req.conversation_id] = {
@@ -360,7 +1091,7 @@ async def handle_query(req: QueryRequest):
                 "Several statutory sections look equally plausible for this query. "
                 f"Which one should I analyse: {section_list}?"
             ),
-            options=options,
+            options=_with_describe_facts_option(options),
         )
 
     top_chunk = scored[0][0]  # cascade top — unchanged when no bifurcation
@@ -394,6 +1125,16 @@ async def resolve_bifurcation(req: ResolveBifurcationRequest):
         )
 
     chosen = req.chosen_section.strip()
+
+    # Escape hatch: user rejected the offered sections and will describe facts.
+    # Date stays locked; free-question counter is unchanged (no mapping).
+    if _is_describe_facts_choice(chosen):
+        _PENDING_BIFURCATION.pop(req.conversation_id, None)
+        return ClarifyResponse(
+            question=DESCRIBE_FACTS_PROMPT,
+            reason="describe_facts",
+        )
+
     by_section: dict = pending["by_section"]
     chunk = by_section.get(chosen)
 
@@ -475,11 +1216,22 @@ async def upload_document(
             message=f"Unsupported file type: {file.content_type}. PDF, JPEG, and PNG are supported.",
         )
 
-    if not extracted_text or len(extracted_text.strip()) < 20:
+    if not extracted_text or not extracted_text.strip():
         return FailureResponse(
             reason="source_unavailable",
             message="Could not extract readable text from this document. Try a clearer photo or a typed document.",
         )
+
+    # Short OCR/PDF extracts are usually unusable, but a date-only document
+    # must still reach handle_query so the missing_facts clarify can fire.
+    stripped = extracted_text.strip()
+    if len(stripped) < 20:
+        date_hit, _, _ = stage1.extract_offense_date(stripped)
+        if date_hit is None:
+            return FailureResponse(
+                reason="source_unavailable",
+                message="Could not extract readable text from this document. Try a clearer photo or a typed document.",
+            )
 
     # Use unique conversation_id per document unless a specific thread is requested
     doc_conv_id = (

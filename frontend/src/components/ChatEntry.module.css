@@ -411,6 +411,10 @@
 .bifurcationBtn span {
   font-size: 0.85rem;
   color: var(--ink-secondary);
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  max-width: 100%;
 }
 
 @media (max-width: 560px) {
