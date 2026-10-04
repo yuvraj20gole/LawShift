@@ -25,20 +25,21 @@ export function DashboardShell({ children }: { children: ReactNode }) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const items = [
-    { href: "/dashboard", label: C.navOverview, exact: true },
     { href: "/dashboard/workspace", label: C.navWorkspace },
+    { href: "/dashboard/mapping", label: C.navMapping },
     { href: "/dashboard/history", label: C.navHistory },
-    { href: "/dashboard/saved", label: C.navSaved },
     { href: "/dashboard/documents", label: C.navDocuments },
+    { href: "/dashboard/rulings", label: C.navRulings },
     { href: "/dashboard/settings", label: C.navSettings },
   ];
-  const isActive = (i: (typeof items)[number]) =>
-    i.exact ? path === i.href : path?.startsWith(i.href);
+  const isActive = (i: (typeof items)[number]) => path?.startsWith(i.href);
   const current = items.find(isActive) ?? items[0];
+  /** Pages that are not built yet show no sample data, so they carry no preview strip. */
+  const showPreview = !(path?.startsWith("/dashboard/mapping") || path?.startsWith("/dashboard/rulings"));
 
   return (
     <>
-      <Header account={{ email: SAMPLE_EMAIL, dashboard: C.headerDashboard, logout: C.logout }} />
+      <Header account={{ email: SAMPLE_EMAIL, logout: C.logout }} />
       <div className={`container ${styles.shell}`}>
         <aside className={styles.side}>
           <button
@@ -71,6 +72,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
         </aside>
 
         <main id="main" className={styles.main}>
+          {showPreview ? (
           <div className={styles.preview} role="note">
             <p>{C.previewNote}</p>
             <div className={styles.previewSwitch} role="group" aria-label={C.previewShow}>
@@ -93,8 +95,9 @@ export function DashboardShell({ children }: { children: ReactNode }) {
               </button>
             </div>
           </div>
+          ) : null}
           <ModeContext.Provider value={mode}>
-            <div key={mode} className={styles.content}>
+            <div key={`${mode}-${path}`} className={styles.content}>
               {children}
             </div>
           </ModeContext.Provider>

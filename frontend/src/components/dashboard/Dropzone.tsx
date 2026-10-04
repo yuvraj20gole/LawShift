@@ -8,6 +8,7 @@ import styles from "./dashboard.module.css";
 
 const OK_TYPES = ["application/pdf", "image/jpeg", "image/png"];
 const OK_EXT = /\.(pdf|jpe?g|png)$/i;
+const WORD_EXT = /\.docx?$/i;
 
 /**
  * Reusable upload control (PDF, JPG, PNG). UI only: it hands accepted files
@@ -18,22 +19,26 @@ export function Dropzone({
   onFiles,
   compact = false,
   id = "dropzone",
+  acceptWord = false,
 }: {
   onFiles: (files: File[]) => void;
   compact?: boolean;
   id?: string;
+  /** Offer DOCX in the file chooser; Word is not connected yet, so it is refused with a plain note. */
+  acceptWord?: boolean;
 }) {
   const { lang } = usePrefs();
   const C = getDashboardCopy(lang);
   const input = useRef<HTMLInputElement>(null);
   const [over, setOver] = useState(false);
-  const [bad, setBad] = useState(false);
+  const [bad, setBad] = useState<"type" | "word" | null>(null);
 
   function take(list: FileList | null) {
     if (!list || list.length === 0) return;
     const files = Array.from(list);
     const good = files.filter((f) => OK_TYPES.includes(f.type) || OK_EXT.test(f.name));
-    setBad(good.length !== files.length);
+    const word = files.some((f) => WORD_EXT.test(f.name));
+    setBad(good.length === files.length ? null : word ? "word" : "type");
     if (good.length) onFiles(good);
   }
 
@@ -60,12 +65,16 @@ export function Dropzone({
             {C.dzChoose}
           </button>
         </p>
-        <p className={styles.dzTypes}>{C.dzTypes}</p>
+        <p className={styles.dzTypes}>{acceptWord ? C.dzTypesWord : C.dzTypes}</p>
         <input
           ref={input}
           id={id}
           type="file"
-          accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"
+          accept={
+            acceptWord
+              ? ".pdf,.jpg,.jpeg,.png,.docx,application/pdf,image/jpeg,image/png"
+              : ".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"
+          }
           className="sr-only"
           tabIndex={-1}
           aria-label={C.dzChoose}
@@ -80,7 +89,7 @@ export function Dropzone({
           <span className={styles.mark}>
             <FlagIcon />
           </span>
-          {C.dzBad}
+          {bad === "word" ? C.dzWord : C.dzBad}
         </p>
       ) : null}
       <p className={styles.dzOcr}>{C.dzOcr}</p>

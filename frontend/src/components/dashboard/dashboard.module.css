@@ -338,43 +338,6 @@
   line-height: 1.45;
 }
 
-/* ---- questions-left pictogram ---- */
-
-.counter {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 0.75rem 1.25rem;
-}
-
-.squares {
-  display: inline-flex;
-  gap: 5px;
-}
-
-.sqOn,
-.sqOff {
-  width: 22px;
-  height: 22px;
-  border-radius: 2px;
-}
-
-.sqOn {
-  background: var(--bns);
-}
-
-.sqOff {
-  box-shadow: inset 0 0 0 1.5px var(--rule-strong);
-}
-
-.counterText {
-  margin: 0;
-  font-family: var(--font-serif);
-  font-size: 1.3rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-}
-
 /* ---- recent cases ---- */
 
 .recent {
@@ -904,4 +867,653 @@
 
 .segGroup {
   justify-self: start;
+}
+
+/* ======== v2: restructured account area ======== */
+
+/* Data-origin tags: sample blocks say so, the one real block says so too. */
+.tagSample,
+.tagReal {
+  justify-self: start;
+  padding: 0.12rem 0.55rem;
+  border-radius: 3px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.tagSample {
+  background: var(--cutoff-wash);
+  color: var(--ink-secondary);
+  border: 1px solid color-mix(in srgb, var(--cutoff) 40%, var(--rule));
+}
+
+.tagReal {
+  background: var(--ok-wash);
+  color: var(--ok);
+}
+
+.composer {
+  width: 100%;
+  max-width: 40rem;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 1rem;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.composer:focus {
+  outline: none;
+  border-color: var(--bns);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--bns) 18%, transparent);
+}
+
+.primary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.docItem {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) 6.5rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.25rem 1rem;
+  padding: 0.7rem 0;
+  border-top: 1px solid var(--rule);
+}
+
+.docItem:last-child {
+  border-bottom: 1px solid var(--rule);
+}
+
+/* Rulings (real archive data) */
+.rulings {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.rulingItem {
+  display: grid;
+  gap: 0.2rem;
+  padding: 0.9rem 0;
+  border-top: 1px solid var(--rule);
+}
+
+.rulingItem:last-child {
+  border-bottom: 1px solid var(--rule);
+}
+
+.rulingMeta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.9rem;
+  margin: 0;
+  color: var(--ink-tertiary);
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.rulingTitle {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.rulingHolding {
+  margin: 0.15rem 0 0;
+  max-width: var(--measure);
+  color: var(--ink-secondary);
+  font-size: 0.9rem;
+}
+
+.draftBadge {
+  padding: 0.1rem 0.5rem;
+  border-radius: 3px;
+  background: var(--cutoff-wash);
+  border: 1px solid color-mix(in srgb, var(--cutoff) 45%, var(--rule));
+  color: var(--ink);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+/* Attach a document (Workspace) */
+.attach {
+  display: grid;
+  gap: 0.9rem;
+  margin-bottom: 1.5rem;
+  padding: 1.1rem 1.25rem 1.2rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.picker {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  display: grid;
+  gap: 0.15rem;
+}
+
+.pickRow {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.75rem;
+  min-height: 44px;
+  padding: 0.2rem 0.5rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+.pickRow input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--bns);
+}
+
+.pickName {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.pickMeta {
+  color: var(--ink-tertiary);
+  font-size: 0.84rem;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .pickRow:hover {
+    background: var(--sunken);
+  }
+}
+
+.attached {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.chipRow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  margin: 0;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 40px;
+  padding: 0 0.85rem;
+  border: 1px solid color-mix(in srgb, var(--bns) 45%, var(--rule-strong));
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--bns) 5%, var(--surface));
+  font-size: 0.92rem;
+}
+
+.chipTag {
+  color: var(--ink-tertiary);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.dateFound {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 1.25rem;
+}
+
+.dateLine {
+  margin: 0;
+  font-weight: 600;
+}
+
+.dateEdit {
+  display: grid;
+  gap: 0.35rem;
+  max-width: 28rem;
+}
+
+.dateRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.dateRow .searchInput {
+  flex: 1 1 14rem;
+}
+
+.inlineLink {
+  min-height: 32px;
+  padding: 0 0.15rem;
+  border: 0;
+  background: transparent;
+  color: var(--bns);
+  font-size: inherit;
+  font-weight: 650;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+}
+
+/* Star toggle */
+.starCell {
+  width: 2.75rem;
+  padding-right: 0 !important;
+}
+
+.starOff,
+.starOn {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin: -0.55rem 0 -0.55rem -0.6rem;
+  border: 0;
+  border-radius: var(--radius);
+  background: transparent;
+  transition: background 160ms ease, color 160ms ease, transform 140ms var(--ease-out);
+}
+
+.starOff {
+  color: var(--ink-tertiary);
+}
+
+.starOn {
+  color: var(--bns);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .starOff:hover,
+  .starOn:hover {
+    background: var(--sunken);
+    color: var(--bns);
+  }
+}
+
+.starOff:active,
+.starOn:active {
+  transform: scale(0.9);
+}
+
+/* "Coming next" pages */
+.soon {
+  display: grid;
+  gap: 0.9rem;
+  justify-items: start;
+  max-width: 40rem;
+  padding-top: 0.5rem;
+}
+
+.soonTag {
+  margin: 0;
+  padding: 0.12rem 0.55rem;
+  border-radius: 3px;
+  background: var(--cutoff-wash);
+  border: 1px solid color-mix(in srgb, var(--cutoff) 45%, var(--rule));
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.soonWill {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  line-height: 1.55;
+}
+
+@media (max-width: 900px) {
+  .docItem {
+    grid-template-columns: 1fr auto;
+  }
+
+  .docItem .fileName {
+    grid-column: 1 / -1;
+  }
+}
+
+.table td:nth-child(3) {
+  white-space: nowrap;
+}
+
+.readOcr {
+  justify-self: start;
+}
+
+/* ======== v3: the landing page's feel, carried into the account area ======== */
+
+/* Sidebar: the active page is a solid navy block, like the language switch. */
+.navItemOn {
+  background: var(--bns);
+  color: var(--bns-ink);
+  box-shadow: 0 8px 16px -10px color-mix(in srgb, var(--bns) 80%, transparent);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .navItem:hover {
+    transform: translateX(3px);
+  }
+}
+
+/* Overview anchor: the composer sits in a navy panel, the same block that
+   anchors the landing hero. */
+.heroPanel {
+  display: grid;
+  grid-template-columns: 11rem minmax(0, 1fr);
+  gap: 0.5rem 2.5rem;
+  margin: 0 0 2rem;
+  padding: 1.9rem 2rem 2.1rem;
+  border-radius: 12px;
+  background: var(--night);
+  color: var(--on-night);
+  box-shadow:
+    0 1px 2px rgba(11, 22, 48, 0.2),
+    0 24px 48px -22px rgba(11, 22, 48, 0.55);
+}
+
+.heroHead {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+}
+
+.heroHead::before {
+  content: "";
+  display: block;
+  width: 2.25rem;
+  height: 3px;
+  margin-bottom: 0.8rem;
+  background: var(--cutoff);
+}
+
+.heroForm {
+  display: grid;
+  gap: 0.75rem;
+  min-width: 0;
+}
+
+.heroLabel {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--on-night-2);
+}
+
+.heroForm .composer {
+  max-width: none;
+  min-height: 6.5rem;
+  border-color: transparent;
+}
+
+.heroForm .composer:focus {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--cutoff) 70%, transparent);
+  border-color: var(--cutoff);
+}
+
+.heroHint {
+  margin: 0;
+  color: var(--on-night-2);
+  font-size: 0.88rem;
+}
+
+.heroBtn {
+  display: inline-flex;
+  align-items: center;
+  min-height: 46px;
+  padding: 0 1.3rem;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--paper);
+  color: var(--night);
+  font-size: 0.95rem;
+  font-weight: 650;
+  transition: background 160ms ease, opacity 160ms ease, transform 140ms var(--ease-out);
+}
+
+.heroBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .heroBtn:hover:not(:disabled) {
+    background: #fff;
+    transform: translateY(-1px);
+  }
+}
+
+.heroBtn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.heroLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--on-night);
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.heroForm :focus-visible,
+.heroPanel :focus-visible {
+  outline-color: var(--on-night);
+}
+
+/* Section rows: the bronze rule above each heading is drawn as it arrives. */
+.rowHead::before {
+  content: "";
+  display: block;
+  width: 2rem;
+  height: 3px;
+  margin-bottom: 0.7rem;
+  background: var(--cutoff);
+  transform-origin: left;
+  transition: transform 700ms var(--ease-in-out) 100ms;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .row[data-pending="true"] .rowHead::before {
+    transform: scaleX(0);
+  }
+}
+
+/* The one real block gets its own ground, so it reads as different from the samples. */
+.rowReal {
+  padding: 1.75rem 1.75rem 2rem;
+  border: 1px solid color-mix(in srgb, var(--bns) 22%, var(--rule));
+  border-radius: 12px;
+  background: #e9effa;
+  margin-top: 0.5rem;
+}
+
+/* Lists answer the pointer. */
+.recentItem,
+.docItem,
+.rulingItem {
+  transition: background 160ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .recentItem:hover,
+  .docItem:hover {
+    background: color-mix(in srgb, var(--bns) 5%, transparent);
+  }
+
+  .table tbody tr:hover td {
+    background: color-mix(in srgb, var(--bns) 5%, transparent);
+  }
+
+  .rowReal .rulingItem:hover {
+    background: color-mix(in srgb, #fff 55%, transparent);
+  }
+}
+
+/* Tables: rows cascade in. */
+@media (prefers-reduced-motion: no-preference) {
+  .table tbody tr {
+    animation: rowIn 460ms var(--ease-out) calc(var(--i, 0) * 60ms + 120ms) backwards;
+  }
+}
+
+@keyframes rowIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+
+.table td {
+  transition: background 160ms ease;
+}
+
+/* Things you act on sit slightly above the page. */
+.attach {
+  box-shadow:
+    0 1px 2px color-mix(in srgb, var(--ink) 8%, transparent),
+    0 14px 26px -20px color-mix(in srgb, var(--ink) 40%, transparent);
+}
+
+.preview {
+  box-shadow: 0 10px 20px -18px color-mix(in srgb, var(--cutoff) 70%, transparent);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .attached {
+    animation: attachIn 420ms var(--ease-out) backwards;
+  }
+
+  .chip {
+    animation: chipIn 360ms var(--ease-out) 80ms backwards;
+  }
+
+  .starOn svg {
+    animation: starPop 320ms var(--ease-out);
+  }
+
+  .stateOk svg {
+    animation: starPop 360ms var(--ease-out) backwards;
+  }
+}
+
+@keyframes attachIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+}
+
+@keyframes chipIn {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+}
+
+@keyframes starPop {
+  0% {
+    transform: scale(0.5);
+  }
+  60% {
+    transform: scale(1.18);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* "Coming next": the navy panel with the cutoff rule, like the sign-in screens. */
+.soonPanel {
+  display: grid;
+  gap: 1rem;
+  justify-items: start;
+  max-width: 44rem;
+  padding: 2rem 2.25rem 2.25rem;
+  border-radius: 12px;
+  background: var(--night);
+  color: var(--on-night);
+  box-shadow:
+    0 1px 2px rgba(11, 22, 48, 0.2),
+    0 24px 48px -22px rgba(11, 22, 48, 0.55);
+}
+
+.soonPanel .soonTag {
+  background: var(--cutoff);
+  border-color: var(--cutoff);
+  color: #fff;
+}
+
+.soonPanel .soonWill {
+  color: var(--on-night);
+  font-size: 1.3rem;
+  font-weight: 450;
+  line-height: 1.45;
+}
+
+.soonRule {
+  width: 100%;
+  height: 2px;
+  background: var(--cutoff);
+  transform-origin: left;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .soonRule {
+    animation: ruleDraw 900ms var(--ease-in-out) 200ms backwards;
+  }
+}
+
+@keyframes ruleDraw {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+.soonNote {
+  margin: 0;
+  color: var(--on-night-2);
+  font-size: 0.9rem;
+}
+
+.soonLink {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--on-night);
+  font-weight: 650;
+}
+
+.soonPanel :focus-visible {
+  outline-color: var(--on-night);
+}
+
+@media (max-width: 900px) {
+  .heroPanel {
+    grid-template-columns: 1fr;
+    padding: 1.4rem 1.25rem 1.6rem;
+  }
+
+  .rowReal {
+    padding: 1.25rem 1rem 1.5rem;
+  }
+
+  .soonPanel {
+    padding: 1.5rem 1.25rem 1.75rem;
+  }
 }

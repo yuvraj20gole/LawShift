@@ -2,6 +2,8 @@
 
 import type { ReactNode } from "react";
 import Link from "next/link";
+import { Rise } from "@/components/Rise";
+import { SplitText } from "@/components/SplitText";
 import styles from "./dashboard.module.css";
 import { CheckIcon, FlagIcon } from "@/components/auth/AuthParts";
 import type { Code } from "@/lib/sampleData";
@@ -26,33 +28,38 @@ export function VerifyState({ flagged, okText, flagText }: { flagged: boolean; o
   );
 }
 
-/** A row of squares: filled = left, hollow = used. The same pictogram as the waffle charts. */
-export function Squares({ filled, total, label }: { filled: number; total: number; label: string }) {
-  return (
-    <span className={styles.squares} role="img" aria-label={label}>
-      {Array.from({ length: total }, (_, i) => (
-        <span key={i} className={i < filled ? styles.sqOn : styles.sqOff} />
-      ))}
-    </span>
-  );
-}
-
 export function PageHead({ title, lede }: { title: string; lede?: string }) {
   return (
     <header className={styles.pageHead}>
-      <h1 className={styles.h1}>{title}</h1>
+      <h1 className={styles.h1}>
+        <SplitText immediate text={title} />
+      </h1>
       {lede ? <p className={styles.lede}>{lede}</p> : null}
     </header>
   );
 }
 
 /** Margin-note layout: the heading stands in the margin, the content beside it. */
-export function Row({ title, children }: { title: string; children: ReactNode }) {
+export function Row({
+  title,
+  children,
+  tone,
+}: {
+  title: string;
+  children: ReactNode;
+  /** "real" marks the one block that shows real archive data. */
+  tone?: "real";
+}) {
   return (
-    <section className={styles.row} aria-label={title}>
+    <Rise
+      as="section"
+      aria-label={title}
+      threshold={0.12}
+      className={`${styles.row} ${tone === "real" ? styles.rowReal : ""}`}
+    >
       <h2 className={styles.rowHead}>{title}</h2>
       <div className={styles.rowBody}>{children}</div>
-    </section>
+    </Rise>
   );
 }
 

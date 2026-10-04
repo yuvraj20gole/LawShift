@@ -11,6 +11,7 @@ type Props = {
   /** Position in a group; each step adds a short stagger. */
   index?: number;
   threshold?: number;
+  "aria-label"?: string;
 };
 
 /**
@@ -24,12 +25,14 @@ export function Rise({
   className = "",
   index = 0,
   threshold = 0.2,
+  "aria-label": ariaLabel,
 }: Props) {
   const { ref, pending } = useInView<HTMLElement>(threshold);
   return (
     <Tag
       ref={ref}
       className={`${styles.rise} ${className}`.trim()}
+      aria-label={ariaLabel}
       data-pending={pending ? "true" : undefined}
       style={{ ["--d" as string]: index } as CSSProperties}
     >

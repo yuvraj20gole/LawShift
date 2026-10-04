@@ -280,7 +280,7 @@
   transform: scale(0.97);
 }
 
-@media (max-width: 1180px) {
+@media (max-width: 760px) {
   .accountEmail {
     display: none;
   }

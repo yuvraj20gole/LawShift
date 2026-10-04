@@ -116,15 +116,32 @@ function FlagIcon() {
   );
 }
 
-export function ChatEntry() {
+type ChatEntryProps = {
+  /** Hide the "N questions left" line (signed-in views). */
+  hideCounter?: boolean;
+  /** Hide the example-prompt buttons in the empty state. */
+  hideExamples?: boolean;
+  /** Signed-in users have no quota: never block on the visitor limit. */
+  unlimited?: boolean;
+  /** Text to start the composer with (carried over from another screen). */
+  initialDraft?: string;
+};
+
+export function ChatEntry({
+  hideCounter = false,
+  hideExamples = false,
+  unlimited = false,
+  initialDraft = "",
+}: ChatEntryProps = {}) {
   const { lang, t } = usePrefs();
   const reduceMotion = useReducedMotion();
   const inputId = useId();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const [draft, setDraft] = useState("");
+  const [draft, setDraft] = useState(initialDraft);
   const [messages, setMessages] = useState<Msg[]>([]);
   const [busy, setBusy] = useState(false);
   const [remaining, setRemaining] = useState(5);
+  const outOfQuota = !unlimited && remaining <= 0;
   const [conversationId] = useState(newConversationId);
   const [error, setError] = useState<string | null>(null);
   const [landed, setLanded] = useState(0);
@@ -220,7 +237,7 @@ export function ChatEntry() {
   const send = useCallback(
     async (text: string, display?: string) => {
       const trimmed = text.trim();
-      if (!trimmed || busy || remaining <= 0) return;
+      if (!trimmed || busy || outOfQuota) return;
 
       setError(null);
       setBusy(true);
@@ -248,12 +265,12 @@ export function ChatEntry() {
         setBusy(false);
       }
     },
-    [busy, conversationId, lang, remaining, replyFromData, t],
+    [busy, conversationId, lang, outOfQuota, replyFromData, t],
   );
 
   const resolveBifurcation = useCallback(
     async (section: string) => {
-      if (!section || busy || remaining <= 0) return;
+      if (!section || busy || outOfQuota) return;
       setError(null);
       setBusy(true);
       setMessages((m) => [...m, { role: "user", text: section }]);
@@ -277,7 +294,7 @@ export function ChatEntry() {
         setBusy(false);
       }
     },
-    [busy, conversationId, lang, remaining, replyFromData, t],
+    [busy, conversationId, lang, outOfQuota, replyFromData, t],
   );
 
   function onSubmit(e: FormEvent) {
@@ -297,20 +314,22 @@ export function ChatEntry() {
           <div className={styles.empty}>
             <p className={styles.emptyTitle}>{t.emptyTitle}</p>
             <p className={styles.emptyBody}>{t.emptyBody}</p>
-            <div className={styles.examples}>
-              {EXAMPLES.map((ex) => (
-                <button
-                  key={ex.en}
-                  type="button"
-                  className={styles.example}
-                  onClick={() => void send(ex.en, ex[lang])}
-                  disabled={busy || remaining <= 0}
-                  lang={lang}
-                >
-                  {ex[lang]}
-                </button>
-              ))}
-            </div>
+            {hideExamples ? null : (
+              <div className={styles.examples}>
+                {EXAMPLES.map((ex) => (
+                  <button
+                    key={ex.en}
+                    type="button"
+                    className={styles.example}
+                    onClick={() => void send(ex.en, ex[lang])}
+                    disabled={busy || outOfQuota}
+                    lang={lang}
+                  >
+                    {ex[lang]}
+                  </button>
+                ))}
+              </div>
+            )}
             <div className={styles.verifyLegend} aria-label="Verification note examples">
               <p className={styles.verifyOk}>
                 <span className={styles.verifyMark}>
@@ -485,7 +504,7 @@ export function ChatEntry() {
                           key={o.section}
                           type="button"
                           className={styles.bifurcationBtn}
-                          disabled={busy || remaining <= 0}
+                          disabled={busy || outOfQuota}
                           onClick={() => void resolveBifurcation(o.section)}
                         >
                           <strong>{o.section}</strong>
@@ -524,14 +543,16 @@ export function ChatEntry() {
           value={draft}
           onChange={(e) => setDraft(e.target.value)}
           placeholder={t.composerPlaceholder}
-          disabled={busy || remaining <= 0}
+          disabled={busy || outOfQuota}
         />
-        <button type="submit" disabled={busy || remaining <= 0 || !draft.trim()}>
+        <button type="submit" disabled={busy || outOfQuota || !draft.trim()}>
           {busy ? t.running : t.send}
         </button>
       </form>
 
-      <p className={styles.note}>{remaining === 1 ? t.freeOne : t.freeMany(remaining)}</p>
+      {hideCounter ? null : (
+        <p className={styles.note}>{remaining === 1 ? t.freeOne : t.freeMany(remaining)}</p>
+      )}
       {error ? (
         <p className={styles.error} role="alert">
           {error}

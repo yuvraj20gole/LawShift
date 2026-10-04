@@ -26,6 +26,7 @@ export default function DocumentsPage() {
         name: f.name,
         date: "3 Oct 2026",
         read: "pending" as const,
+        foundDate: null,
       })),
       ...d,
     ]);
@@ -51,8 +52,8 @@ export default function DocumentsPage() {
               </tr>
             </thead>
             <tbody>
-              {docs.map((d) => (
-                <tr key={d.id}>
+              {docs.map((d, i) => (
+                <tr key={d.id} style={{ ["--i" as string]: i }}>
                   <td data-label={C.colFile}>
                     <strong className={styles.fileName}>{d.name}</strong>
                   </td>

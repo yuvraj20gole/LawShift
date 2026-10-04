@@ -19,11 +19,13 @@ export function Header({
   account,
 }: {
   minimal?: boolean;
-  /** Signed-in view: shows the email, a Dashboard link and Log out. */
-  account?: { email: string; dashboard: string; logout: string };
+  /** Signed-in view: logo to the dashboard, language switch, email, Log out. */
+  account?: { email: string; logout: string };
 }) {
   const { lang, setLang } = usePrefs();
   const L = getLandingCopy(lang);
+  /** Signed-in and sign-in screens keep only the logo and the account controls. */
+  const slim = minimal || !!account;
   const [active, setActive] = useState<"how" | "evidence" | null>(null);
 
   /** Mark the nav link for the section currently crossing the middle of the screen. */
@@ -55,12 +57,12 @@ export function Header({
   return (
     <header className={styles.header}>
       <ScrollProgress />
-      <div className={`container ${styles.inner} ${minimal ? styles.innerMinimal : ""}`}>
-        <Link href="/" className={styles.wordmark}>
+      <div className={`container ${styles.inner} ${slim ? styles.innerMinimal : ""}`}>
+        <Link href={account ? "/dashboard" : "/"} className={styles.wordmark}>
           LawShift
         </Link>
 
-        {!minimal ? (
+        {!slim ? (
         <nav className={styles.links} aria-label="Primary">
           <Link
             href="/#how"
@@ -84,7 +86,7 @@ export function Header({
 
         <div className={styles.actions}>
           <div className={styles.langWrap}>
-            {!minimal ? (
+            {!slim ? (
               <span className={styles.langLabel} id="answer-lang">
                 {L.answersIn}
               </span>
@@ -92,7 +94,7 @@ export function Header({
             <div
               className={styles.langGroup}
               role="group"
-              {...(minimal ? { "aria-label": "Language" } : { "aria-labelledby": "answer-lang" })}
+              {...(slim ? { "aria-label": "Language" } : { "aria-labelledby": "answer-lang" })}
             >
               {LANGS.map((l) => (
                 <button
@@ -113,9 +115,6 @@ export function Header({
           {account ? (
             <>
               <span className={styles.accountEmail}>{account.email}</span>
-              <Link href="/dashboard" className={styles.loginLink}>
-                {account.dashboard}
-              </Link>
               <Link href="/login" className={styles.logoutBtn}>
                 {account.logout}
               </Link>
