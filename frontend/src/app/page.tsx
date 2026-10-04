@@ -77,6 +77,7 @@ export default function HomePage() {
     { title: L.limit2Title, body: L.limit2Body },
     { title: L.limit3Title, body: L.limit3Body },
     { title: L.limit4Title, body: L.limit4Body },
+    { title: L.limit5Title, body: L.limit5Body },
   ];
 
   return (

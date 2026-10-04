@@ -267,3 +267,30 @@
     transform: rotate(180deg);
   }
 }
+
+/* v7: reusable comparison (any number of cards per side) */
+.col {
+  display: grid;
+  gap: 1rem;
+  align-content: start;
+  min-width: 0;
+}
+
+.cardNote {
+  margin: 0;
+  padding: 0.55rem 1.4rem;
+  background: var(--cutoff-wash);
+  color: var(--ink-secondary);
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+.scrollText {
+  max-height: 22rem;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.scrollText:focus-visible {
+  outline-offset: 2px;
+}

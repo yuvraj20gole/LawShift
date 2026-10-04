@@ -17,7 +17,7 @@ export type ArchiveRuling = {
   caseType?: string;
   branch?: string;
   link: string;
-  linkKind: "court" | "archive";
+  linkKind: "court" | "archive" | "other";
 };
 
 export type RulingsState =

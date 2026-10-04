@@ -14,7 +14,7 @@ from pathlib import Path
 from fastapi import FastAPI, File, Query, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 
-from . import stage0_document, stage1, stage2, stage3, stage4, stage5_translate
+from . import mapping_lookup, stage0_document, stage1, stage2, stage3, stage4, stage5_translate
 from .schemas import (
     BifurcationOption,
     BifurcationResponse,
@@ -121,6 +121,10 @@ async def list_rulings(
         None, description="Substring match on title, caseType, or caseNumber"
     ),
     limit: int = Query(50, ge=1, le=400),
+    offset: int = Query(0, ge=0, description="Skip this many matching rows (paging)"),
+    bench: str | None = Query(
+        None, description="Exact bench code as recorded in the archive (Bombay High Court)"
+    ),
 ):
     """Read-only rulings index built by scripts/build_rulings_index.py."""
     index = _load_rulings_index()
@@ -129,6 +133,20 @@ async def list_rulings(
     if court:
         needle = court.casefold()
         rows = [r for r in rows if needle in str(r.get("court", "")).casefold()]
+    # Bench facet: every bench seen for the court filter alone, before narrowing further.
+    bench_counts: dict[str, dict] = {}
+    for r in rows:
+        b = r.get("bench")
+        if not b:
+            continue
+        slot = bench_counts.setdefault(
+            b, {"code": b, "benchLabel": r.get("benchLabel"), "count": 0}
+        )
+        slot["count"] += 1
+    benches = sorted(bench_counts.values(), key=lambda x: -x["count"])
+
+    if bench:
+        rows = [r for r in rows if r.get("bench") == bench]
     if branch:
         want = branch.casefold()
         rows = [r for r in rows if str(r.get("branch", "")).casefold() == want]
@@ -144,15 +162,38 @@ async def list_rulings(
 
     # Newest first (ISO dates sort lexicographically)
     rows = sorted(rows, key=lambda r: r.get("decidedOn") or "", reverse=True)
-    clipped = rows[:limit]
+    clipped = rows[offset : offset + limit]
 
     return {
         "generatedOn": index.get("generatedOn"),
         "courts": index.get("courts"),
         "count": len(clipped),
+        "offset": offset,
         "totalMatching": len(rows),
+        "benches": benches,
         "rulings": clipped,
     }
+
+
+@app.get("/api/map")
+async def map_section(
+    code: str = Query(..., description="IPC or BNS: the code the section number is in"),
+    section: str = Query(..., min_length=1, max_length=12),
+):
+    """Read-only IPC <-> BNS lookup from data/clean/mapping.jsonl. No model calls."""
+    c = code.strip().upper()
+    if c not in {"IPC", "BNS"}:
+        return {"error": "code must be IPC or BNS"}
+    return mapping_lookup.lookup(c, section)
+
+
+@app.get("/api/map/sections")
+async def map_sections(code: str = Query(..., description="IPC or BNS")):
+    """Section numbers and titles for suggestions."""
+    c = code.strip().upper()
+    if c not in {"IPC", "BNS"}:
+        return {"error": "code must be IPC or BNS"}
+    return {"code": c, "sections": mapping_lookup.sections(c)}
 
 
 def _build_mapping(

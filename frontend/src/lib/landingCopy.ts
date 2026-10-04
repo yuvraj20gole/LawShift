@@ -101,6 +101,8 @@ export type LandingCopy = {
   limit3Body: string;
   limit4Title: string;
   limit4Body: string;
+  limit5Title: string;
+  limit5Body: string;
 
   skipLink: string;
   evidence1Fig: string;
@@ -256,6 +258,9 @@ const en: LandingCopy = {
   limit4Title: "Hindi and Marathi are machine-translated",
   limit4Body:
     "Translation happens last, after the legal analysis, so it cannot change which section was chosen. It can still be imperfect. Check the English if it matters.",
+  limit5Title: "Procedure can follow a different date",
+  limit5Body:
+    "LawShift picks the substantive code from the offence date. High Courts have reached different results on which procedural code applies to older offences, and LawShift does not model procedure.",
 
   skipLink: "Skip to main content",
   evidence1Fig: "460 of 460",
@@ -413,6 +418,9 @@ const hi: LandingCopy = {
   limit4Title: "हिंदी और मराठी मशीन-अनुवाद हैं",
   limit4Body:
     "अनुवाद कानूनी विश्लेषण के बाद होता है, इसलिए चुनी धारा नहीं बदल सकता। फिर भी अपूर्ण हो सकता है। ज़रूरी हो तो अंग्रेज़ी देखें।",
+  limit5Title: "प्रक्रिया किसी दूसरी तिथि का अनुसरण कर सकती है",
+  limit5Body:
+    "LawShift अपराध की तिथि से मूल संहिता चुनता है। पुराने अपराधों पर कौन-सी प्रक्रिया संहिता लागू होती है, इस पर उच्च न्यायालयों ने अलग-अलग निष्कर्ष दिए हैं, और LawShift प्रक्रिया का मॉडल नहीं बनाता।",
 
   skipLink: "मुख्य सामग्री पर जाएँ",
   evidence1Fig: "460 में से 460",
@@ -570,6 +578,9 @@ const mr: LandingCopy = {
   limit4Title: "हिंदी आणि मराठी मशीन-अनुवाद आहेत",
   limit4Body:
     "अनुवाद कायदेशीर विश्लेषणानंतर होतो, त्यामुळे निवडलेले कलम बदलू शकत नाही. तरीही अपूर्ण असू शकते. गरज असेल तर इंग्रजी तपासा.",
+  limit5Title: "प्रक्रिया वेगळ्या तारखेचे अनुसरण करू शकते",
+  limit5Body:
+    "LawShift गुन्ह्याच्या तारखेवरून मूळ संहिता निवडते. जुन्या गुन्ह्यांना कोणती प्रक्रिया संहिता लागू होते याबद्दल उच्च न्यायालयांनी वेगवेगळे निष्कर्ष दिले आहेत, आणि LawShift प्रक्रियेचे मॉडेल करत नाही.",
 
   skipLink: "मुख्य मजकुराकडे जा",
   evidence1Fig: "460 पैकी 460",
