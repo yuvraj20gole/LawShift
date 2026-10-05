@@ -7,8 +7,13 @@ before running at scale.
 Requires:
     ollama serve
     ollama pull qwen2.5:3b-instruct
+
+Prompt variants (env STAGE4_PROMPT_VERSION):
+    default / unset / v1 — original prompt (production default)
+    v2 — careful conclusion/application wording (experimental; not the app default)
 """
 import json
+import os
 import sys
 from pathlib import Path
 
@@ -21,10 +26,11 @@ RESULTS = ROOT / "results"
 OLLAMA_URL = "http://localhost:11434/api/generate"
 MODEL = "qwen2.5:3b-instruct"
 N_SAMPLES = 5
+# No seed is passed to Ollama; temperature is low but sampling is not deterministic.
+TEMPERATURE = 0.1
 
 
-def generate_irac(question, retrieved_text, source_citation):
-    prompt = f"""You are a legal text formatter. Using ONLY the statutory text provided below, answer the question in strict IRAC format (Issue, Rule, Application, Conclusion).
+PROMPT_V1 = """You are a legal text formatter. Using ONLY the statutory text provided below, answer the question in strict IRAC format (Issue, Rule, Application, Conclusion).
 
 CRITICAL RULES:
 - Do NOT introduce any fact, section number, or citation not present in the text below.
@@ -42,13 +48,64 @@ Rule: [quote or closely paraphrase only the relevant part of the retrieved text]
 Application: [how the rule applies to the question, using only the retrieved text]
 Conclusion: [one sentence]
 """
+
+PROMPT_V2 = """You are a legal text formatter. Using ONLY the statutory text provided below, answer the question in strict IRAC format (Issue, Rule, Application, Conclusion).
+
+CRITICAL RULES:
+- Do NOT introduce any fact, section number, or citation not present in the text below or in the question.
+- Do NOT use any legal knowledge beyond what is written in the statutory text below.
+- If the provided text does not fully answer the question, say so explicitly rather than filling gaps from general knowledge.
+- Never output placeholder text such as "[one sentence]" or bracketed instructions.
+
+FIELD RULES:
+- Rule: quote only from the section text below. Include the penalty clause where the section has one.
+- Application: restate only the facts stated in the question and compare them with what the Rule requires. Where an element depends on something the question does not say (whether material is obscene, intent, knowledge, a threshold, a status), say that element is not established by the facts given. Never describe a legal test as met unless the question's facts say so.
+- If the section text has an Exception, Explanation or Proviso, say that it exists and may affect the result, without inventing facts about whether it applies.
+- Conclusion: one sentence saying only whether the facts described appear to fall within the section as written (for example: "On the facts described, this appears to fall within IPC 292."). Do NOT say the person is guilty, liable, should be punished, shall be punished, or committed the offence.
+
+Retrieved statutory text ({source_citation}):
+{retrieved_text}
+
+Question: {question}
+
+Respond in this exact format:
+Issue: <one sentence>
+Rule: <quote or closely paraphrase only the relevant part of the retrieved text, including any penalty clause>
+Application: <compare the question's facts to the Rule; mark unstated elements as not established>
+Conclusion: <one sentence on whether the facts appear to fall within the section>
+"""
+
+
+def prompt_version() -> str:
+    """Return active prompt version: 'v1' (default) or 'v2'."""
+    raw = (os.environ.get("STAGE4_PROMPT_VERSION") or "v1").strip().lower()
+    if raw in {"", "default", "v1", "1"}:
+        return "v1"
+    if raw in {"v2", "2"}:
+        return "v2"
+    # Unknown values fall back to production default.
+    return "v1"
+
+
+def build_prompt(question, retrieved_text, source_citation, version: str | None = None) -> str:
+    ver = version or prompt_version()
+    template = PROMPT_V2 if ver == "v2" else PROMPT_V1
+    return template.format(
+        source_citation=source_citation,
+        retrieved_text=retrieved_text,
+        question=question,
+    )
+
+
+def generate_irac(question, retrieved_text, source_citation):
+    prompt = build_prompt(question, retrieved_text, source_citation)
     response = requests.post(
         OLLAMA_URL,
         json={
             "model": MODEL,
             "prompt": prompt,
             "stream": False,
-            "options": {"temperature": 0.1},
+            "options": {"temperature": TEMPERATURE},
         },
         timeout=180,
     )

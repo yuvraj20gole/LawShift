@@ -1,0 +1,152 @@
+[
+  {
+    "id": 1,
+    "message": "On 5 September 2024, a person was found in possession of counterfeit currency notes.",
+    "expected_section": "BNS 180",
+    "expected_chunk_id": "BNS_180",
+    "note": "docket counterfeit"
+  },
+  {
+    "id": 2,
+    "message": "On 10 August 2024, a riot occurred for a landowner's benefit and the agent failed to prevent it.",
+    "expected_section": "BNS 193",
+    "expected_chunk_id": "BNS_193",
+    "note": "docket riot agent"
+  },
+  {
+    "id": 3,
+    "message": "On 25 June 2024, a bookstore owner sold obscene magazines for the first time.",
+    "expected_section": "IPC 292",
+    "expected_chunk_id": "IPC_292",
+    "note": "docket obscene magazines"
+  },
+  {
+    "id": 4,
+    "message": "On 20 June 2024, a person dishonestly took a bicycle from outside a shop without consent.",
+    "expected_section": "IPC 378",
+    "expected_chunk_id": "IPC_378",
+    "alt_sections": ["IPC 379"],
+    "note": "theft IPC"
+  },
+  {
+    "id": 5,
+    "message": "On 10 July 2024, a person dishonestly took a mobile phone from a parked scooter without consent.",
+    "expected_section": "BNS 303",
+    "expected_chunk_id": "BNS_303",
+    "note": "theft BNS"
+  },
+  {
+    "id": 6,
+    "message": "On 15 June 2024, a person deceived another into transferring money by a false bank-officer story.",
+    "expected_section": "IPC 420",
+    "expected_chunk_id": "IPC_420",
+    "alt_sections": ["IPC 415"],
+    "note": "cheating IPC"
+  },
+  {
+    "id": 7,
+    "message": "On 8 July 2024, a person deceived another into delivering property by a false investment story.",
+    "expected_section": "BNS 318",
+    "expected_chunk_id": "BNS_318",
+    "note": "cheating BNS"
+  },
+  {
+    "id": 8,
+    "message": "On 12 June 2024, during an argument a person slapped another causing bodily pain.",
+    "expected_section": "IPC 323",
+    "expected_chunk_id": "IPC_323",
+    "alt_sections": ["IPC 321"],
+    "note": "hurt IPC"
+  },
+  {
+    "id": 9,
+    "message": "On 3 July 2024, during an argument a person slapped another causing bodily pain.",
+    "expected_section": "BNS 115",
+    "expected_chunk_id": "BNS_115",
+    "note": "hurt BNS"
+  },
+  {
+    "id": 10,
+    "message": "On 18 June 2024, a person entered a private dwelling at night without permission intending to intimidate the occupant.",
+    "expected_section": "IPC 441",
+    "expected_chunk_id": "IPC_441",
+    "alt_sections": ["IPC 442", "IPC 447", "IPC 456"],
+    "note": "trespass IPC"
+  },
+  {
+    "id": 11,
+    "message": "On 9 July 2024, a person entered a private dwelling at night without permission intending to intimidate the occupant.",
+    "expected_section": "BNS 329",
+    "expected_chunk_id": "BNS_329",
+    "alt_sections": ["BNS 330"],
+    "note": "trespass BNS"
+  },
+  {
+    "id": 12,
+    "message": "On 22 June 2024, a person published a false written statement intending to harm another's reputation.",
+    "expected_section": "IPC 499",
+    "expected_chunk_id": "IPC_499",
+    "alt_sections": ["IPC 500"],
+    "note": "defamation IPC"
+  },
+  {
+    "id": 13,
+    "message": "On 11 July 2024, a person published a false written statement intending to harm another's reputation.",
+    "expected_section": "BNS 356",
+    "expected_chunk_id": "BNS_356",
+    "note": "defamation BNS"
+  },
+  {
+    "id": 14,
+    "message": "On 5 June 2024, a person was found in possession of forged currency notes knowing they were forged.",
+    "expected_section": "IPC 489C",
+    "expected_chunk_id": "IPC_489C",
+    "alt_sections": ["IPC 489B", "IPC 489A"],
+    "note": "counterfeit IPC"
+  },
+  {
+    "id": 15,
+    "message": "On 14 June 2024, a person destroyed documents to hide evidence of a robbery.",
+    "expected_section": "IPC 201",
+    "expected_chunk_id": "IPC_201",
+    "note": "destroy evidence IPC"
+  },
+  {
+    "id": 16,
+    "message": "On 16 July 2024, a person destroyed documents to hide evidence of a robbery.",
+    "expected_section": "BNS 238",
+    "expected_chunk_id": "BNS_238",
+    "note": "destroy evidence BNS"
+  },
+  {
+    "id": 17,
+    "message": "On 2 June 2024, a person threatened another with death over a property dispute.",
+    "expected_section": "IPC 506",
+    "expected_chunk_id": "IPC_506",
+    "alt_sections": ["IPC 503"],
+    "note": "intimidation IPC"
+  },
+  {
+    "id": 18,
+    "message": "On 7 July 2024, a person threatened another with death over a property dispute.",
+    "expected_section": "BNS 351",
+    "expected_chunk_id": "BNS_351",
+    "note": "intimidation BNS"
+  },
+  {
+    "id": 19,
+    "message": "On 28 June 2024, a person set fire to a warehouse intending to destroy goods inside.",
+    "expected_section": "IPC 435",
+    "expected_chunk_id": "IPC_435",
+    "alt_sections": ["IPC 436", "IPC 437"],
+    "note": "mischief by fire IPC"
+  },
+  {
+    "id": 20,
+    "message": "On 4 July 2024, a person set fire to a warehouse intending to destroy goods inside.",
+    "expected_section": "BNS 326",
+    "expected_chunk_id": "BNS_326",
+    "alt_sections": ["BNS 324"],
+    "note": "mischief by fire BNS"
+  }
+]

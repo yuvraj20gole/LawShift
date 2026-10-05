@@ -1,0 +1,860 @@
+{
+  "part1": {
+    "writer_prompt_default": "You are a legal text formatter. Using ONLY the statutory text provided below, answer the question in strict IRAC format (Issue, Rule, Application, Conclusion).\n\nCRITICAL RULES:\n- Do NOT introduce any fact, section number, or citation not present in the text below.\n- Do NOT use any legal knowledge beyond what is written here.\n- If the provided text does not fully answer the question, say so explicitly rather than filling gaps from general knowledge.\n\nRetrieved statutory text ({source_citation}):\n{retrieved_text}\n\nQuestion: {question}\n\nRespond in this exact format:\nIssue: [one sentence]\nRule: [quote or closely paraphrase only the relevant part of the retrieved text]\nApplication: [how the rule applies to the question, using only the retrieved text]\nConclusion: [one sentence]\n",
+    "model": "qwen2.5:3b-instruct",
+    "temperature": 0.1,
+    "seed": null,
+    "determinism": {
+      "model": "qwen2.5:3b-instruct",
+      "temperature": 0.1,
+      "seed": null,
+      "seed_note": "No seed is passed to Ollama options; temperature=0.1 so two runs may differ.",
+      "probe_case": 1,
+      "run1_seconds": 3.745,
+      "run2_seconds": 2.136,
+      "identical": false,
+      "full_text_ratio": 0.9662,
+      "run1_conclusion": "The third tie-breaking judge does not have to conduct a completely new trial with all the witnesses.",
+      "run2_conclusion": "The third tie-breaking judge does not have to conduct a completely new trial with all the witnesses."
+    },
+    "rerun_40_vs_stored": {
+      "n": 40,
+      "exact_all_four_fields": 0,
+      "median_full_text_ratio": 0.6079,
+      "p90_full_text_ratio": 0.7972,
+      "note": "Hand label '0 of 40 fabricated' was manual review (results/stage4_review.md / PROCESS_LOG §16). Automated approximation: every quoted span in Rule ⊆ section (whitespace-normalised) and every section number in the output equals the given section (or appears in the section text).",
+      "automated_fab_on_stored": {
+        "flagged": 4,
+        "n": 40,
+        "cases": [
+          {
+            "case_number": 3,
+            "chunk_id": "BNSS_439",
+            "flags": [
+              "quoted_span_not_in_section:On examining any record under section 438 or otherwise, the "
+            ]
+          },
+          {
+            "case_number": 18,
+            "chunk_id": "BNSS_162",
+            "flags": [
+              "quoted_span_not_in_section:A District Magistrate or Sub-divisional Magistrate, or any o"
+            ]
+          },
+          {
+            "case_number": 20,
+            "chunk_id": "BNSS_63",
+            "flags": [
+              "quoted_span_not_in_section:Every summons issued by a Court under this Sanhita shall be,"
+            ]
+          },
+          {
+            "case_number": 29,
+            "chunk_id": "BNSS_351",
+            "flags": [
+              "quoted_span_not_in_section:In every inquiry or trial, for the purpose of enabling the a"
+            ]
+          }
+        ]
+      },
+      "automated_fab_on_v1_rerun": {
+        "flagged": 2,
+        "cases": [
+          {
+            "id": 3,
+            "flags": [
+              "quoted_span_not_in_section:On examining any record under section 438 or otherwise, the "
+            ]
+          },
+          {
+            "id": 18,
+            "flags": [
+              "quoted_span_not_in_section:A District Magistrate or Sub-divisional Magistrate, or any o"
+            ]
+          }
+        ]
+      }
+    },
+    "fact_pattern_20_path": "/Users/yuvrajgole/Documents/NLP-Project/results/fact_pattern_20.json"
+  },
+  "part2": {
+    "env_var": "STAGE4_PROMPT_VERSION",
+    "default": "v1 (unset)",
+    "variant": "v2",
+    "prompt_v2": "You are a legal text formatter. Using ONLY the statutory text provided below, answer the question in strict IRAC format (Issue, Rule, Application, Conclusion).\n\nCRITICAL RULES:\n- Do NOT introduce any fact, section number, or citation not present in the text below or in the question.\n- Do NOT use any legal knowledge beyond what is written in the statutory text below.\n- If the provided text does not fully answer the question, say so explicitly rather than filling gaps from general knowledge.\n- Never output placeholder text such as \"[one sentence]\" or bracketed instructions.\n\nFIELD RULES:\n- Rule: quote only from the section text below. Include the penalty clause where the section has one.\n- Application: restate only the facts stated in the question and compare them with what the Rule requires. Where an element depends on something the question does not say (whether material is obscene, intent, knowledge, a threshold, a status), say that element is not established by the facts given. Never describe a legal test as met unless the question's facts say so.\n- If the section text has an Exception, Explanation or Proviso, say that it exists and may affect the result, without inventing facts about whether it applies.\n- Conclusion: one sentence saying only whether the facts described appear to fall within the section as written (for example: \"On the facts described, this appears to fall within IPC 292.\"). Do NOT say the person is guilty, liable, should be punished, shall be punished, or committed the offence.\n\nRetrieved statutory text ({source_citation}):\n{retrieved_text}\n\nQuestion: {question}\n\nRespond in this exact format:\nIssue: <one sentence>\nRule: <quote or closely paraphrase only the relevant part of the retrieved text, including any penalty clause>\nApplication: <compare the question's facts to the Rule; mark unstated elements as not established>\nConclusion: <one sentence on whether the facts appear to fall within the section>\n",
+    "diff_path": "/tmp/stage4_prompt_v1_v2.diff",
+    "diff": "--- PROMPT_V1 (default)\n+++ PROMPT_V2 (STAGE4_PROMPT_VERSION=v2)\n@@ -1,9 +1,16 @@\n You are a legal text formatter. Using ONLY the statutory text provided below, answer the question in strict IRAC format (Issue, Rule, Application, Conclusion).\n \n CRITICAL RULES:\n-- Do NOT introduce any fact, section number, or citation not present in the text below.\n-- Do NOT use any legal knowledge beyond what is written here.\n+- Do NOT introduce any fact, section number, or citation not present in the text below or in the question.\n+- Do NOT use any legal knowledge beyond what is written in the statutory text below.\n - If the provided text does not fully answer the question, say so explicitly rather than filling gaps from general knowledge.\n+- Never output placeholder text such as \"[one sentence]\" or bracketed instructions.\n+\n+FIELD RULES:\n+- Rule: quote only from the section text below. Include the penalty clause where the section has one.\n+- Application: restate only the facts stated in the question and compare them with what the Rule requires. Where an element depends on something the question does not say (whether material is obscene, intent, knowledge, a threshold, a status), say that element is not established by the facts given. Never describe a legal test as met unless the question's facts say so.\n+- If the section text has an Exception, Explanation or Proviso, say that it exists and may affect the result, without inventing facts about whether it applies.\n+- Conclusion: one sentence saying only whether the facts described appear to fall within the section as written (for example: \"On the facts described, this appears to fall within IPC 292.\"). Do NOT say the person is guilty, liable, should be punished, shall be punished, or committed the offence.\n \n Retrieved statutory text ({source_citation}):\n {retrieved_text}\n@@ -11,7 +18,7 @@\n Question: {question}\n \n Respond in this exact format:\n-Issue: [one sentence]\n-Rule: [quote or closely paraphrase only the relevant part of the retrieved text]\n-Application: [how the rule applies to the question, using only the retrieved text]\n-Conclusion: [one sentence]\n+Issue: <one sentence>\n+Rule: <quote or closely paraphrase only the relevant part of the retrieved text, including any penalty clause>\n+Application: <compare the question's facts to the Rule; mark unstated elements as not established>\n+Conclusion: <one sentence on whether the facts appear to fall within the section>\n"
+  },
+  "part3": {
+    "gold40": {
+      "v1": {
+        "n": 40,
+        "guilty_phrase_counts_full_irac": {
+          "should be punished": 0,
+          "shall be punished": 6,
+          "will be punished": 0,
+          "is guilty": 1,
+          "is liable": 0,
+          "guilty of": 0,
+          "committed the offence": 1
+        },
+        "guilty_phrase_total": 8,
+        "fabrication_flagged_cases": 2,
+        "fabrication_case_ids": [
+          {
+            "id": 3,
+            "flags": [
+              "quoted_span_not_in_section:On examining any record under section 438 or otherwise, the "
+            ]
+          },
+          {
+            "id": 18,
+            "flags": [
+              "quoted_span_not_in_section:A District Magistrate or Sub-divisional Magistrate, or any o"
+            ]
+          }
+        ],
+        "field_length_chars": {
+          "issue": {
+            "median": 108.0,
+            "p90": 160.1
+          },
+          "rule": {
+            "median": 326.0,
+            "p90": 602.1
+          },
+          "application": {
+            "median": 328.0,
+            "p90": 456.2
+          },
+          "conclusion": {
+            "median": 114.0,
+            "p90": 197.3
+          }
+        },
+        "seconds_per_answer": {
+          "median": 2.29,
+          "p90": 3.107,
+          "mean": 2.45,
+          "total": 97.98
+        },
+        "quality_defects": {
+          "empty": 0,
+          "conclusion_gt_one_sentence": 0,
+          "unparseable_format": 0,
+          "placeholder_leak": 0
+        }
+      },
+      "v2": {
+        "n": 40,
+        "guilty_phrase_counts_full_irac": {
+          "should be punished": 0,
+          "shall be punished": 4,
+          "will be punished": 0,
+          "is guilty": 1,
+          "is liable": 1,
+          "guilty of": 0,
+          "committed the offence": 2
+        },
+        "guilty_phrase_total": 8,
+        "fabrication_flagged_cases": 3,
+        "fabrication_case_ids": [
+          {
+            "id": 13,
+            "flags": [
+              "foreign_section_number:292"
+            ]
+          },
+          {
+            "id": 22,
+            "flags": [
+              "foreign_section_number:292"
+            ]
+          },
+          {
+            "id": 39,
+            "flags": [
+              "foreign_section_number:292"
+            ]
+          }
+        ],
+        "field_length_chars": {
+          "issue": {
+            "median": 112.5,
+            "p90": 164.2
+          },
+          "rule": {
+            "median": 360.5,
+            "p90": 630.0
+          },
+          "application": {
+            "median": 363.0,
+            "p90": 533.5
+          },
+          "conclusion": {
+            "median": 64.0,
+            "p90": 72.3
+          }
+        },
+        "seconds_per_answer": {
+          "median": 2.591,
+          "p90": 5.37,
+          "mean": 3.055,
+          "total": 122.21
+        },
+        "quality_defects": {
+          "empty": 0,
+          "conclusion_gt_one_sentence": 0,
+          "unparseable_format": 0,
+          "placeholder_leak": 0
+        }
+      },
+      "verifier_14b_v3_flagged": {
+        "v1": 17,
+        "v2": 36,
+        "n": 40
+      },
+      "known_bad_five": [
+        {
+          "case_number": 6,
+          "chunk_id": "BNS_26",
+          "old_stored_conclusion": "No, the defense does not apply to euthanasia where a doctor intentionally gives a lethal injection to a consenting patient to end their suffering.",
+          "v1_rerun_conclusion": "The defense in Section 26 of BNS 2023 does not apply to euthanasia in this case.",
+          "v2_conclusion": "On the facts described, this does not appear to fall within the section.",
+          "v1_flagged": true,
+          "v2_flagged": true
+        },
+        {
+          "case_number": 9,
+          "chunk_id": "BNS_303",
+          "old_stored_conclusion": "Yes, the person has committed theft.",
+          "v1_rerun_conclusion": "The person has committed theft.",
+          "v2_conclusion": "On the facts described, this appears to fall within IPC 303.",
+          "v1_flagged": true,
+          "v2_flagged": true
+        },
+        {
+          "case_number": 12,
+          "chunk_id": "BNSS_163",
+          "old_stored_conclusion": "An emergency order under Section 163 can last longer than two months if directed by the State Government.",
+          "v1_rerun_conclusion": "An emergency order under this section can last longer than two months if the State Government deems it necessary and notifies the extension.",
+          "v2_conclusion": "On the facts described, this appears to fall within IPC 163.",
+          "v1_flagged": false,
+          "v2_flagged": true
+        },
+        {
+          "case_number": 13,
+          "chunk_id": "BNSS_487",
+          "old_stored_conclusion": "No, the jailor cannot wait until the next morning to process the release because his shift is ending.",
+          "v1_rerun_conclusion": "The jailor cannot wait until the next morning to process the release because the statutory text does not require such a delay.",
+          "v2_conclusion": "On the facts described, this appears to fall within IPC 292.",
+          "v1_flagged": true,
+          "v2_flagged": true
+        },
+        {
+          "case_number": 39,
+          "chunk_id": "BNSS_193",
+          "old_stored_conclusion": "The police cannot investigate the new evidence as the case has already been deemed closed upon filing their final report with the court.",
+          "v1_rerun_conclusion": "The police can investigate the new evidence after filing their final report with the court, pending the orders of the Magistrate.",
+          "v2_conclusion": "On the facts described, this appears to fall within IPC 292.",
+          "v1_flagged": true,
+          "v2_flagged": true
+        }
+      ]
+    },
+    "fact20": {
+      "v1": {
+        "n": 20,
+        "guilty_phrase_counts_full_irac": {
+          "should be punished": 5,
+          "shall be punished": 12,
+          "will be punished": 0,
+          "is guilty": 3,
+          "is liable": 8,
+          "guilty of": 3,
+          "committed the offence": 0
+        },
+        "guilty_phrase_total": 31,
+        "fabrication_flagged_cases": 0,
+        "fabrication_case_ids": [],
+        "field_length_chars": {
+          "issue": {
+            "median": 111.5,
+            "p90": 175.4
+          },
+          "rule": {
+            "median": 362.0,
+            "p90": 697.7
+          },
+          "application": {
+            "median": 305.0,
+            "p90": 377.3
+          },
+          "conclusion": {
+            "median": 136.0,
+            "p90": 237.9
+          }
+        },
+        "seconds_per_answer": {
+          "median": 4.629,
+          "p90": 6.086,
+          "mean": 4.682,
+          "total": 93.64
+        },
+        "quality_defects": {
+          "empty": 0,
+          "conclusion_gt_one_sentence": 0,
+          "unparseable_format": 0,
+          "placeholder_leak": 0
+        },
+        "mapped_matches_expected": 10,
+        "exception_mention": {
+          "sections_with_exceptionish": 9,
+          "rule_or_app_mentions": 0
+        },
+        "conclusion_guilty": {
+          "n_conclusions_with_guilty_wording": 13,
+          "cases": [
+            {
+              "id": 1,
+              "conclusion": "The person should be punished with imprisonment of either description for a term which may extend to seven years, or with fine, or with both, as per the rule.",
+              "counts": {
+                "should be punished": 1
+              }
+            },
+            {
+              "id": 2,
+              "conclusion": "The agent of the landowner is liable under the statute for failing to prevent the riot.",
+              "counts": {
+                "is liable": 1
+              }
+            },
+            {
+              "id": 3,
+              "conclusion": "The bookstore owner should be punished on first conviction with imprisonment of either description for a term which may extend to two years, and with fine which may extend to two thousand rupees.",
+              "counts": {
+                "should be punished": 1
+              }
+            },
+            {
+              "id": 7,
+              "conclusion": "The accused person is liable to be punished under the relevant section of the statute for cheating.",
+              "counts": {
+                "is liable": 1
+              }
+            },
+            {
+              "id": 11,
+              "conclusion": "The person should be punished with imprisonment of either description for a term which may extend to three months, or with fine which may extend to five thousand rupees, or with both, under the provisions of Section 329 of BNS 2023.",
+              "counts": {
+                "should be punished": 1
+              }
+            },
+            {
+              "id": 12,
+              "conclusion": "The person is guilty of defamation.",
+              "counts": {
+                "is guilty": 1,
+                "guilty of": 1
+              }
+            },
+            {
+              "id": 13,
+              "conclusion": "The person is guilty of defamation for publishing the false written statement with the intention of harming another's reputation.",
+              "counts": {
+                "is guilty": 1,
+                "guilty of": 1
+              }
+            },
+            {
+              "id": 14,
+              "conclusion": "The person should be punished with imprisonment of either description for a term which may extend to seven years, or with fine, or with both.",
+              "counts": {
+                "should be punished": 1
+              }
+            },
+            {
+              "id": 15,
+              "conclusion": "The person is liable under the Indian Penal Code, 1860 for causing the disappearance of evidence of the robbery and is therefore punished with imprisonment of either description for a term which may extend to seven years, and also liable to fine.",
+              "counts": {
+                "is liable": 1
+              }
+            },
+            {
+              "id": 16,
+              "conclusion": "The person who destroyed the documents to hide evidence of a robbery is liable under Section 238 of BNS 2023, and the punishment would be imprisonment of the description provided for the offence, for a term which may extend to one-fourth part of the longest term of the imprisonment provided for the offence, or with fine, or with both.",
+              "counts": {
+                "is liable": 1
+              }
+            },
+            {
+              "id": 18,
+              "conclusion": "The person who threatened death over a property dispute is guilty of criminal intimidation.",
+              "counts": {
+                "is guilty": 1,
+                "guilty of": 1
+              }
+            },
+            {
+              "id": 19,
+              "conclusion": "The person is liable for punishment under the Indian Penal Code, 1860 for mischief by fire with intent to cause damage to property.",
+              "counts": {
+                "is liable": 1
+              }
+            },
+            {
+              "id": 20,
+              "conclusion": "The person should be punished with imprisonment for life and also liable to fine.",
+              "counts": {
+                "should be punished": 1
+              }
+            }
+          ]
+        }
+      },
+      "v2": {
+        "n": 20,
+        "guilty_phrase_counts_full_irac": {
+          "should be punished": 0,
+          "shall be punished": 17,
+          "will be punished": 0,
+          "is guilty": 0,
+          "is liable": 3,
+          "guilty of": 0,
+          "committed the offence": 0
+        },
+        "guilty_phrase_total": 20,
+        "fabrication_flagged_cases": 3,
+        "fabrication_case_ids": [
+          {
+            "id": 9,
+            "flags": [
+              "quoted_span_not_in_section:voluntarily to cause hurt."
+            ]
+          },
+          {
+            "id": 10,
+            "flags": [
+              "quoted_span_not_in_section:criminal trespass."
+            ]
+          },
+          {
+            "id": 13,
+            "flags": [
+              "foreign_section_number:292"
+            ]
+          }
+        ],
+        "field_length_chars": {
+          "issue": {
+            "median": 126.5,
+            "p90": 181.5
+          },
+          "rule": {
+            "median": 384.5,
+            "p90": 697.7
+          },
+          "application": {
+            "median": 375.5,
+            "p90": 481.9
+          },
+          "conclusion": {
+            "median": 60.0,
+            "p90": 76.0
+          }
+        },
+        "seconds_per_answer": {
+          "median": 3.093,
+          "p90": 5.705,
+          "mean": 3.661,
+          "total": 73.23
+        },
+        "quality_defects": {
+          "empty": 0,
+          "conclusion_gt_one_sentence": 0,
+          "unparseable_format": 0,
+          "placeholder_leak": 0
+        },
+        "mapped_matches_expected": 10,
+        "exception_mention": {
+          "sections_with_exceptionish": 9,
+          "rule_or_app_mentions": 0
+        },
+        "conclusion_guilty": {
+          "n_conclusions_with_guilty_wording": 0,
+          "cases": []
+        }
+      },
+      "verifier_14b_v3_flagged": {
+        "v1": 2,
+        "v2": 7,
+        "n": 20
+      },
+      "side_by_side_application_10": [
+        {
+          "id": 1,
+          "message": "On 5 September 2024, a person was found in possession of counterfeit currency notes.",
+          "section": "BNS 180",
+          "v1_application": "The person was found in possession of counterfeit currency notes, which falls under the category of forged or counterfeit currency notes. The person had reason to believe the currency notes to be counterfeit and intended to use them as genuine. Therefore, the rule applies to this situation.",
+          "v2_application": "The facts stated in the question match the Rule. The person was found in possession of counterfeit currency notes, which is a forged or counterfeit currency note as defined in the Rule. The person's possession was known to be counterfeit and they intended to use the notes as genuine. Therefore, the facts appear to fall within the section."
+        },
+        {
+          "id": 2,
+          "message": "On 10 August 2024, a riot occurred for a landowner's benefit and the agent failed to prevent it.",
+          "section": "BNS 193",
+          "v1_application": "In this scenario, the landowner benefited from the riot, and the agent of the landowner had reason to believe that the riot was likely to occur. The agent failed to use all lawful means to prevent the riot and to suppress and disperse it. Therefore, the agent is liable under the relevant statute.",
+          "v2_application": "The facts provided indicate that a riot occurred for the benefit of a landowner, and the agent of this landowner failed to prevent the riot. The facts establish that the landowner is the owner or occupier of the land on which the riot took place and has accepted a benefit from the riot. The agent of the landowner is therefore in a position to be held liable under the Rule as the facts indicate that the agent did not use all lawful means to prevent the riot."
+        },
+        {
+          "id": 3,
+          "message": "On 25 June 2024, a bookstore owner sold obscene magazines for the first time.",
+          "section": "IPC 292",
+          "v1_application": "The bookstore owner sold obscene magazines, which falls under the category of selling obscene books. This act constitutes a violation of section 292 of the Indian Penal Code, 1860, as the magazines are deemed obscene under the definition provided in section 292(1). The owner is therefore subject to the punishment specified in the relevant section of the code.",
+          "v2_application": "The facts stated in the question are that the bookstore owner sold obscene magazines for the first time on 25 June 2024. The facts are not sufficient to establish that the magazines are obscene, as the issue of obscenity is not addressed in the question. The bookstore owner's knowledge or belief about the magazines being obscene is also not established. Therefore, the facts given are not sufficient to determine if the bookstore owner falls within the scope of the section."
+        },
+        {
+          "id": 4,
+          "message": "On 20 June 2024, a person dishonestly took a bicycle from outside a shop without consent.",
+          "section": "IPC 378",
+          "v1_application": "The bicycle, being a moveable property, was taken from the possession of the shop without consent. The person's intention was to take the bicycle dishonestly, which aligns with the definition of theft provided in the Indian Penal Code, 1860.",
+          "v2_application": "The facts provided indicate that a person took a bicycle from outside a shop without consent. The issue here is whether the bicycle, being a moveable property, was taken dishonestly. The facts do not specify whether the person's intention was to take the bicycle dishonestly, which is a key element of the theft offense. Therefore, the element of dishonesty is not established by the facts given."
+        },
+        {
+          "id": 5,
+          "message": "On 10 July 2024, a person dishonestly took a mobile phone from a parked scooter without consent.",
+          "section": "BNS 303",
+          "v1_application": "The mobile phone, being a movable property, was taken out of the possession of the person who parked the scooter without consent. The person moved the mobile phone in order to take it, which aligns with the definition of theft provided in the rule.",
+          "v2_application": "The facts stated in the question match the Rule. The person took a mobile phone (movable property) from a parked scooter (possession of another person) without consent (intending to take dishonestly). Therefore, the person is alleged to have committed theft."
+        },
+        {
+          "id": 6,
+          "message": "On 15 June 2024, a person deceived another into transferring money by a false bank-officer story.",
+          "section": "IPC 420",
+          "v1_application": "The accused person is alleged to have cheated by inducing the deceived person to transfer money, which can be considered as delivering property to a person. Therefore, the rule applies as the act of transferring money fits the description of inducing delivery of property as per the Indian Penal Code, 1860.",
+          "v2_application": "The facts stated in the question match the Rule as the accused person induced the deceived person to transfer money, which can be considered as delivering property. The false bank-officer story constitutes cheating, and the intent to deceive is implied in the act of inducing money transfer. The Rule does not specify the amount of money involved, nor does it mention the status of the person deceived, the status of the property, or the intent to defraud. Therefore, the facts are not established in all respects required by the Rule."
+        },
+        {
+          "id": 7,
+          "message": "On 8 July 2024, a person deceived another into delivering property by a false investment story.",
+          "section": "BNS 318",
+          "v1_application": "The scenario described involves a person deceiving another into delivering property through a false investment story. This aligns with the definition of cheating in the rule, as the person is inducing the other party to deliver property by deception, which causes damage or harm. Therefore, the rule applies to the situation.",
+          "v2_application": "The facts provided indicate that the person deceived another into delivering property by a false investment story. This matches the definition of cheating as stated in the Rule. The facts do not specify whether the person had the intent to cause wrongful loss to the deceived party or whether the transaction was subject to a legal contract. Therefore, the unstated elements are not established."
+        },
+        {
+          "id": 8,
+          "message": "On 12 June 2024, during an argument a person slapped another causing bodily pain.",
+          "section": "IPC 323",
+          "v1_application": "The person who slapped another causing bodily pain is not covered by section 334, so they can be punished under the rule provided in section 323 of the Indian Penal Code, 1860. Therefore, the person can be punished with imprisonment of either description for a term which may extend to one year, or with a fine which may extend to one thousand rupees, or with both.",
+          "v2_application": "The facts provided state that the person caused bodily pain by slapping another person on 12 June 2024. The question does not specify whether the slap was voluntary or in the case provided for by section 334. Therefore, the facts do not establish whether the slap was voluntary or not."
+        },
+        {
+          "id": 9,
+          "message": "On 3 July 2024, during an argument a person slapped another causing bodily pain.",
+          "section": "BNS 115",
+          "v1_application": "The person who slapped another during an argument with the intention of causing bodily pain or with knowledge that such an act was likely to cause bodily pain, and who thereby caused bodily pain, is said to have voluntarily caused hurt. This matches the elements of the offense described in the statute.",
+          "v2_application": "The facts provided state that the person slapped another during an argument, causing bodily pain. The facts establish that the person had the intention to cause hurt and did cause hurt. The facts do not establish whether the person had the knowledge that he was likely to cause hurt or whether the person is in the case provided for by sub-section (1) of section 122."
+        },
+        {
+          "id": 10,
+          "message": "On 18 June 2024, a person entered a private dwelling at night without permission intending to intimidate the occupant.",
+          "section": "IPC 441",
+          "v1_application": "On 18 June 2024, the person entered a private dwelling at night without permission and with the intent to intimidate the occupant. This scenario fits the rule as the person unlawfully remained in the property with the intent to intimidate the occupant. The date of 18 June 2024 falls after the coming into force of the Criminal Law (U.P. Amendment) Act, 1961, and the person did not withdraw from the property when called upon to do so by the occupant.",
+          "v2_application": "The facts stated in the question match the Rule. The person entered the property without permission with the intent to intimidate the occupant. Therefore, the facts appear to fall within the section."
+        }
+      ]
+    },
+    "variant_defects_v2": {
+      "gold40": {
+        "empty": 0,
+        "conclusion_gt_one_sentence": 0,
+        "unparseable_format": 0,
+        "placeholder_leak": 0
+      },
+      "fact20": {
+        "empty": 0,
+        "conclusion_gt_one_sentence": 0,
+        "unparseable_format": 0,
+        "placeholder_leak": 0
+      }
+    },
+    "translations": [
+      {
+        "id": 1,
+        "prompt": "v1",
+        "expected_section": "BNS 180",
+        "english_conclusion": "The person should be punished with imprisonment of either description for a term which may extend to seven years, or with fine, or with both, as per the rule.",
+        "hi_conclusion": "व्यक्ति को नियम के अनुसार सात साल तक की अवधि के लिए किसी भी प्रकार के कारावास या जुर्माने या दोनों से दंडित किया जाना चाहिए।",
+        "hi_engine": "indictrans2",
+        "hi_note": null,
+        "mr_conclusion": "त्या व्यक्तीला नियमांनुसार सात वर्षांपर्यंतच्या मुदतीसाठी तुरुंगवास किंवा दंड किंवा दोन्हीची शिक्षा झाली पाहिजे.",
+        "mr_engine": "indictrans2",
+        "mr_note": null
+      },
+      {
+        "id": 1,
+        "prompt": "v2",
+        "expected_section": "BNS 180",
+        "english_conclusion": "On the facts described, this appears to fall within BNS 180.",
+        "hi_conclusion": "वर्णित तथ्यों पर, यह बी. एन. एस. 180 के अंतर्गत आता प्रतीत होता है।",
+        "hi_engine": "indictrans2",
+        "hi_note": null,
+        "mr_conclusion": "वर्णन केलेल्या तथ्यांनुसार, हे बी. एन. एस. 180 च्या अंतर्गत येते असे दिसते.",
+        "mr_engine": "indictrans2",
+        "mr_note": null
+      },
+      {
+        "id": 2,
+        "prompt": "v1",
+        "expected_section": "BNS 193",
+        "english_conclusion": "The agent of the landowner is liable under the statute for failing to prevent the riot.",
+        "hi_conclusion": "दंगों को रोकने में विफल रहने के लिए भूमि मालिक का एजेंट क़ानून के तहत उत्तरदायी है।",
+        "hi_engine": "indictrans2",
+        "hi_note": null,
+        "mr_conclusion": "दंगल रोखण्यात अपयशी ठरल्याबद्दल जमीनमालकाचा प्रतिनिधी कायद्यानुसार जबाबदार असतो.",
+        "mr_engine": "indictrans2",
+        "mr_note": null
+      },
+      {
+        "id": 2,
+        "prompt": "v2",
+        "expected_section": "BNS 193",
+        "english_conclusion": "On the facts described, this appears to fall within Section 193.",
+        "hi_conclusion": "वर्णित तथ्यों पर, यह धारा 193 के अंतर्गत आता प्रतीत होता है।",
+        "hi_engine": "indictrans2",
+        "hi_note": null,
+        "mr_conclusion": "वर्णन केलेल्या तथ्यांवर, हे कलम 193 अंतर्गत येते असे दिसते.",
+        "mr_engine": "indictrans2",
+        "mr_note": null
+      },
+      {
+        "id": 3,
+        "prompt": "v1",
+        "expected_section": "IPC 292",
+        "english_conclusion": "The bookstore owner should be punished on first conviction with imprisonment of either description for a term which may extend to two years, and with fine which may extend to two thousand rupees.",
+        "hi_conclusion": "किताबों की दुकान के मालिक को पहली बार दोषी ठहराए जाने पर दो साल तक की अवधि के लिए किसी भी विवरण के कारावास और दो हजार रुपये तक के जुर्माने के साथ दंडित किया जाना चाहिए।",
+        "hi_engine": "indictrans2",
+        "hi_note": null,
+        "mr_conclusion": "पुस्तकांच्या दुकानाच्या मालकाला पहिल्या दोषसिद्धीवर दोन वर्षांपर्यंतच्या मुदतीच्या तुरुंगवासाची आणि दोन हजार रुपयांपर्यंतच्या दंडाची शिक्षा झाली पाहिजे.",
+        "mr_engine": "indictrans2",
+        "mr_note": null
+      },
+      {
+        "id": 3,
+        "prompt": "v2",
+        "expected_section": "IPC 292",
+        "english_conclusion": "On the facts described, this appears to fall within IPC 292.",
+        "hi_conclusion": "वर्णित तथ्यों पर, यह आई. पी. सी. 292 के अंतर्गत आता प्रतीत होता है।",
+        "hi_engine": "indictrans2",
+        "hi_note": null,
+        "mr_conclusion": "वर्णन केलेल्या तथ्यांनुसार, हे आय. पी. सी. 292 अंतर्गत येते असे दिसते.",
+        "mr_engine": "indictrans2",
+        "mr_note": null
+      },
+      {
+        "id": 6,
+        "prompt": "v1",
+        "expected_section": "IPC 420",
+        "english_conclusion": "The accused may be punished with imprisonment of either description for a term which may extend to seven years, and also liable to fine, based on the provisions of the Indian Penal Code, 1860.",
+        "hi_conclusion": "भारतीय दंड संहिता, 1860 के प्रावधानों के आधार पर अभियुक्त को सात साल तक की अवधि के लिए किसी भी प्रकार के कारावास से दंडित किया जा सकता है और जुर्माना भी लगाया जा सकता है।",
+        "hi_engine": "indictrans2",
+        "hi_note": null,
+        "mr_conclusion": "भारतीय दंड संहिता, 1860 च्या तरतुदींच्या आधारे आरोपीला सात वर्षांपर्यंतच्या मुदतीसाठी कोणत्याही प्रकारच्या कारावासाची शिक्षा होऊ शकते आणि दंडही होऊ शकतो.",
+        "mr_engine": "indictrans2",
+        "mr_note": null
+      },
+      {
+        "id": 6,
+        "prompt": "v2",
+        "expected_section": "IPC 420",
+        "english_conclusion": "On the facts described, this appears to fall within IPC 420.",
+        "hi_conclusion": "वर्णित तथ्यों पर, यह आई. पी. सी. 420 के अंतर्गत आता प्रतीत होता है।",
+        "hi_engine": "indictrans2",
+        "hi_note": null,
+        "mr_conclusion": "वर्णन केलेल्या तथ्यांनुसार, हे आय. पी. सी. 420 अंतर्गत येते असे दिसते.",
+        "mr_engine": "indictrans2",
+        "mr_note": null
+      },
+      {
+        "id": 7,
+        "prompt": "v1",
+        "expected_section": "BNS 318",
+        "english_conclusion": "The accused person is liable to be punished under the relevant section of the statute for cheating.",
+        "hi_conclusion": "अभियुक्त व्यक्ति धोखाधड़ी के लिए क़ानून की संबंधित धारा के तहत दंडित होने के लिए उत्तरदायी है।",
+        "hi_engine": "indictrans2",
+        "hi_note": null,
+        "mr_conclusion": "फसवणूक केल्याबद्दल आरोपी व्यक्तीला कायद्याच्या संबंधित कलमांतर्गत शिक्षा होऊ शकते.",
+        "mr_engine": "indictrans2",
+        "mr_note": null
+      },
+      {
+        "id": 7,
+        "prompt": "v2",
+        "expected_section": "BNS 318",
+        "english_conclusion": "On the facts described, this appears to fall within Section 318 of BNS 2023.",
+        "hi_conclusion": "वर्णित तथ्यों पर, यह बी. एन. एस. 2023 की धारा 318 के अंतर्गत आता प्रतीत होता है।",
+        "hi_engine": "indictrans2",
+        "hi_note": null,
+        "mr_conclusion": "वर्णन केलेल्या तथ्यांवर, हे बी. एन. एस. 2023 च्या कलम 318 मध्ये येते असे दिसते.",
+        "mr_engine": "indictrans2",
+        "mr_note": null
+      },
+      {
+        "id": 11,
+        "prompt": "v1",
+        "expected_section": "BNS 329",
+        "english_conclusion": "The person should be punished with imprisonment of either description for a term which may extend to three months, or with fine which may extend to five thousand rupees, or with both, under the provisions of Section 329 of BNS 2023.",
+        "hi_conclusion": "व्यक्ति को बी. एन. एस. 2023 की धारा 329 के प्रावधानों के तहत किसी भी प्रकार के कारावास से दंडित किया जाना चाहिए जो तीन महीने तक बढ़ सकता है, या जुर्माने से जो पांच हजार रुपये तक बढ़ सकता है, या दोनों से दंडित किया जाना चाहिए।",
+        "hi_engine": "indictrans2",
+        "hi_note": null,
+        "mr_conclusion": "बी. एन. एस. 2023 च्या कलम 329 च्या तरतुदींनुसार, त्या व्यक्तीला तीन महिन्यांपर्यंतच्या मुदतीसाठी तुरुंगवास किंवा पाच हजार रुपयांपर्यंतच्या दंडाची किंवा दोन्हीची शिक्षा झाली पाहिजे.",
+        "mr_engine": "indictrans2",
+        "mr_note": null
+      },
+      {
+        "id": 11,
+        "prompt": "v2",
+        "expected_section": "BNS 329",
+        "english_conclusion": "On the facts described, this appears to fall within Section 329 of BNS 2023.",
+        "hi_conclusion": "वर्णित तथ्यों पर, यह बी. एन. एस. 2023 की धारा 329 के अंतर्गत आता प्रतीत होता है।",
+        "hi_engine": "indictrans2",
+        "hi_note": null,
+        "mr_conclusion": "वर्णन केलेल्या तथ्यांवर, हे बी. एन. एस. 2023 च्या कलम 329 मध्ये येते असे दिसते.",
+        "mr_engine": "indictrans2",
+        "mr_note": null
+      },
+      {
+        "id": 14,
+        "prompt": "v1",
+        "expected_section": "IPC 489C",
+        "english_conclusion": "The person should be punished with imprisonment of either description for a term which may extend to seven years, or with fine, or with both.",
+        "hi_conclusion": "व्यक्ति को सात साल तक की अवधि के लिए किसी भी प्रकार के कारावास या जुर्माने या दोनों से दंडित किया जाना चाहिए।",
+        "hi_engine": "indictrans2",
+        "hi_note": null,
+        "mr_conclusion": "त्या व्यक्तीला सात वर्षांपर्यंतच्या मुदतीसाठी कारावास किंवा दंड किंवा दोन्हीची शिक्षा झाली पाहिजे.",
+        "mr_engine": "indictrans2",
+        "mr_note": null
+      },
+      {
+        "id": 14,
+        "prompt": "v2",
+        "expected_section": "IPC 489C",
+        "english_conclusion": "On the facts described, this appears to fall within IPC 489C.",
+        "hi_conclusion": "वर्णित तथ्यों पर, यह आई. पी. सी. 489सी. के अंतर्गत आता प्रतीत होता है।",
+        "hi_engine": "indictrans2",
+        "hi_note": null,
+        "mr_conclusion": "वर्णन केलेल्या तथ्यांनुसार, हे आयपीसी 489सी अंतर्गत येते असे दिसते.",
+        "mr_engine": "indictrans2",
+        "mr_note": null
+      },
+      {
+        "id": 17,
+        "prompt": "v1",
+        "expected_section": "IPC 506",
+        "english_conclusion": "The person threatening another with death over a property dispute would be punished with imprisonment of either description for a term which may extend to seven years, or With fine, or with both, according to the Indian Penal Code, 1860.",
+        "hi_conclusion": "भारतीय दंड संहिता, 1860 के अनुसार, संपत्ति विवाद पर दूसरे को मौत की धमकी देने वाले व्यक्ति को सात साल तक की अवधि के कारावास या जुर्माने या दोनों से दंडित किया जाएगा।",
+        "hi_engine": "indictrans2",
+        "hi_note": null,
+        "mr_conclusion": "मालमत्तेच्या वादावरून दुसऱ्याला जीवे मारण्याची धमकी देणाऱ्या व्यक्तीला भारतीय दंड संहिता, 1860 नुसार सात वर्षांपर्यंतच्या कालावधीसाठी तुरुंगवास किंवा दंड किंवा दोन्हीची शिक्षा होऊ शकते.",
+        "mr_engine": "indictrans2",
+        "mr_note": null
+      },
+      {
+        "id": 17,
+        "prompt": "v2",
+        "expected_section": "IPC 506",
+        "english_conclusion": "On the facts described, this appears to fall within IPC 506.",
+        "hi_conclusion": "वर्णित तथ्यों पर, यह आई. पी. सी. 506 के अंतर्गत आता प्रतीत होता है।",
+        "hi_engine": "indictrans2",
+        "hi_note": null,
+        "mr_conclusion": "वर्णन केलेल्या तथ्यांनुसार, हे आय. पी. सी. 506 अंतर्गत येते असे दिसते.",
+        "mr_engine": "indictrans2",
+        "mr_note": null
+      },
+      {
+        "id": 18,
+        "prompt": "v1",
+        "expected_section": "BNS 351",
+        "english_conclusion": "The person who threatened death over a property dispute is guilty of criminal intimidation.",
+        "hi_conclusion": "संपत्ति विवाद पर जान से मारने की धमकी देने वाला व्यक्ति आपराधिक धमकी का दोषी है।",
+        "hi_engine": "indictrans2",
+        "hi_note": null,
+        "mr_conclusion": "मालमत्तेच्या वादावरून जिवे मारण्याची धमकी देणारी व्यक्ती गुन्हेगारी धमकीसाठी दोषी असते.",
+        "mr_engine": "indictrans2",
+        "mr_note": null
+      },
+      {
+        "id": 18,
+        "prompt": "v2",
+        "expected_section": "BNS 351",
+        "english_conclusion": "On the facts described, this appears to fall within Section 351 of BNS 2023.",
+        "hi_conclusion": "वर्णित तथ्यों पर, यह बी. एन. एस. 2023 की धारा 351 के अंतर्गत आता प्रतीत होता है।",
+        "hi_engine": "indictrans2",
+        "hi_note": null,
+        "mr_conclusion": "वर्णन केलेल्या तथ्यांवर, हे बी. एन. एस. 2023 च्या कलम 351 मध्ये येते असे दिसते.",
+        "mr_engine": "indictrans2",
+        "mr_note": null
+      },
+      {
+        "id": 19,
+        "prompt": "v1",
+        "expected_section": "IPC 435",
+        "english_conclusion": "The person is liable for punishment under the Indian Penal Code, 1860 for mischief by fire with intent to cause damage to property.",
+        "hi_conclusion": "व्यक्ति संपत्ति को नुकसान पहुँचाने के इरादे से आग द्वारा शरारत के लिए भारतीय दंड संहिता, 1860 के तहत सजा के लिए उत्तरदायी है।",
+        "hi_engine": "indictrans2",
+        "hi_note": null,
+        "mr_conclusion": "मालमत्तेचे नुकसान करण्याच्या उद्देशाने आगीने केलेल्या उपद्रवासाठी ती व्यक्ती भारतीय दंड संहिता, 1860 अंतर्गत शिक्षेस पात्र आहे.",
+        "mr_engine": "indictrans2",
+        "mr_note": null
+      },
+      {
+        "id": 19,
+        "prompt": "v2",
+        "expected_section": "IPC 435",
+        "english_conclusion": "On the facts described, this appears to fall within IPC 435.",
+        "hi_conclusion": "वर्णित तथ्यों पर, यह आई. पी. सी. 435 के अंतर्गत आता प्रतीत होता है।",
+        "hi_engine": "indictrans2",
+        "hi_note": null,
+        "mr_conclusion": "वर्णन केलेल्या तथ्यांनुसार, हे आय. पी. सी. 435 अंतर्गत येते असे दिसते.",
+        "mr_engine": "indictrans2",
+        "mr_note": null
+      }
+    ]
+  },
+  "part4_recommendation": {
+    "keep_default_v1": true,
+    "advisory_adopt_v2": false,
+    "numbers": {
+      "fact20_guilty_phrase_total_v1": 31,
+      "fact20_guilty_phrase_total_v2": 20,
+      "fact20_conclusions_with_guilty_v1": 13,
+      "fact20_conclusions_with_guilty_v2": 0,
+      "gold40_fab_v1": 2,
+      "gold40_fab_v2": 3,
+      "gold40_verifier_flagged_v1": 17,
+      "gold40_verifier_flagged_v2": 36,
+      "exception_mentions_fact20_v1": {
+        "sections_with_exceptionish": 9,
+        "rule_or_app_mentions": 0
+      },
+      "exception_mentions_fact20_v2": {
+        "sections_with_exceptionish": 9,
+        "rule_or_app_mentions": 0
+      }
+    },
+    "got_worse": [
+      "automated fabrication flags gold40: 2 → 3",
+      "verifier flags gold40: 17 → 36"
+    ],
+    "decision_rule": "Adopt v2 as default only if (a) guilty/punishment wording in Conclusions falls sharply on fact patterns, (b) automated fabrication does not rise, (c) format defects stay at 0, (d) Exception/Explanation/Proviso mentions rise when the section has them, and (e) a human spot-check of the 10 Application pairs prefers v2. Do not adopt from verifier flag counts alone (hand labels belong to old outputs)."
+  },
+  "artifacts": {
+    "raw_v1_40": "/tmp/stage4_wording_v1_40.json",
+    "raw_v2_40": "/tmp/stage4_wording_v2_40.json",
+    "raw_v1_20": "/tmp/stage4_wording_v1_20.json",
+    "raw_v2_20": "/tmp/stage4_wording_v2_20.json",
+    "raw_verify": "/tmp/stage4_wording_verify.json",
+    "raw_translate": "/tmp/stage4_wording_translate.json",
+    "determinism": "/tmp/stage4_wording_determinism.json",
+    "diff": "/tmp/stage4_prompt_v1_v2.diff"
+  }
+}

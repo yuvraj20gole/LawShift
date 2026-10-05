@@ -779,4 +779,34 @@ Harness under `/tmp` (`lawshift_date_conflict_verify.py`, `lawshift_date_conflic
 
 ---
 
-*End of process log. Generated from files in `results/` as of the unified comparison run, plus GovIntel README figures verified against the live Hugging Face card, plus the split-offense review and `split_detector_v2_eval.json`, Stage 4 generation and verifier evals (§16), citation-fix verifier evaluation (§17), backend integration / bifurcation validation (§18), multilingual Stage 5 / IndicTrans2 fix (§19), Ollama Metal / Rosetta fix and Stage 4 warm-up (§20), landing-page + live chat UI verification (§21), missing-facts gate (§22), IPC↔BNS code-mismatch intercept (§23), citation-only section lookup / bifurcation escape / date-lock diagnosis (§24), and locked-date conflict handling (§25).*
+## 26. Stage 4 conclusion wording — prompt variant (not adopted)
+
+### Problem
+
+On mapped fact-pattern answers the 3B writer often (a) treated unstated legal elements as proved in Application (e.g. that magazines “are lascivious”), (b) wrote Conclusions with “is guilty” / “should be punished” / “is liable”, and (c) omitted penalty / Exception text from the Rule even though the full section was in context. The 14B verifier only sees Rule + Conclusion, so Rule omissions are invisible to it. Hindi translation can also soften English modals (“shall” → “could”).
+
+### Variant
+
+`src/stage4_generate.py` gained `STAGE4_PROMPT_VERSION` (`v1` default / unset; `v2` experimental). Same IRAC headings and one-sentence Conclusion. v2 instructions: Conclusion only says whether the facts appear to fall within the section; Application must not treat unstated elements as met; mention Exception/Explanation/Proviso if present; Rule must quote penalty where the section has one; no placeholder leaks. The running app was **not** switched; eval called `generate_irac` directly from `/tmp` scripts.
+
+### Comparison (summary in `results/stage4_conclusion_wording.json`)
+
+| Measure | v1 (default) | v2 |
+|---|---:|---:|
+| Fact-20 Conclusions with guilty/punishment wording | **13** | **0** |
+| Fact-20 guilty-phrase hits (full IRAC) | 31 | 20 (mostly `shall be punished` inside Rule quotes) |
+| Gold-40 automated fabrication flags | 2 | 3 |
+| Gold-40 14B v3 verifier flagged | 17 | **36** |
+| Fact-20 14B v3 verifier flagged | 2 | 7 |
+| Exception/Explanation/Proviso mentioned when section has them (fact-20) | 0/9 | 0/9 |
+| Format defects (empty / multi-sentence Conclusion / unparseable / placeholder) | 0 | 0 |
+
+“0 of 40 fabricated” on the original sample was **hand review**. Automated approximation (quoted Rule spans ⊆ section after whitespace normalisation; section numbers in output match the given chunk or appear in the section) flags **4/40** on the stored file (quote normalisation / truncation false positives), not new hallucinations.
+
+### Decision rule / recommendation
+
+**Keep v1 as default.** Do not adopt v2 yet: Conclusions improve sharply, but verifier flags roughly double on the gold-40 set, automated fabrication ticks up slightly, Exception/Proviso mentions did not improve, and some v2 gold Conclusions cited the wrong act/section (e.g. “IPC 292” on BNSS cases). Revisit after tightening v2’s citation discipline and Exception instructions, with a human read of the ten Application pairs in the summary JSON.
+
+---
+
+*End of process log. Generated from files in `results/` as of the unified comparison run, plus GovIntel README figures verified against the live Hugging Face card, plus the split-offense review and `split_detector_v2_eval.json`, Stage 4 generation and verifier evals (§16), citation-fix verifier evaluation (§17), backend integration / bifurcation validation (§18), multilingual Stage 5 / IndicTrans2 fix (§19), Ollama Metal / Rosetta fix and Stage 4 warm-up (§20), landing-page + live chat UI verification (§21), missing-facts gate (§22), IPC↔BNS code-mismatch intercept (§23), citation-only section lookup / bifurcation escape / date-lock diagnosis (§24), locked-date conflict handling (§25), and Stage 4 conclusion-wording variant (§26).*
