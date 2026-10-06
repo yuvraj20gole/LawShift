@@ -76,8 +76,10 @@ export type Dictionary = {
   clarifyFallbackMismatch: string;
   clarifyFallbackDescribeFacts: string;
   sectionLookupNoteFallback: string;
+  sectionLookupExhaustedNote: string;
   sectionLookupNoEquivalent: string;
   sectionLookupMissing: (code: string, section: string) => string;
+  sectionMissingSearchNote: (code: string, section: string) => string;
   sectionLookupMapping: (
     otherCodeName: string,
     phrase: string,
@@ -221,12 +223,18 @@ const en: Dictionary = {
   sectionLookupNoteFallback:
     // Agent draft — needs native review
     "You gave a section but no facts, so no analysis was written. Describe what happened to get one.",
+  sectionLookupExhaustedNote:
+    // Agent draft — needs native review
+    "I could not narrow this down further. Open a section to read it, or add more detail.",
   sectionLookupNoEquivalent:
     // Agent draft — needs native review
     "No equivalent is recorded in our mapping table",
   sectionLookupMissing: (code, section) =>
     // Agent draft — needs native review
     `${code} ${section} is not in the statute text we hold.`,
+  sectionMissingSearchNote: (code, section) =>
+    // Agent draft — needs native review
+    `${code} ${section} is not in the statute text we hold; searching on your facts instead.`,
   sectionLookupMapping: (otherCodeName, phrase, label, heading) => {
     // Agent draft — needs native review
     const suffix = heading ? ` (${heading})` : "";
@@ -381,12 +389,18 @@ const hi: Dictionary = {
   sectionLookupNoteFallback:
     // Agent draft — needs native review
     "आपने धारा दी है लेकिन तथ्य नहीं, इसलिए विश्लेषण नहीं लिखा गया। विश्लेषण के लिए क्या हुआ था बताएँ।",
+  sectionLookupExhaustedNote:
+    // Agent draft — needs native review
+    "मैं इसे और सीमित नहीं कर सका। धारा पढ़ने के लिए खोलें, या और विवरण जोड़ें।",
   sectionLookupNoEquivalent:
     // Agent draft — needs native review
     "हमारी मैपिंग तालिका में कोई समकक्ष दर्ज नहीं है",
   sectionLookupMissing: (code, section) =>
     // Agent draft — needs native review
     `${code} ${section} हमारे पास रखे वैधानिक पाठ में नहीं है।`,
+  sectionMissingSearchNote: (code, section) =>
+    // Agent draft — needs native review
+    `${code} ${section} हमारे पास रखे वैधानिक पाठ में नहीं है; आपके तथ्यों पर खोज जारी है।`,
   sectionLookupMapping: (otherCodeName, phrase, label, heading) => {
     // Agent draft — needs native review
     const suffix = heading ? ` (${heading})` : "";
@@ -541,12 +555,18 @@ const mr: Dictionary = {
   sectionLookupNoteFallback:
     // Agent draft — needs native review
     "तुम्ही कलम दिले आहे पण तथ्य नाहीत, म्हणून विश्लेषण लिहिले नाही. विश्लेषणासाठी काय झाले ते सांगा.",
+  sectionLookupExhaustedNote:
+    // Agent draft — needs native review
+    "मी हे आणखी मर्यादित करू शकलो नाही. कलम वाचण्यासाठी उघाडा, किंवा अधिक तपशील जोडा.",
   sectionLookupNoEquivalent:
     // Agent draft — needs native review
     "आमच्या मॅपिंग तक्त्यात समकक्ष नोंद नाही",
   sectionLookupMissing: (code, section) =>
     // Agent draft — needs native review
     `${code} ${section} आमच्याकडे असलेल्या वैधानिक मजकुरात नाही.`,
+  sectionMissingSearchNote: (code, section) =>
+    // Agent draft — needs native review
+    `${code} ${section} आमच्याकडे असलेल्या वैधानिक मजकुरात नाही; तुमच्या तथ्यांवर शोध सुरू आहे.`,
   sectionLookupMapping: (otherCodeName, phrase, label, heading) => {
     // Agent draft — needs native review
     const suffix = heading ? ` (${heading})` : "";

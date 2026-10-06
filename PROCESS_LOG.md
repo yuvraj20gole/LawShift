@@ -809,4 +809,47 @@ On mapped fact-pattern answers the 3B writer often (a) treated unstated legal el
 
 ---
 
-*End of process log. Generated from files in `results/` as of the unified comparison run, plus GovIntel README figures verified against the live Hugging Face card, plus the split-offense review and `split_detector_v2_eval.json`, Stage 4 generation and verifier evals (§16), citation-fix verifier evaluation (§17), backend integration / bifurcation validation (§18), multilingual Stage 5 / IndicTrans2 fix (§19), Ollama Metal / Rosetta fix and Stage 4 warm-up (§20), landing-page + live chat UI verification (§21), missing-facts gate (§22), IPC↔BNS code-mismatch intercept (§23), citation-only section lookup / bifurcation escape / date-lock diagnosis (§24), locked-date conflict handling (§25), and Stage 4 conclusion-wording variant (§26).*
+## 27. Bifurcation escape loop, cited-section honour, mismatch→card
+
+### Problems
+
+1. Choosing “None of these” and then resending the same facts asked the same score-gap question again.
+2. A message that already named an in-force section (e.g. IPC 292 with facts) still asked among close-score neighbours (292 vs 293).
+3. After a code-mismatch offer on a citation-only message (e.g. BNS 103 on an IPC date), choosing the mapped section ran the writer on the citation string and could invent a person / leak placeholders.
+
+### Rules (default Stage 4 prompt / verifier / retrieval / margin unchanged)
+
+- **Rejected-set cards:** per `conversation_id`, remember score-gap options dismissed via “None of these”. If a later score-gap set is entirely within that rejected set, do not ask again — return `section_lookup` cards (up to three: code, section, heading, statute text) with note “I could not narrow this down further…”. No IRAC; quota unchanged. Different facts that yield a new section still bifurcate.
+- **Cited section + facts:** when the message has offence facts and an explicit IPC/BNS citation of the code Stage 2 selects, and that section exists in the corpus, skip score-gap bifurcation in `handle_query` and answer under the cited chunk. `detect_bifurcation` itself is unchanged. Missing cited section → continue on facts and attach `info_note` (“…is not in the statute text we hold; searching on your facts instead.”). BNSS/BSA/CrPC and code-mismatch paths unchanged.
+- **Mismatch resolve on citation-only:** pending code-mismatch state records `held_citation_only`; choosing a mapped option returns a `section_lookup` card for that section instead of calling the writer. Held messages with facts still get a normal mapped answer.
+
+### Localisation
+
+New HI/MR strings (agent drafts, need native review): `sectionLookupExhaustedNote`, `sectionMissingSearchNote`.
+
+### Citation date-digit guard
+
+`extract_ipc_bns_citations` now strips the Stage 1 date span and rejects a code+number pair when the number is the day of a following month name (so “under the BNS 5 July 2024” is not treated as BNS 5). Honour / mismatch paths pass `strip_date`.
+
+### Tests (`/tmp/lawshift_p123_verify.py`, `/tmp/lawshift_p123_part4.py`, `/tmp/lawshift_bif85_recount.py`)
+
+| Check | Result |
+|--------|--------|
+| Part 1 None-of-these → cards (IPC 292/502; BNS 180/179); new facts → normal map | pass (date locked) |
+| Part 2 cited+facts → map cited; missing cite → info_note + search | pass |
+| Part 3 citation-only mismatch → section card; facts → mapping | pass |
+| Diagnosis 9 | 9/9 |
+| Fact-free ~30 | 27 blocked + 3 no_date |
+| False-block 285 | **0** blocked |
+| Stage 1 | **44/44** |
+| Recall@5 | **0.841** |
+| Bif85 (was 47) | Honour-driven skips **0** after date-digit guard (earlier “3 skips→44” were BNS+day false cites). Recount **46** with comma-appended date (punctuation artifact vs space-append baseline **47**). |
+| Explicit cites → status change | 85-set: **5** cites / **1** change; 200-set: **35** cites / **0** changes |
+| Code-mismatch 6 | 6/6 |
+| Section lookup 7 | 7/7 |
+| Date-conflict smoke | pass |
+| Landing quota (stubbed) | 5→5→5→5→5→4 |
+
+---
+
+*End of process log. Generated from files in `results/` as of the unified comparison run, plus GovIntel README figures verified against the live Hugging Face card, plus the split-offense review and `split_detector_v2_eval.json`, Stage 4 generation and verifier evals (§16), citation-fix verifier evaluation (§17), backend integration / bifurcation validation (§18), multilingual Stage 5 / IndicTrans2 fix (§19), Ollama Metal / Rosetta fix and Stage 4 warm-up (§20), landing-page + live chat UI verification (§21), missing-facts gate (§22), IPC↔BNS code-mismatch intercept (§23), citation-only section lookup / bifurcation escape / date-lock diagnosis (§24), locked-date conflict handling (§25), Stage 4 conclusion-wording variant (§26), and bifurcation-escape / cited-section / mismatch-card rules (§27).*

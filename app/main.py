@@ -40,6 +40,9 @@ SECTION_LOOKUP_NOTE = (
     "You gave a section but no facts, so no analysis was written. "
     "Describe what happened to get one."
 )
+BIFURCATION_EXHAUSTED_NOTE = (
+    "I could not narrow this down further. Open a section to read it, or add more detail."
+)
 _NO_MAPPING_EQUIVALENT = "No equivalent is recorded in our mapping table"
 
 # Per-conversation locked offence date (frontend conversation_id contract).
@@ -47,6 +50,10 @@ _LOCKED_DATES: dict[str, date] = {}
 
 # Pending bifurcation choices: conversation_id -> state for resolve endpoint.
 _PENDING_BIFURCATION: dict[str, dict] = {}
+
+# Sections offered in a score-gap bifurcation and rejected via "None of these"
+# (conversation_id -> set of labels like "IPC 292").
+_REJECTED_BIFURCATION_SECTIONS: dict[str, set[str]] = {}
 
 
 def _format_offense_date(d: date) -> str:
@@ -695,8 +702,75 @@ def _mapping_fields_for_section(
     return line, "equivalent", equiv_code, equiv_section, equiv_heading, mtype_norm
 
 
+def _chunk_section_label(chunk: stage3.RetrievedChunk) -> str:
+    return f"{chunk.act} {chunk.section_number}"
+
+
+def _remember_rejected_sections(conversation_id: str, pending: dict) -> None:
+    """Record score-gap options the user dismissed via 'None of these'."""
+    if pending.get("source") in {"code_mismatch", "date_conflict"}:
+        return
+    labels: set[str] = set()
+    offered = pending.get("offered_labels")
+    if isinstance(offered, (list, set, tuple)):
+        labels.update(str(x) for x in offered)
+    else:
+        seen_ids: set[str] = set()
+        for chunk in (pending.get("by_section") or {}).values():
+            cid = getattr(chunk, "chunk_id", None)
+            if cid is None or cid in seen_ids:
+                continue
+            seen_ids.add(cid)
+            labels.add(_chunk_section_label(chunk))
+    if not labels:
+        return
+    bucket = _REJECTED_BIFURCATION_SECTIONS.setdefault(conversation_id, set())
+    bucket.update(labels)
+
+
+def _build_section_lookup_item_from_chunk(
+    chunk: stage3.RetrievedChunk,
+) -> SectionLookupItem:
+    act = (chunk.act or "").upper()
+    if act not in {"IPC", "BNS", "BNSS", "BSA"}:
+        act = "IPC" if act.startswith("IPC") else act
+    sec = str(chunk.section_number)
+    heading = (chunk.section_title or "").strip()
+    if heading.lower() in {"nan", "none", "null"}:
+        heading = ""
+    if act in {"IPC", "BNS"}:
+        line, status, eq_code, eq_sec, eq_head, mtype = _mapping_fields_for_section(
+            act, sec
+        )
+    else:
+        line, status, eq_code, eq_sec, eq_head, mtype = (
+            _NO_MAPPING_EQUIVALENT,
+            "none",
+            None,
+            None,
+            None,
+            None,
+        )
+    return SectionLookupItem(
+        code=act,  # type: ignore[arg-type]
+        section=sec,
+        heading=heading,
+        text=chunk.text or "",
+        found=True,
+        mapping_line=line,
+        mapping_status=status,  # type: ignore[arg-type]
+        equiv_code=eq_code,  # type: ignore[arg-type]
+        equiv_section=eq_sec,
+        equiv_heading=eq_head,
+        mapping_type=mtype,  # type: ignore[arg-type]
+    )
+
+
 def _build_section_lookup(
     citations: list[tuple[str, str]],
+    *,
+    note: str | None = None,
+    reason: str | None = "citation_only",
 ) -> SectionLookupResponse:
     """Statute + mapping for up to three matching-route citations; no IRAC."""
     items: list[SectionLookupItem] = []
@@ -716,28 +790,36 @@ def _build_section_lookup(
                 )
             )
             continue
-        heading = (chunk.section_title or "").strip()
-        if heading.lower() in {"nan", "none", "null"}:
-            heading = ""
-        line, status, eq_code, eq_sec, eq_head, mtype = _mapping_fields_for_section(
-            code, sec
-        )
-        items.append(
-            SectionLookupItem(
-                code=code,  # type: ignore[arg-type]
-                section=sec,
-                heading=heading,
-                text=chunk.text or "",
-                found=True,
-                mapping_line=line,
-                mapping_status=status,  # type: ignore[arg-type]
-                equiv_code=eq_code,  # type: ignore[arg-type]
-                equiv_section=eq_sec,
-                equiv_heading=eq_head,
-                mapping_type=mtype,  # type: ignore[arg-type]
-            )
-        )
-    return SectionLookupResponse(note=SECTION_LOOKUP_NOTE, items=items)
+        items.append(_build_section_lookup_item_from_chunk(chunk))
+    return SectionLookupResponse(
+        note=note or SECTION_LOOKUP_NOTE,
+        items=items,
+        reason=reason,  # type: ignore[arg-type]
+    )
+
+
+def _build_section_lookup_from_chunks(
+    chunks: list[stage3.RetrievedChunk],
+    *,
+    note: str,
+    reason: str | None = "bifurcation_exhausted",
+) -> SectionLookupResponse:
+    """Plain cards from RetrievedChunk list (up to three); no IRAC."""
+    seen: set[str] = set()
+    items: list[SectionLookupItem] = []
+    for chunk in chunks:
+        label = _chunk_section_label(chunk)
+        if label in seen:
+            continue
+        seen.add(label)
+        items.append(_build_section_lookup_item_from_chunk(chunk))
+        if len(items) >= 3:
+            break
+    return SectionLookupResponse(
+        note=note,
+        items=items,
+        reason=reason,  # type: ignore[arg-type]
+    )
 
 
 def _with_describe_facts_option(
@@ -855,24 +937,38 @@ def _equivalent_options_for_citation(
     return [], None
 
 
-def extract_ipc_bns_citations(message: str) -> list[tuple[str, str]]:
+_MONTH_NAME_RE = (
+    r"(?:January|February|March|April|May|June|July|August|September|"
+    r"October|November|December|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)"
+)
+
+
+def extract_ipc_bns_citations(
+    message: str, *, strip_date: str | None = None
+) -> list[tuple[str, str]]:
     """IPC/BNS citations only, using the same spans EXPLICIT_CITATION_RE finds.
 
     Returns unique (code, section) pairs. BNSS, BSA, CrPC, and bare
     \"section 302\" (no code named) are omitted — not mismatches.
     Year-like numbers (1900–2099) after BNS/IPC are ignored so prose
     like \"BNS 2023\" is not treated as a section cite.
+    Day-of-month digits that begin a calendar date (e.g. \"BNS 5 July 2024\",
+    \"under the BNS on 5 July\") are also ignored.
     """
+    text = message or ""
+    if strip_date and strip_date not in {"", "(locked)"}:
+        text = re.sub(re.escape(strip_date), " ", text, flags=re.I)
     found: list[tuple[str, str]] = []
     seen: set[tuple[str, str]] = set()
-    for m in EXPLICIT_CITATION_RE.finditer(message or ""):
+    for m in EXPLICIT_CITATION_RE.finditer(text):
         span = m.group(0)
         if re.search(r"\bBNSS\b|\bBSA\b|\bCrPC\b", span, re.I):
             continue
         # Prefer "Section 302 IPC" / "IPC Section 302" inside a wider window
         start, end = m.span()
-        window = (message or "")[max(0, start - 24) : min(len(message or ""), end + 24)]
+        window = text[max(0, start - 24) : min(len(text), end + 24)]
         pair: tuple[str, str] | None = None
+        num_end: int | None = None
         m1 = re.search(
             rf"\b(IPC|BNS)\b\s*[#:]?\s*({_SECTION_NUM_RE})\b", window, re.I
         )
@@ -891,18 +987,27 @@ def extract_ipc_bns_citations(message: str) -> list[tuple[str, str]]:
         )
         if m3:
             pair = (m3.group(2).upper(), m3.group(1))
+            num_end = m3.end(1)
         elif m4:
             pair = (m4.group(1).upper(), m4.group(2))
+            num_end = m4.end(2)
         elif m1:
             pair = (m1.group(1).upper(), m1.group(2))
+            num_end = m1.end(2)
         elif m2:
             pair = (m2.group(2).upper(), m2.group(1))
+            num_end = m2.end(1)
         if pair is None:
             continue
         if pair[0] not in {"IPC", "BNS"}:
             continue
         # Drop year false-positives (e.g. "BNS 2023" in running text)
         if re.fullmatch(r"(?:19|20)\d{2}", pair[1]):
+            continue
+        # Drop day-of-month glued to a month name ("BNS 5 July 2024")
+        if num_end is not None and re.match(
+            rf"\s+{_MONTH_NAME_RE}\b", window[num_end:], re.I
+        ):
             continue
         key = (pair[0], pair[1].upper())
         if key in seen:
@@ -1042,6 +1147,8 @@ def _build_code_mismatch_response(
         "by_section": by_section,
         "scores": [],
         "source": "code_mismatch",
+        # Citation-only held messages resolve to a section card, not IRAC.
+        "held_citation_only": message_is_citation_only(message, matched_text),
     }
     return BifurcationResponse(
         prompt=prompt,
@@ -1151,7 +1258,11 @@ async def _run_pipeline(
 
     # Named IPC/BNS that is not the code in force for this date → mapping offer
     # (no retrieval). BNSS/BSA/CrPC and bare "section N" are left alone.
-    citations = extract_ipc_bns_citations(message)
+    # Strip the Stage 1 date span so day digits are not read as section numbers
+    # (e.g. "under the BNS 5 July 2024" must not become BNS 5).
+    citations = extract_ipc_bns_citations(
+        message, strip_date=date_span_for_strip or matched_text
+    )
     mismatches = [(c, s) for c, s in citations if c != route]
     if mismatches:
         return _attach_date_lock_label(
@@ -1173,8 +1284,47 @@ async def _run_pipeline(
         matching = [(c, s) for c, s in citations if c == route]
         if matching:
             return _attach_date_lock_label(
-                _build_section_lookup(matching),
+                _build_section_lookup(matching, reason="citation_only"),
                 date_lock_label,
+            )
+
+    # Facts + explicit citation of the in-force code: honour the named section
+    # (skip score-gap bifurcation). detect_bifurcation itself is unchanged.
+    info_note: str | None = None
+    matching_cites = [(c, s) for c, s in citations if c == route]
+    if matching_cites and not message_is_citation_only(message, date_span_for_strip):
+        chosen_chunk = None
+        missing_labels: list[str] = []
+        for code, sec in matching_cites:
+            chunk = stage3.get_chunk_by_id(f"{code}_{sec}", code)
+            if chunk is None:
+                chunk = stage3.get_chunk_by_id(f"{code}_{sec}".upper(), code)
+            if chunk is None:
+                missing_labels.append(f"{code} {sec}")
+                continue
+            chosen_chunk = chunk
+            break
+        if chosen_chunk is not None:
+            return _attach_date_lock_label(
+                _build_mapping(
+                    message=message,
+                    offense_date=offense_date,
+                    matched_text=matched_text,
+                    reason=reason,
+                    route=route,
+                    top_chunk=chosen_chunk,
+                    retrieve_detail=(
+                        f"User-cited section {chosen_chunk.chunk_id} "
+                        f"(skipped score-gap bifurcation)"
+                    ),
+                    language=language,
+                ),
+                date_lock_label,
+            )
+        if missing_labels:
+            info_note = (
+                f"{missing_labels[0]} is not in the statute text we hold; "
+                "searching on your facts instead."
             )
 
     # Stage 3: act-aware cascade on the RAW message (+ scores for bifurcation)
@@ -1194,6 +1344,20 @@ async def _run_pipeline(
     candidates = stage3.detect_bifurcation(score_sorted, margin=0.10)
 
     if len(candidates) > 1:
+        option_labels = [_chunk_section_label(c) for c in candidates]
+        rejected = _REJECTED_BIFURCATION_SECTIONS.get(conversation_id, set())
+        # If every candidate was already offered and rejected via "None of these",
+        # do not ask again — return plain section cards instead.
+        if option_labels and all(lab in rejected for lab in option_labels):
+            return _attach_date_lock_label(
+                _build_section_lookup_from_chunks(
+                    candidates,
+                    note=BIFURCATION_EXHAUSTED_NOTE,
+                    reason="bifurcation_exhausted",
+                ),
+                date_lock_label,
+            )
+
         options = []
         by_section: dict[str, stage3.RetrievedChunk] = {}
         for chunk in candidates:
@@ -1215,39 +1379,40 @@ async def _run_pipeline(
             "reason": reason,
             "route": route,
             "by_section": by_section,
+            "offered_labels": option_labels,
             "scores": [
                 (c.chunk_id, float(s))
                 for c, s in scored
                 if c.chunk_id in {x.chunk_id for x in candidates}
             ],
             "date_lock_label": date_lock_label,
+            "info_note": info_note,
         }
         section_list = ", ".join(o.section for o in options)
-        return _attach_date_lock_label(
-            BifurcationResponse(
-                prompt=(
-                    "Several statutory sections look equally plausible for this query. "
-                    f"Which one should I analyse: {section_list}?"
-                ),
-                options=_with_describe_facts_option(options),
+        bif = BifurcationResponse(
+            prompt=(
+                "Several statutory sections look equally plausible for this query. "
+                f"Which one should I analyse: {section_list}?"
             ),
-            date_lock_label,
+            options=_with_describe_facts_option(options),
+            info_note=info_note,
         )
+        return _attach_date_lock_label(bif, date_lock_label)
 
     top_chunk = scored[0][0]  # cascade top — unchanged when no bifurcation
-    return _attach_date_lock_label(
-        _build_mapping(
-            message=message,
-            offense_date=offense_date,
-            matched_text=matched_text,
-            reason=reason,
-            route=route,
-            top_chunk=top_chunk,
-            retrieve_detail=f"Cascade retrieval, top match: {top_chunk.chunk_id}",
-            language=language,
-        ),
-        date_lock_label,
+    mapped = _build_mapping(
+        message=message,
+        offense_date=offense_date,
+        matched_text=matched_text,
+        reason=reason,
+        route=route,
+        top_chunk=top_chunk,
+        retrieve_detail=f"Cascade retrieval, top match: {top_chunk.chunk_id}",
+        language=language,
     )
+    if info_note and hasattr(mapped, "model_copy"):
+        mapped = mapped.model_copy(update={"info_note": info_note})
+    return _attach_date_lock_label(mapped, date_lock_label)
 
 
 @app.post("/api/query/resolve_bifurcation")
@@ -1310,6 +1475,7 @@ async def resolve_bifurcation(req: ResolveBifurcationRequest):
     # Escape hatch: user rejected the offered sections and will describe facts.
     # Date stays locked; free-question counter is unchanged (no mapping).
     if _is_describe_facts_choice(chosen):
+        _remember_rejected_sections(req.conversation_id, pending)
         _PENDING_BIFURCATION.pop(req.conversation_id, None)
         return ClarifyResponse(
             question=DESCRIBE_FACTS_PROMPT,
@@ -1347,20 +1513,34 @@ async def resolve_bifurcation(req: ResolveBifurcationRequest):
     # Consume pending state so a second resolve does not silently reuse it
     _PENDING_BIFURCATION.pop(req.conversation_id, None)
 
-    return _attach_date_lock_label(
-        _build_mapping(
-            message=pending["message"],
-            offense_date=pending["offense_date"],
-            matched_text=pending["matched_text"],
-            reason=pending["reason"],
-            route=pending["route"],
-            top_chunk=chunk,
-            retrieve_detail=(
-                f"User-resolved bifurcation → {chunk.chunk_id} "
-                f"(skipped cascade re-retrieval)"
+    # Code-mismatch on a citation-only held message → section card, not IRAC.
+    if pending.get("held_citation_only"):
+        return _attach_date_lock_label(
+            _build_section_lookup_from_chunks(
+                [chunk],
+                note=SECTION_LOOKUP_NOTE,
+                reason="citation_only",
             ),
-            language=language,
+            pending.get("date_lock_label"),
+        )
+
+    mapped = _build_mapping(
+        message=pending["message"],
+        offense_date=pending["offense_date"],
+        matched_text=pending["matched_text"],
+        reason=pending["reason"],
+        route=pending["route"],
+        top_chunk=chunk,
+        retrieve_detail=(
+            f"User-resolved bifurcation → {chunk.chunk_id} "
+            f"(skipped cascade re-retrieval)"
         ),
+        language=language,
+    )
+    if pending.get("info_note") and hasattr(mapped, "model_copy"):
+        mapped = mapped.model_copy(update={"info_note": pending["info_note"]})
+    return _attach_date_lock_label(
+        mapped,
         pending.get("date_lock_label"),
     )
 

@@ -49,6 +49,13 @@ class MappingResponse(BaseModel):
             "named in the message)."
         ),
     )
+    info_note: str | None = Field(
+        default=None,
+        description=(
+            "Optional one-line notice (e.g. cited section missing from corpus; "
+            "searching on facts instead). Not an IRAC field."
+        ),
+    )
 
 
 class ClarifyResponse(BaseModel):
@@ -103,12 +110,16 @@ class BifurcationResponse(BaseModel):
         default=None,
         description="Optional locked-date note; see MappingResponse.date_lock_label.",
     )
+    info_note: str | None = Field(
+        default=None,
+        description="Optional one-line notice; see MappingResponse.info_note.",
+    )
 
 
 class SectionLookupItem(BaseModel):
     """One cited section returned without retrieval or IRAC writing."""
 
-    code: Literal["IPC", "BNS"]
+    code: Literal["IPC", "BNS", "BNSS", "BSA"]
     section: str
     heading: str
     text: str
@@ -128,11 +139,21 @@ class SectionLookupResponse(BaseModel):
 
     Smallest new kind so the client can render a collapsed statute panel
     without treating this as a mapped answer (quota / IRAC).
+    Also used when score-gap bifurcation would only re-offer sections the
+    user already rejected via \"None of these\".
     """
 
     kind: Literal["section_lookup"] = "section_lookup"
     note: str
     items: list[SectionLookupItem]
+    reason: Literal["citation_only", "bifurcation_exhausted"] | None = Field(
+        default=None,
+        description=(
+            "Why cards were returned. 'bifurcation_exhausted' when every "
+            "offered section was previously rejected; None/'citation_only' "
+            "for a bare citation lookup."
+        ),
+    )
     date_lock_label: str | None = Field(
         default=None,
         description="Optional locked-date note; see MappingResponse.date_lock_label.",

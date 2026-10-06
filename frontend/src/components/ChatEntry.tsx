@@ -156,6 +156,11 @@ function withDateLockNote(
   return text ? `${note}\n\n${text}` : note;
 }
 
+function withInfoNote(text: string, note: unknown): string {
+  if (typeof note !== "string" || !note.trim()) return text;
+  return text ? `${note.trim()}\n\n${text}` : note.trim();
+}
+
 function newConversationId() {
   return `web-${crypto.randomUUID()}`;
 }
@@ -278,9 +283,20 @@ export function ChatEntry({
               ? `${t.verifierNote}: ${t.verifyOk}`
               : null,
         ].filter(Boolean);
+        let text = withDateLockNote(parts.join("\n\n"), data.date_lock_label, lang, t);
+        // Prefer localised missing-section search note when the API sent English.
+        let infoNote =
+          typeof data.info_note === "string" ? data.info_note : null;
+        if (infoNote && lang !== "en") {
+          const m = infoNote.match(
+            /^([A-Z]+)\s+(\S+)\s+is not in the statute text we hold/i,
+          );
+          if (m) infoNote = t.sectionMissingSearchNote(m[1], m[2]);
+        }
+        text = withInfoNote(text, infoNote);
         return {
           role: "assistant",
-          text: withDateLockNote(parts.join("\n\n"), data.date_lock_label, lang, t),
+          text,
           summary: data.summary as string | undefined,
           irac,
           sources,
@@ -353,9 +369,13 @@ export function ChatEntry({
             };
           });
         let text =
-          lang === "en"
-            ? (data.note as string) || t.sectionLookupNoteFallback
-            : t.sectionLookupNoteFallback;
+          data.reason === "bifurcation_exhausted"
+            ? lang === "en"
+              ? (data.note as string) || t.sectionLookupExhaustedNote
+              : t.sectionLookupExhaustedNote
+            : lang === "en"
+              ? (data.note as string) || t.sectionLookupNoteFallback
+              : t.sectionLookupNoteFallback;
         text = withDateLockNote(text, data.date_lock_label, lang, t);
         return {
           role: "assistant",
@@ -407,6 +427,15 @@ export function ChatEntry({
           text = t.bifurcationPrompt(statuteSecs);
         }
         text = withDateLockNote(text, data.date_lock_label, lang, t);
+        let infoNote =
+          typeof data.info_note === "string" ? data.info_note : null;
+        if (infoNote && lang !== "en") {
+          const m = infoNote.match(
+            /^([A-Z]+)\s+(\S+)\s+is not in the statute text we hold/i,
+          );
+          if (m) infoNote = t.sectionMissingSearchNote(m[1], m[2]);
+        }
+        text = withInfoNote(text, infoNote);
         return {
           role: "assistant",
           text,
