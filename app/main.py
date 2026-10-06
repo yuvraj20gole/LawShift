@@ -22,6 +22,7 @@ from .schemas import (
     ClarifyResponse,
     FailureResponse,
     MappingResponse,
+    OffenseDateUsed,
     PipelineStep,
     QueryRequest,
     ResolveBifurcationRequest,
@@ -78,6 +79,30 @@ def _attach_date_lock_label(resp, label: str | None):
     if not label:
         return resp
     return resp.model_copy(update={"date_lock_label": label})
+
+
+def _build_offense_date_used(
+    offense_date: date,
+    route: str,
+    *,
+    source: str = "message",
+) -> OffenseDateUsed:
+    """Display-only payload for the 'Offence date used' line."""
+    src = source if source in {"message", "earlier_message", "document"} else "message"
+    code = route if route in {"IPC", "BNS"} else stage2.route(offense_date)
+    return OffenseDateUsed(
+        label=_format_offense_date(offense_date),
+        code=code,  # type: ignore[arg-type]
+        source=src,  # type: ignore[arg-type]
+    )
+
+
+def _attach_offense_date_used(resp, payload: OffenseDateUsed | None):
+    if payload is None or not hasattr(resp, "model_copy"):
+        return resp
+    if not hasattr(resp, "offense_date_used"):
+        return resp
+    return resp.model_copy(update={"offense_date_used": payload})
 
 
 def _build_date_conflict_response(
@@ -300,6 +325,7 @@ def _build_mapping(
     top_chunk: stage3.RetrievedChunk,
     retrieve_detail: str,
     language: str = "en",
+    offense_date_used: OffenseDateUsed | None = None,
 ) -> MappingResponse | FailureResponse:
     try:
         irac_text = stage4.generate_irac(message, top_chunk.text, top_chunk.chunk_id)
@@ -378,6 +404,7 @@ def _build_mapping(
         },
         engine=engine,  # type: ignore[arg-type]
         translation_note=translation_note,
+        offense_date_used=offense_date_used,
     )
 
 
@@ -771,6 +798,7 @@ def _build_section_lookup(
     *,
     note: str | None = None,
     reason: str | None = "citation_only",
+    offense_date_used: OffenseDateUsed | None = None,
 ) -> SectionLookupResponse:
     """Statute + mapping for up to three matching-route citations; no IRAC."""
     items: list[SectionLookupItem] = []
@@ -795,6 +823,7 @@ def _build_section_lookup(
         note=note or SECTION_LOOKUP_NOTE,
         items=items,
         reason=reason,  # type: ignore[arg-type]
+        offense_date_used=offense_date_used,
     )
 
 
@@ -803,6 +832,7 @@ def _build_section_lookup_from_chunks(
     *,
     note: str,
     reason: str | None = "bifurcation_exhausted",
+    offense_date_used: OffenseDateUsed | None = None,
 ) -> SectionLookupResponse:
     """Plain cards from RetrievedChunk list (up to three); no IRAC."""
     seen: set[str] = set()
@@ -819,6 +849,7 @@ def _build_section_lookup_from_chunks(
         note=note,
         items=items,
         reason=reason,  # type: ignore[arg-type]
+        offense_date_used=offense_date_used,
     )
 
 
@@ -1207,6 +1238,11 @@ async def handle_query(req: QueryRequest):
         date_span_for_strip=date_span_for_strip,
         date_lock_label=date_lock_label,
         establish_lock=(locked is None),
+        date_source=(
+            "document"
+            if req.conversation_id.startswith("doc-upload")
+            else ("earlier_message" if locked is not None else "message")
+        ),
     )
 
 
@@ -1221,6 +1257,7 @@ async def _run_pipeline(
     date_span_for_strip: str,
     date_lock_label: str | None = None,
     establish_lock: bool = True,
+    date_source: str = "message",
 ):
     """Shared Stage 2–4 path after the offence date is settled."""
     # Stage 2: deterministic gate
@@ -1243,17 +1280,32 @@ async def _run_pipeline(
 
     route = stage2.route(offense_date)  # "IPC" or "BNS"
 
+    if date_source not in {"message", "earlier_message", "document"}:
+        date_source = "message"
+    if date_source == "message" and (
+        reason == "conversation_lock" or date_lock_label
+    ):
+        date_source = "earlier_message"
+    if conversation_id.startswith("doc-upload"):
+        date_source = "document"
+    odu = _build_offense_date_used(offense_date, route, source=date_source)
+
+    def _finish(resp):
+        return _attach_offense_date_used(
+            _attach_date_lock_label(resp, date_lock_label),
+            odu,
+        )
+
     if message_missing_offense_facts(message, date_span_for_strip):
         # Date stays locked; next turn with facts will reuse it.
-        return _attach_date_lock_label(
+        return _finish(
             ClarifyResponse(
                 question=(
                     "I have the date. Describe what happened (who did what, "
                     "and to whom) so I can find the section."
                 ),
                 reason="missing_facts",
-            ),
-            date_lock_label,
+            )
         )
 
     # Named IPC/BNS that is not the code in force for this date → mapping offer
@@ -1265,7 +1317,7 @@ async def _run_pipeline(
     )
     mismatches = [(c, s) for c, s in citations if c != route]
     if mismatches:
-        return _attach_date_lock_label(
+        return _finish(
             _build_code_mismatch_response(
                 message=message,
                 offense_date=offense_date,
@@ -1274,8 +1326,7 @@ async def _run_pipeline(
                 route=route,
                 mismatches=mismatches,
                 conversation_id=conversation_id,
-            ),
-            date_lock_label,
+            )
         )
 
     # Citation-only (date + meta + citations, no other content words) with a
@@ -1283,9 +1334,12 @@ async def _run_pipeline(
     if message_is_citation_only(message, date_span_for_strip):
         matching = [(c, s) for c, s in citations if c == route]
         if matching:
-            return _attach_date_lock_label(
-                _build_section_lookup(matching, reason="citation_only"),
-                date_lock_label,
+            return _finish(
+                _build_section_lookup(
+                    matching,
+                    reason="citation_only",
+                    offense_date_used=odu,
+                )
             )
 
     # Facts + explicit citation of the in-force code: honour the named section
@@ -1305,7 +1359,7 @@ async def _run_pipeline(
             chosen_chunk = chunk
             break
         if chosen_chunk is not None:
-            return _attach_date_lock_label(
+            return _finish(
                 _build_mapping(
                     message=message,
                     offense_date=offense_date,
@@ -1318,8 +1372,8 @@ async def _run_pipeline(
                         f"(skipped score-gap bifurcation)"
                     ),
                     language=language,
-                ),
-                date_lock_label,
+                    offense_date_used=odu,
+                )
             )
         if missing_labels:
             info_note = (
@@ -1330,12 +1384,11 @@ async def _run_pipeline(
     # Stage 3: act-aware cascade on the RAW message (+ scores for bifurcation)
     scored = stage3.cascade_search_with_scores(message, corpus_act=route, k=5)
     if not scored:
-        return _attach_date_lock_label(
+        return _finish(
             FailureResponse(
                 reason="no_mapping",
                 message="No matching statutory section was found for this query.",
-            ),
-            date_lock_label,
+            )
         )
 
     # Score-gap check needs descending scores; cascade order is preserved in `scored`
@@ -1349,13 +1402,13 @@ async def _run_pipeline(
         # If every candidate was already offered and rejected via "None of these",
         # do not ask again — return plain section cards instead.
         if option_labels and all(lab in rejected for lab in option_labels):
-            return _attach_date_lock_label(
+            return _finish(
                 _build_section_lookup_from_chunks(
                     candidates,
                     note=BIFURCATION_EXHAUSTED_NOTE,
                     reason="bifurcation_exhausted",
-                ),
-                date_lock_label,
+                    offense_date_used=odu,
+                )
             )
 
         options = []
@@ -1387,6 +1440,8 @@ async def _run_pipeline(
             ],
             "date_lock_label": date_lock_label,
             "info_note": info_note,
+            "date_source": date_source,
+            "offense_date_used": odu,
         }
         section_list = ", ".join(o.section for o in options)
         bif = BifurcationResponse(
@@ -1397,7 +1452,7 @@ async def _run_pipeline(
             options=_with_describe_facts_option(options),
             info_note=info_note,
         )
-        return _attach_date_lock_label(bif, date_lock_label)
+        return _finish(bif)
 
     top_chunk = scored[0][0]  # cascade top — unchanged when no bifurcation
     mapped = _build_mapping(
@@ -1409,10 +1464,11 @@ async def _run_pipeline(
         top_chunk=top_chunk,
         retrieve_detail=f"Cascade retrieval, top match: {top_chunk.chunk_id}",
         language=language,
+        offense_date_used=odu,
     )
     if info_note and hasattr(mapped, "model_copy"):
         mapped = mapped.model_copy(update={"info_note": info_note})
-    return _attach_date_lock_label(mapped, date_lock_label)
+    return _finish(mapped)
 
 
 @app.post("/api/query/resolve_bifurcation")
@@ -1470,6 +1526,7 @@ async def resolve_bifurcation(req: ResolveBifurcationRequest):
             date_span_for_strip=span_in_msg or chosen_label,
             date_lock_label=None,
             establish_lock=False,
+            date_source="message",
         )
 
     # Escape hatch: user rejected the offered sections and will describe facts.
@@ -1513,15 +1570,32 @@ async def resolve_bifurcation(req: ResolveBifurcationRequest):
     # Consume pending state so a second resolve does not silently reuse it
     _PENDING_BIFURCATION.pop(req.conversation_id, None)
 
+    pending_odu = pending.get("offense_date_used")
+    if pending_odu is not None and not isinstance(pending_odu, OffenseDateUsed):
+        pending_odu = None
+    date_source = pending.get("date_source") or "message"
+    if pending_odu is None:
+        pending_odu = _build_offense_date_used(
+            pending["offense_date"],
+            pending["route"],
+            source=date_source,
+        )
+
+    def _finish_resolve(resp):
+        return _attach_offense_date_used(
+            _attach_date_lock_label(resp, pending.get("date_lock_label")),
+            pending_odu,
+        )
+
     # Code-mismatch on a citation-only held message → section card, not IRAC.
     if pending.get("held_citation_only"):
-        return _attach_date_lock_label(
+        return _finish_resolve(
             _build_section_lookup_from_chunks(
                 [chunk],
                 note=SECTION_LOOKUP_NOTE,
                 reason="citation_only",
+                offense_date_used=pending_odu,
             ),
-            pending.get("date_lock_label"),
         )
 
     mapped = _build_mapping(
@@ -1536,13 +1610,11 @@ async def resolve_bifurcation(req: ResolveBifurcationRequest):
             f"(skipped cascade re-retrieval)"
         ),
         language=language,
+        offense_date_used=pending_odu,
     )
     if pending.get("info_note") and hasattr(mapped, "model_copy"):
         mapped = mapped.model_copy(update={"info_note": pending["info_note"]})
-    return _attach_date_lock_label(
-        mapped,
-        pending.get("date_lock_label"),
-    )
+    return _finish_resolve(mapped)
 
 
 @app.post("/api/upload_document")

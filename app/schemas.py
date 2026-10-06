@@ -21,6 +21,21 @@ class PipelineStep(BaseModel):
     detail: str
 
 
+class OffenseDateUsed(BaseModel):
+    """Display-only: the date and code the answer was routed on."""
+
+    label: str = Field(description="Human date, e.g. '25 June 2024'.")
+    code: Literal["IPC", "BNS"]
+    source: Literal["message", "earlier_message", "document"] = Field(
+        default="message",
+        description=(
+            "Where the date came from for the parenthetical note. "
+            "'earlier_message' when the conversation lock supplied it; "
+            "'document' for upload_document; otherwise 'message'."
+        ),
+    )
+
+
 class MappingResponse(BaseModel):
     kind: Literal["mapping"] = "mapping"
     summary: str
@@ -55,6 +70,10 @@ class MappingResponse(BaseModel):
             "Optional one-line notice (e.g. cited section missing from corpus; "
             "searching on facts instead). Not an IRAC field."
         ),
+    )
+    offense_date_used: OffenseDateUsed | None = Field(
+        default=None,
+        description="Display-only offence date + code line for mapped answers.",
     )
 
 
@@ -157,6 +176,10 @@ class SectionLookupResponse(BaseModel):
     date_lock_label: str | None = Field(
         default=None,
         description="Optional locked-date note; see MappingResponse.date_lock_label.",
+    )
+    offense_date_used: OffenseDateUsed | None = Field(
+        default=None,
+        description="Display-only offence date + code line for section cards.",
     )
 
 

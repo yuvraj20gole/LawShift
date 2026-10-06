@@ -2,6 +2,7 @@
 
 import { FormEvent, useCallback, useEffect, useId, useRef, useState } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import type { Dictionary } from "@/lib/i18n";
 import { usePrefs } from "@/lib/prefs";
 import styles from "./ChatEntry.module.css";
 
@@ -62,6 +63,12 @@ type SectionLookupItem = {
   mapping_type?: "section" | "partial" | "merged" | null;
 };
 
+type OffenseDateUsed = {
+  label: string;
+  code: "IPC" | "BNS";
+  source: "message" | "earlier_message" | "document";
+};
+
 type Msg =
   | { role: "user"; text: string }
   | {
@@ -76,7 +83,55 @@ type Msg =
       translationNote?: string | null;
       bifurcationOptions?: BifurcationOption[];
       sectionLookup?: SectionLookupItem[];
+      offenseDateUsed?: OffenseDateUsed;
+      showExceptionNotice?: boolean;
+      showScope?: boolean;
     };
+
+/** Display-only: strip corpus indexing prefix from statute text. */
+function stripIndexingContext(text: string): string {
+  return text.replace(/^\[Context:[^\]]*\]\s*/i, "");
+}
+
+function sectionHasExceptionNotice(text: string): boolean {
+  return /\b(Exception|Explanation|Proviso)\b/.test(text);
+}
+
+function parseOffenseDateUsed(raw: unknown): OffenseDateUsed | undefined {
+  if (!raw || typeof raw !== "object") return undefined;
+  const o = raw as Record<string, unknown>;
+  if (typeof o.label !== "string") return undefined;
+  if (o.code !== "IPC" && o.code !== "BNS") return undefined;
+  const source =
+    o.source === "earlier_message" || o.source === "document"
+      ? o.source
+      : "message";
+  return { label: o.label, code: o.code, source };
+}
+
+function formatOffenseDateUsedLine(
+  odu: OffenseDateUsed,
+  lang: string,
+  dict: Dictionary,
+): string {
+  // EN example: "Indian Penal Code" (drop leading "the " from dictionary names).
+  const rawName = odu.code === "IPC" ? dict.codeNameIpc : dict.codeNameBns;
+  const codeName = rawName.replace(/^the\s+/i, "");
+  const origin =
+    odu.source === "earlier_message"
+      ? dict.offenseDateFromEarlier
+      : odu.source === "document"
+        ? dict.offenseDateFromDocument
+        : "";
+  const base = dict.offenseDateUsedLine(odu.label, codeName);
+  return origin ? `${base} ${origin}` : base;
+}
+
+function langDisplayName(lang: string, dict: Dictionary): string {
+  if (lang === "hi") return dict.langNameHi;
+  if (lang === "mr") return dict.langNameMr;
+  return dict.langNameEn;
+}
 
 /** English API sentinel for the bifurcation escape option. */
 const DESCRIBE_FACTS_SENTINEL = "None of these. I will describe what happened";
@@ -150,7 +205,9 @@ function withDateLockNote(
   label: unknown,
   lang: string,
   dict: { dateLockNote: (date: string) => string },
+  skipWhenOffenseDateUsed?: boolean,
 ): string {
+  if (skipWhenOffenseDateUsed) return text;
   if (typeof label !== "string" || !label.trim()) return text;
   const note = dict.dateLockNote(label.trim());
   return text ? `${note}\n\n${text}` : note;
@@ -247,6 +304,8 @@ export function ChatEntry({
   const [expandedSources, setExpandedSources] = useState<Record<string, boolean>>(
     {},
   );
+  const [langSwitchNote, setLangSwitchNote] = useState<string | null>(null);
+  const prevLangRef = useRef(lang);
 
   /** The landing page's recorded cases hand their text to the composer. */
   useEffect(() => {
@@ -261,11 +320,21 @@ export function ChatEntry({
     return () => window.removeEventListener("lawshift:ask", onAsk);
   }, []);
 
+  useEffect(() => {
+    if (prevLangRef.current === lang) return;
+    const hadAssistant = messages.some((m) => m.role === "assistant");
+    if (hadAssistant) {
+      setLangSwitchNote(t.langSwitchNote(langDisplayName(lang, t)));
+    }
+    prevLangRef.current = lang;
+  }, [lang, messages, t]);
+
   const replyFromData = useCallback(
     (data: Record<string, unknown>): Msg => {
       if (data.kind === "mapping") {
         const irac: Irac = (data.irac as Irac) || {};
         const sources = parseSources(data.sources);
+        const offenseDateUsed = parseOffenseDateUsed(data.offense_date_used);
         const rawVerification = parseVerification(data.verification);
         /* The all-clear line is fixed copy, so show it in the reader's language. */
         const verification = rawVerification
@@ -283,7 +352,16 @@ export function ChatEntry({
               ? `${t.verifierNote}: ${t.verifyOk}`
               : null,
         ].filter(Boolean);
-        let text = withDateLockNote(parts.join("\n\n"), data.date_lock_label, lang, t);
+        let text = withDateLockNote(
+          parts.join("\n\n"),
+          data.date_lock_label,
+          lang,
+          t,
+          Boolean(offenseDateUsed),
+        );
+        const showExceptionNotice = sources.some(
+          (s) => s.text && sectionHasExceptionNotice(s.text),
+        );
         // Prefer localised missing-section search note when the API sent English.
         let infoNote =
           typeof data.info_note === "string" ? data.info_note : null;
@@ -301,6 +379,9 @@ export function ChatEntry({
           irac,
           sources,
           verification,
+          offenseDateUsed,
+          showExceptionNotice,
+          showScope: true,
           language: lang,
           engine:
             data.engine === "indictrans2" ||
@@ -333,6 +414,7 @@ export function ChatEntry({
         };
       }
       if (data.kind === "section_lookup") {
+        const offenseDateUsed = parseOffenseDateUsed(data.offense_date_used);
         const rawItems = Array.isArray(data.items) ? data.items : [];
         const items: SectionLookupItem[] = rawItems
           .filter((it): it is Record<string, unknown> => !!it && typeof it === "object")
@@ -376,12 +458,19 @@ export function ChatEntry({
             : lang === "en"
               ? (data.note as string) || t.sectionLookupNoteFallback
               : t.sectionLookupNoteFallback;
-        text = withDateLockNote(text, data.date_lock_label, lang, t);
+        text = withDateLockNote(
+          text,
+          data.date_lock_label,
+          lang,
+          t,
+          Boolean(offenseDateUsed),
+        );
         return {
           role: "assistant",
           text,
           language: lang,
           sectionLookup: items,
+          offenseDateUsed,
         };
       }
       if (data.kind === "bifurcation") {
@@ -547,6 +636,11 @@ export function ChatEntry({
 
   return (
     <div className={styles.shell}>
+      {langSwitchNote ? (
+        <p className={styles.langSwitchNote} role="status">
+          {langSwitchNote}
+        </p>
+      ) : null}
       <div className={styles.thread} aria-live="polite" tabIndex={0} data-lenis-prevent>
         {messages.length === 0 ? (
           <div className={styles.empty}>
@@ -600,6 +694,11 @@ export function ChatEntry({
                 </span>
                 {m.role === "assistant" && m.irac ? (
                   <div className={styles.iracBlock}>
+                    {m.offenseDateUsed ? (
+                      <p className={styles.displayMeta}>
+                        {formatOffenseDateUsedLine(m.offenseDateUsed, lang, t)}
+                      </p>
+                    ) : null}
                     {m.summary ? (
                       <p className={styles.summaryLine}>
                         {t.mapped}: {m.summary}
@@ -678,7 +777,9 @@ export function ChatEntry({
                                             }
                                       }
                                     >
-                                      <p className={styles.sourceText}>{src.text}</p>
+                                      <p className={styles.sourceText}>
+                                        {stripIndexingContext(src.text ?? "")}
+                                      </p>
                                     </motion.div>
                                   ) : null}
                                 </AnimatePresence>
@@ -721,6 +822,13 @@ export function ChatEntry({
                       </div>
                     ) : null}
 
+                    {m.showScope ? (
+                      <p className={styles.displayMeta}>{t.scopeLine}</p>
+                    ) : null}
+                    {m.showExceptionNotice ? (
+                      <p className={styles.displayMeta}>{t.exceptionProvisoNotice}</p>
+                    ) : null}
+
                     {m.language && m.language !== "en" && m.engine === "indictrans2" ? (
                       <p className={styles.fallbackNote}>{t.machineTranslatedNote}</p>
                     ) : null}
@@ -735,6 +843,11 @@ export function ChatEntry({
                   </div>
                 ) : m.role === "assistant" && m.sectionLookup?.length ? (
                   <div className={styles.iracBlock}>
+                    {m.offenseDateUsed ? (
+                      <p className={styles.displayMeta}>
+                        {formatOffenseDateUsedLine(m.offenseDateUsed, lang, t)}
+                      </p>
+                    ) : null}
                     <p className={styles.statute}>{m.text}</p>
                     {m.sectionLookup.map((item, si) => {
                       const key = `${i}:${si}`;
@@ -809,7 +922,7 @@ export function ChatEntry({
                                         }
                                       >
                                         <p className={styles.sourceText}>
-                                          {item.text}
+                                          {stripIndexingContext(item.text)}
                                         </p>
                                       </motion.div>
                                     ) : null}

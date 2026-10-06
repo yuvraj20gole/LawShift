@@ -7,6 +7,24 @@
   padding: 1rem;
 }
 
+.langSwitchNote {
+  margin: 0 0 0.75rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--rule-strong);
+  background: color-mix(in srgb, var(--bns) 6%, var(--paper));
+  color: var(--ink-secondary);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.displayMeta {
+  margin: 0 0 0.65rem;
+  color: var(--ink-secondary);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
 .thread {
   min-height: 300px;
   max-height: min(72vh, 680px);

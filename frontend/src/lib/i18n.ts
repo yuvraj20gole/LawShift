@@ -89,6 +89,15 @@ export type Dictionary = {
   mappingPhraseSection: string;
   mappingPhrasePartial: string;
   mappingPhraseMerged: string;
+  offenseDateUsedLine: (date: string, codeName: string) => string;
+  offenseDateFromEarlier: string;
+  offenseDateFromDocument: string;
+  exceptionProvisoNotice: string;
+  scopeLine: string;
+  langSwitchNote: (langName: string) => string;
+  langNameEn: string;
+  langNameHi: string;
+  langNameMr: string;
   codeNameIpc: string;
   codeNameBns: string;
   bifurcationEscapeOption: string;
@@ -243,6 +252,19 @@ const en: Dictionary = {
   mappingPhraseSection: "the corresponding section is",
   mappingPhrasePartial: "partly matches",
   mappingPhraseMerged: "merged into",
+  offenseDateUsedLine: (date, codeName) =>
+    `Offence date used: ${date} (${codeName})`,
+  offenseDateFromEarlier: "(from your earlier message)",
+  offenseDateFromDocument: "(read from your document)",
+  exceptionProvisoNotice:
+    "This section has an Exception, Explanation or Proviso that may change the result. Read the full text under Sources.",
+  scopeLine:
+    "This shows what the section says. Whether it applies to your facts is for a court to decide.",
+  langSwitchNote: (langName) =>
+    `Answers already on screen stay in the language they were written in. New answers use ${langName}.`,
+  langNameEn: "English",
+  langNameHi: "Hindi",
+  langNameMr: "Marathi",
   codeNameIpc: "the Indian Penal Code",
   codeNameBns: "the Bharatiya Nyaya Sanhita",
   bifurcationEscapeOption:
@@ -408,7 +430,28 @@ const hi: Dictionary = {
   },
   mappingPhraseSection: "समकक्ष धारा है",
   mappingPhrasePartial: "आंशिक रूप से मेल खाती है",
-  mappingPhraseMerged: "में विलीन है",
+  mappingPhraseMerged: "विलीन है",
+  offenseDateUsedLine: (date, codeName) =>
+    // Agent draft — needs native review
+    `उपयोग की गई अपराध तिथि: ${date} (${codeName})`,
+  offenseDateFromEarlier:
+    // Agent draft — needs native review
+    "(आपके पहले संदेश से)",
+  offenseDateFromDocument:
+    // Agent draft — needs native review
+    "(आपके दस्तावेज़ से पढ़ी गई)",
+  exceptionProvisoNotice:
+    // Agent draft — needs native review
+    "इस धारा में Exception, Explanation या Proviso हो सकता है जो परिणाम बदल सके। स्रोतों में पूरा पाठ पढ़ें।",
+  scopeLine:
+    // Agent draft — needs native review
+    "यह दिखाता है कि धारा क्या कहती है। यह आपके तथ्यों पर लागू होती है या नहीं, न्यायालय तय करेगा।",
+  langSwitchNote: (langName) =>
+    // Agent draft — needs native review
+    `स्क्रीन पर पहले से लिखे उत्तर जिस भाषा में हैं उसी में रहेंगे। नए उत्तर ${langName} में होंगे।`,
+  langNameEn: "English",
+  langNameHi: "हिंदी",
+  langNameMr: "मराठी",
   codeNameIpc: "भारतीय दंड संहिता",
   codeNameBns: "भारतीय न्याय संहिता",
   bifurcationEscapeOption:
@@ -574,7 +617,28 @@ const mr: Dictionary = {
   },
   mappingPhraseSection: "समकक्ष कलम आहे",
   mappingPhrasePartial: "अंशतः जुळते",
-  mappingPhraseMerged: "मध्ये विलीन आहे",
+  mappingPhraseMerged: "विलीन आहे",
+  offenseDateUsedLine: (date, codeName) =>
+    // Agent draft — needs native review
+    `वापरलेली गुन्ह्याची तारीख: ${date} (${codeName})`,
+  offenseDateFromEarlier:
+    // Agent draft — needs native review
+    "(तुमच्या आधीच्या संदेशातून)",
+  offenseDateFromDocument:
+    // Agent draft — needs native review
+    "(तुमच्या दस्तऐवजातून वाचले)",
+  exceptionProvisoNotice:
+    // Agent draft — needs native review
+    "या कलमात Exception, Explanation किंवा Proviso असू शकते जे निकाल बदलू शकते. स्रोतांखाली संपूर्ण मजकूर वाचा.",
+  scopeLine:
+    // Agent draft — needs native review
+    "हे कलम काय म्हणते ते दाखवते. तुमच्या तथ्यांवर लागू होते की नाही हे न्यायालय ठरवेल.",
+  langSwitchNote: (langName) =>
+    // Agent draft — needs native review
+    `स्क्रीनवरील आधीचे उत्तरे ज्या भाषेत आहेत तशाच राहतील. नवीन उत्तरे ${langName} मध्ये असतील.`,
+  langNameEn: "English",
+  langNameHi: "हिंदी",
+  langNameMr: "मराठी",
   codeNameIpc: "भारतीय दंड संहिता",
   codeNameBns: "भारतीय न्याय संहिता",
   bifurcationEscapeOption:

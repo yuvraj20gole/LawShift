@@ -852,4 +852,39 @@ New HI/MR strings (agent drafts, need native review): `sectionLookupExhaustedNot
 
 ---
 
-*End of process log. Generated from files in `results/` as of the unified comparison run, plus GovIntel README figures verified against the live Hugging Face card, plus the split-offense review and `split_detector_v2_eval.json`, Stage 4 generation and verifier evals (§16), citation-fix verifier evaluation (§17), backend integration / bifurcation validation (§18), multilingual Stage 5 / IndicTrans2 fix (§19), Ollama Metal / Rosetta fix and Stage 4 warm-up (§20), landing-page + live chat UI verification (§21), missing-facts gate (§22), IPC↔BNS code-mismatch intercept (§23), citation-only section lookup / bifurcation escape / date-lock diagnosis (§24), locked-date conflict handling (§25), Stage 4 conclusion-wording variant (§26), and bifurcation-escape / cited-section / mismatch-card rules (§27).*
+## 28. Display-only chat answer lines
+
+### Scope
+
+Backend already exposed `OffenseDateUsed` on mapping / section_lookup schemas; this pass wires resolve-bifurcation returns, adds client i18n + ChatEntry rendering (offence-date line, scope, Exception/Proviso notice, Context strip, language-switch note), and leaves Stage 1–4 logic, retrieval, bifurcation margin, prompts, and verifier unchanged.
+
+### Backend
+
+- `_run_pipeline` continues to build `odu` and attach via `_finish` on all paths (mapping, section_lookup, bifurcation, clarify, failure).
+- `resolve_bifurcation`: rebuild or reuse pending `offense_date_used`; pass into `_build_mapping` / `_build_section_lookup_from_chunks`; wrap with `_attach_offense_date_used`. Date-conflict re-run passes `date_source="message"`.
+
+### Frontend
+
+- i18n: `offenseDateUsedLine`, source parentheticals, `exceptionProvisoNotice`, `scopeLine`, `langSwitchNote` + language names; HI/MR `mappingPhraseMerged` shortened to avoid doubled में/मध्ये (templates in `/tmp/lawshift_hi_mr_mapping_templates.txt`).
+- `ChatEntry`: structured `offense_date_used` near top of mapping / section cards; skip duplicate `dateLockNote` when present; strip `[Context:…]` in expanded statute text; scope after verification; exception notice when source text matches `\b(Exception|Explanation|Proviso)\b`; one-shot language note on toggle when thread has assistant content.
+
+### Scripts / results
+
+| Script | Purpose |
+|--------|---------|
+| `/tmp/lawshift_display_corpus.py` | Count IPC/BNS/BNSS sections with Exception/Explanation/Proviso; Context strip samples |
+| `/tmp/lawshift_display_verify.py` | API smoke: plain map, lock+20 June, date-conflict resolve, range phrase; prints `offense_date_used` |
+| `/tmp/lawshift_display_regress.py` | Diagnosis 9, false-block 285=0, Stage 1 44/44, Recall@5 0.841, quota stub 5→5→5→5→4 |
+
+| Check | Result |
+|--------|--------|
+| Corpus Exception/Explanation/Proviso (`\b(Exception\|Explanation\|Proviso)\b` on section text) | **IPC 72/562** (`ipc_statutes.jsonl`, `IPC_*`); **BNS 79/358**; **BNSS 33/531** (`statutes.jsonl`, `BNS_*` / `BNSS_*`); **BSA 30/170** (`BSA_*`, display-only). All **1059** `statutes.jsonl` rows carry `[Context:…]`; IPC rows have no Context prefix. **30/30** random strip samples (seed 42) start with section number after `^\[Context:[^\]]*\]\s*` removal |
+| API verify: lock map then 20 June (same IPC side) | second turn **`mapping`** (not `date_conflict`); `date_lock_label` **25 June 2024**; `offense_date_used` **`{label: 25 June 2024, code: IPC, source: earlier_message}`** |
+| API verify: “between 25 June and 5 July 2024” | `mapping` → `{label: 5 July 2024, code: BNS, source: message}` |
+| API verify: date-conflict resolve (control) | `mapping` → `{label: 25 June 2024, code: IPC, source: message}` |
+| HI/MR `mappingPhraseMerged` | **विलीन है** / **विलीन आहे** (no doubled में/मध्ये in phrase token) |
+| `lawshift_display_regress.py` (`.venv/bin/python`) | diagnosis **9/9**; false-block **285 = 0**; Stage 1 **44/44**; Recall@5 **0.841**; landing quota stub **pass** → `/tmp/lawshift_display_regress_out.json` |
+
+---
+
+*End of process log. Generated from files in `results/` as of the unified comparison run, plus GovIntel README figures verified against the live Hugging Face card, plus the split-offense review and `split_detector_v2_eval.json`, Stage 4 generation and verifier evals (§16), citation-fix verifier evaluation (§17), backend integration / bifurcation validation (§18), multilingual Stage 5 / IndicTrans2 fix (§19), Ollama Metal / Rosetta fix and Stage 4 warm-up (§20), landing-page + live chat UI verification (§21), missing-facts gate (§22), IPC↔BNS code-mismatch intercept (§23), citation-only section lookup / bifurcation escape / date-lock diagnosis (§24), locked-date conflict handling (§25), Stage 4 conclusion-wording variant (§26), and bifurcation-escape / cited-section / mismatch-card rules (§27), and display-only chat answer lines (§28).*
