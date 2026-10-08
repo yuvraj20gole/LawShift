@@ -13,10 +13,19 @@ from datetime import date
 from functools import lru_cache
 from pathlib import Path
 
-from fastapi import FastAPI, File, Query, UploadFile
+from fastapi import Depends, FastAPI, File, Query, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 
 from . import mapping_lookup, stage0_document, stage1, stage2, stage3, stage4, stage5_translate
+from .auth_supabase import AuthUser, optional_auth, require_auth
+from .limits import (
+    BodySizeLimitMiddleware,
+    GenerationSlot,
+    enforce_query_rate_limit,
+    enforce_upload_size,
+    enforce_upload_type,
+)
+from .security_settings import get_settings
 from .schemas import (
     BifurcationOption,
     BifurcationResponse,
@@ -217,22 +226,28 @@ async def lifespan(app: FastAPI):
     yield
 
 
-app = FastAPI(title="Legal RAG Pipeline", lifespan=lifespan)
+_settings = get_settings()
+app = FastAPI(
+    title="Legal RAG Pipeline",
+    lifespan=lifespan,
+    docs_url="/docs" if _settings.enable_docs else None,
+    redoc_url="/redoc" if _settings.enable_docs else None,
+    openapi_url="/openapi.json" if _settings.enable_docs else None,
+)
+# Last added = outermost. CORS wraps body-size checks.
+app.add_middleware(BodySizeLimitMiddleware, settings=_settings)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_origins=list(_settings.allowed_origins),
+    allow_credentials=False,
+    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["Authorization", "Content-Type", "Accept"],
 )
 
 
 @app.get("/health")
 async def health():
-    return {
-        "status": "ok",
-        "locked_conversations": len(_LOCKED_DATES),
-        "pending_bifurcations": len(_PENDING_BIFURCATION),
-    }
+    return {"status": "ok"}
 
 
 _RULINGS_PATH = Path(__file__).resolve().parents[1] / "data" / "rulings_index.json"
@@ -1231,8 +1246,8 @@ def _build_code_mismatch_response(
     )
 
 
-@app.post("/api/query")
 async def handle_query(req: QueryRequest):
+    """Pipeline entry for /api/query. Callable in-process (no HTTP deps)."""
     # A new message abandons a pending date_conflict choice (other pending
     # bifurcations are left alone until overwritten by a later bif response).
     pending = _PENDING_BIFURCATION.get(req.conversation_id)
@@ -1287,6 +1302,21 @@ async def handle_query(req: QueryRequest):
             else ("earlier_message" if locked is not None else "message")
         ),
     )
+
+
+@app.post("/api/query")
+async def api_query(
+    request: Request,
+    req: QueryRequest,
+    user: AuthUser | None = Depends(optional_auth),
+):
+    """HTTP entry: optional auth, rate limit, generation slot, then pipeline.
+
+    Body is the flat QueryRequest fields (message, conversation_id, language).
+    """
+    await enforce_query_rate_limit(request, user)
+    async with GenerationSlot():
+        return await handle_query(req)
 
 
 async def _run_pipeline(
@@ -1514,12 +1544,12 @@ async def _run_pipeline(
     return _finish(mapped)
 
 
-@app.post("/api/query/resolve_bifurcation")
 async def resolve_bifurcation(req: ResolveBifurcationRequest):
     """Continue after the user picks one of the bifurcation options.
 
     Skips Stage 3 retrieval entirely; looks up the chosen chunk from the
     pending bifurcation state and runs Stage 4 on that section alone.
+    Callable in-process (no HTTP deps).
     """
     pending = _PENDING_BIFURCATION.get(req.conversation_id)
     if pending is None:
@@ -1660,83 +1690,88 @@ async def resolve_bifurcation(req: ResolveBifurcationRequest):
     return _finish_resolve(mapped)
 
 
+@app.post("/api/query/resolve_bifurcation")
+async def api_resolve_bifurcation(
+    request: Request,
+    req: ResolveBifurcationRequest,
+    user: AuthUser | None = Depends(optional_auth),
+):
+    """HTTP entry: optional auth, generation slot, then resolve.
+
+    Body is the flat ResolveBifurcationRequest fields.
+    """
+    del request, user  # auth presence checked; no per-user state yet
+    async with GenerationSlot():
+        return await resolve_bifurcation(req)
+
+
 @app.post("/api/upload_document")
 async def upload_document(
+    request: Request,
     file: UploadFile = File(...),
     language: str = "en",
     conversation_id: str = "doc-upload",
+    user: AuthUser = Depends(require_auth),
 ):
     import uuid
 
+    del request  # required for client IP middleware path; auth via user
+    _ = user  # authenticated
+
     file_bytes = await file.read()
+    enforce_upload_size(file_bytes)
+    kind = enforce_upload_type(file_bytes)
 
     ocr_used = False
-    is_pdf = (
-        file.content_type == "application/pdf"
-        or (file.filename and file.filename.lower().endswith(".pdf"))
-    )
-    is_image = (
-        file.content_type in ("image/jpeg", "image/png", "image/jpg")
-        or (file.filename and file.filename.lower().endswith((".jpg", ".jpeg", ".png")))
-    )
-
-    if is_pdf:
-        extracted_text, has_text = stage0_document.extract_text_from_pdf(file_bytes)
-        if not has_text:
-            print("[upload] No text layer found, falling back to OCR...")
-            extracted_text = stage0_document.extract_text_via_ocr_from_pdf(file_bytes)
+    async with GenerationSlot():
+        if kind == "pdf":
+            extracted_text, has_text = stage0_document.extract_text_from_pdf(file_bytes)
+            if not has_text:
+                print("[upload] No text layer found, falling back to OCR...")
+                extracted_text = stage0_document.extract_text_via_ocr_from_pdf(file_bytes)
+                ocr_used = True
+        else:
+            # jpeg / png — content sniff already validated
+            extracted_text = stage0_document.extract_text_from_image(file_bytes)
             ocr_used = True
-    elif is_image:
-        extracted_text = stage0_document.extract_text_from_image(file_bytes)
-        ocr_used = True
-    else:
-        return FailureResponse(
-            reason="source_unavailable",
-            message=f"Unsupported file type: {file.content_type}. PDF, JPEG, and PNG are supported.",
-        )
 
-    if not extracted_text or not extracted_text.strip():
-        return FailureResponse(
-            reason="source_unavailable",
-            message="Could not extract readable text from this document. Try a clearer photo or a typed document.",
-        )
-
-    # Short OCR/PDF extracts are usually unusable, but a date-only document
-    # must still reach handle_query so the missing_facts clarify can fire.
-    stripped = extracted_text.strip()
-    if len(stripped) < 20:
-        date_hit, _, _ = stage1.extract_offense_date(stripped)
-        if date_hit is None:
+        if not extracted_text or not extracted_text.strip():
             return FailureResponse(
                 reason="source_unavailable",
                 message="Could not extract readable text from this document. Try a clearer photo or a typed document.",
             )
 
-    # Use unique conversation_id per document unless a specific thread is requested
-    doc_conv_id = (
-        conversation_id
-        if conversation_id and conversation_id != "doc-upload"
-        else f"doc-upload-{uuid.uuid4().hex[:8]}"
-    )
+        # Short OCR/PDF extracts are usually unusable, but a date-only document
+        # must still reach handle_query so the missing_facts clarify can fire.
+        stripped = extracted_text.strip()
+        if len(stripped) < 20:
+            date_hit, _, _ = stage1.extract_offense_date(stripped)
+            if date_hit is None:
+                return FailureResponse(
+                    reason="source_unavailable",
+                    message="Could not extract readable text from this document. Try a clearer photo or a typed document.",
+                )
 
-    # From here, treat the extracted text exactly like a normal chat query -
-    # run it through the SAME pipeline as /api/query, don't rebuild any logic
-    fake_query = QueryRequest(
-        message=extracted_text,
-        conversation_id=doc_conv_id,
-        language=language,
-    )
-    response = await handle_query(fake_query)
-
-    # Tag the response so the frontend can show "extracted via OCR" as a
-    # transparency note, same visible-not-silent principle as everything else
-    if hasattr(response, "pipeline") and isinstance(response.pipeline, list):
-        response.pipeline.insert(
-            0,
-            PipelineStep(
-                stage="extract",
-                detail=f"Text extracted via {'OCR' if ocr_used else 'direct PDF parsing'}",
-            ),
+        doc_conv_id = (
+            conversation_id
+            if conversation_id and conversation_id != "doc-upload"
+            else f"doc-upload-{uuid.uuid4().hex[:8]}"
         )
-    return response
+
+        fake_query = QueryRequest(
+            message=extracted_text,
+            conversation_id=doc_conv_id,
+            language=language,
+        )
+        response = await handle_query(fake_query)
+
+        if hasattr(response, "pipeline") and isinstance(response.pipeline, list):
+            response.pipeline.insert(
+                0,
+                PipelineStep(
+                    stage="extract",
+                    detail=f"Text extracted via {'OCR' if ocr_used else 'direct PDF parsing'}",
+                ),
+            )
+        return response
 

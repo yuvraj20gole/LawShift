@@ -1,0 +1,5 @@
+# Extra deps for the hardened FastAPI backend (app/) and its tests/.
+# Install into the project venv:  .venv/bin/pip install -r requirements-backend.txt
+PyJWT[crypto]>=2.8
+pytest>=7.0
+httpx>=0.27

@@ -972,4 +972,28 @@ Checks covered: diagnosis 9; fact-free 30; false-block 285 (85 plain + 200 held-
 
 ---
 
-*End of process log. Generated from files in `results/` as of the unified comparison run, plus GovIntel README figures verified against the live Hugging Face card, plus the split-offense review and `split_detector_v2_eval.json`, Stage 4 generation and verifier evals (§16), citation-fix verifier evaluation (§17), backend integration / bifurcation validation (§18), multilingual Stage 5 / IndicTrans2 fix (§19), Ollama Metal / Rosetta fix and Stage 4 warm-up (§20), landing-page + live chat UI verification (§21), missing-facts gate (§22), IPC↔BNS code-mismatch intercept (§23), citation-only section lookup / bifurcation escape / date-lock diagnosis (§24), locked-date conflict handling (§25), Stage 4 conclusion-wording variant (§26), bifurcation-escape / cited-section / mismatch-card rules (§27), display-only chat answer lines (§28), fixed Conclusion (§29), translation number guard (§30), and the checked-in regression suite (§31).*
+## 32. Public API hardening (auth, limits, CORS)
+
+### Problem
+
+The FastAPI surface used `allow_origins=["*"]`, exposed `/docs`, returned internal counts from `/health`, and left `/api/query`, resolve, upload, map, and rulings unauthenticated with no body/upload size caps or generation concurrency control.
+
+### Change (scope: `app/`, `tests/`, `requirements-backend.txt` only)
+
+- **Auth** (`app/auth_supabase.py`): Bearer JWT; prefer project JWKS at `{SUPABASE_URL}/auth/v1/.well-known/jwks.json` (this project publishes **ES256**); fall back to `SUPABASE_JWT_SECRET` (HS256) when JWKS is empty. Offline tests use `LAWSHIFT_JWT_TEST_PUBLIC_KEY_PEM`. Checks signature, `exp`, `aud` (default `authenticated`). Optional on `/api/query` and `/api/query/resolve_bifurcation`; required on `/api/upload_document`. Bad/expired → clean 401. Pipeline return shapes unchanged; `handle_query` / `resolve_bifurcation` stay callable in-process without HTTP deps.
+- **Limits** (`app/limits.py`): per-IP hourly caps on `/api/query` (anon 12 / auth 120); generation semaphore (default 2, wait 45 s → 503 `busy, try again`); upload ≤ 10 MB with magic-byte type sniff (PDF/JPEG/PNG); other POST bodies ≤ 100 KB. Client IP from left-most `X-Forwarded-For` only when `LAWSHIFT_TRUST_PROXY=1`.
+- **CORS / docs / health**: `LAWSHIFT_ALLOWED_ORIGINS` (default `http://localhost:3000`); `/docs`, `/redoc`, `/openapi.json` off unless `LAWSHIFT_ENABLE_DOCS=1`; `/health` → `{"status":"ok"}` only.
+- **Tests**: `tests/test_security_hardening.py` (local RSA keys; no network).
+- **Regression (hardening):** `optional_auth` / `require_auth` took `SecuritySettings | None = None`, so FastAPI treated settings as a second body model and nested `/api/query` under `req` (422). Fixed by reading settings only via `get_settings()` inside the deps.
+- **HTTP tests:** `tests/test_http_query_routes.py` hits the real routes with TestClient and stubbed `handle_query` / `resolve_bifurcation` (flat body 200, token 200, bad token 401, empty 422, resolve body, anon 429).
+
+### Numbers
+
+| Check | Result |
+|--------|--------|
+| `pytest tests/test_security_hardening.py` | **18** passed |
+| `scripts/regression/run_all.py` | **PASS=12 FAIL=0 INFO=1** (diagnosis 9/9; fact-free 27+3; false-block 0/285; Stage 1 44/44; paper Recall 0.8412; production Recall 0.8381; bif85_labeled 48/85; code-mismatch 6/6; section_lookup 7/7; date-conflict 3/3; rejected-options 1/1; quota [5,5,5,5,4]) |
+
+---
+
+*End of process log. Generated from files in `results/` as of the unified comparison run, plus GovIntel README figures verified against the live Hugging Face card, plus the split-offense review and `split_detector_v2_eval.json`, Stage 4 generation and verifier evals (§16), citation-fix verifier evaluation (§17), backend integration / bifurcation validation (§18), multilingual Stage 5 / IndicTrans2 fix (§19), Ollama Metal / Rosetta fix and Stage 4 warm-up (§20), landing-page + live chat UI verification (§21), missing-facts gate (§22), IPC↔BNS code-mismatch intercept (§23), citation-only section lookup / bifurcation escape / date-lock diagnosis (§24), locked-date conflict handling (§25), Stage 4 conclusion-wording variant (§26), bifurcation-escape / cited-section / mismatch-card rules (§27), display-only chat answer lines (§28), fixed Conclusion (§29), translation number guard (§30), the checked-in regression suite (§31), and public API hardening (§32).*
