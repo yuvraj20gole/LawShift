@@ -5,6 +5,7 @@ import { usePrefs, type Lang } from "@/lib/prefs";
 import { getDashboardCopy } from "@/lib/dashboardCopy";
 import { getAuthCopy } from "@/lib/authCopy";
 import { SAMPLE_EMAIL } from "@/lib/sampleData";
+import { SHOW_SAMPLE_SIGNS } from "@/lib/showSampleSigns";
 import { PageHead, Row } from "@/components/dashboard/DashParts";
 import { Field, OkNote, PasswordChecklist, PasswordField, SubmitButton } from "@/components/auth/AuthParts";
 import { passwordChecks } from "@/components/auth/validate";
@@ -137,7 +138,7 @@ export default function SettingsPage() {
           <button type="button" className={styles.dangerBtn} disabled={!canDelete} onClick={() => setDeleted(true)}>
             {C.stDeleteButton}
           </button>
-          {deleted ? (
+          {deleted && SHOW_SAMPLE_SIGNS ? (
             <p className={styles.flagNote} role="alert">
               <span className={styles.mark}>
                 <FlagIcon />

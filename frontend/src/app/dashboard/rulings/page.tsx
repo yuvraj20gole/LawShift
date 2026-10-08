@@ -15,6 +15,7 @@ import {
 } from "@/data/rulings";
 import { BenchTip, useBenchTip } from "@/components/dashboard/BenchTip";
 import { EmptyState, PageHead } from "@/components/dashboard/DashParts";
+import { SHOW_SAMPLE_SIGNS } from "@/lib/showSampleSigns";
 import styles from "@/components/dashboard/dashboard.module.css";
 
 type Branch = "all" | "ipcbns" | "criminal" | "civil";
@@ -29,7 +30,9 @@ function CuratedItem({ e, C }: { e: RulingEntry; C: DashboardCopy }) {
       <p className={styles.rulingMeta}>
         <span>{e.court}</span>
         <span>{e.decidedOn === "to verify" ? C.dateToVerify : fmtDate(e.decidedOn)}</span>
-        {!e.verified ? <span className={styles.draftBadge}>{C.draftBadge}</span> : null}
+        {SHOW_SAMPLE_SIGNS && !e.verified ? (
+          <span className={styles.draftBadge}>{C.draftBadge}</span>
+        ) : null}
       </p>
       <p className={styles.rulingTitle}>{e.title}</p>
       {e.caseNumber ? <p className={styles.rulingCase}>{e.caseNumber}</p> : null}

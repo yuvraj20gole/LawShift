@@ -6,6 +6,7 @@ import { Header } from "@/components/Header";
 import { usePrefs } from "@/lib/prefs";
 import { getLandingCopy } from "@/lib/landingCopy";
 import { getAuthCopy } from "@/lib/authCopy";
+import { SHOW_SAMPLE_SIGNS } from "@/lib/showSampleSigns";
 import styles from "./auth.module.css";
 
 /** Shared frame: header, the navy panel with the cutoff motif, and the form card. */
@@ -56,7 +57,9 @@ export function AuthShell({
               {title}
             </h1>
             <p className={styles.lede}>{lede}</p>
-            <p className={styles.preview}>{A.previewNote}</p>
+            {SHOW_SAMPLE_SIGNS ? (
+              <p className={styles.preview}>{A.previewNote}</p>
+            ) : null}
             {children}
           </section>
         </div>

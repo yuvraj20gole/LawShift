@@ -7,6 +7,7 @@ import { Header } from "@/components/Header";
 import { usePrefs } from "@/lib/prefs";
 import { getDashboardCopy } from "@/lib/dashboardCopy";
 import { SAMPLE_EMAIL } from "@/lib/sampleData";
+import { SHOW_SAMPLE_SIGNS } from "@/lib/showSampleSigns";
 import styles from "./dashboard.module.css";
 
 type Mode = "sample" | "empty";
@@ -34,8 +35,10 @@ export function DashboardShell({ children }: { children: ReactNode }) {
   ];
   const isActive = (i: (typeof items)[number]) => path?.startsWith(i.href);
   const current = items.find(isActive) ?? items[0];
-  /** Pages that are not built yet show no sample data, so they carry no preview strip. */
-  const showPreview = !(path?.startsWith("/dashboard/mapping") || path?.startsWith("/dashboard/rulings"));
+  /** Mapping and Rulings never show the strip; elsewhere gated by SHOW_SAMPLE_SIGNS. */
+  const showPreview =
+    SHOW_SAMPLE_SIGNS &&
+    !(path?.startsWith("/dashboard/mapping") || path?.startsWith("/dashboard/rulings"));
 
   return (
     <>

@@ -5,6 +5,7 @@ import { usePrefs } from "@/lib/prefs";
 import { getDashboardCopy } from "@/lib/dashboardCopy";
 import { SAMPLE_DOCS, type SampleDoc } from "@/lib/sampleData";
 import { Dropzone } from "./Dropzone";
+import { SHOW_SAMPLE_SIGNS } from "@/lib/showSampleSigns";
 import { usePreviewMode } from "./DashboardShell";
 import { CheckIcon } from "@/components/auth/AuthParts";
 import styles from "./dashboard.module.css";
@@ -173,7 +174,7 @@ export function AttachDocument() {
         </div>
       )}
 
-      <p className={styles.note}>{C.atPreview}</p>
+      {SHOW_SAMPLE_SIGNS ? <p className={styles.note}>{C.atPreview}</p> : null}
     </section>
   );
 }
