@@ -39,6 +39,7 @@ export type LandingCopy = {
   compareMapped: string;
   compareChanged: string;
   compareSource: string;
+  compareEnglishNote: string;
 
   chatTitle: string;
   chatLead: string;
@@ -71,9 +72,16 @@ export type LandingCopy = {
   outcome3Then: string;
   outcome4When: string;
   outcome4Then: string;
+  outcome5When: string;
+  outcome5Then: string;
+  outcome6When: string;
+  outcome6Then: string;
+  outcome7When: string;
+  outcome7Then: string;
   checkerTitle: string;
   checkerP1: string;
   checkerP2: string;
+  stripCaption: string;
 
   evidenceTitle: string;
   evidenceLead: string;
@@ -103,8 +111,11 @@ export type LandingCopy = {
   limit4Body: string;
   limit5Title: string;
   limit5Body: string;
+  limit6Title: string;
+  limit6Body: string;
+  limit7Title: string;
+  limit7Body: string;
 
-  skipLink: string;
   evidence1Fig: string;
   evidence3Fig: string;
   waffleLabelA: string;
@@ -153,7 +164,7 @@ const en: LandingCopy = {
     "Liability of owner, occupier, etc., of land where a riot takes place",
   case3Facts: "A person is found in possession of counterfeit currency notes.",
   case3ResultNote:
-    "Three offences fit about equally well, so it asks which one you mean",
+    "Two sections fit about equally well, so it asks which one you mean",
   compareTitle:
     "Same offence, two codes",
   compareLead:
@@ -174,6 +185,8 @@ const en: LandingCopy = {
     "Words that differ between the two texts are highlighted.",
   compareSource:
     "Quoted from the IPC–BNS mapping table (nandhakumarg/IPC_and_BNS_transformation). Ellipses mark words left out, and footnote markers are removed. It is a community-maintained dataset, so check anything that matters against the official text.",
+  compareEnglishNote:
+    "The statute text is shown in English, as in the source dataset.",
 
   chatTitle: "Try it on a case",
   chatLead:
@@ -201,7 +214,7 @@ const en: LandingCopy = {
   step4Title: "Write it up and check it",
   step4Who: "Language models",
   step4Body:
-    "A small model writes Issue, Rule, Application and Conclusion using only the section it was handed. A second, larger model then checks that the conclusion follows from the rule, and raises a flag if it may not.",
+    "A small model writes the Issue, Rule and Application using only the section it was handed. The Conclusion is a fixed sentence written by code. A second, larger model then compares the Rule with the Conclusion and raises a flag if they may not fit.",
 
   checksTitle: "When it is not sure, it says so",
   checksLead:
@@ -210,17 +223,31 @@ const en: LandingCopy = {
   outcome1Then:
     "It asks what date this happened, because it cannot tell which law applies without one.",
   outcome2When: "Several sections fit equally well",
-  outcome2Then: "It lists them with their opening lines and waits for you to choose.",
-  outcome3When: "The conclusion may not follow from the rule",
+  outcome2Then: "It lists them with their opening lines and waits for you to choose. If you pick “None of these” and describe the same facts again, it shows the sections as cards instead of asking again.",
+  outcome3When: "The Rule may not match the section",
   outcome3Then:
     "A note reading “Worth double-checking” appears next to the answer, with the reason.",
   outcome4When: "Nothing matches, or writing fails",
   outcome4Then: "It says so. It does not produce a plausible answer to fill the gap.",
+  outcome5When:
+    "You give a date but no facts",
+  outcome5Then:
+    "It asks you to describe what happened.",
+  outcome6When:
+    "You name a section from the other code",
+  outcome6Then:
+    "If that section is not in force on the offence date, it says which code applies and offers the corresponding section.",
+  outcome7When:
+    "A later date falls on the other side of 1 July 2024",
+  outcome7Then:
+    "It asks which date is the offence date.",
   checkerTitle: "How good is the checker?",
   checkerP1:
-    "We read 40 answers by hand. Five had a conclusion that did not follow from the rule. The checker flagged all five, and flagged ten good answers as well. When we later re-ran those five cases live, it caught two of them.",
+    "We read 40 answers by hand. Five had a conclusion that did not follow from the rule. The checker flagged all five, and flagged ten good answers as well. Those numbers were measured on the earlier, model-written Conclusions. The Conclusion is now a fixed sentence written by code, and on the same 40 answers the checker flags 12.",
   checkerP2:
-    "So it is a second opinion, not a verdict. It raises a flag next to the statute text and never hides or blocks an answer.",
+    "It now compares the Rule with that sentence, so it can catch a Rule that does not match the section heading. It cannot see whether the Application adds facts you did not give. It is a second opinion, not a verdict: it raises a flag next to the statute text and never hides or blocks an answer.",
+  stripCaption:
+    "This shows the earlier test, on model-written Conclusions. With the fixed Conclusion, the checker flags 12 of the same 40.",
 
   evidenceTitle: "What we measured, and the fine print",
   evidenceLead:
@@ -241,7 +268,7 @@ const en: LandingCopy = {
   evidence3Result:
     "Not in the 40 answers we read by hand: no made-up sections, no quotations that were not in the source.",
   evidence3Fine:
-    "Those 40 were written with the correct section supplied, so this tests the writing step, not the search. It is a small sample. In 5 of the 40, the conclusion still did not follow from the rule.",
+    "Those 40 were written with the correct section supplied, so this tests the writing step, not the search. It is a small sample, and the 40 were read once by hand. Re-running the writer gives different wording each time, so fresh runs will not match them. In 5 of the 40, the conclusion still did not follow from the rule (the earlier, model-written Conclusions). In a later check of 60 answers, 5 Rules had wording not found in the section text; two were real rewordings.",
   evidenceMoreBefore: "Metrics, datasets and how each was measured are on the",
   evidenceMoreLink: "research notes",
 
@@ -261,8 +288,15 @@ const en: LandingCopy = {
   limit5Title: "Procedure can follow a different date",
   limit5Body:
     "LawShift picks the substantive code from the offence date. High Courts have reached different results on which procedural code applies to older offences, and LawShift does not model procedure.",
+  limit6Title:
+    "The explanation can say more than you told it",
+  limit6Body:
+    "The model can shorten or reword the Rule: in a check of 60 answers, 5 Rules had wording not found in the section text, and two were real rewordings. The Application can state facts you did not give: 5 of 60 mentioned a legal-test phrase the user did not say. The full statute text sits under every answer, so read the explanation against it.",
+  limit7Title:
+    "Translation can change a number or how firm a sentence sounds",
+  limit7Body:
+    "Translation (IndicTrans2) runs after the legal analysis. A check compares numbers: if translation changes one, that part stays in English and a note says so. Number words such as “two years” are not checked, and a translated sentence can sound firmer or softer than the English. The Hindi and Marathi Conclusion is a fixed template.",
 
-  skipLink: "Skip to main content",
   evidence1Fig: "460 of 460",
   evidence3Fig: "0 of 40",
   waffleLabelA: "Statute-style questions",
@@ -278,7 +312,7 @@ const en: LandingCopy = {
   footerDisclaimer:
     "LawShift is an informational research tool. It is not legal advice and does not replace a lawyer. Check anything that matters against the official text of the BNS, BNSS, BSA and IPC.",
   footerCredits:
-    "Built on statute text and question sets from GSMS-B, the IPC–BNS mapping by nandhakumarg, GovIntel and nyaya-eval-v0, with translation by AI4Bharat IndicTrans2.",
+    "Built on statute text and question sets from GSMS-B (Apache 2.0), the IPC–BNS mapping by nandhakumarg (Apache 2.0), GovIntel (CC BY-NC 4.0) and nyaya-eval-v0 (CC BY 4.0), with translation by AI4Bharat IndicTrans2. Court judgments come from an open archive (CC BY 4.0), credited to Dattam Labs and the dataset maintainers.",
 };
 
 const hi: LandingCopy = {
@@ -312,7 +346,7 @@ const hi: LandingCopy = {
   case2ResultNote: "उस भूमि के मालिक/अधिभोगी आदि का दायित्व जहाँ दंगा होता है",
   case3Facts: "एक व्यक्ति नकली मुद्रा नोटों के साथ पाया जाता है।",
   case3ResultNote:
-    "तीन अपराध लगभग समान रूप से फिट बैठते हैं, इसलिए यह पूछता है कि आपका मतलब कौन-सा है",
+    "दो धाराएँ लगभग समान रूप से फिट बैठती हैं, इसलिए यह पूछता है कि आपका मतलब कौन-सी है",
   compareTitle:
     "एक ही अपराध, दो संहिताएँ",
   compareLead:
@@ -333,6 +367,8 @@ const hi: LandingCopy = {
     "दोनों पाठों में जो शब्द अलग हैं, वे रेखांकित किए गए हैं।",
   compareSource:
     "IPC–BNS मैपिंग तालिका (nandhakumarg/IPC_and_BNS_transformation) से उद्धृत। ... छोड़े गए शब्द दर्शाता है, और फ़ुटनोट चिह्न हटा दिए गए हैं। यह समुदाय-संचालित डेटासेट है, इसलिए जो भी महत्वपूर्ण हो उसे आधिकारिक पाठ से जाँच लें।",
+  compareEnglishNote:
+    "क़ानून का पाठ अंग्रेज़ी में दिखाया गया है, जैसा स्रोत डेटासेट में है।",
 
   chatTitle: "एक केस पर आज़माएँ",
   chatLead:
@@ -360,7 +396,7 @@ const hi: LandingCopy = {
   step4Title: "लिखें और जाँचें",
   step4Who: "भाषा मॉडल",
   step4Body:
-    "एक छोटा मॉडल केवल दी गई धारा से Issue, Rule, Application और Conclusion लिखता है। फिर एक बड़ा मॉडल जाँचता है कि निष्कर्ष नियम से निकलता है या नहीं, और अगर नहीं तो झंडा लगाता है।",
+    "एक छोटा मॉडल केवल दी गई धारा से Issue, Rule और Application लिखता है। Conclusion कोड द्वारा लिखा गया एक निश्चित वाक्य है। फिर एक बड़ा मॉडल Rule की तुलना Conclusion से करता है और मेल न खाने की संभावना हो तो झंडा लगाता है।",
 
   checksTitle: "जब निश्चित नहीं, तो कहता है",
   checksLead:
@@ -369,18 +405,32 @@ const hi: LandingCopy = {
   outcome1Then:
     "यह पूछता है कि यह कब हुआ, क्योंकि बिना तारीख के कौन-सा कानून लागू होता है नहीं बता सकता।",
   outcome2When: "कई धाराएँ समान रूप से फिट बैठती हैं",
-  outcome2Then: "यह उनकी शुरुआती पंक्तियों के साथ सूची दिखाता है और आपके चुनाव का इंतज़ार करता है।",
-  outcome3When: "निष्कर्ष नियम से नहीं निकलता हो सकता",
+  outcome2Then: "यह उनकी शुरुआती पंक्तियों के साथ सूची दिखाता है और आपके चुनाव का इंतज़ार करता है। अगर आप “इनमें से कोई नहीं” चुनकर वही तथ्य फिर लिखते हैं, तो यह दोबारा पूछने के बजाय धाराओं को कार्ड के रूप में दिखाता है।",
+  outcome3When: "नियम धारा से मेल न खाता हो",
   outcome3Then:
     "उत्तर के पास “Worth double-checking” जैसा नोट दिखता है, कारण के साथ।",
   outcome4When: "कुछ मेल नहीं खाता, या लेखन विफल होता है",
   outcome4Then:
     "यह साफ कहता है। खाली जगह भरने के लिए कोई दिखावटी उत्तर नहीं बनाता।",
+  outcome5When:
+    "आप तारीख देते हैं पर तथ्य नहीं",
+  outcome5Then:
+    "यह आपसे पूछता है कि क्या हुआ था।",
+  outcome6When:
+    "आप दूसरी संहिता की कोई धारा बताते हैं",
+  outcome6Then:
+    "अगर वह धारा अपराध की तारीख पर लागू नहीं है, तो यह बताता है कि कौन-सी संहिता लागू होती है और उसकी संबंधित धारा सुझाता है।",
+  outcome7When:
+    "1 जुलाई 2024 के दूसरी ओर की कोई बाद की तारीख आती है",
+  outcome7Then:
+    "यह पूछता है कि अपराध की तारीख कौन-सी है।",
   checkerTitle: "जाँचकर्ता कितना अच्छा है?",
   checkerP1:
-    "हमने 40 उत्तर हाथ से पढ़े। पाँच में निष्कर्ष नियम से नहीं निकला। जाँचकर्ता ने पाँचों को चिह्नित किया, और दस अच्छे उत्तरों को भी। बाद में उन पाँच को लाइव चलाया तो दो पकड़े।",
+    "हमने 40 उत्तर हाथ से पढ़े। पाँच में निष्कर्ष नियम से नहीं निकला। जाँचकर्ता ने पाँचों को चिह्नित किया, और दस अच्छे उत्तरों को भी। ये आँकड़े पहले के, मॉडल-लिखित निष्कर्षों पर मापे गए थे। अब निष्कर्ष कोड द्वारा लिखा एक निश्चित वाक्य है, और उन्हीं 40 उत्तरों में जाँचकर्ता 12 को चिह्नित करता है।",
   checkerP2:
-    "इसलिए यह दूसरा मत है, अंतिम फैसला नहीं। यह वैधानिक पाठ के पास झंडा लगाता है और उत्तर छिपाता या रोकता नहीं।",
+    "अब यह Rule की तुलना उसी वाक्य से करता है, इसलिए ऐसा Rule पकड़ सकता है जो धारा के शीर्षक से मेल नहीं खाता। यह नहीं देख सकता कि Application में ऐसे तथ्य जुड़े हैं या नहीं जो आपने नहीं दिए। यह दूसरा मत है, अंतिम फैसला नहीं: यह वैधानिक पाठ के पास झंडा लगाता है और उत्तर कभी छिपाता या रोकता नहीं।",
+  stripCaption:
+    "यह पहले का परीक्षण है, मॉडल-लिखित निष्कर्षों पर। निश्चित निष्कर्ष के साथ जाँचकर्ता उन्हीं 40 में से 12 को चिह्नित करता है।",
 
   evidenceTitle: "हमने क्या मापा, और बारीकियाँ",
   evidenceLead:
@@ -401,7 +451,7 @@ const hi: LandingCopy = {
   evidence3Result:
     "हाथ से पढ़े 40 उत्तरों में नहीं: कोई बनाई धारा नहीं, कोई उद्धरण जो स्रोत में न हो।",
   evidence3Fine:
-    "वे 40 सही धारा देकर लिखे गए, इसलिए यह लेखन चरण जाँचता है, खोज नहीं। नमूना छोटा है। 40 में से 5 में निष्कर्ष फिर भी नियम से नहीं निकला।",
+    "वे 40 सही धारा देकर लिखे गए, इसलिए यह लेखन चरण जाँचता है, खोज नहीं। नमूना छोटा है, और उन 40 को एक ही बार हाथ से पढ़ा गया। लेखक मॉडल को दोबारा चलाने पर हर बार अलग शब्द आते हैं, इसलिए नए रन इनसे मेल नहीं खाएँगे। 40 में से 5 में निष्कर्ष फिर भी नियम से नहीं निकला (पहले के, मॉडल-लिखित निष्कर्ष)। बाद में 60 उत्तरों की जाँच में 5 Rule में ऐसे शब्द थे जो धारा के पाठ में नहीं मिले; दो वास्तविक पुनःशब्दांकन थे।",
   evidenceMoreBefore: "मेट्रिक्स, डेटासेट और माप विधि",
   evidenceMoreLink: "अनुसंधान नोट्स",
 
@@ -421,8 +471,15 @@ const hi: LandingCopy = {
   limit5Title: "प्रक्रिया किसी दूसरी तिथि का अनुसरण कर सकती है",
   limit5Body:
     "LawShift अपराध की तिथि से मूल संहिता चुनता है। पुराने अपराधों पर कौन-सी प्रक्रिया संहिता लागू होती है, इस पर उच्च न्यायालयों ने अलग-अलग निष्कर्ष दिए हैं, और LawShift प्रक्रिया का मॉडल नहीं बनाता।",
+  limit6Title:
+    "स्पष्टीकरण आपके बताए से ज़्यादा कह सकता है",
+  limit6Body:
+    "मॉडल Rule को छोटा या दूसरे शब्दों में कर सकता है: 60 उत्तरों की जाँच में 5 Rule में ऐसे शब्द थे जो धारा के पाठ में नहीं मिले, और दो वास्तविक पुनःशब्दांकन थे। Application ऐसे तथ्य कह सकता है जो आपने नहीं दिए: 60 में से 5 में कानूनी परीक्षण का ऐसा वाक्यांश था जो उपयोगकर्ता ने नहीं कहा था। हर उत्तर के नीचे धारा का पूरा पाठ रहता है, इसलिए स्पष्टीकरण को उससे मिलाकर पढ़ें।",
+  limit7Title:
+    "अनुवाद में कोई संख्या बदल सकती है, या वाक्य का ज़ोर घट-बढ़ सकता है",
+  limit7Body:
+    "अनुवाद (IndicTrans2) कानूनी विश्लेषण के बाद होता है। एक जाँच संख्याओं की तुलना करती है: अगर अनुवाद कोई संख्या बदल दे, तो वह हिस्सा अंग्रेज़ी में रहता है और एक नोट बताता है। “दो साल” जैसे संख्या-शब्द जाँचे नहीं जाते, और अनूदित वाक्य का ज़ोर अंग्रेज़ी से घट-बढ़ सकता है। हिंदी और मराठी का निष्कर्ष एक निश्चित टेम्पलेट है।",
 
-  skipLink: "मुख्य सामग्री पर जाएँ",
   evidence1Fig: "460 में से 460",
   evidence3Fig: "40 में से 0",
   waffleLabelA: "क़ानून-शैली के प्रश्न",
@@ -438,7 +495,7 @@ const hi: LandingCopy = {
   footerDisclaimer:
     "LawShift एक सूचनात्मक शोध उपकरण है। यह कानूनी सलाह नहीं है और वकील का विकल्प नहीं। महत्वपूर्ण बातें BNS, BNSS, BSA और IPC के आधिकारिक पाठ से जाँचें।",
   footerCredits:
-    "GSMS-B के वैधानिक पाठ व प्रश्न सेट, nandhakumarg का IPC–BNS मैपिंग, GovIntel और nyaya-eval-v0 पर आधारित; अनुवाद AI4Bharat IndicTrans2 से।",
+    "GSMS-B (Apache 2.0) के वैधानिक पाठ व प्रश्न सेट, nandhakumarg का IPC–BNS मैपिंग (Apache 2.0), GovIntel (CC BY-NC 4.0) और nyaya-eval-v0 (CC BY 4.0) पर आधारित; अनुवाद AI4Bharat IndicTrans2 से। न्यायालयीन निर्णय एक खुले संग्रह (CC BY 4.0) से हैं, जिसका श्रेय Dattam Labs और डेटासेट अनुरक्षकों को है।",
 };
 
 const mr: LandingCopy = {
@@ -472,7 +529,7 @@ const mr: LandingCopy = {
   case2ResultNote: "ज्या जमिनीवर दंगा होतो त्या मालक/भोगवटादार इत्यादींची जबाबदारी",
   case3Facts: "एका व्यक्तीकडे बनावट चलन नोटा सापडतात.",
   case3ResultNote:
-    "तीन गुन्हे जवळपास सारखे बसतात, म्हणून तुम्हाला कोणता अभिप्रेत आहे ते विचारते",
+    "दोन कलमे जवळपास सारखी बसतात, म्हणून तुम्हाला कोणते अभिप्रेत आहे ते विचारते",
   compareTitle:
     "एकच गुन्हा, दोन संहिता",
   compareLead:
@@ -493,6 +550,8 @@ const mr: LandingCopy = {
     "दोन्ही मजकुरांत जे शब्द वेगळे आहेत ते अधोरेखित केले आहेत.",
   compareSource:
     "IPC–BNS मॅपिंग तक्त्यातून (nandhakumarg/IPC_and_BNS_transformation) उद्धृत. ... सोडलेले शब्द दर्शवतो आणि तळटीप चिन्हे काढली आहेत. हा समुदायाने सांभाळलेला डेटासेट आहे, म्हणून महत्त्वाचे काहीही अधिकृत मजकुराशी पडताळा.",
+  compareEnglishNote:
+    "कायद्याचा मजकूर इंग्रजीत दाखवला आहे, जसा स्रोत डेटासेटमध्ये आहे.",
 
   chatTitle: "एक खटल्यावर वापरून पहा",
   chatLead:
@@ -520,7 +579,7 @@ const mr: LandingCopy = {
   step4Title: "लिहा आणि तपासा",
   step4Who: "भाषा मॉडेल्स",
   step4Body:
-    "लहान मॉडेल फक्त दिलेल्या कलमावरून Issue, Rule, Application आणि Conclusion लिहिते. नंतर मोठे मॉडेल निष्कर्ष नियमातून येतो का ते तपासते; नसेल तर ध्वजांकित करते.",
+    "लहान मॉडेल फक्त दिलेल्या कलमावरून Issue, Rule आणि Application लिहिते. Conclusion हे कोडने लिहिलेले एक ठरलेले वाक्य आहे. नंतर मोठे मॉडेल Rule ची Conclusion शी तुलना करते आणि जुळत नसण्याची शक्यता असेल तर ध्वजांकित करते.",
 
   checksTitle: "जेव्हा खात्री नसेल तेव्हा सांगते",
   checksLead:
@@ -529,18 +588,32 @@ const mr: LandingCopy = {
   outcome1Then:
     "हे कधी घडले ते विचारते, कारण तारखेशिवाय कोणता कायदा लागू हे सांगता येत नाही.",
   outcome2When: "अनेक कलमे समान बसतात",
-  outcome2Then: "त्यांच्या सुरुवातीच्या ओळींसह यादी दाखवते आणि तुमची निवड वाटते.",
-  outcome3When: "निष्कर्ष नियमातून येत नसेल",
+  outcome2Then: "त्यांच्या सुरुवातीच्या ओळींसह यादी दाखवते आणि तुमची निवड वाटते. तुम्ही “यापैकी काहीही नाही” निवडून तेच तथ्य पुन्हा लिहिले, तर पुन्हा विचारण्याऐवजी कलमे कार्ड स्वरूपात दाखवते.",
+  outcome3When: "नियम कलमाशी जुळत नसेल",
   outcome3Then:
     "उत्तराशेजारी “Worth double-checking” सारखी नोंद कारणासह दिसते.",
   outcome4When: "काही जुळत नाही, किंवा लेखन अयशस्वी",
   outcome4Then:
     "ते स्पष्ट सांगते. रिकामी जागा भरण्यासाठी बनावट उत्तर तयार करत नाही.",
+  outcome5When:
+    "तुम्ही तारीख देता पण तथ्ये नाही",
+  outcome5Then:
+    "काय घडले ते सांगायला सांगते.",
+  outcome6When:
+    "तुम्ही दुसऱ्या संहितेतील कलम सांगता",
+  outcome6Then:
+    "ते कलम गुन्ह्याच्या तारखेला लागू नसेल, तर कोणती संहिता लागू होते ते सांगते आणि त्याचे संबंधित कलम सुचवते.",
+  outcome7When:
+    "१ जुलै २०२४ च्या दुसऱ्या बाजूची नंतरची तारीख येते",
+  outcome7Then:
+    "गुन्ह्याची तारीख कोणती ते विचारते.",
   checkerTitle: "तपासकर्ता किती चांगला आहे?",
   checkerP1:
-    "आम्ही ४० उत्तरे हाताने वाचली. पाचमध्ये निष्कर्ष नियमातून आला नाही. तपासकर्त्याने पाचही चिन्हांकित केली, आणि दहा चांगली उत्तरेही. नंतर ती पाच लाइव्ह चालवली तर दोन पकडली.",
+    "आम्ही ४० उत्तरे हाताने वाचली. पाचमध्ये निष्कर्ष नियमातून आला नाही. तपासकर्त्याने पाचही चिन्हांकित केली, आणि दहा चांगली उत्तरेही. हे आकडे आधीच्या, मॉडेलने लिहिलेल्या निष्कर्षांवर मोजले होते. आता निष्कर्ष हे कोडने लिहिलेले एक ठरलेले वाक्य आहे, आणि त्याच ४० उत्तरांपैकी तपासकर्ता १२ चिन्हांकित करतो.",
   checkerP2:
-    "म्हणून हे दुसरे मत आहे, अंतिम निकाल नाही. वैधानिक मजकुराशेजारी ध्वज लावते आणि उत्तर लपवत किंवा रोखत नाही.",
+    "आता ते Rule ची त्या वाक्याशी तुलना करते, म्हणून कलमाच्या शीर्षकाशी न जुळणारा Rule पकडू शकते. तुम्ही न दिलेली तथ्ये Application मध्ये जोडली आहेत का ते ते पाहू शकत नाही. हे दुसरे मत आहे, अंतिम निकाल नाही: वैधानिक मजकुराशेजारी ध्वज लावते आणि उत्तर कधीही लपवत किंवा रोखत नाही.",
+  stripCaption:
+    "ही आधीची चाचणी आहे, मॉडेलने लिहिलेल्या निष्कर्षांवर. ठरलेल्या निष्कर्षासह तपासकर्ता त्याच ४० पैकी १२ चिन्हांकित करतो.",
 
   evidenceTitle: "आम्ही काय मोजले, आणि तपशील",
   evidenceLead:
@@ -561,7 +634,7 @@ const mr: LandingCopy = {
   evidence3Result:
     "हाताने वाचलेल्या ४० उत्तरांत नाही: बनावट कलमे नाहीत, स्रोतात नसलेली उद्धरणे नाहीत.",
   evidence3Fine:
-    "ती ४० योग्य कलम देऊन लिहिली, म्हणून लेखन टप्पा तपासतो, शोध नाही. नमुना लहान आहे. ४० पैकी ५ मध्ये निष्कर्ष तरीही नियमातून आला नाही.",
+    "ती ४० योग्य कलम देऊन लिहिली, म्हणून लेखन टप्पा तपासतो, शोध नाही. नमुना लहान आहे, आणि ती ४० एकदाच हाताने वाचली. लेखक मॉडेल पुन्हा चालवल्यास प्रत्येक वेळी वेगळे शब्द येतात, म्हणून नवे रन त्यांच्याशी जुळणार नाहीत. ४० पैकी ५ मध्ये निष्कर्ष तरीही नियमातून आला नाही (आधीचे, मॉडेलने लिहिलेले निष्कर्ष). नंतरच्या ६० उत्तरांच्या तपासणीत ५ Rule मध्ये कलमाच्या मजकुरात न सापडणारे शब्द होते; दोन खरोखर पुनर्शब्दांकन होते.",
   evidenceMoreBefore: "मेट्रिक्स, डेटासेट आणि मोजमाप पद्धत",
   evidenceMoreLink: "संशोधन नोंदींवर",
 
@@ -581,8 +654,15 @@ const mr: LandingCopy = {
   limit5Title: "प्रक्रिया वेगळ्या तारखेचे अनुसरण करू शकते",
   limit5Body:
     "LawShift गुन्ह्याच्या तारखेवरून मूळ संहिता निवडते. जुन्या गुन्ह्यांना कोणती प्रक्रिया संहिता लागू होते याबद्दल उच्च न्यायालयांनी वेगवेगळे निष्कर्ष दिले आहेत, आणि LawShift प्रक्रियेचे मॉडेल करत नाही.",
+  limit6Title:
+    "स्पष्टीकरण तुम्ही सांगितल्यापेक्षा जास्त सांगू शकते",
+  limit6Body:
+    "मॉडेल Rule लहान करू शकते किंवा वेगळ्या शब्दांत मांडू शकते: ६० उत्तरांच्या तपासणीत ५ Rule मध्ये कलमाच्या मजकुरात न सापडणारे शब्द होते, आणि दोन खरोखर पुनर्शब्दांकन होते. Application तुम्ही न दिलेली तथ्ये सांगू शकते: ६० पैकी ५ मध्ये वापरकर्त्याने न म्हटलेला कायदेशीर कसोटीचा वाक्प्रचार होता. प्रत्येक उत्तराखाली कलमाचा पूर्ण मजकूर असतो, म्हणून स्पष्टीकरण त्याच्याशी ताडून वाचा.",
+  limit7Title:
+    "भाषांतरात एखादा आकडा बदलू शकतो, किंवा वाक्याचा ठामपणा कमी-जास्त होऊ शकतो",
+  limit7Body:
+    "भाषांतर (IndicTrans2) कायदेशीर विश्लेषणानंतर होते. एक तपासणी आकड्यांची तुलना करते: भाषांतराने एखादा आकडा बदलला, तर तो भाग इंग्रजीत राहतो आणि एक नोंद तसे सांगते. “दोन वर्षे” सारखे आकडेवाचक शब्द तपासले जात नाहीत, आणि भाषांतरित वाक्याचा ठामपणा इंग्रजीपेक्षा कमी-जास्त होऊ शकतो. हिंदी आणि मराठीतील निष्कर्ष हा एक ठरलेला साचा आहे.",
 
-  skipLink: "मुख्य मजकुराकडे जा",
   evidence1Fig: "460 पैकी 460",
   evidence3Fig: "40 पैकी 0",
   waffleLabelA: "कायद्याच्या शैलीतील प्रश्न",
@@ -598,7 +678,7 @@ const mr: LandingCopy = {
   footerDisclaimer:
     "LawShift माहितीपूर्ण संशोधन साधन आहे. हे कायदेशीर सल्ला नाही आणि वकिलाचा पर्याय नाही. महत्त्वाचे मुद्दे BNS, BNSS, BSA आणि IPC च्या अधिकृत मजकुराशी तपासा.",
   footerCredits:
-    "GSMS-B चे वैधानिक मजकूर व प्रश्न संच, nandhakumarg चे IPC–BNS मॅपिंग, GovIntel आणि nyaya-eval-v0 वर आधारित; अनुवाद AI4Bharat IndicTrans2 ने.",
+    "GSMS-B (Apache 2.0) चे वैधानिक मजकूर व प्रश्न संच, nandhakumarg चे IPC–BNS मॅपिंग (Apache 2.0), GovIntel (CC BY-NC 4.0) आणि nyaya-eval-v0 (CC BY 4.0) वर आधारित; अनुवाद AI4Bharat IndicTrans2 ने. न्यायालयीन निर्णय खुल्या संग्रहातून (CC BY 4.0) आहेत, ज्याचे श्रेय Dattam Labs आणि डेटासेट देखभालकर्त्यांना.",
 };
 
 const DICTS: Record<Lang, LandingCopy> = { en, hi, mr };

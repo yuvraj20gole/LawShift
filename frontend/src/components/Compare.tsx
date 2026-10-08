@@ -80,6 +80,7 @@ export function Compare() {
     >
       <figcaption className={styles.note}>
         <span>{L.compareMapped}</span> <span>{L.compareChanged}</span>
+        <span className={styles.source}>{L.compareEnglishNote}</span>
         <span className={styles.source}>{L.compareSource}</span>
       </figcaption>
     </CodeCompare>

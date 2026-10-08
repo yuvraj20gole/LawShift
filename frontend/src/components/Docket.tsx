@@ -6,7 +6,8 @@ import { getLenis } from "@/lib/lenisRef";
 import styles from "./Docket.module.css";
 
 /**
- * Three cases from the backend's own smoke runs (PROCESS_LOG §18), stacked in
+ * Three cases from the backend's own smoke runs (PROCESS_LOG §18; the third
+ * re-checked live against /api/query, which offers BNS 180 and BNS 179), stacked in
  * time order with the 1 July 2024 cutoff drawn between the first and the
  * rest. Display copy is translated; `ask` stays English so the live pipeline
  * receives the recorded query text.
@@ -58,7 +59,7 @@ export function Docket() {
       law: "BNS" as const,
       date: "5 September 2024",
       facts: L.case3Facts,
-      result: "BNS 178, 179 or 180",
+      result: "BNS 180 or 179",
       resultNote: L.case3ResultNote,
       ask: CASE_ASK[2],
     },

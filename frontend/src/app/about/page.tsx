@@ -60,17 +60,40 @@ export default function AboutPage() {
             <p>
               Stage 4 constrained IRAC evaluation on gold statute chunks reported zero hallucination
               of section numbers or citations across 40 cases (<code>PROCESS_LOG.md</code> §16).
-              Logical consistency failures are a separate category and are what the Rule-only
-              verifier targets.
+              The 40 were written with the correct section supplied and read once by hand. The
+              writer runs without a fixed seed, so re-running it gives different wording each
+              time and fresh runs will not reproduce them. In 5 of the 40, the model-written
+              conclusion did not follow from the rule.
+            </p>
+            <p>
+              A later check of 60 answers found 5 Rules with wording not in the section text (two
+              were real rewordings) and 5 Applications that mentioned a legal-test phrase the
+              user did not say. The full statute text is shown under every answer.
+            </p>
+            <p>
+              Every mapped answer now ends with a fixed Conclusion sentence written by code, not
+              by the model. The larger model compares the Rule with that Conclusion. On the same
+              40 answers it flags 12, where the 40-answer test above (5 bad answers, all 5 flagged,
+              10 good answers flagged as well) was measured on the earlier model-written
+              Conclusions. It can catch a Rule that does not match the section heading, cannot see
+              whether the Application adds facts the user did not give, and is a second opinion
+              that never blocks an answer.
             </p>
           </section>
 
           <section className={styles.block}>
             <h2>Data & models</h2>
             <p>
-              GSMS-B statutes and QA, nandhakumarg IPC↔BNS mapping, GovIntel legal dataset,
-              nyaya-eval-v0 external validation, AI4Bharat IndicTrans2 for optional Hindi/Marathi
-              IRAC translation. Retrieval: fine-tuned bge-small epoch-8 checkpoint.
+              GSMS-B statutes and QA (Apache 2.0), nandhakumarg IPC↔BNS mapping (Apache 2.0),
+              GovIntel legal dataset (CC BY-NC 4.0), nyaya-eval-v0 external validation (CC BY
+              4.0), AI4Bharat IndicTrans2 for optional Hindi/Marathi IRAC translation. Court
+              judgments come from an open archive (CC BY 4.0), credited to Dattam Labs and the
+              dataset maintainers. Retrieval: fine-tuned bge-small epoch-8 checkpoint.
+            </p>
+            <p>
+              Translation runs after the legal analysis. A check compares numbers, and if
+              translation changes one, that part stays in English with a note. Number words such
+              as “two years” are not checked. The Hindi and Marathi Conclusion is a fixed template.
             </p>
           </section>
 

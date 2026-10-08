@@ -8,6 +8,7 @@ type Props = {
   caught: string;
   falseAlarm: string;
   clear: string;
+  caption: string;
 };
 
 /**
@@ -16,7 +17,7 @@ type Props = {
  * answers, and left 25 alone. Three cell treatments (solid, hatched, hollow)
  * so the split reads without colour.
  */
-export function CheckerStrip({ title, caught, falseAlarm, clear }: Props) {
+export function CheckerStrip({ title, caught, falseAlarm, clear, caption }: Props) {
   type Kind = "caught" | "false" | "clear";
   const cells: Kind[] = [
     ...Array<Kind>(5).fill("caught"),
@@ -53,6 +54,7 @@ export function CheckerStrip({ title, caught, falseAlarm, clear }: Props) {
           {clear}
         </li>
       </ul>
+      <p className={styles.stripNote}>{caption}</p>
     </figure>
   );
 }

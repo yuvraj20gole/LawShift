@@ -44,9 +44,12 @@ export default function HomePage() {
 
   const outcomes = [
     { when: L.outcome1When, then: L.outcome1Then },
+    { when: L.outcome5When, then: L.outcome5Then },
     { when: L.outcome2When, then: L.outcome2Then },
-    { when: L.outcome3When, then: L.outcome3Then },
-    { when: L.outcome4When, then: L.outcome4Then },
+    { when: L.outcome6When, then: L.outcome6Then },
+    { when: L.outcome7When, then: L.outcome7Then },
+    { when: L.outcome3When, then: L.outcome3Then, tone: "seam" as const },
+    { when: L.outcome4When, then: L.outcome4Then, tone: "ok" as const },
   ];
 
                   const evidence = [
@@ -78,13 +81,12 @@ export default function HomePage() {
     { title: L.limit3Title, body: L.limit3Body },
     { title: L.limit4Title, body: L.limit4Body },
     { title: L.limit5Title, body: L.limit5Body },
+    { title: L.limit6Title, body: L.limit6Body },
+    { title: L.limit7Title, body: L.limit7Body },
   ];
 
   return (
     <>
-      <a href="#main" className={styles.skip}>
-        {L.skipLink}
-      </a>
       <Header />
       <main id="main">
         <section className={styles.hero} aria-labelledby="hero-title">
@@ -206,7 +208,7 @@ export default function HomePage() {
                       key={o.when}
                       index={i}
                       className={`${styles.outcome} ${
-                        i === 2 ? styles.outcomeSeam : i === 3 ? styles.outcomeOk : ""
+                        o.tone === "seam" ? styles.outcomeSeam : o.tone === "ok" ? styles.outcomeOk : ""
                       }`}
                     >
                       <dt>{o.when}</dt>
@@ -223,6 +225,7 @@ export default function HomePage() {
                     caught={L.stripCaught}
                     falseAlarm={L.stripFalse}
                     clear={L.stripClear}
+                    caption={L.stripCaption}
                   />
                 </Rise>
               </div>

@@ -528,23 +528,6 @@
 
 /* ======== v3 additions ======== */
 
-.skip {
-  position: absolute;
-  left: 1rem;
-  top: -4rem;
-  z-index: 100;
-  padding: 0.7rem 1rem;
-  background: var(--ink);
-  color: var(--paper);
-  border-radius: var(--radius);
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.skip:focus {
-  top: 0.75rem;
-}
-
 /* Outcomes: meaning comes from the term's colour and the wash, not a side stripe. */
 .outcome {
   border-left: 0;
