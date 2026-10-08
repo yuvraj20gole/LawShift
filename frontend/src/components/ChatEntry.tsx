@@ -4,6 +4,8 @@ import { FormEvent, useCallback, useEffect, useId, useRef, useState } from "reac
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import type { Dictionary } from "@/lib/i18n";
 import { usePrefs } from "@/lib/prefs";
+import { authHeaders } from "@/lib/api";
+import { useSession } from "@/lib/useSession";
 import styles from "./ChatEntry.module.css";
 
 /** Hit FastAPI directly so long IRAC+translate jobs are not cut by the Next rewrite proxy. */
@@ -327,7 +329,8 @@ export function ChatEntry({
   const [messages, setMessages] = useState<Msg[]>([]);
   const [busy, setBusy] = useState(false);
   const [remaining, setRemaining] = useState(5);
-  const outOfQuota = !unlimited && remaining <= 0;
+  const { email: sessionEmail } = useSession();
+  const outOfQuota = !unlimited && !sessionEmail && remaining <= 0;
   const [conversationId] = useState(newConversationId);
   const [error, setError] = useState<string | null>(null);
   const [landed, setLanded] = useState(0);
@@ -601,7 +604,7 @@ export function ChatEntry({
       try {
         const res = await fetch(`${API_BASE}/api/query`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json", ...(await authHeaders()) },
           body: JSON.stringify({
             message: trimmed,
             conversation_id: conversationId,
@@ -640,7 +643,7 @@ export function ChatEntry({
       try {
         const res = await fetch(`${API_BASE}/api/query/resolve_bifurcation`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json", ...(await authHeaders()) },
           body: JSON.stringify({
             conversation_id: conversationId,
             chosen_section: section,
@@ -1061,7 +1064,7 @@ export function ChatEntry({
         </button>
       </form>
 
-      {hideCounter ? null : (
+      {hideCounter || sessionEmail ? null : (
         <p className={styles.note}>{remaining === 1 ? t.freeOne : t.freeMany(remaining)}</p>
       )}
       {error ? (

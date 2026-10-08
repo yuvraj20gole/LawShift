@@ -258,6 +258,9 @@
 }
 
 .logoutBtn {
+  background: transparent;
+  cursor: pointer;
+  font-family: inherit;
   padding: 0.45rem 0.9rem;
   border: 1px solid var(--rule-strong);
   border-radius: var(--radius);

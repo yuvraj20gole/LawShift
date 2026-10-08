@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
 import { ScrollProgress } from "./ScrollProgress";
 import { usePrefs, type Lang } from "@/lib/prefs";
 import { getLandingCopy } from "@/lib/landingCopy";
@@ -27,6 +29,16 @@ export function Header({
   /** Signed-in and sign-in screens keep only the logo and the account controls. */
   const slim = minimal || !!account;
   const [active, setActive] = useState<"how" | "evidence" | null>(null);
+  const router = useRouter();
+
+  async function logOut() {
+    try {
+      await createClient().auth.signOut();
+    } finally {
+      router.replace("/");
+      router.refresh();
+    }
+  }
 
   /** Mark the nav link for the section currently crossing the middle of the screen. */
   useEffect(() => {
@@ -115,9 +127,9 @@ export function Header({
           {account ? (
             <>
               <span className={styles.accountEmail}>{account.email}</span>
-              <Link href="/login" className={styles.logoutBtn}>
+              <button type="button" className={styles.logoutBtn} onClick={logOut}>
                 {account.logout}
-              </Link>
+              </button>
             </>
           ) : !minimal ? (
             <>

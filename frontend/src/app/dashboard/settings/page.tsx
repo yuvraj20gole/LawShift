@@ -4,7 +4,7 @@ import { useEffect, useRef, useState, type FormEvent } from "react";
 import { usePrefs, type Lang } from "@/lib/prefs";
 import { getDashboardCopy } from "@/lib/dashboardCopy";
 import { getAuthCopy } from "@/lib/authCopy";
-import { SAMPLE_EMAIL } from "@/lib/sampleData";
+import { useSession } from "@/lib/useSession";
 import { SHOW_SAMPLE_SIGNS } from "@/lib/showSampleSigns";
 import { PageHead, Row } from "@/components/dashboard/DashParts";
 import { Field, OkNote, PasswordChecklist, PasswordField, SubmitButton } from "@/components/auth/AuthParts";
@@ -22,6 +22,8 @@ export default function SettingsPage() {
   const { lang, setLang } = usePrefs();
   const C = getDashboardCopy(lang);
   const A = getAuthCopy(lang);
+  const { email: sessionEmail } = useSession();
+  const accountEmail = sessionEmail ?? "";
 
   const [cur, setCur] = useState("");
   const [pw, setPw] = useState("");
@@ -51,14 +53,14 @@ export default function SettingsPage() {
 
   const [typed, setTyped] = useState("");
   const [deleted, setDeleted] = useState(false);
-  const canDelete = typed === SAMPLE_EMAIL;
+  const canDelete = accountEmail !== "" && typed === accountEmail;
 
   return (
     <>
       <PageHead title={C.stTitle} lede={C.stLede} />
 
       <Row title={C.stEmailTitle}>
-        <Field id="st-email" label={C.stEmailTitle} value={SAMPLE_EMAIL} onChange={() => {}} readOnly />
+        <Field id="st-email" label={C.stEmailTitle} value={accountEmail} onChange={() => {}} readOnly />
         <p className={styles.note}>{C.stEmailNote}</p>
       </Row>
 
@@ -127,7 +129,7 @@ export default function SettingsPage() {
           <p className={styles.dangerBody}>{C.stDeleteBody}</p>
           <Field
             id="st-delete"
-            label={C.stDeleteType(SAMPLE_EMAIL)}
+            label={C.stDeleteType(accountEmail)}
             value={typed}
             onChange={(v) => {
               setTyped(v);

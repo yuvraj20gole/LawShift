@@ -2,7 +2,6 @@ import type { Lang } from "./prefs";
 
 /** Copy for the sign-in screens (EN / HI / MR). */
 export type AuthCopy = {
-  previewNote: string;
   backHome: string;
   emailLabel: string;
   passwordLabel: string;
@@ -30,7 +29,6 @@ export type AuthCopy = {
   createAccount: string;
   creating: string;
   disabledHint: string;
-  registerSuccessTitle: string;
   haveAccount: string;
   loginLink: string;
 
@@ -39,26 +37,26 @@ export type AuthCopy = {
   forgot: string;
   logIn: string;
   loggingIn: string;
-  loginSuccessTitle: string;
   newHere: string;
   registerLink: string;
 
   forgotTitle: string;
   forgotLede: string;
-  sendLink: string;
-  sending: string;
-  forgotSuccessTitle: string;
-  forgotSuccessBody: string;
   backToLogin: string;
+  errInvalid: string;
+  errUnconfirmed: string;
+  errRate: string;
+  errExists: string;
+  errWeak: string;
+  errSignupOff: string;
+  errGeneric: string;
+  confirmTitle: string;
+  confirmBody: string;
 
-  successBody: string;
-  continueTo: string;
 };
 
 const en: AuthCopy = {
   backHome: "Back to home",
-  previewNote:
-    "Preview: sign-in isn't connected yet. This screen shows how it will work. Nothing you type is sent or saved.",
   emailLabel: "Email",
   passwordLabel: "Password",
   confirmLabel: "Confirm password",
@@ -87,7 +85,6 @@ const en: AuthCopy = {
   creating: "Creating account…",
   disabledHint:
     "Meet every password requirement and match both passwords to continue.",
-  registerSuccessTitle: "Account created",
   haveAccount: "Already have an account?",
   loginLink: "Log in",
 
@@ -96,26 +93,35 @@ const en: AuthCopy = {
   forgot: "Forgot password?",
   logIn: "Log in",
   loggingIn: "Logging in…",
-  loginSuccessTitle: "Logged in",
   newHere: "New here?",
   registerLink: "Register",
 
   forgotTitle: "Reset your password",
-  forgotLede: "Enter your email address and we'll send a reset link.",
-  sendLink: "Send reset link",
-  sending: "Sending…",
-  forgotSuccessTitle: "Check your email",
-  forgotSuccessBody: "Placeholder: no email has been sent.",
+  forgotLede: "Password reset is not available yet.",
   backToLogin: "Back to log in",
+  errInvalid:
+    "The email or password is wrong. Check both and try again.",
+  errUnconfirmed:
+    "This email address has not been confirmed yet. Open the confirmation link we sent you, then log in.",
+  errRate:
+    "Too many attempts. Wait a few minutes and try again.",
+  errExists:
+    "An account with this email already exists. Log in instead.",
+  errWeak:
+    "The server rejected this password. Choose a longer or less common one.",
+  errSignupOff:
+    "New registrations are closed right now.",
+  errGeneric:
+    "Something went wrong on our side. Try again in a moment.",
+  confirmTitle:
+    "Check your email",
+  confirmBody:
+    "We sent a confirmation link to your address. Open it to finish creating your account, then log in.",
 
-  successBody: "Placeholder sign-in complete. Taking you to your dashboard…",
-  continueTo: "Go to dashboard",
 };
 
 const hi: AuthCopy = {
   backHome: "होम पर वापस जाएँ",
-  previewNote:
-    "पूर्वावलोकन: साइन-इन अभी जुड़ा नहीं है। यह स्क्रीन दिखाती है कि यह कैसे काम करेगा। आप जो टाइप करते हैं वह भेजा या सहेजा नहीं जाता।",
   emailLabel: "ईमेल",
   passwordLabel: "पासवर्ड",
   confirmLabel: "पासवर्ड की पुष्टि करें",
@@ -144,7 +150,6 @@ const hi: AuthCopy = {
   creating: "खाता बनाया जा रहा है…",
   disabledHint:
     "आगे बढ़ने के लिए पासवर्ड की हर शर्त पूरी करें और दोनों पासवर्ड मिलाएँ।",
-  registerSuccessTitle: "खाता बन गया",
   haveAccount: "पहले से खाता है?",
   loginLink: "लॉग इन करें",
 
@@ -153,26 +158,35 @@ const hi: AuthCopy = {
   forgot: "पासवर्ड भूल गए?",
   logIn: "लॉग इन करें",
   loggingIn: "लॉग इन हो रहा है…",
-  loginSuccessTitle: "लॉग इन हो गया",
   newHere: "नए हैं?",
   registerLink: "पंजीकरण करें",
 
   forgotTitle: "पासवर्ड रीसेट करें",
-  forgotLede: "अपना ईमेल पता लिखें, हम रीसेट लिंक भेजेंगे।",
-  sendLink: "रीसेट लिंक भेजें",
-  sending: "भेजा जा रहा है…",
-  forgotSuccessTitle: "अपना ईमेल देखें",
-  forgotSuccessBody: "प्लेसहोल्डर: कोई ईमेल नहीं भेजा गया है।",
+  forgotLede: "पासवर्ड रीसेट अभी उपलब्ध नहीं है।",
   backToLogin: "लॉग इन पर वापस जाएँ",
+  errInvalid:
+    "ईमेल या पासवर्ड गलत है। दोनों जाँचकर फिर कोशिश करें।",
+  errUnconfirmed:
+    "इस ईमेल पते की पुष्टि अभी नहीं हुई है। हमारे भेजे पुष्टि लिंक को खोलें, फिर लॉग इन करें।",
+  errRate:
+    "बहुत ज़्यादा प्रयास हो गए। कुछ मिनट रुककर फिर कोशिश करें।",
+  errExists:
+    "इस ईमेल से खाता पहले से मौजूद है। इसके बजाय लॉग इन करें।",
+  errWeak:
+    "सर्वर ने यह पासवर्ड स्वीकार नहीं किया। कोई लंबा या कम आम पासवर्ड चुनें।",
+  errSignupOff:
+    "अभी नए पंजीकरण बंद हैं।",
+  errGeneric:
+    "हमारी ओर से कुछ गड़बड़ हो गई। थोड़ी देर में फिर कोशिश करें।",
+  confirmTitle:
+    "अपना ईमेल देखें",
+  confirmBody:
+    "हमने आपके पते पर पुष्टि लिंक भेजा है। खाता पूरा करने के लिए उसे खोलें, फिर लॉग इन करें।",
 
-  successBody: "प्लेसहोल्डर साइन-इन पूरा हुआ। आपको आपके डैशबोर्ड पर ले जाया जा रहा है…",
-  continueTo: "डैशबोर्ड पर जाएँ",
 };
 
 const mr: AuthCopy = {
   backHome: "मुख्यपृष्ठावर परत जा",
-  previewNote:
-    "पूर्वावलोकन: साइन-इन अजून जोडलेले नाही. हा स्क्रीन ते कसे चालेल ते दाखवतो. तुम्ही टाइप केलेले काहीही पाठवले किंवा जतन केले जात नाही.",
   emailLabel: "ईमेल",
   passwordLabel: "पासवर्ड",
   confirmLabel: "पासवर्डची पुष्टी करा",
@@ -201,7 +215,6 @@ const mr: AuthCopy = {
   creating: "खाते तयार होत आहे…",
   disabledHint:
     "पुढे जाण्यासाठी पासवर्डची प्रत्येक अट पूर्ण करा आणि दोन्ही पासवर्ड जुळवा.",
-  registerSuccessTitle: "खाते तयार झाले",
   haveAccount: "आधीच खाते आहे?",
   loginLink: "लॉग इन करा",
 
@@ -210,20 +223,31 @@ const mr: AuthCopy = {
   forgot: "पासवर्ड विसरलात?",
   logIn: "लॉग इन करा",
   loggingIn: "लॉग इन होत आहे…",
-  loginSuccessTitle: "लॉग इन झाले",
   newHere: "नवीन आहात?",
   registerLink: "नोंदणी करा",
 
   forgotTitle: "पासवर्ड रीसेट करा",
-  forgotLede: "तुमचा ईमेल पत्ता लिहा, आम्ही रीसेट लिंक पाठवू.",
-  sendLink: "रीसेट लिंक पाठवा",
-  sending: "पाठवत आहे…",
-  forgotSuccessTitle: "तुमचा ईमेल तपासा",
-  forgotSuccessBody: "प्लेसहोल्डर: कोणताही ईमेल पाठवलेला नाही.",
+  forgotLede: "पासवर्ड रीसेट सध्या उपलब्ध नाही.",
   backToLogin: "लॉग इनकडे परत जा",
+  errInvalid:
+    "ईमेल किंवा पासवर्ड चुकीचा आहे. दोन्ही तपासून पुन्हा प्रयत्न करा.",
+  errUnconfirmed:
+    "या ईमेल पत्त्याची अजून पुष्टी झालेली नाही. आम्ही पाठवलेली पुष्टी लिंक उघडा, मग लॉग इन करा.",
+  errRate:
+    "खूप जास्त प्रयत्न झाले. काही मिनिटे थांबून पुन्हा प्रयत्न करा.",
+  errExists:
+    "या ईमेलने खाते आधीच अस्तित्वात आहे. त्याऐवजी लॉग इन करा.",
+  errWeak:
+    "सर्व्हरने हा पासवर्ड स्वीकारला नाही. जास्त लांब किंवा कमी सामान्य पासवर्ड निवडा.",
+  errSignupOff:
+    "सध्या नवीन नोंदणी बंद आहे.",
+  errGeneric:
+    "आमच्या बाजूने काहीतरी बिघडले. थोड्या वेळाने पुन्हा प्रयत्न करा.",
+  confirmTitle:
+    "तुमचा ईमेल तपासा",
+  confirmBody:
+    "आम्ही तुमच्या पत्त्यावर पुष्टी लिंक पाठवली आहे. खाते पूर्ण करण्यासाठी ती उघडा, मग लॉग इन करा.",
 
-  successBody: "प्लेसहोल्डर साइन-इन पूर्ण झाले. तुम्हाला तुमच्या डॅशबोर्डवर नेले जात आहे…",
-  continueTo: "डॅशबोर्डवर जा",
 };
 
 const DICTS: Record<Lang, AuthCopy> = { en, hi, mr };

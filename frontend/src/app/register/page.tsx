@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useRef, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { AuthShell } from "@/components/auth/AuthShell";
 import {
   Field,
+  FormError,
   OkNote,
   PasswordChecklist,
   PasswordField,
@@ -15,9 +16,11 @@ import {
 import { isEmail, passwordChecks } from "@/components/auth/validate";
 import { usePrefs } from "@/lib/prefs";
 import { getAuthCopy } from "@/lib/authCopy";
+import { authErrorMessage } from "@/lib/authErrors";
+import { createClient } from "@/lib/supabase/client";
 import styles from "@/components/auth/auth.module.css";
 
-type Status = "idle" | "submitting" | "success";
+type Status = "idle" | "submitting" | "confirm";
 
 export default function RegisterPage() {
   const { lang } = usePrefs();
@@ -34,10 +37,7 @@ export default function RegisterPage() {
   const emailRef = useRef<HTMLInputElement>(null);
   const pwRef = useRef<HTMLInputElement>(null);
   const cfRef = useRef<HTMLInputElement>(null);
-  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  useEffect(() => () => {
-    if (timer.current) clearTimeout(timer.current);
-  }, []);
+  const [failure, setFailure] = useState<string | null>(null);
 
   const checks = passwordChecks(pw);
   const rulesOk = checks.every(Boolean);
@@ -60,7 +60,7 @@ export default function RegisterPage() {
         ? A.confirmRequired
         : null;
 
-  function onSubmit(e: FormEvent) {
+  async function onSubmit(e: FormEvent) {
     e.preventDefault();
     if (status !== "idle") return;
     if (!valid) {
@@ -69,24 +69,47 @@ export default function RegisterPage() {
       return;
     }
     setStatus("submitting");
-    // Placeholder: the real sign-up call is wired in a separate pass.
-    timer.current = setTimeout(() => {
-      setStatus("success");
-      // Let the success panel and its progress rule play, then go to the account area.
-      timer.current = setTimeout(() => router.push("/dashboard"), 1800);
-    }, 1600);
+    setFailure(null);
+    try {
+      const { data, error } = await createClient().auth.signUp({
+        email: email.trim(),
+        password: pw,
+        options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
+      });
+      if (error) {
+        setFailure(authErrorMessage(error, A));
+        setStatus("idle");
+        return;
+      }
+      // With email confirmation on, an already-registered address comes back as a
+      // user with no identities (and no error), so the server does not leak who has an account.
+      if (data.user && (data.user.identities?.length ?? 1) === 0) {
+        setFailure(A.errExists);
+        setStatus("idle");
+        return;
+      }
+      if (!data.session) {
+        setStatus("confirm");
+        return;
+      }
+      router.replace("/dashboard/workspace");
+      router.refresh();
+    } catch {
+      setFailure(A.errGeneric);
+      setStatus("idle");
+    }
   }
 
   const busy = status === "submitting";
 
   return (
     <AuthShell title={A.registerTitle} lede={A.registerLede}>
-      {status === "success" ? (
+      {status === "confirm" ? (
         <SuccessPanel
-          title={A.registerSuccessTitle}
-          body={A.successBody}
-          actionLabel={A.continueTo}
-          href="/dashboard"
+          title={A.confirmTitle}
+          body={A.confirmBody}
+          actionLabel={A.backToLogin}
+          href="/login"
         />
       ) : (
         <form onSubmit={onSubmit} noValidate className={styles.form}>
@@ -131,6 +154,8 @@ export default function RegisterPage() {
           >
             {matches ? <OkNote>{A.matchOk}</OkNote> : null}
           </PasswordField>
+
+          {failure ? <FormError>{failure}</FormError> : null}
 
           <SubmitButton
             busy={busy}

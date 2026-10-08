@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { Header } from "@/components/Header";
 import { usePrefs } from "@/lib/prefs";
 import { getDashboardCopy } from "@/lib/dashboardCopy";
-import { SAMPLE_EMAIL } from "@/lib/sampleData";
+import { useSession } from "@/lib/useSession";
 import { SHOW_SAMPLE_SIGNS } from "@/lib/showSampleSigns";
 import styles from "./dashboard.module.css";
 
@@ -22,6 +22,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
   const { lang } = usePrefs();
   const C = getDashboardCopy(lang);
   const path = usePathname();
+  const { email } = useSession();
   const [mode, setMode] = useState<Mode>("sample");
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -42,7 +43,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
 
   return (
     <>
-      <Header account={{ email: SAMPLE_EMAIL, logout: C.logout }} />
+      <Header account={{ email: email ?? "", logout: C.logout }} />
       <div className={`container ${styles.shell}`}>
         <aside className={styles.side}>
           <button

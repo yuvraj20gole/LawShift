@@ -113,6 +113,18 @@ export function Field({
   );
 }
 
+/** Form-level failure (wrong password, rate limit...): same flag treatment as field errors. */
+export function FormError({ children }: { children: ReactNode }) {
+  return (
+    <p className={styles.error} role="alert">
+      <span className={styles.mark}>
+        <FlagIcon />
+      </span>
+      <span>{children}</span>
+    </p>
+  );
+}
+
 type PasswordProps = Omit<FieldProps, "type" | "trailing"> & { copy: AuthCopy };
 
 /** Password input with a Show / Hide toggle. */
