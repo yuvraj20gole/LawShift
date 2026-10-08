@@ -26,12 +26,14 @@ class OffenseDateUsed(BaseModel):
 
     label: str = Field(description="Human date, e.g. '25 June 2024'.")
     code: Literal["IPC", "BNS"]
-    source: Literal["message", "earlier_message", "document"] = Field(
+    source: Literal["message", "earlier_message", "document", "confirmed"] = Field(
         default="message",
         description=(
             "Where the date came from for the parenthetical note. "
             "'earlier_message' when the conversation lock supplied it; "
-            "'document' for upload_document; otherwise 'message'."
+            "'document' when confirmed from an extract without edit; "
+            "'confirmed' when the user edited the date on attach; "
+            "otherwise 'message'."
         ),
     )
 
@@ -226,6 +228,21 @@ class ResolveBifurcationRequest(BaseModel):
         default="en",
         description="Target language code for IRAC output ('en', 'hi', 'mr').",
     )
+
+
+class CaseAttachRequest(BaseModel):
+    conversation_id: str = Field(..., min_length=1, max_length=128)
+    facts_text: str = Field(..., min_length=1, max_length=6000)
+    offence_date: str = Field(
+        ...,
+        description="Offence date as YYYY-MM-DD (validated server-side).",
+    )
+    date_source: Literal["document", "edited"]
+    filename: str | None = Field(default=None, max_length=200)
+
+
+class CaseDetachRequest(BaseModel):
+    conversation_id: str = Field(..., min_length=1, max_length=128)
 
 
 AssistantResponse = (

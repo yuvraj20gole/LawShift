@@ -41,6 +41,9 @@ class SecuritySettings:
     generation_wait_seconds: float
     max_upload_bytes: int
     max_body_bytes: int
+    extract_per_hour: int
+    max_concurrent_extract: int
+    extract_wait_seconds: float
 
     @classmethod
     def from_environ(cls) -> "SecuritySettings":
@@ -67,6 +70,11 @@ class SecuritySettings:
             ),
             max_upload_bytes=_env_int("LAWSHIFT_MAX_UPLOAD_BYTES", 10 * 1024 * 1024),
             max_body_bytes=_env_int("LAWSHIFT_MAX_BODY_BYTES", 100 * 1024),
+            extract_per_hour=_env_int("LAWSHIFT_EXTRACT_PER_HOUR", 10),
+            max_concurrent_extract=_env_int("LAWSHIFT_MAX_CONCURRENT_EXTRACT", 1),
+            extract_wait_seconds=float(
+                os.environ.get("LAWSHIFT_EXTRACT_WAIT_SEC", "20")
+            ),
         )
 
 

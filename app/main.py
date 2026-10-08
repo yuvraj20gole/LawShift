@@ -13,14 +13,22 @@ from datetime import date
 from functools import lru_cache
 from pathlib import Path
 
-from fastapi import Depends, FastAPI, File, Query, Request, UploadFile
+from fastapi import Depends, FastAPI, File, HTTPException, Query, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 
-from . import mapping_lookup, stage0_document, stage1, stage2, stage3, stage4, stage5_translate
+from . import mapping_lookup, stage1, stage2, stage3, stage4, stage5_translate
 from .auth_supabase import AuthUser, optional_auth, require_auth
+from .case_attach import (
+    attach_case,
+    detach_case,
+    get_attached,
+    parse_offence_date,
+)
 from .limits import (
     BodySizeLimitMiddleware,
+    ExtractSlot,
     GenerationSlot,
+    enforce_extract_rate_limit,
     enforce_query_rate_limit,
     enforce_upload_size,
     enforce_upload_type,
@@ -29,6 +37,8 @@ from .security_settings import get_settings
 from .schemas import (
     BifurcationOption,
     BifurcationResponse,
+    CaseAttachRequest,
+    CaseDetachRequest,
     ClarifyResponse,
     FailureResponse,
     FixedConclusionParts,
@@ -42,6 +52,7 @@ from .schemas import (
     SectionLookupResponse,
     Source,
 )
+from .stage0_document import ExtractError, extract_document
 
 
 def _fixed_conclusion_enabled() -> bool:
@@ -117,7 +128,11 @@ def _build_offense_date_used(
     source: str = "message",
 ) -> OffenseDateUsed:
     """Display-only payload for the 'Offence date used' line."""
-    src = source if source in {"message", "earlier_message", "document"} else "message"
+    src = (
+        source
+        if source in {"message", "earlier_message", "document", "confirmed"}
+        else "message"
+    )
     code = route if route in {"IPC", "BNS"} else stage2.route(offense_date)
     return OffenseDateUsed(
         label=_format_offense_date(offense_date),
@@ -1246,6 +1261,36 @@ def _build_code_mismatch_response(
     )
 
 
+def _follow_up_lacks_offense_facts(follow_up: str) -> bool:
+    """True when the follow-up has no content words after meta/stopword strip.
+
+    Same token filter as the missing-facts gate (e.g. \"Which section applies?\").
+    """
+    return len(content_tokens_after_date(follow_up or "", None)) == 0
+
+
+def _compose_attached_messages(
+    follow_up: str, facts: str
+) -> tuple[str, str]:
+    """Return (full_message_for_writer_and_gates, retrieve_query).
+
+    If the follow-up is meta-only, retrieve on facts alone (FIR gold-hit sweep:
+    facts-only top5 0.238 vs follow-up-first 0.192). Otherwise keep follow-up
+    first, then facts. No silent character truncation: capping the query at
+    500–800 chars helped only when facts sat at the start of a pad, and hurt
+    when facts were in the middle/end — so length guidance is for the user,
+    not an automatic cut. Writer and gates always see the full facts text.
+    """
+    follow_up = (follow_up or "").strip()
+    facts = (facts or "").strip()
+    full = f"{follow_up}\n\n{facts}" if follow_up else facts
+    if _follow_up_lacks_offense_facts(follow_up):
+        retrieve = facts
+    else:
+        retrieve = f"{follow_up}\n\n{facts}" if follow_up else facts
+    return full, retrieve
+
+
 async def handle_query(req: QueryRequest):
     """Pipeline entry for /api/query. Callable in-process (no HTTP deps)."""
     # A new message abandons a pending date_conflict choice (other pending
@@ -1254,8 +1299,54 @@ async def handle_query(req: QueryRequest):
     if pending is not None and pending.get("source") == "date_conflict":
         _PENDING_BIFURCATION.pop(req.conversation_id, None)
 
+    attached = get_attached(req.conversation_id)
     locked = _LOCKED_DATES.get(req.conversation_id)
     date_lock_label: str | None = None
+
+    # Attached facts: date already locked at /api/case/attach; Stage 1 runs
+    # only on the follow-up (never on facts text) for date-conflict detection.
+    if attached is not None:
+        locked = attached.offence_date
+        _LOCKED_DATES[req.conversation_id] = locked
+        extracted, span_in_msg, _extract_reason = stage1.extract_offense_date(
+            req.message
+        )
+        if extracted is not None and extracted != locked:
+            if _same_cutoff_side(locked, extracted):
+                date_lock_label = _format_offense_date(locked)
+            else:
+                return _build_date_conflict_response(
+                    conversation_id=req.conversation_id,
+                    message=req.message,
+                    locked=locked,
+                    new_date=extracted,
+                    language=getattr(req, "language", "en"),
+                )
+        offense_date = locked
+        matched_text = "(locked)"
+        reason = "conversation_lock"
+        date_span_for_strip = span_in_msg or ""
+        follow_up = (req.message or "").strip()
+        facts = (attached.facts_text or "").strip()
+        pipeline_message, retrieve_query = _compose_attached_messages(
+            follow_up, facts
+        )
+        odu_source = (
+            "document" if attached.date_source == "document" else "confirmed"
+        )
+        return await _run_pipeline(
+            message=pipeline_message,
+            conversation_id=req.conversation_id,
+            language=getattr(req, "language", "en"),
+            offense_date=offense_date,
+            matched_text=matched_text,
+            reason=reason,
+            date_span_for_strip=date_span_for_strip,
+            date_lock_label=date_lock_label,
+            establish_lock=False,
+            date_source=odu_source,
+            retrieve_query=retrieve_query,
+        )
 
     if locked is not None:
         # Re-run Stage 1 on *this* message to detect a conflicting date.
@@ -1331,8 +1422,14 @@ async def _run_pipeline(
     date_lock_label: str | None = None,
     establish_lock: bool = True,
     date_source: str = "message",
+    retrieve_query: str | None = None,
 ):
-    """Shared Stage 2–4 path after the offence date is settled."""
+    """Shared Stage 2–4 path after the offence date is settled.
+
+    ``message`` is used for missing-facts / citations / the writer.
+    ``retrieve_query`` (default: same as ``message``) is used only for Stage 3
+    cascade search. Typed (non-attach) callers leave ``retrieve_query`` unset.
+    """
     # Stage 2: deterministic gate
     if offense_date is None:
         if reason == "ambiguous_numeric_format":
@@ -1353,13 +1450,16 @@ async def _run_pipeline(
 
     route = stage2.route(offense_date)  # "IPC" or "BNS"
 
-    if date_source not in {"message", "earlier_message", "document"}:
+    if date_source not in {"message", "earlier_message", "document", "confirmed"}:
         date_source = "message"
     if date_source == "message" and (
         reason == "conversation_lock" or date_lock_label
     ):
         date_source = "earlier_message"
-    if conversation_id.startswith("doc-upload"):
+    if (
+        conversation_id.startswith("doc-upload")
+        and date_source not in {"document", "confirmed"}
+    ):
         date_source = "document"
     odu = _build_offense_date_used(offense_date, route, source=date_source)
 
@@ -1454,8 +1554,10 @@ async def _run_pipeline(
                 "searching on your facts instead."
             )
 
-    # Stage 3: act-aware cascade on the RAW message (+ scores for bifurcation)
-    scored = stage3.cascade_search_with_scores(message, corpus_act=route, k=5)
+    # Stage 3: act-aware cascade (+ scores for bifurcation).
+    # Typed path: retrieve_query is None → search the same text as the writer.
+    search_text = message if retrieve_query is None else retrieve_query
+    scored = stage3.cascade_search_with_scores(search_text, corpus_act=route, k=5)
     if not scored:
         return _finish(
             FailureResponse(
@@ -1705,6 +1807,111 @@ async def api_resolve_bifurcation(
         return await resolve_bifurcation(req)
 
 
+@app.post("/api/documents/extract")
+async def documents_extract(
+    file: UploadFile = File(...),
+    user: AuthUser = Depends(require_auth),
+):
+    """Extract text + date candidates only. No pipeline, no storage."""
+    await enforce_extract_rate_limit(user)
+    file_bytes = await file.read()
+    enforce_upload_size(file_bytes)
+
+    async with ExtractSlot():
+        try:
+            result = extract_document(file_bytes, file.filename or "document")
+        except ExtractError as exc:
+            if exc.code == "password_protected":
+                raise HTTPException(
+                    status_code=422,
+                    detail={
+                        "error": "password_protected",
+                        "message": exc.message,
+                        "warnings": ["password_protected"],
+                    },
+                ) from exc
+            raise HTTPException(
+                status_code=exc.status,
+                detail={"error": exc.code, "message": exc.message},
+            ) from exc
+        return result.as_dict()
+
+
+@app.post("/api/case/attach")
+async def case_attach(
+    req: CaseAttachRequest,
+    user: AuthUser = Depends(require_auth),
+):
+    """Lock offence date + store confirmed facts for this conversation."""
+    existing = get_attached(req.conversation_id)
+    if existing is not None and existing.user_id != user.sub:
+        raise HTTPException(
+            status_code=403,
+            detail={
+                "error": "forbidden",
+                "message": "This conversation is attached to another user.",
+            },
+        )
+    try:
+        offence_date = parse_offence_date(req.offence_date)
+    except ValueError as exc:
+        raise HTTPException(
+            status_code=422,
+            detail={
+                "error": "invalid_offence_date",
+                "message": (
+                    "offence_date must be YYYY-MM-DD, not in the future, "
+                    "and not before 1860-01-01."
+                ),
+            },
+        ) from exc
+    facts = (req.facts_text or "").strip()
+    if not facts or len(facts) > 6000:
+        raise HTTPException(
+            status_code=422,
+            detail={
+                "error": "invalid_facts_text",
+                "message": "facts_text must be 1 to 6000 characters.",
+            },
+        )
+    attach_case(
+        conversation_id=req.conversation_id,
+        user_id=user.sub,
+        facts_text=facts,
+        offence_date=offence_date,
+        date_source=req.date_source,
+        filename=req.filename,
+    )
+    _LOCKED_DATES[req.conversation_id] = offence_date
+    code = stage2.route(offence_date)
+    return {
+        "ok": True,
+        "offence_date_label": _format_offense_date(offence_date),
+        "code": code,
+    }
+
+
+@app.post("/api/case/detach")
+async def case_detach(
+    req: CaseDetachRequest,
+    user: AuthUser = Depends(require_auth),
+):
+    """Clear attached facts and the date lock for this conversation."""
+    try:
+        detach_case(conversation_id=req.conversation_id, user_id=user.sub)
+    except PermissionError as exc:
+        raise HTTPException(
+            status_code=403,
+            detail={
+                "error": "forbidden",
+                "message": "This conversation is attached to another user.",
+            },
+        ) from exc
+    _LOCKED_DATES.pop(req.conversation_id, None)
+    _PENDING_BIFURCATION.pop(req.conversation_id, None)
+    return {"ok": True}
+
+
 @app.post("/api/upload_document")
 async def upload_document(
     request: Request,
@@ -1713,6 +1920,7 @@ async def upload_document(
     conversation_id: str = "doc-upload",
     user: AuthUser = Depends(require_auth),
 ):
+    """Legacy: extract then run the full pipeline (behaviour preserved)."""
     import uuid
 
     del request  # required for client IP middleware path; auth via user
@@ -1720,26 +1928,22 @@ async def upload_document(
 
     file_bytes = await file.read()
     enforce_upload_size(file_bytes)
-    kind = enforce_upload_type(file_bytes)
+    enforce_upload_type(file_bytes)
 
-    ocr_used = False
     async with GenerationSlot():
-        if kind == "pdf":
-            extracted_text, has_text = stage0_document.extract_text_from_pdf(file_bytes)
-            if not has_text:
-                print("[upload] No text layer found, falling back to OCR...")
-                extracted_text = stage0_document.extract_text_via_ocr_from_pdf(file_bytes)
-                ocr_used = True
-        else:
-            # jpeg / png — content sniff already validated
-            extracted_text = stage0_document.extract_text_from_image(file_bytes)
-            ocr_used = True
-
-        if not extracted_text or not extracted_text.strip():
+        try:
+            result = extract_document(file_bytes, file.filename or "document")
+        except ExtractError:
             return FailureResponse(
                 reason="source_unavailable",
-                message="Could not extract readable text from this document. Try a clearer photo or a typed document.",
+                message=(
+                    "Could not extract readable text from this document. "
+                    "Try a clearer photo or a typed document."
+                ),
             )
+
+        extracted_text = result.text
+        ocr_used = result.read_method == "ocr"
 
         # Short OCR/PDF extracts are usually unusable, but a date-only document
         # must still reach handle_query so the missing_facts clarify can fire.
@@ -1749,7 +1953,10 @@ async def upload_document(
             if date_hit is None:
                 return FailureResponse(
                     reason="source_unavailable",
-                    message="Could not extract readable text from this document. Try a clearer photo or a typed document.",
+                    message=(
+                        "Could not extract readable text from this document. "
+                        "Try a clearer photo or a typed document."
+                    ),
                 )
 
         doc_conv_id = (
@@ -1770,7 +1977,10 @@ async def upload_document(
                 0,
                 PipelineStep(
                     stage="extract",
-                    detail=f"Text extracted via {'OCR' if ocr_used else 'direct PDF parsing'}",
+                    detail=(
+                        f"Text extracted via "
+                        f"{'OCR' if ocr_used else 'direct PDF parsing'}"
+                    ),
                 ),
             )
         return response

@@ -105,6 +105,11 @@ def _reset_state():
     reset_jwks_cache()
     reset_generation_semaphore()
     os.environ["LAWSHIFT_JWT_TEST_PUBLIC_KEY_PEM"] = _PUB_PEM
+    os.environ["LAWSHIFT_MAX_UPLOAD_BYTES"] = "1024"
+    os.environ["LAWSHIFT_MAX_BODY_BYTES"] = "512"
+    os.environ["LAWSHIFT_ANON_QUERY_PER_HOUR"] = "3"
+    os.environ["LAWSHIFT_MAX_CONCURRENT"] = "1"
+    os.environ["LAWSHIFT_GENERATION_WAIT_SEC"] = "0.2"
     yield
     reset_rate_limits()
     reset_jwks_cache()
@@ -321,6 +326,9 @@ def test_client_ip_direct_and_forwarded():
         generation_wait_seconds=settings.generation_wait_seconds,
         max_upload_bytes=settings.max_upload_bytes,
         max_body_bytes=settings.max_body_bytes,
+        extract_per_hour=settings.extract_per_hour,
+        max_concurrent_extract=settings.max_concurrent_extract,
+        extract_wait_seconds=settings.extract_wait_seconds,
     )
     app2 = FastAPI()
 

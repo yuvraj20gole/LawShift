@@ -996,4 +996,48 @@ The FastAPI surface used `allow_origins=["*"]`, exposed `/docs`, returned intern
 
 ---
 
-*End of process log. Generated from files in `results/` as of the unified comparison run, plus GovIntel README figures verified against the live Hugging Face card, plus the split-offense review and `split_detector_v2_eval.json`, Stage 4 generation and verifier evals (§16), citation-fix verifier evaluation (§17), backend integration / bifurcation validation (§18), multilingual Stage 5 / IndicTrans2 fix (§19), Ollama Metal / Rosetta fix and Stage 4 warm-up (§20), landing-page + live chat UI verification (§21), missing-facts gate (§22), IPC↔BNS code-mismatch intercept (§23), citation-only section lookup / bifurcation escape / date-lock diagnosis (§24), locked-date conflict handling (§25), Stage 4 conclusion-wording variant (§26), bifurcation-escape / cited-section / mismatch-card rules (§27), display-only chat answer lines (§28), fixed Conclusion (§29), translation number guard (§30), the checked-in regression suite (§31), and public API hardening (§32).*
+## 33. M3 — document extract + case attach (no pipeline on upload)
+
+### Design
+
+Logged-in extract only (`POST /api/documents/extract`); browser stores the file in Supabase. User confirms date/facts, then `POST /api/case/attach` locks the date and keeps facts in server memory (2 h TTL, 200 conversations, owner-checked). Follow-ups use the normal pipeline with facts appended after the message. `POST /api/case/detach` clears facts + lock. Legacy `/api/upload_document` still extracts then runs the pipeline via shared `extract_document`.
+
+### Change (scope: `app/`, `tests/`, `scripts/regression/`, `requirements-backend.txt`, `PROCESS_LOG.md`)
+
+- `app/stage0_document.py`: unified `extract_document`; PDF typed + OCR (&lt;40 chars/page, ≤30 pages, ≤10 OCR pages); DOCX via `python-docx` (reject macros / zip bombs); images ≤40 MP, OCR eng, 90 s budget; text normalised, truncated at 20k; Stage 1 date candidates (≤5).
+- `app/case_attach.py` + routes; `handle_query` branch when attached (Stage 1 on follow-up only; `offense_date_used` source `document`|`confirmed`; missing-facts counts facts).
+- **Attach retrieval (follow-up):** if the follow-up has no content words after the missing-facts meta strip (e.g. “Which section applies?”), Stage 3 searches the **facts alone**; otherwise follow-up first, then facts. Writer/gates always get the full follow-up + facts. No automatic character cut (a 500–800 cap helped only when facts sat at the start of a pad; it hurt middle/end). Typed path unchanged (`retrieve_query` defaults to `message`).
+- Limits: `LAWSHIFT_EXTRACT_PER_HOUR` (10), `LAWSHIFT_MAX_CONCURRENT_EXTRACT` (1), `LAWSHIFT_EXTRACT_WAIT_SEC` (20).
+- Tests: `tests/test_documents_m3.py`. Gold measure: `scripts/regression/measure_attach_gold.py` → `/tmp/lawshift_m3_gold_out.json`; FIR docs under `/tmp/lawshift_m3_fir_docs/`.
+
+### Numbers (gold hit rates)
+
+**Part 1 — 85 labelled questions** (BNS-side date for BNS/BNSS/BSA gold; modes a–d):
+
+| Mode | top5 | top1 | bif options contain gold (when bif) |
+|------|------|------|-------------------------------------|
+| a typed+date | 54/85 (0.635) | 37/85 (0.435) | 22/49 (0.449) |
+| b facts only | 56/85 (0.659) | 36/85 (0.424) | 23/47 (0.489) |
+| c follow-up first (old attach) | 56/85 (0.659) | 39/85 (0.459) | 25/48 (0.521) |
+| d follow-up after facts | 56/85 (0.659) | 38/85 (0.447) | 23/47 (0.489) |
+| after: meta→facts (= b) | 56/85 (0.659) | 36/85 (0.424) | 23/47 (0.489) |
+
+**Part 2 — 40×FIR wrappers** (20 IPC-mapped + 20 BNS; 800/1500/3000/6000 × start/middle/end; n=480 per mode):
+
+| Mode | top5 | top1 |
+|------|------|------|
+| b facts only / **after meta→facts** | 114/480 (0.238) | 58/480 (0.121) |
+| c follow-up first (before) | 92/480 (0.192) | 47/480 (0.098) |
+| first 500 chars only | 47/480 (0.098) | 7/480 (0.015) |
+
+By length (mode b / after): 800 → 0.333 top5; 1500 → 0.275; 3000 → 0.233; 6000 → 0.108. Blind first-500 is **0** top5 when facts are at the end.
+
+| Check | Result |
+|--------|--------|
+| `pytest tests/` | **59** passed |
+| Regression (nothing attached) | **PASS=12 FAIL=0 INFO=1** (unchanged) |
+| Offer “ask which section applies?” on full FIR text? | **No** — ~24% top5 vs ~66% on short plain questions. Prefer: user writes a short facts summary; document supplies the date (and optional context). Guidance: “Write two or three sentences about what happened (who did what, and to whom).” Aim for **about 800 characters** of facts, not the whole FIR. |
+
+---
+
+*End of process log. Generated from files in `results/` as of the unified comparison run, plus GovIntel README figures verified against the live Hugging Face card, plus the split-offense review and `split_detector_v2_eval.json`, Stage 4 generation and verifier evals (§16), citation-fix verifier evaluation (§17), backend integration / bifurcation validation (§18), multilingual Stage 5 / IndicTrans2 fix (§19), Ollama Metal / Rosetta fix and Stage 4 warm-up (§20), landing-page + live chat UI verification (§21), missing-facts gate (§22), IPC↔BNS code-mismatch intercept (§23), citation-only section lookup / bifurcation escape / date-lock diagnosis (§24), locked-date conflict handling (§25), Stage 4 conclusion-wording variant (§26), bifurcation-escape / cited-section / mismatch-card rules (§27), display-only chat answer lines (§28), fixed Conclusion (§29), translation number guard (§30), the checked-in regression suite (§31), public API hardening (§32), and M3 document extract/attach (§33).*
