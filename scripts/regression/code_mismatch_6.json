@@ -1,0 +1,35 @@
+{
+  "description": "Six explicit IPC↔BNS mismatch cases from PROCESS_LOG §23.",
+  "cases": [
+    {
+      "message": "BNS 103 on 25 June 2024",
+      "expected_kind": "bifurcation",
+      "expected_reason": "code_mismatch"
+    },
+    {
+      "message": "IPC 302 on 5 July 2024",
+      "expected_kind": "bifurcation",
+      "expected_reason": "code_mismatch"
+    },
+    {
+      "message": "Section 302 IPC on 5 July 2024",
+      "expected_kind": "bifurcation",
+      "expected_reason": "code_mismatch"
+    },
+    {
+      "message": "BNS 294 on 25 June 2024",
+      "expected_kind": "bifurcation",
+      "expected_reason": "code_mismatch"
+    },
+    {
+      "message": "IPC 124A on 5 July 2024",
+      "expected_kind": "bifurcation",
+      "expected_reason": "code_mismatch"
+    },
+    {
+      "message": "IPC 201 on 5 July 2024",
+      "expected_kind": "bifurcation",
+      "expected_reason": "code_mismatch"
+    }
+  ]
+}

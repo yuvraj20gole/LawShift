@@ -951,4 +951,25 @@ Worth the cost: rare on the broad 100-set, but the murder/302 Hindi path drifts 
 
 ---
 
-*End of process log. Generated from files in `results/` as of the unified comparison run, plus GovIntel README figures verified against the live Hugging Face card, plus the split-offense review and `split_detector_v2_eval.json`, Stage 4 generation and verifier evals (§16), citation-fix verifier evaluation (§17), backend integration / bifurcation validation (§18), multilingual Stage 5 / IndicTrans2 fix (§19), Ollama Metal / Rosetta fix and Stage 4 warm-up (§20), landing-page + live chat UI verification (§21), missing-facts gate (§22), IPC↔BNS code-mismatch intercept (§23), citation-only section lookup / bifurcation escape / date-lock diagnosis (§24), locked-date conflict handling (§25), Stage 4 conclusion-wording variant (§26), bifurcation-escape / cited-section / mismatch-card rules (§27), display-only chat answer lines (§28), fixed Conclusion (§29), and translation number guard (§30).*
+## 31. How to run the regression suite
+
+Checked-in under `scripts/regression/`. Calls `handle_query` / `resolve_bifurcation` in-process (no frontend, no live backend on :8000). Stage 4 writer/verifier and Stage 5 translation are stubbed so Ollama is not required. Stage 3 embeddings still load from `models/finetuned-bge-small-ipc-bns-e8`.
+
+```bash
+# from repo root
+.venv/bin/python scripts/regression/run_all.py
+```
+
+Progress: `/tmp/lawshift_regression_prog.txt`. Full details: `/tmp/lawshift_regression_out.json`. Per-question bif85 statuses (for future diffs): `results/regression_baseline.json`. Hard timeout: `REGRESSION_TIMEOUT_SEC` (default 3600).
+
+Expectations live in JSON next to the runner (`expectations.json`, `fact_free_30.json`, `diagnosis_9.json`, `code_mismatch_6.json`, `section_lookup_7.json`, `date_conflict_cases.json`, `rejected_options_cases.json`, `bif85_questions.json`, `false_block_200.json`, `false_block_sources.json`). Aggregate numbers are not rewritten when a run differs — the runner reports FAIL and the delta.
+
+Checks covered: diagnosis 9; fact-free 30; false-block 285 (85 plain + 200 held-out); Stage 1 44; **two** Recall@5 checks on `data/splits/test.jsonl` (paper + production); bif85_labeled (48/85) plus informational first-85 count; code-mismatch 6; section_lookup 7; date-conflict; rejected-options; quota stub `[5,5,5,5,4]` (mirrors `ChatEntry`, no browser).
+
+**Paper vs production retrieval.** Paper Recall@5 **0.8412** (535/636) uses `src/finetune_more.py` `build_cascade` / `evaluate_cascade`: a non–act-aware `SECTION_PATTERN` short-circuit that promotes every chunk with the matched section number on `statutes.jsonl`. Production Recall@5 **0.8381** (533/636) uses `stage3.cascade_search_act_aware` (act-scoped exact match). The two-hit gap is indexes **565** and **628**: questions like “Section 300 of BNSS 2023” / “Section 156 of BSA 2023”, where act-aware `extract_act_scoped_numbers` treats the year **2023** as the section and misses the real short-circuit.
+
+**Two 85-question bifurcation sets.** Asserted `bif85_labeled` is the single-citation labelled subset (`bif85_questions.json`), date `" 25 June 2024"`, IPC, margin 0.10 → **48**/85. The first 85 lines of `nyaya_eval_filtered.jsonl` under the same date/margin are informational only (**52** at last count); they overlap the labelled set only partly (59 shared / 26 unique each way).
+
+---
+
+*End of process log. Generated from files in `results/` as of the unified comparison run, plus GovIntel README figures verified against the live Hugging Face card, plus the split-offense review and `split_detector_v2_eval.json`, Stage 4 generation and verifier evals (§16), citation-fix verifier evaluation (§17), backend integration / bifurcation validation (§18), multilingual Stage 5 / IndicTrans2 fix (§19), Ollama Metal / Rosetta fix and Stage 4 warm-up (§20), landing-page + live chat UI verification (§21), missing-facts gate (§22), IPC↔BNS code-mismatch intercept (§23), citation-only section lookup / bifurcation escape / date-lock diagnosis (§24), locked-date conflict handling (§25), Stage 4 conclusion-wording variant (§26), bifurcation-escape / cited-section / mismatch-card rules (§27), display-only chat answer lines (§28), fixed Conclusion (§29), translation number guard (§30), and the checked-in regression suite (§31).*

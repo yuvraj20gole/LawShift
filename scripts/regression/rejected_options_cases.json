@@ -1,0 +1,20 @@
+{
+  "description": "Rejected-options / None-of-these from PROCESS_LOG §27.",
+  "describe_facts_option": "None of these. I will describe what happened",
+  "cases": [
+    {
+      "id": "escape_then_exhaust",
+      "message": "On 5 September 2024, a person was found in possession of counterfeit currency notes.",
+      "expected_first_kind": "bifurcation",
+      "after_escape": {
+        "expected_kind": "clarify",
+        "expected_reason": "describe_facts"
+      },
+      "followups": [
+        "On 5 September 2024, a person was found in possession of counterfeit currency notes again.",
+        "On 5 September 2024, possession of counterfeit notes."
+      ],
+      "note": "If follow-ups re-bifurcate, escape again; when the offered set is entirely rejected, expect section_lookup with reason bifurcation_exhausted."
+    }
+  ]
+}

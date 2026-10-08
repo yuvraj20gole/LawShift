@@ -1,0 +1,158 @@
+{
+  "description": "Fixed 30 fact-free strings. Baseline PROCESS_LOG §22/§24: 27 missing_facts + 3 ISO missing_date. Templates avoid 'section <day>' false cites (use ? or . before the date).",
+  "cases": [
+    {
+      "message": "Which section? 1 January 2024",
+      "expected_kind": "clarify",
+      "expected_reason": "missing_facts"
+    },
+    {
+      "message": "Which section? 15 March 2024",
+      "expected_kind": "clarify",
+      "expected_reason": "missing_facts"
+    },
+    {
+      "message": "Which section? 25 June 2024",
+      "expected_kind": "clarify",
+      "expected_reason": "missing_facts"
+    },
+    {
+      "message": "Tell me the law 1 January 2024",
+      "expected_kind": "clarify",
+      "expected_reason": "missing_facts"
+    },
+    {
+      "message": "Tell me the law 15 March 2024",
+      "expected_kind": "clarify",
+      "expected_reason": "missing_facts"
+    },
+    {
+      "message": "Tell me the law 25 June 2024",
+      "expected_kind": "clarify",
+      "expected_reason": "missing_facts"
+    },
+    {
+      "message": "What applies? 1 January 2024",
+      "expected_kind": "clarify",
+      "expected_reason": "missing_facts"
+    },
+    {
+      "message": "What applies? 15 March 2024",
+      "expected_kind": "clarify",
+      "expected_reason": "missing_facts"
+    },
+    {
+      "message": "What applies? 25 June 2024",
+      "expected_kind": "clarify",
+      "expected_reason": "missing_facts"
+    },
+    {
+      "message": "Help me 1 January 2024",
+      "expected_kind": "clarify",
+      "expected_reason": "missing_facts"
+    },
+    {
+      "message": "Help me 15 March 2024",
+      "expected_kind": "clarify",
+      "expected_reason": "missing_facts"
+    },
+    {
+      "message": "Help me 25 June 2024",
+      "expected_kind": "clarify",
+      "expected_reason": "missing_facts"
+    },
+    {
+      "message": "Is this legal? 1 January 2024",
+      "expected_kind": "clarify",
+      "expected_reason": "missing_facts"
+    },
+    {
+      "message": "Is this legal? 15 March 2024",
+      "expected_kind": "clarify",
+      "expected_reason": "missing_facts"
+    },
+    {
+      "message": "Is this legal? 25 June 2024",
+      "expected_kind": "clarify",
+      "expected_reason": "missing_facts"
+    },
+    {
+      "message": "What is the offence? 1 January 2024",
+      "expected_kind": "clarify",
+      "expected_reason": "missing_facts"
+    },
+    {
+      "message": "What is the offence? 15 March 2024",
+      "expected_kind": "clarify",
+      "expected_reason": "missing_facts"
+    },
+    {
+      "message": "What is the offence? 25 June 2024",
+      "expected_kind": "clarify",
+      "expected_reason": "missing_facts"
+    },
+    {
+      "message": "Tell me the section. 1 January 2024",
+      "expected_kind": "clarify",
+      "expected_reason": "missing_facts"
+    },
+    {
+      "message": "Tell me the section. 15 March 2024",
+      "expected_kind": "clarify",
+      "expected_reason": "missing_facts"
+    },
+    {
+      "message": "Tell me the section. 25 June 2024",
+      "expected_kind": "clarify",
+      "expected_reason": "missing_facts"
+    },
+    {
+      "message": "Which law applies? 1 January 2024",
+      "expected_kind": "clarify",
+      "expected_reason": "missing_facts"
+    },
+    {
+      "message": "Which law applies? 15 March 2024",
+      "expected_kind": "clarify",
+      "expected_reason": "missing_facts"
+    },
+    {
+      "message": "Which law applies? 25 June 2024",
+      "expected_kind": "clarify",
+      "expected_reason": "missing_facts"
+    },
+    {
+      "message": "Help. 1 January 2024",
+      "expected_kind": "clarify",
+      "expected_reason": "missing_facts"
+    },
+    {
+      "message": "Help. 15 March 2024",
+      "expected_kind": "clarify",
+      "expected_reason": "missing_facts"
+    },
+    {
+      "message": "Help. 25 June 2024",
+      "expected_kind": "clarify",
+      "expected_reason": "missing_facts"
+    },
+    {
+      "message": "Which section? 2024-07-01",
+      "expected_kind": "clarify",
+      "expected_reason": "missing_date",
+      "note": "Stage 1 does not parse ISO dates; missing_facts gate never runs"
+    },
+    {
+      "message": "Tell me the law 2024-07-01",
+      "expected_kind": "clarify",
+      "expected_reason": "missing_date",
+      "note": "Stage 1 does not parse ISO dates; missing_facts gate never runs"
+    },
+    {
+      "message": "What applies? 2024-07-01",
+      "expected_kind": "clarify",
+      "expected_reason": "missing_date",
+      "note": "Stage 1 does not parse ISO dates; missing_facts gate never runs"
+    }
+  ]
+}

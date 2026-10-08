@@ -1,0 +1,1152 @@
+{
+  "written_at": "2026-10-08T17:47:32",
+  "elapsed_sec": 22.1,
+  "bif85_labeled": {
+    "date_suffix": " 25 June 2024",
+    "corpus_act": "IPC",
+    "margin": 0.1,
+    "expected_count": 48,
+    "actual_count": 48,
+    "n": 85,
+    "questions": [
+      {
+        "i": 0,
+        "id": "nyaya_eval_000001",
+        "status": "mapping",
+        "n_options": 1,
+        "top_sections": [
+          "302",
+          "303",
+          "304",
+          "115"
+        ]
+      },
+      {
+        "i": 1,
+        "id": "nyaya_eval_000002",
+        "status": "bifurcation",
+        "n_options": 4,
+        "top_sections": [
+          "304B",
+          "108A",
+          "147",
+          "4"
+        ]
+      },
+      {
+        "i": 2,
+        "id": "nyaya_eval_000003",
+        "status": "bifurcation",
+        "n_options": 2,
+        "top_sections": [
+          "216B",
+          "75",
+          "108A",
+          "2"
+        ]
+      },
+      {
+        "i": 3,
+        "id": "nyaya_eval_000004",
+        "status": "mapping",
+        "n_options": 1,
+        "top_sections": [
+          "417",
+          "419",
+          "497",
+          "418"
+        ]
+      },
+      {
+        "i": 4,
+        "id": "nyaya_eval_000005",
+        "status": "bifurcation",
+        "n_options": 4,
+        "top_sections": [
+          "423",
+          "405",
+          "252",
+          "250"
+        ]
+      },
+      {
+        "i": 5,
+        "id": "nyaya_eval_000006",
+        "status": "bifurcation",
+        "n_options": 3,
+        "top_sections": [
+          "379A",
+          "378",
+          "379B",
+          "105"
+        ]
+      },
+      {
+        "i": 6,
+        "id": "nyaya_eval_000007",
+        "status": "mapping",
+        "n_options": 1,
+        "top_sections": [
+          "379",
+          "511",
+          "393",
+          "382"
+        ]
+      },
+      {
+        "i": 7,
+        "id": "nyaya_eval_000009",
+        "status": "bifurcation",
+        "n_options": 3,
+        "top_sections": [
+          "337",
+          "304",
+          "336",
+          "279"
+        ]
+      },
+      {
+        "i": 8,
+        "id": "nyaya_eval_000010",
+        "status": "mapping",
+        "n_options": 1,
+        "top_sections": [
+          "279",
+          "337",
+          "336",
+          "323"
+        ]
+      },
+      {
+        "i": 9,
+        "id": "nyaya_eval_000011",
+        "status": "mapping",
+        "n_options": 1,
+        "top_sections": [
+          "401",
+          "341",
+          "120A",
+          "400"
+        ]
+      },
+      {
+        "i": 10,
+        "id": "nyaya_eval_000012",
+        "status": "mapping",
+        "n_options": 1,
+        "top_sections": [
+          "401",
+          "120A",
+          "341",
+          "121A"
+        ]
+      },
+      {
+        "i": 11,
+        "id": "nyaya_eval_000013",
+        "status": "bifurcation",
+        "n_options": 4,
+        "top_sections": [
+          "4",
+          "121A",
+          "108A",
+          "1"
+        ]
+      },
+      {
+        "i": 12,
+        "id": "nyaya_eval_000014",
+        "status": "bifurcation",
+        "n_options": 2,
+        "top_sections": [
+          "497",
+          "493",
+          "496",
+          "354A"
+        ]
+      },
+      {
+        "i": 13,
+        "id": "nyaya_eval_000015",
+        "status": "mapping",
+        "n_options": 1,
+        "top_sections": [
+          "498A",
+          "304B",
+          "366",
+          "498"
+        ]
+      },
+      {
+        "i": 14,
+        "id": "nyaya_eval_000016",
+        "status": "mapping",
+        "n_options": 1,
+        "top_sections": [
+          "304B",
+          "314",
+          "345",
+          "302"
+        ]
+      },
+      {
+        "i": 15,
+        "id": "nyaya_eval_000017",
+        "status": "bifurcation",
+        "n_options": 2,
+        "top_sections": [
+          "376",
+          "376AB",
+          "376DB",
+          "375"
+        ]
+      },
+      {
+        "i": 16,
+        "id": "nyaya_eval_000018",
+        "status": "bifurcation",
+        "n_options": 3,
+        "top_sections": [
+          "376DB",
+          "376DA",
+          "376",
+          "366A"
+        ]
+      },
+      {
+        "i": 17,
+        "id": "nyaya_eval_000019",
+        "status": "mapping",
+        "n_options": 1,
+        "top_sections": [
+          "354A",
+          "509",
+          "504",
+          "228"
+        ]
+      },
+      {
+        "i": 18,
+        "id": "nyaya_eval_000020",
+        "status": "mapping",
+        "n_options": 1,
+        "top_sections": [
+          "354C",
+          "458",
+          "456",
+          "443"
+        ]
+      },
+      {
+        "i": 19,
+        "id": "nyaya_eval_000021",
+        "status": "bifurcation",
+        "n_options": 4,
+        "top_sections": [
+          "354D",
+          "444",
+          "507",
+          "458"
+        ]
+      },
+      {
+        "i": 20,
+        "id": "nyaya_eval_000022",
+        "status": "bifurcation",
+        "n_options": 2,
+        "top_sections": [
+          "354",
+          "354B",
+          "509",
+          "355"
+        ]
+      },
+      {
+        "i": 21,
+        "id": "nyaya_eval_000023",
+        "status": "mapping",
+        "n_options": 1,
+        "top_sections": [
+          "509",
+          "354",
+          "294",
+          "354A"
+        ]
+      },
+      {
+        "i": 22,
+        "id": "nyaya_eval_000024",
+        "status": "bifurcation",
+        "n_options": 4,
+        "top_sections": [
+          "302",
+          "307",
+          "308",
+          "304"
+        ]
+      },
+      {
+        "i": 23,
+        "id": "nyaya_eval_000025",
+        "status": "bifurcation",
+        "n_options": 4,
+        "top_sections": [
+          "334",
+          "358",
+          "355",
+          "335"
+        ]
+      },
+      {
+        "i": 24,
+        "id": "nyaya_eval_000027",
+        "status": "bifurcation",
+        "n_options": 4,
+        "top_sections": [
+          "359",
+          "365",
+          "367",
+          "360"
+        ]
+      },
+      {
+        "i": 25,
+        "id": "nyaya_eval_000028",
+        "status": "bifurcation",
+        "n_options": 2,
+        "top_sections": [
+          "506",
+          "503",
+          "355",
+          "358"
+        ]
+      },
+      {
+        "i": 26,
+        "id": "nyaya_eval_000029",
+        "status": "bifurcation",
+        "n_options": 4,
+        "top_sections": [
+          "354A",
+          "507",
+          "500",
+          "354B"
+        ]
+      },
+      {
+        "i": 27,
+        "id": "nyaya_eval_000030",
+        "status": "bifurcation",
+        "n_options": 3,
+        "top_sections": [
+          "405",
+          "169",
+          "215",
+          "421"
+        ]
+      },
+      {
+        "i": 28,
+        "id": "nyaya_eval_000031",
+        "status": "bifurcation",
+        "n_options": 2,
+        "top_sections": [
+          "392",
+          "393",
+          "397",
+          "398"
+        ]
+      },
+      {
+        "i": 29,
+        "id": "nyaya_eval_000032",
+        "status": "bifurcation",
+        "n_options": 2,
+        "top_sections": [
+          "34",
+          "35",
+          "38",
+          "120A"
+        ]
+      },
+      {
+        "i": 30,
+        "id": "nyaya_eval_000033",
+        "status": "bifurcation",
+        "n_options": 2,
+        "top_sections": [
+          "82",
+          "83",
+          "6",
+          "348"
+        ]
+      },
+      {
+        "i": 31,
+        "id": "nyaya_eval_000035",
+        "status": "mapping",
+        "n_options": 1,
+        "top_sections": [
+          "309",
+          "306",
+          "305",
+          "336"
+        ]
+      },
+      {
+        "i": 32,
+        "id": "nyaya_eval_000037",
+        "status": "mapping",
+        "n_options": 1,
+        "top_sections": [
+          "121A",
+          "120B",
+          "120A",
+          "109"
+        ]
+      },
+      {
+        "i": 33,
+        "id": "nyaya_eval_000038",
+        "status": "mapping",
+        "n_options": 1,
+        "top_sections": [
+          "153A",
+          "167",
+          "296",
+          "153B"
+        ]
+      },
+      {
+        "i": 34,
+        "id": "nyaya_eval_000045",
+        "status": "bifurcation",
+        "n_options": 3,
+        "top_sections": [
+          "148",
+          "396",
+          "117",
+          "144"
+        ]
+      },
+      {
+        "i": 35,
+        "id": "nyaya_eval_000047",
+        "status": "mapping",
+        "n_options": 1,
+        "top_sections": [
+          "415",
+          "215",
+          "420",
+          "171B"
+        ]
+      },
+      {
+        "i": 36,
+        "id": "nyaya_eval_000048",
+        "status": "mapping",
+        "n_options": 1,
+        "top_sections": [
+          "354A",
+          "376B",
+          "376",
+          "498A"
+        ]
+      },
+      {
+        "i": 37,
+        "id": "nyaya_eval_000049",
+        "status": "bifurcation",
+        "n_options": 4,
+        "top_sections": [
+          "501",
+          "354",
+          "509",
+          "354C"
+        ]
+      },
+      {
+        "i": 38,
+        "id": "nyaya_eval_000050",
+        "status": "bifurcation",
+        "n_options": 2,
+        "top_sections": [
+          "480",
+          "174A",
+          "138A",
+          "13"
+        ]
+      },
+      {
+        "i": 39,
+        "id": "nyaya_eval_000056",
+        "status": "bifurcation",
+        "n_options": 3,
+        "top_sections": [
+          "486",
+          "241",
+          "239",
+          "127"
+        ]
+      },
+      {
+        "i": 40,
+        "id": "nyaya_eval_000060",
+        "status": "mapping",
+        "n_options": 1,
+        "top_sections": [
+          "379",
+          "410",
+          "381",
+          "215"
+        ]
+      },
+      {
+        "i": 41,
+        "id": "nyaya_eval_000063",
+        "status": "bifurcation",
+        "n_options": 4,
+        "top_sections": [
+          "115",
+          "401",
+          "396",
+          "302"
+        ]
+      },
+      {
+        "i": 42,
+        "id": "nyaya_eval_000065",
+        "status": "bifurcation",
+        "n_options": 2,
+        "top_sections": [
+          "379B",
+          "379A",
+          "369",
+          "365"
+        ]
+      },
+      {
+        "i": 43,
+        "id": "nyaya_eval_000066",
+        "status": "mapping",
+        "n_options": 1,
+        "top_sections": [
+          "498A",
+          "354",
+          "344",
+          "354B"
+        ]
+      },
+      {
+        "i": 44,
+        "id": "nyaya_eval_000068",
+        "status": "bifurcation",
+        "n_options": 4,
+        "top_sections": [
+          "388",
+          "330",
+          "389",
+          "384"
+        ]
+      },
+      {
+        "i": 45,
+        "id": "nyaya_eval_000069",
+        "status": "mapping",
+        "n_options": 1,
+        "top_sections": [
+          "115",
+          "304B",
+          "302",
+          "303"
+        ]
+      },
+      {
+        "i": 46,
+        "id": "nyaya_eval_000071",
+        "status": "bifurcation",
+        "n_options": 3,
+        "top_sections": [
+          "466",
+          "59",
+          "58",
+          "226"
+        ]
+      },
+      {
+        "i": 47,
+        "id": "nyaya_eval_000072",
+        "status": "bifurcation",
+        "n_options": 4,
+        "top_sections": [
+          "446",
+          "74",
+          "18",
+          "49"
+        ]
+      },
+      {
+        "i": 48,
+        "id": "nyaya_eval_000073",
+        "status": "mapping",
+        "n_options": 1,
+        "top_sections": [
+          "176",
+          "228A",
+          "172",
+          "187"
+        ]
+      },
+      {
+        "i": 49,
+        "id": "nyaya_eval_000074",
+        "status": "bifurcation",
+        "n_options": 2,
+        "top_sections": [
+          "171H",
+          "175",
+          "171I",
+          "30"
+        ]
+      },
+      {
+        "i": 50,
+        "id": "nyaya_eval_000075",
+        "status": "mapping",
+        "n_options": 1,
+        "top_sections": [
+          "176",
+          "179",
+          "182",
+          "180"
+        ]
+      },
+      {
+        "i": 51,
+        "id": "nyaya_eval_000076",
+        "status": "mapping",
+        "n_options": 1,
+        "top_sections": [
+          "176",
+          "202",
+          "226",
+          "104"
+        ]
+      },
+      {
+        "i": 52,
+        "id": "nyaya_eval_000079",
+        "status": "mapping",
+        "n_options": 1,
+        "top_sections": [
+          "229A",
+          "105",
+          "102",
+          "225"
+        ]
+      },
+      {
+        "i": 53,
+        "id": "nyaya_eval_000080",
+        "status": "bifurcation",
+        "n_options": 3,
+        "top_sections": [
+          "229A",
+          "73",
+          "74",
+          "69"
+        ]
+      },
+      {
+        "i": 54,
+        "id": "nyaya_eval_000081",
+        "status": "bifurcation",
+        "n_options": 2,
+        "top_sections": [
+          "73",
+          "74",
+          "216",
+          "223"
+        ]
+      },
+      {
+        "i": 55,
+        "id": "nyaya_eval_000082",
+        "status": "bifurcation",
+        "n_options": 2,
+        "top_sections": [
+          "69",
+          "70",
+          "229A",
+          "211"
+        ]
+      },
+      {
+        "i": 56,
+        "id": "nyaya_eval_000083",
+        "status": "mapping",
+        "n_options": 1,
+        "top_sections": [
+          "78",
+          "70",
+          "105",
+          "72"
+        ]
+      },
+      {
+        "i": 57,
+        "id": "nyaya_eval_000084",
+        "status": "bifurcation",
+        "n_options": 2,
+        "top_sections": [
+          "176",
+          "228A",
+          "202",
+          "182"
+        ]
+      },
+      {
+        "i": 58,
+        "id": "nyaya_eval_000085",
+        "status": "mapping",
+        "n_options": 1,
+        "top_sections": [
+          "176",
+          "444",
+          "457",
+          "202"
+        ]
+      },
+      {
+        "i": 59,
+        "id": "nyaya_eval_000086",
+        "status": "mapping",
+        "n_options": 1,
+        "top_sections": [
+          "291",
+          "13",
+          "490",
+          "492"
+        ]
+      },
+      {
+        "i": 60,
+        "id": "nyaya_eval_000087",
+        "status": "mapping",
+        "n_options": 1,
+        "top_sections": [
+          "491",
+          "317",
+          "305",
+          "89"
+        ]
+      },
+      {
+        "i": 61,
+        "id": "nyaya_eval_000088",
+        "status": "mapping",
+        "n_options": 1,
+        "top_sections": [
+          "229A",
+          "69",
+          "74",
+          "105"
+        ]
+      },
+      {
+        "i": 62,
+        "id": "nyaya_eval_000089",
+        "status": "bifurcation",
+        "n_options": 2,
+        "top_sections": [
+          "179",
+          "102",
+          "182",
+          "190"
+        ]
+      },
+      {
+        "i": 63,
+        "id": "nyaya_eval_000093",
+        "status": "mapping",
+        "n_options": 1,
+        "top_sections": [
+          "171H",
+          "63",
+          "211",
+          "69"
+        ]
+      },
+      {
+        "i": 64,
+        "id": "nyaya_eval_000097",
+        "status": "mapping",
+        "n_options": 1,
+        "top_sections": [
+          "176",
+          "202",
+          "29A",
+          "182"
+        ]
+      },
+      {
+        "i": 65,
+        "id": "nyaya_eval_000113",
+        "status": "mapping",
+        "n_options": 1,
+        "top_sections": [
+          "226",
+          "216B",
+          "61",
+          "366B"
+        ]
+      },
+      {
+        "i": 66,
+        "id": "nyaya_eval_000122",
+        "status": "bifurcation",
+        "n_options": 2,
+        "top_sections": [
+          "40",
+          "18",
+          "42",
+          "1"
+        ]
+      },
+      {
+        "i": 67,
+        "id": "nyaya_eval_000127",
+        "status": "mapping",
+        "n_options": 1,
+        "top_sections": [
+          "211",
+          "40",
+          "75",
+          "72"
+        ]
+      },
+      {
+        "i": 68,
+        "id": "nyaya_eval_000134",
+        "status": "bifurcation",
+        "n_options": 3,
+        "top_sections": [
+          "74",
+          "444",
+          "102",
+          "180"
+        ]
+      },
+      {
+        "i": 69,
+        "id": "nyaya_eval_000138",
+        "status": "bifurcation",
+        "n_options": 2,
+        "top_sections": [
+          "444",
+          "176",
+          "443",
+          "105"
+        ]
+      },
+      {
+        "i": 70,
+        "id": "nyaya_eval_000139",
+        "status": "bifurcation",
+        "n_options": 2,
+        "top_sections": [
+          "500",
+          "507",
+          "153",
+          "505"
+        ]
+      },
+      {
+        "i": 71,
+        "id": "nyaya_eval_000142",
+        "status": "mapping",
+        "n_options": 1,
+        "top_sections": [
+          "93",
+          "354D",
+          "507",
+          "29A"
+        ]
+      },
+      {
+        "i": 72,
+        "id": "nyaya_eval_000143",
+        "status": "bifurcation",
+        "n_options": 2,
+        "top_sections": [
+          "198",
+          "197",
+          "29A",
+          "470"
+        ]
+      },
+      {
+        "i": 73,
+        "id": "nyaya_eval_000144",
+        "status": "bifurcation",
+        "n_options": 2,
+        "top_sections": [
+          "414",
+          "105",
+          "354C",
+          "356"
+        ]
+      },
+      {
+        "i": 74,
+        "id": "nyaya_eval_000145",
+        "status": "bifurcation",
+        "n_options": 2,
+        "top_sections": [
+          "53",
+          "174A",
+          "302",
+          "180"
+        ]
+      },
+      {
+        "i": 75,
+        "id": "nyaya_eval_000146",
+        "status": "bifurcation",
+        "n_options": 4,
+        "top_sections": [
+          "52",
+          "74",
+          "179",
+          "26"
+        ]
+      },
+      {
+        "i": 76,
+        "id": "nyaya_eval_000153",
+        "status": "mapping",
+        "n_options": 1,
+        "top_sections": [
+          "29A",
+          "470",
+          "9",
+          "172"
+        ]
+      },
+      {
+        "i": 77,
+        "id": "nyaya_eval_000158",
+        "status": "bifurcation",
+        "n_options": 2,
+        "top_sections": [
+          "192",
+          "209",
+          "196",
+          "199"
+        ]
+      },
+      {
+        "i": 78,
+        "id": "nyaya_eval_000172",
+        "status": "bifurcation",
+        "n_options": 2,
+        "top_sections": [
+          "444",
+          "56",
+          "49",
+          "18"
+        ]
+      },
+      {
+        "i": 79,
+        "id": "nyaya_eval_000176",
+        "status": "mapping",
+        "n_options": 1,
+        "top_sections": [
+          "26",
+          "196",
+          "52",
+          "191"
+        ]
+      },
+      {
+        "i": 80,
+        "id": "nyaya_eval_000177",
+        "status": "bifurcation",
+        "n_options": 4,
+        "top_sections": [
+          "96",
+          "192",
+          "28",
+          "201"
+        ]
+      },
+      {
+        "i": 81,
+        "id": "nyaya_eval_000179",
+        "status": "bifurcation",
+        "n_options": 3,
+        "top_sections": [
+          "309",
+          "305",
+          "306",
+          "336"
+        ]
+      },
+      {
+        "i": 82,
+        "id": "nyaya_eval_000486",
+        "status": "bifurcation",
+        "n_options": 3,
+        "top_sections": [
+          "182",
+          "226",
+          "505",
+          "176"
+        ]
+      },
+      {
+        "i": 83,
+        "id": "nyaya_eval_000490",
+        "status": "mapping",
+        "n_options": 1,
+        "top_sections": [
+          "229A",
+          "105",
+          "102",
+          "446"
+        ]
+      },
+      {
+        "i": 84,
+        "id": "nyaya_eval_000494",
+        "status": "mapping",
+        "n_options": 1,
+        "top_sections": [
+          "49",
+          "1",
+          "74",
+          "18"
+        ]
+      }
+    ],
+    "note": "Per-question statuses from this run (labelled single-citation 85). Expected aggregate is 48 in scripts/regression/expectations.json."
+  },
+  "bif85_first85": {
+    "count": 52,
+    "n": 85,
+    "last_count": 52,
+    "asserted": false
+  },
+  "recall_paper": {
+    "recall_at_k": 0.8411949685534591,
+    "mrr": 0.6546907756813417,
+    "ndcg_at_k": 0.7016048324707717,
+    "n": 636,
+    "hits": 535
+  },
+  "recall_production": {
+    "recall": 0.8380503144654088,
+    "hits": 533,
+    "n": 636,
+    "note": "production act-aware path, 2 below the paper protocol; indexes 565 and 628 differ because of the year-as-section parse"
+  },
+  "summary": [
+    {
+      "check": "diagnosis_9",
+      "result": "PASS",
+      "detail": "9/9",
+      "expected": "9/9"
+    },
+    {
+      "check": "fact_free_30",
+      "result": "PASS",
+      "detail": "27 missing_facts + 3 missing_date (case_ok 30/30)",
+      "expected": "27 missing_facts + 3 missing_date"
+    },
+    {
+      "check": "false_block_285",
+      "result": "PASS",
+      "detail": "0/285 blocked",
+      "expected": "0/285 blocked",
+      "files": [
+        "scripts/regression/bif85_questions.json",
+        "scripts/regression/false_block_200.json",
+        "scripts/regression/false_block_sources.json"
+      ]
+    },
+    {
+      "check": "stage1_44",
+      "result": "PASS",
+      "detail": "44/44",
+      "expected": "44/44",
+      "lives_in": [
+        "results/stage1_real_eval.json",
+        "results/stage1_stress_test.json",
+        "data/clean/stage1_real_test_cases.json"
+      ]
+    },
+    {
+      "check": "recall_paper",
+      "result": "PASS",
+      "detail": "R=0.8412 MRR=0.6547 NDCG=0.7016 (535/636)",
+      "expected": "R=0.8412 MRR=0.6547 NDCG=0.7016 (535/636)"
+    },
+    {
+      "check": "recall_production",
+      "result": "PASS",
+      "detail": "0.8381 (533/636)",
+      "expected": "0.8381 (533/636)",
+      "note": "production act-aware path, 2 below the paper protocol; indexes 565 and 628 differ because of the year-as-section parse"
+    },
+    {
+      "check": "bif85_labeled",
+      "result": "PASS",
+      "detail": "48/85",
+      "expected": "48/85",
+      "diff": null,
+      "date_suffix": " 25 June 2024",
+      "corpus_act": "IPC",
+      "margin": 0.1
+    },
+    {
+      "check": "bif85_first85",
+      "result": "INFO",
+      "detail": "52/85",
+      "expected": "~52/85 (not asserted)",
+      "note": "Informational only: first 85 lines of nyaya_eval_filtered.jsonl (52 at the last count). Not a PASS/FAIL gate."
+    },
+    {
+      "check": "code_mismatch_6",
+      "result": "PASS",
+      "detail": "6/6",
+      "expected": "6/6"
+    },
+    {
+      "check": "section_lookup_7",
+      "result": "PASS",
+      "detail": "7/7",
+      "expected": "7/7"
+    },
+    {
+      "check": "date_conflict",
+      "result": "PASS",
+      "detail": "3/3 sequences",
+      "expected": "3/3 sequences"
+    },
+    {
+      "check": "rejected_options",
+      "result": "PASS",
+      "detail": "1/1",
+      "expected": "1/1"
+    },
+    {
+      "check": "quota_stub",
+      "result": "PASS",
+      "detail": "[5, 5, 5, 5, 4]",
+      "expected": "[5, 5, 5, 5, 4]",
+      "note": "In-process stub mirroring ChatEntry (decrement only on kind===mapping). Browser path: frontend/src/components/ChatEntry.tsx. No browser run."
+    }
+  ],
+  "mismatches_vs_log": []
+}

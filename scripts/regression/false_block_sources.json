@@ -1,0 +1,17 @@
+{
+  "description": "False-block gate test: 85 plain + 200 held-out = 285. Expect 0 missing_facts.",
+  "plain_85": {
+    "file": "scripts/regression/bif85_questions.json",
+    "date_suffix": " Offence date 25 June 2024.",
+    "n": 85
+  },
+  "held_out_200": {
+    "file": "scripts/regression/false_block_200.json",
+    "date_suffix": " Offence date 25 June 2024.",
+    "n": 200,
+    "source": "data/splits/test.jsonl",
+    "seed": 42
+  },
+  "total": 285,
+  "expected_blocked": 0
+}

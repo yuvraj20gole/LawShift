@@ -1,0 +1,84 @@
+{
+  "source": "PROCESS_LOG.md §§22–27 / §31 and CLAUDE.md §8; recall diagnosis Oct 2026",
+  "diagnosis_9": {
+    "pass_count": 9,
+    "total": 9
+  },
+  "fact_free_30": {
+    "missing_facts": 27,
+    "missing_date": 3,
+    "file": "scripts/regression/fact_free_30.json"
+  },
+  "false_block": {
+    "blocked": 0,
+    "total": 285,
+    "sources_file": "scripts/regression/false_block_sources.json"
+  },
+  "stage1": {
+    "pass_count": 44,
+    "total": 44,
+    "real_file": "results/stage1_real_eval.json",
+    "stress_file": "results/stage1_stress_test.json",
+    "real_cases_source": "data/clean/stage1_real_test_cases.json",
+    "note": "30 real + 14 adversarial; live re-run of extract_offense_date against stored ground truth in the results JSON files."
+  },
+  "recall_paper": {
+    "recall_at_5": 0.8412,
+    "mrr": 0.6547,
+    "ndcg_at_5": 0.7016,
+    "hits": 535,
+    "n": 636,
+    "test_file": "data/splits/test.jsonl",
+    "model_path": "models/finetuned-bge-small-ipc-bns-e8",
+    "tolerance": 0.00015,
+    "note": "Paper protocol: src/finetune_more.py build_cascade + evaluate_cascade (non–act-aware SECTION_PATTERN short-circuit on statutes.jsonl)."
+  },
+  "recall_production": {
+    "value": 0.8381,
+    "hits": 533,
+    "n": 636,
+    "test_file": "data/splits/test.jsonl",
+    "model_path": "models/finetuned-bge-small-ipc-bns-e8",
+    "tolerance": 0.00015,
+    "note": "production act-aware path, 2 below the paper protocol; indexes 565 and 628 differ because of the year-as-section parse"
+  },
+  "bif85_labeled": {
+    "expected_count": 48,
+    "n": 85,
+    "date_suffix": " 25 June 2024",
+    "corpus_act": "IPC",
+    "margin": 0.1,
+    "questions_file": "scripts/regression/bif85_questions.json",
+    "note": "Labelled single-citation subset of nyaya_eval_filtered.jsonl; date appended as \" 25 June 2024\", IPC, margin 0.10."
+  },
+  "bif85_first85_info": {
+    "last_count": 52,
+    "n": 85,
+    "source": "data/clean/nyaya_eval_filtered.jsonl",
+    "date_suffix": " 25 June 2024",
+    "corpus_act": "IPC",
+    "margin": 0.1,
+    "asserted": false,
+    "note": "Informational only: first 85 lines of nyaya_eval_filtered.jsonl (52 at the last count). Not a PASS/FAIL gate."
+  },
+  "code_mismatch": {
+    "pass_count": 6,
+    "total": 6,
+    "file": "scripts/regression/code_mismatch_6.json"
+  },
+  "section_lookup": {
+    "pass_count": 7,
+    "total": 7,
+    "file": "scripts/regression/section_lookup_7.json"
+  },
+  "date_conflict": {
+    "file": "scripts/regression/date_conflict_cases.json"
+  },
+  "rejected_options": {
+    "file": "scripts/regression/rejected_options_cases.json"
+  },
+  "quota_stub": {
+    "sequence": [5, 5, 5, 5, 4],
+    "note": "Mirrors frontend ChatEntry: only kind===mapping decrements. No browser. Logic also documented in frontend/src/components/ChatEntry.tsx."
+  }
+}

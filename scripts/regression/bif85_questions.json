@@ -1,0 +1,433 @@
+{
+  "description": "Single-citation subset of data/clean/nyaya_eval_filtered.jsonl (n=85), same labeling as src/eval_nyaya_external.py.",
+  "date_suffix": " 25 June 2024",
+  "corpus_act": "IPC",
+  "margin": 0.1,
+  "questions": [
+    {
+      "id": "nyaya_eval_000001",
+      "question": "What is the punishment for murder under current Indian law?",
+      "chunk_id": "BNS_103"
+    },
+    {
+      "id": "nyaya_eval_000002",
+      "question": "Does Indian law now have a specific provision for mob lynching?",
+      "chunk_id": "BNS_103"
+    },
+    {
+      "id": "nyaya_eval_000003",
+      "question": "Is sedition still a crime in India after the new criminal laws?",
+      "chunk_id": "BNS_152"
+    },
+    {
+      "id": "nyaya_eval_000004",
+      "question": "Which section of the new criminal code covers cheating?",
+      "chunk_id": "BNS_318"
+    },
+    {
+      "id": "nyaya_eval_000005",
+      "question": "Someone posing as a bank officer tricked my father into transferring Rs 2 lakh. What offences does this involve?",
+      "chunk_id": "BNS_318"
+    },
+    {
+      "id": "nyaya_eval_000006",
+      "question": "Is chain snatching treated differently from ordinary theft now?",
+      "chunk_id": "BNS_304"
+    },
+    {
+      "id": "nyaya_eval_000007",
+      "question": "What punishment does a first-time offender face for stealing something worth less than Rs 5,000?",
+      "chunk_id": "BNS_303"
+    },
+    {
+      "id": "nyaya_eval_000009",
+      "question": "A speeding car hit and killed a pedestrian, and the driver stopped and reported it to police. What is the maximum punishment?",
+      "chunk_id": "BNS_106"
+    },
+    {
+      "id": "nyaya_eval_000010",
+      "question": "Is the 10-year jail provision for hit-and-run drivers currently in force?",
+      "chunk_id": "BNS_106"
+    },
+    {
+      "id": "nyaya_eval_000011",
+      "question": "What is 'organised crime' under the new criminal law?",
+      "chunk_id": "BNS_111"
+    },
+    {
+      "id": "nyaya_eval_000012",
+      "question": "What is 'petty organised crime'?",
+      "chunk_id": "BNS_112"
+    },
+    {
+      "id": "nyaya_eval_000013",
+      "question": "Are terrorist acts now covered by the general criminal code?",
+      "chunk_id": "BNS_113"
+    },
+    {
+      "id": "nyaya_eval_000014",
+      "question": "A man had a sexual relationship with a woman by promising marriage he never intended. Is this an offence?",
+      "chunk_id": "BNS_69"
+    },
+    {
+      "id": "nyaya_eval_000015",
+      "question": "My in-laws harass me daily for dowry. Which criminal provision protects me?",
+      "chunk_id": "BNS_85"
+    },
+    {
+      "id": "nyaya_eval_000016",
+      "question": "What is a dowry death and its punishment under current law?",
+      "chunk_id": "BNS_80"
+    },
+    {
+      "id": "nyaya_eval_000017",
+      "question": "What is the minimum punishment for rape under the BNS?",
+      "chunk_id": "BNS_64"
+    },
+    {
+      "id": "nyaya_eval_000018",
+      "question": "What punishment does gang rape attract under current law?",
+      "chunk_id": "BNS_70"
+    },
+    {
+      "id": "nyaya_eval_000019",
+      "question": "A colleague keeps making sexually coloured remarks despite my objections. Is this a criminal offence?",
+      "chunk_id": "BNS_75"
+    },
+    {
+      "id": "nyaya_eval_000020",
+      "question": "Someone secretly filmed a woman in a changing room. What offence is this?",
+      "chunk_id": "BNS_77"
+    },
+    {
+      "id": "nyaya_eval_000021",
+      "question": "A man follows me home from work every day and messages me constantly despite my clear refusal. What can I do legally?",
+      "chunk_id": "BNS_78"
+    },
+    {
+      "id": "nyaya_eval_000022",
+      "question": "Which BNS section punishes assault on a woman with intent to outrage her modesty?",
+      "chunk_id": "BNS_74"
+    },
+    {
+      "id": "nyaya_eval_000023",
+      "question": "Is making obscene gestures or remarks at a woman on the street an offence?",
+      "chunk_id": "BNS_79"
+    },
+    {
+      "id": "nyaya_eval_000024",
+      "question": "What is the punishment for attempt to murder?",
+      "chunk_id": "BNS_109"
+    },
+    {
+      "id": "nyaya_eval_000025",
+      "question": "My neighbour slapped me during an argument. What offence is this and what is the punishment?",
+      "chunk_id": "BNS_115"
+    },
+    {
+      "id": "nyaya_eval_000027",
+      "question": "Which provision covers kidnapping under the new criminal code?",
+      "chunk_id": "BNS_137"
+    },
+    {
+      "id": "nyaya_eval_000028",
+      "question": "Someone is threatening to kill me over a property dispute. What offence is this?",
+      "chunk_id": "BNS_351"
+    },
+    {
+      "id": "nyaya_eval_000029",
+      "question": "Can I be jailed for defaming someone on social media?",
+      "chunk_id": "BNS_356"
+    },
+    {
+      "id": "nyaya_eval_000030",
+      "question": "My business partner refuses to return money I entrusted to him for a specific purpose and has used it himself. What offence is this?",
+      "chunk_id": "BNS_316"
+    },
+    {
+      "id": "nyaya_eval_000031",
+      "question": "What is the punishment for robbery?",
+      "chunk_id": "BNS_309"
+    },
+    {
+      "id": "nyaya_eval_000032",
+      "question": "What does 'common intention' mean in criminal law?",
+      "chunk_id": "BNS_3"
+    },
+    {
+      "id": "nyaya_eval_000033",
+      "question": "Can a 6-year-old child be prosecuted for a crime?",
+      "chunk_id": "BNS_20"
+    },
+    {
+      "id": "nyaya_eval_000035",
+      "question": "Is attempting suicide a crime in India now?",
+      "chunk_id": "BNS_226"
+    },
+    {
+      "id": "nyaya_eval_000037",
+      "question": "What is criminal conspiracy under the BNS?",
+      "chunk_id": "BNS_61"
+    },
+    {
+      "id": "nyaya_eval_000038",
+      "question": "Which provision punishes promoting enmity between religious groups?",
+      "chunk_id": "BNS_196"
+    },
+    {
+      "id": "nyaya_eval_000045",
+      "question": "A mob of six people beat a man to death over suspected cattle theft, targeting him because of his community. What charge applies?",
+      "chunk_id": "BNS_103"
+    },
+    {
+      "id": "nyaya_eval_000047",
+      "question": "A fake astrologer took Rs 50,000 from my mother promising to cure my father's illness. Is this a crime?",
+      "chunk_id": "BNS_318"
+    },
+    {
+      "id": "nyaya_eval_000048",
+      "question": "What is the punishment for sexual harassment under the BNS?",
+      "chunk_id": "BNS_75"
+    },
+    {
+      "id": "nyaya_eval_000049",
+      "question": "Someone morphed my sister's photo obscenely and is threatening to post it unless she pays. What offences are involved?",
+      "chunk_id": "BNS_308"
+    },
+    {
+      "id": "nyaya_eval_000050",
+      "question": "Which BNS provision replaced IPC Section 302, and does the section number 302 mean anything in the BNS?",
+      "chunk_id": "BNS_103"
+    },
+    {
+      "id": "nyaya_eval_000056",
+      "question": "An online seller took full payment and never shipped, and now ignores all messages. Criminal or civil?",
+      "chunk_id": "BNS_318"
+    },
+    {
+      "id": "nyaya_eval_000060",
+      "question": "My domestic worker was caught stealing Rs 2,000, admitted it and returned the money. Will she go to jail?",
+      "chunk_id": "BNS_303"
+    },
+    {
+      "id": "nyaya_eval_000063",
+      "question": "What is 'organised crime' punishment if it results in someone's death?",
+      "chunk_id": "BNS_111"
+    },
+    {
+      "id": "nyaya_eval_000065",
+      "question": "The BNS punishes 'snatching' — what exactly must the prosecution show?",
+      "chunk_id": "BNS_304"
+    },
+    {
+      "id": "nyaya_eval_000066",
+      "question": "Can a woman be prosecuted for cruelty under Section 85 BNS?",
+      "chunk_id": "BNS_85"
+    },
+    {
+      "id": "nyaya_eval_000068",
+      "question": "Someone hacked my phone and is blackmailing me with private photos, demanding money. What should I do first?",
+      "chunk_id": "BNS_308"
+    },
+    {
+      "id": "nyaya_eval_000069",
+      "question": "Is honour killing treated specially under the BNS?",
+      "chunk_id": "BNS_103"
+    },
+    {
+      "id": "nyaya_eval_000071",
+      "question": "Which provision governs FIR registration under the new criminal procedure law?",
+      "chunk_id": "BNSS_173"
+    },
+    {
+      "id": "nyaya_eval_000072",
+      "question": "What is a Zero FIR?",
+      "chunk_id": "BNSS_173"
+    },
+    {
+      "id": "nyaya_eval_000073",
+      "question": "Can I file an FIR online without going to the police station?",
+      "chunk_id": "BNSS_173"
+    },
+    {
+      "id": "nyaya_eval_000074",
+      "question": "Am I entitled to a copy of the FIR I filed, and does it cost anything?",
+      "chunk_id": "BNSS_173"
+    },
+    {
+      "id": "nyaya_eval_000075",
+      "question": "The police station is refusing to register my FIR for a cognizable offence. What are my remedies?",
+      "chunk_id": "BNSS_173"
+    },
+    {
+      "id": "nyaya_eval_000076",
+      "question": "For minor offences, can police just send me a notice instead of arresting me?",
+      "chunk_id": "BNSS_35"
+    },
+    {
+      "id": "nyaya_eval_000079",
+      "question": "What is anticipatory bail and which provision governs it now?",
+      "chunk_id": "BNSS_482"
+    },
+    {
+      "id": "nyaya_eval_000080",
+      "question": "How long can an undertrial prisoner be kept in jail before they must be released on bail?",
+      "chunk_id": "BNSS_479"
+    },
+    {
+      "id": "nyaya_eval_000081",
+      "question": "My brother, never convicted before, has spent 14 months in jail as an undertrial for an offence with a maximum sentence of 3 years. Can he get out?",
+      "chunk_id": "BNSS_479"
+    },
+    {
+      "id": "nyaya_eval_000082",
+      "question": "Within how many days must charges be framed after the first hearing?",
+      "chunk_id": "BNSS_251"
+    },
+    {
+      "id": "nyaya_eval_000083",
+      "question": "How soon must a court deliver judgment after a criminal trial ends?",
+      "chunk_id": "BNSS_258"
+    },
+    {
+      "id": "nyaya_eval_000084",
+      "question": "As a victim, am I entitled to know what is happening in the police investigation?",
+      "chunk_id": "BNSS_193"
+    },
+    {
+      "id": "nyaya_eval_000085",
+      "question": "Are police required to video-record searches of my house?",
+      "chunk_id": "BNSS_105"
+    },
+    {
+      "id": "nyaya_eval_000086",
+      "question": "Who can claim maintenance under Section 144 BNSS?",
+      "chunk_id": "BNSS_144"
+    },
+    {
+      "id": "nyaya_eval_000087",
+      "question": "My elderly parents' son refuses to support them. Do they have a quick legal remedy?",
+      "chunk_id": "BNSS_144"
+    },
+    {
+      "id": "nyaya_eval_000088",
+      "question": "What is the difference between bail, anticipatory bail and interim bail?",
+      "chunk_id": "BNSS_482"
+    },
+    {
+      "id": "nyaya_eval_000089",
+      "question": "Police want to question me but I fear arrest in a false case. What can I do in advance?",
+      "chunk_id": "BNSS_482"
+    },
+    {
+      "id": "nyaya_eval_000093",
+      "question": "What is a chargesheet?",
+      "chunk_id": "BNSS_193"
+    },
+    {
+      "id": "nyaya_eval_000097",
+      "question": "The police took my phone during a search. Do they have to give me any record of it?",
+      "chunk_id": "BNSS_105"
+    },
+    {
+      "id": "nyaya_eval_000113",
+      "question": "What is Section 163 BNSS (the old Section 144 CrPC) used for?",
+      "chunk_id": "BNSS_163"
+    },
+    {
+      "id": "nyaya_eval_000122",
+      "question": "My complaint is about an offence that happened in another state. Can I still report it here?",
+      "chunk_id": "BNSS_173"
+    },
+    {
+      "id": "nyaya_eval_000127",
+      "question": "What is a 'charge' in a criminal trial and why does it matter?",
+      "chunk_id": "BNSS_251"
+    },
+    {
+      "id": "nyaya_eval_000134",
+      "question": "What is a preliminary enquiry before FIR registration, and when is it allowed?",
+      "chunk_id": "BNSS_173"
+    },
+    {
+      "id": "nyaya_eval_000138",
+      "question": "Can police search my house without a warrant?",
+      "chunk_id": "BNSS_105"
+    },
+    {
+      "id": "nyaya_eval_000139",
+      "question": "Can police arrest me for a non-cognizable offence like simple defamation?",
+      "chunk_id": "BNSS_35"
+    },
+    {
+      "id": "nyaya_eval_000142",
+      "question": "Are WhatsApp chats admissible as evidence in court?",
+      "chunk_id": "BSA_63"
+    },
+    {
+      "id": "nyaya_eval_000143",
+      "question": "What replaced the Section 65B certificate for electronic evidence?",
+      "chunk_id": "BSA_63"
+    },
+    {
+      "id": "nyaya_eval_000144",
+      "question": "I have CCTV footage of the theft at my shop. How do I make it usable in court?",
+      "chunk_id": "BSA_63"
+    },
+    {
+      "id": "nyaya_eval_000145",
+      "question": "What is a dying declaration and is it enough to convict someone?",
+      "chunk_id": "BSA_26"
+    },
+    {
+      "id": "nyaya_eval_000146",
+      "question": "Is a confession made to a police officer valid evidence?",
+      "chunk_id": "BSA_23"
+    },
+    {
+      "id": "nyaya_eval_000153",
+      "question": "Are call detail records (CDRs) admissible evidence?",
+      "chunk_id": "BSA_63"
+    },
+    {
+      "id": "nyaya_eval_000158",
+      "question": "The accused's lawyer says my screenshot is fabricated. How does the court decide?",
+      "chunk_id": "BSA_63"
+    },
+    {
+      "id": "nyaya_eval_000172",
+      "question": "Are Google Maps location history or Aadhaar authentication logs usable in court?",
+      "chunk_id": "BSA_63"
+    },
+    {
+      "id": "nyaya_eval_000176",
+      "question": "Is hearsay evidence allowed?",
+      "chunk_id": "BSA_26"
+    },
+    {
+      "id": "nyaya_eval_000177",
+      "question": "My accused brother-in-law's phone had photos of the stolen jewellery. What evidentiary principle applies?",
+      "chunk_id": "BSA_63"
+    },
+    {
+      "id": "nyaya_eval_000179",
+      "question": "What is the evidentiary status of a suicide note?",
+      "chunk_id": "BSA_26"
+    },
+    {
+      "id": "nyaya_eval_000486",
+      "question": "Police FIR nahi likh rahi, bol rahe hain 'civil matter hai'. Kya karu?",
+      "chunk_id": "BNSS_173"
+    },
+    {
+      "id": "nyaya_eval_000490",
+      "question": "Anticipatory bail kya hoti hai aur kab leni chahiye?",
+      "chunk_id": "BNSS_482"
+    },
+    {
+      "id": "nyaya_eval_000494",
+      "question": "Zero FIR ka matlab kya hai?",
+      "chunk_id": "BNSS_173"
+    }
+  ]
+}

@@ -1,0 +1,808 @@
+{
+  "description": "200 held-out questions from data/splits/test.jsonl (random.sample seed=42).",
+  "source": "data/splits/test.jsonl",
+  "seed": 42,
+  "date_suffix": " Offence date 25 June 2024.",
+  "questions": [
+    {
+      "chunk_id": "BNS_225",
+      "question": "A shopkeeper tells a loiterer, \"If you don't leave my store, I'm calling the police to have you trespassed.\" Is the shopkeeper guilty of threatening the loiterer under Section 225?"
+    },
+    {
+      "chunk_id": "BSA_160",
+      "question": "Can a witness use a diary entry they wrote five years *after* the event to corroborate their current testimony?"
+    },
+    {
+      "chunk_id": "BNSS_435",
+      "question": "A man is convicted of fraud and sentenced to 5 years in prison. He files an appeal, but dies of a heart attack in jail. His daughter wants to continue the appeal to prove his innocence and clear the family's honor. Can she do this?"
+    },
+    {
+      "chunk_id": "BNS_303",
+      "question": "A person owes money to a watch repairman. The repairman lawfully retains the watch as security for the debt. The person sneaks into the shop and takes his own watch back without paying, to deprive the repairman of his security. Has he committed theft?"
+    },
+    {
+      "chunk_id": "BNS_90",
+      "question": "What are the two distinct sentencing tiers for causing maternal death during a miscarriage attempt?"
+    },
+    {
+      "chunk_id": "BNSS_100",
+      "question": "An officer executes a search warrant for a kidnapped child, finds the child, and immediately takes them back to their parents. Did the officer follow the exact procedure?"
+    },
+    {
+      "chunk_id": "BSA_92",
+      "question": "What practical evidentiary barrier does this rule overcome in historical property or contract disputes?"
+    },
+    {
+      "chunk_id": "BNS_251",
+      "question": "What is the penalty for offering someone a bribe to hide a crime or protect a criminal?"
+    },
+    {
+      "chunk_id": "BNSS_50",
+      "question": "A private citizen makes a lawful arrest under Section 40 and disarms the suspect of a knife. The citizen decides to keep the knife. Is this lawful?"
+    },
+    {
+      "chunk_id": "BNS_181",
+      "question": "A mechanic is hired by a criminal gang to build a custom printing press plate that looks exactly like a 500-rupee note. Even though he hasn't printed any money yet, what is his maximum penalty?"
+    },
+    {
+      "chunk_id": "BNSS_515",
+      "question": "When exactly does the \"clock start ticking\" on the time limit to prosecute a crime?"
+    },
+    {
+      "chunk_id": "BNSS_369",
+      "question": "Can the Magistrate totally discharge the accused (let them go completely) instead of just giving them bail or sending them to a facility?"
+    },
+    {
+      "chunk_id": "BNS_304",
+      "question": "How does Section 304 of BNS 2023 define and penalize snatching?"
+    },
+    {
+      "chunk_id": "BSA_9",
+      "question": "If circumstances show a crime must have been committed by A, B, C, or D, what happens if evidence shows B, C, and D did not commit it?"
+    },
+    {
+      "chunk_id": "BSA_49",
+      "question": "What specific event must occur during a trial before the prosecution can introduce evidence of bad character?"
+    },
+    {
+      "chunk_id": "BNS_26",
+      "question": "Does this defense apply to euthanasia, where a doctor intentionally gives a lethal injection to a consenting patient to end their suffering?"
+    },
+    {
+      "chunk_id": "BNSS_159",
+      "question": "What can a Magistrate provide to a person directed to make a local investigation under section 158?"
+    },
+    {
+      "chunk_id": "BNSS_41",
+      "question": "What conditions must be present for a Magistrate to arrest someone for a past crime?"
+    },
+    {
+      "chunk_id": "BNSS_467",
+      "question": "A man is currently serving life imprisonment for terrorism. In a separate trial for a minor assault committed years ago, a Magistrate sentences him to 6 months in prison. Does the man have to serve the 6 months after his life sentence ends?"
+    },
+    {
+      "chunk_id": "BSA_26",
+      "question": "If a person is murdered and their dying statement points to their killer, is that statement admissible even if they didn't expect to die when they made it?"
+    },
+    {
+      "chunk_id": "BNS_96",
+      "question": "If a taxi driver drives a runaway teen to a hotel, completely unaware that she plans to meet older men there for illicit intercourse, is the driver guilty under this section?"
+    },
+    {
+      "chunk_id": "BSA_156",
+      "question": "What rule does Section 156 of BSA 2023 establish regarding evidence on collateral character issues?"
+    },
+    {
+      "chunk_id": "BNSS_419",
+      "question": "Under sub-section (1)(a), which local official has the power to direct the Public Prosecutor to appeal a Magistrate's acquittal in a \"cognizable and non-bailable offence\" to the Court of Session?"
+    },
+    {
+      "chunk_id": "BNSS_52",
+      "question": "What does Section 52 of BNSS 2023 cover?"
+    },
+    {
+      "chunk_id": "BSA_44",
+      "question": "How can the relationship between two people, like marriage or parentage, be proven in court through the opinions of others?"
+    },
+    {
+      "chunk_id": "BNSS_69",
+      "question": "A court in Delhi wants to summon a witness living in Chennai. The Delhi court mails the summons directly to the witness's house in Chennai via normal post. Is this the ordinary procedure?"
+    },
+    {
+      "chunk_id": "BSA_123",
+      "question": "Is a licensee completely barred from questioning the licensor's authority forever?"
+    },
+    {
+      "chunk_id": "BSA_169",
+      "question": "An appellate court finds that a trial judge improperly rejected a document submitted by the defense. However, even if the document had been accepted, the defendant still clearly confessed on video. Will the appellate court order a new trial?"
+    },
+    {
+      "chunk_id": "BNSS_431",
+      "question": "What coercive power does Section 431 of BNSS 2023 grant the High Court regarding acquitted individuals?"
+    },
+    {
+      "chunk_id": "BNSS_380",
+      "question": "Does this appeal mechanism apply if the court that originally refused to make the complaint was a High Court?"
+    },
+    {
+      "chunk_id": "BNS_343",
+      "question": "A person mistakenly believes an old, canceled property deed is scrap paper and throws it into the recycling bin. Are they guilty under Section 343?"
+    },
+    {
+      "chunk_id": "BNSS_207",
+      "question": "What does Section 207 of BNSS 2023 allow a Magistrate to do?"
+    },
+    {
+      "chunk_id": "BNSS_515",
+      "question": "What is the consequence of clauses (b) and (c)?"
+    },
+    {
+      "chunk_id": "BNSS_439",
+      "question": "Does this section give the Sessions Judge the power to directly *convict* the person who was previously discharged?"
+    },
+    {
+      "chunk_id": "BNS_193",
+      "question": "A factory owner realizes his hired security guards have formed an unlawful assembly on his property to violently evict squatters. He sits back and watches without calling the police. Can he be penalized?"
+    },
+    {
+      "chunk_id": "BSA_67",
+      "question": "Is it always necessary to call an attesting witness for a registered sale deed if no one denies who signed it?"
+    },
+    {
+      "chunk_id": "BSA_34",
+      "question": "Does this section make all previous judgments relevant for any purpose whatsoever?"
+    },
+    {
+      "chunk_id": "BNSS_356",
+      "question": "If the proclaimed offender is convicted in absentia and sentenced to prison, can their lawyer immediately file an appeal to the High Court while the offender is still hiding abroad?"
+    },
+    {
+      "chunk_id": "BNSS_485",
+      "question": "What exactly happens when I \"give bail\"? Do I just hand over cash?"
+    },
+    {
+      "chunk_id": "BNS_301",
+      "question": "A group of teenagers deliberately sneaks into a cemetery at night and kicks over several tombstones of a specific religious community, intending to deeply offend the families of the deceased. What is their offence?"
+    },
+    {
+      "chunk_id": "BNSS_401",
+      "question": "Does a judge have to send a first-time offender to prison for a minor crime, or can the judge just give them a strict warning and let them go on \"probation\"?"
+    },
+    {
+      "chunk_id": "BSA_140",
+      "question": "Who decides which witness gets called to the stand first during a trial?"
+    },
+    {
+      "chunk_id": "BNSS_128",
+      "question": "Who has the authority to require a suspected person to show cause under this section?"
+    },
+    {
+      "chunk_id": "BNSS_91",
+      "question": "What is the practical consequence of this section for court efficiency?"
+    },
+    {
+      "chunk_id": "BNSS_401",
+      "question": "For trivial offenses like minor theft, what is the action the Court takes when it decides not to punish or use a probation bond, as per sub-section (3)?"
+    },
+    {
+      "chunk_id": "BNSS_417",
+      "question": "A First Class Magistrate convicts a man of a minor nuisance and fines him 80 rupees. Because the man refuses to pay, the Magistrate orders him to spend 5 days in jail in default of payment. Since jail time is involved, can the man appeal?"
+    },
+    {
+      "chunk_id": "BNSS_61",
+      "question": "What powers apply to an officer trying to recapture an escapee who has hidden inside a house?"
+    },
+    {
+      "chunk_id": "BNSS_125",
+      "question": "What is the maximum duration for which a court can order someone to keep the peace under this section?"
+    },
+    {
+      "chunk_id": "BNSS_300",
+      "question": "What explicit exclusion is established by Section 300 of BNSS 2023 regarding the attendance of confined persons?"
+    },
+    {
+      "chunk_id": "BNSS_98",
+      "question": "What is the jurisdictional consequence regarding civil courts trying to block this order?"
+    },
+    {
+      "chunk_id": "BNSS_40",
+      "question": "What conditions justify a private person making an arrest?"
+    },
+    {
+      "chunk_id": "BNSS_505",
+      "question": "How does Section 505 of BNSS 2023 address the logistical problem of seized property that degrades rapidly?"
+    },
+    {
+      "chunk_id": "BNSS_187",
+      "question": "Under sub-section (4), what is required before a Magistrate can authorise the detention of the accused in police custody?"
+    },
+    {
+      "chunk_id": "BSA_52",
+      "question": "Are all government officers automatically judicially noticed by the Court without any specific requirements?"
+    },
+    {
+      "chunk_id": "BNSS_172",
+      "question": "What does Section 172 of BNSS 2023 stipulate?"
+    },
+    {
+      "chunk_id": "BNSS_217",
+      "question": "A political activist gives a speech that someone believes is promoting hatred between religious groups (an offence under section 196 BNS). The person goes directly to a Magistrate to file a private complaint. Can the Magistrate immediately issue a summons?"
+    },
+    {
+      "chunk_id": "BSA_99",
+      "question": "What type of ambiguity does this section resolve?"
+    },
+    {
+      "chunk_id": "BNSS_129",
+      "question": "According to clause (f), habitual commission of offences under which specific Acts can lead to security proceedings?"
+    },
+    {
+      "chunk_id": "BNSS_267",
+      "question": "A citizen files a private complaint for major fraud against a company director. The director appears in court. The complainant wants to call an auditor to prove the fraud, but the auditor refuses to come without a court order. What should the complainant do?"
+    },
+    {
+      "chunk_id": "BNS_32",
+      "question": "What specific level of threat must exist for compulsion to be a valid legal defense?"
+    },
+    {
+      "chunk_id": "BSA_1",
+      "question": "What types of proceedings does the Indian law of evidence apply to?"
+    },
+    {
+      "chunk_id": "BSA_157",
+      "question": "What discretionary power does Section 157 of BSA 2023 give the Court regarding a party's own witness?"
+    },
+    {
+      "chunk_id": "BNSS_139",
+      "question": "What specific actions actually violate a bond for good behaviour?"
+    },
+    {
+      "chunk_id": "BNS_169",
+      "question": "If a person simply expresses interest in running for office but has not filed any papers or been formally nominated, are they considered a \"candidate\" under this Chapter?"
+    },
+    {
+      "chunk_id": "BNS_25",
+      "question": "If two adults agree to fence with swords for sport, and one accidentally injures the other while playing fairly, is the person who caused the injury guilty of assault?"
+    },
+    {
+      "chunk_id": "BNSS_204",
+      "question": "What specific later sections of the Sanhita determine whether offences committed by one person can be \"tried at one trial\" under clause (a)?"
+    },
+    {
+      "chunk_id": "BNS_162",
+      "question": "What is the consequence of holding civilians liable for the actual commission of military insubordination?"
+    },
+    {
+      "chunk_id": "BNS_179",
+      "question": "How does Section 179 of BNS 2023 penalize the circulation of counterfeit financial instruments?"
+    },
+    {
+      "chunk_id": "BNS_103",
+      "question": "If three people conspire and kill someone because of their language, do they fall under the specialized mob lynching provision of sub-section (2)?"
+    },
+    {
+      "chunk_id": "BNS_139",
+      "question": "A criminal gang kidnaps a healthy 5-year-old child and intentionally blinds him so he can earn more money begging on the street. What is the gang's minimum sentence?"
+    },
+    {
+      "chunk_id": "BNS_170",
+      "question": "A wealthy businessman gives a new car to a popular local candidate in exchange for that candidate withdrawing from the election so the businessman's preferred candidate will win. Has a crime been committed?"
+    },
+    {
+      "chunk_id": "BNSS_508",
+      "question": "How does Section 508 of BNSS 2023 handle trials conducted in the wrong territorial jurisdiction?"
+    },
+    {
+      "chunk_id": "BNS_322",
+      "question": "What is the legal consequence of enforcing Section 322?"
+    },
+    {
+      "chunk_id": "BNSS_97",
+      "question": "What is the legal consequence for a property owner if their premises are used to store materials for making fake seals?"
+    },
+    {
+      "chunk_id": "BNSS_209",
+      "question": "What does Section 209 of BNSS 2023 authorize?"
+    },
+    {
+      "chunk_id": "BNS_208",
+      "question": "How does Section 208 of BNS 2023 penalize the failure to attend legally mandated proceedings?"
+    },
+    {
+      "chunk_id": "BNS_88",
+      "question": "A pregnant woman takes illicit herbal remedies specifically to induce a miscarriage on herself, without consulting a doctor or facing a life-threatening medical emergency. Has she committed a crime?"
+    },
+    {
+      "chunk_id": "BNS_43",
+      "question": "What are the rules established in Section 43 of BNS 2023?"
+    },
+    {
+      "chunk_id": "BNS_188",
+      "question": "Is it a crime for a mint worker to take a coin-stamping tool home?"
+    },
+    {
+      "chunk_id": "BNS_131",
+      "question": "Can a person claim they were provoked into assaulting someone if that person was lawfully exercising their right of private defence?"
+    },
+    {
+      "chunk_id": "BSA_41",
+      "question": "Is a layperson's opinion admissible to verify an electronic signature?"
+    },
+    {
+      "chunk_id": "BNSS_471",
+      "question": "What is the consequence of treating all monetary orders as fines?"
+    },
+    {
+      "chunk_id": "BNS_285",
+      "question": "Can a person be punished under this section simply for failing to act?"
+    },
+    {
+      "chunk_id": "BNSS_63",
+      "question": "Must a physical summons always be signed specifically by the presiding officer of the Court?"
+    },
+    {
+      "chunk_id": "BNSS_167",
+      "question": "A subordinate Magistrate conducts a local inquiry and submits a report to the District Magistrate. The opposing party objects, saying the subordinate must take the witness stand to testify about the report. Is this required?"
+    },
+    {
+      "chunk_id": "BNSS_392",
+      "question": "What are the procedural requirements for delivering a judgment under Section 392 of BNSS 2023?"
+    },
+    {
+      "chunk_id": "BNSS_381",
+      "question": "What is the consequence of giving courts this power regarding costs?"
+    },
+    {
+      "chunk_id": "BNSS_284",
+      "question": "What specific delegation of power is authorized by Section 284 of BNSS 2023?"
+    },
+    {
+      "chunk_id": "BNSS_52",
+      "question": "How is medical evidence gathered from a person arrested for rape?"
+    },
+    {
+      "chunk_id": "BNSS_464",
+      "question": "What is the consequence of allowing installment payments for fines?"
+    },
+    {
+      "chunk_id": "BNSS_458",
+      "question": "How does Section 458 of BNSS 2023 govern the initiation of a prison sentence?"
+    },
+    {
+      "chunk_id": "BNSS_351",
+      "question": "What mandatory mechanism for the accused to explain evidence is contained in Section 351 of BNSS 2023?"
+    },
+    {
+      "chunk_id": "BNSS_70",
+      "question": "What two documents must be presented to the court to prove service under this section?"
+    },
+    {
+      "chunk_id": "BNSS_158",
+      "question": "A Magistrate is deciding if a chemical factory is polluting a river but has no background in chemistry. How can they determine the truth?"
+    },
+    {
+      "chunk_id": "BNS_22",
+      "question": "What does Section 22 of BNS 2023 establish?"
+    },
+    {
+      "chunk_id": "BNS_177",
+      "question": "If an ordinary voter spends 5 rupees on a bus ticket to go vote and doesn't keep a receipt, are they guilty under Section 177?"
+    },
+    {
+      "chunk_id": "BNSS_217",
+      "question": "What mandatory requirement is established by Section 217 of BNSS 2023?"
+    },
+    {
+      "chunk_id": "BSA_77",
+      "question": "What does Section 77 of BSA 2023 specify?"
+    },
+    {
+      "chunk_id": "BSA_10",
+      "question": "What is the practical outcome of this provision for a judge presiding over a damages suit?"
+    },
+    {
+      "chunk_id": "BNSS_283",
+      "question": "What is the exact monetary limit for property stolen, received, or concealed that qualifies the offence for a mandatory summary trial under clauses (i), (ii), and (iii)?"
+    },
+    {
+      "chunk_id": "BNSS_202",
+      "question": "A scammer in Kolkata sends a fraudulent email to a victim in Hyderabad. The victim transfers money to the scammer's bank account in Mumbai. Can the victim file the case in Hyderabad?"
+    },
+    {
+      "chunk_id": "BSA_94",
+      "question": "If two parties write down their contract in a formal document, can one of them later bring a witness to testify that the actual terms were different?"
+    },
+    {
+      "chunk_id": "BNSS_105",
+      "question": "What does Section 105 of BNSS 2023 mandate?"
+    },
+    {
+      "chunk_id": "BNSS_524",
+      "question": "How does Section 524 of BNSS 2023 allow states to shift certain policing and public order functions purely into the judicial branch?"
+    },
+    {
+      "chunk_id": "BNSS_216",
+      "question": "A gangster's associate threatens a key witness not to testify. A bystander overhears this threat and goes to the magistrate to file a complaint, even though the witness themselves is too scared to do so. Can the magistrate accept the bystander's complaint?"
+    },
+    {
+      "chunk_id": "BNSS_157",
+      "question": "What standard must the Magistrate meet before making the contested order absolute under sub-section (2)?"
+    },
+    {
+      "chunk_id": "BNSS_406",
+      "question": "What is the consequence of forcing the courts to notify the District Magistrate?"
+    },
+    {
+      "chunk_id": "BNSS_450",
+      "question": "How does Section 450 of BNSS 2023 regulate the internal flow of cases among Judicial Magistrates?"
+    },
+    {
+      "chunk_id": "BNSS_127",
+      "question": "Can a Magistrate demand a good behaviour bond from someone spreading seditious or defamatory materials?"
+    },
+    {
+      "chunk_id": "BNS_122",
+      "question": "A man walks into his house and catches his business partner stealing from his safe. In a sudden rage, he punches the partner, breaking his jaw (grievous hurt). What is his maximum legal exposure?"
+    },
+    {
+      "chunk_id": "BNS_322",
+      "question": "A clerk at the registry office inadvertently types the wrong purchase price on a deed due to a typo, and the parties sign it without noticing. Are they guilty under Section 322?"
+    },
+    {
+      "chunk_id": "BNS_192",
+      "question": "How does Section 192 of BNS 2023 punish the act of provoking a riot?"
+    },
+    {
+      "chunk_id": "BNSS_522",
+      "question": "What is the consequence of providing these statutory forms?"
+    },
+    {
+      "chunk_id": "BNS_164",
+      "question": "A civilian knows their friend deserted the Air Force and lets the friend live in their basement to hide from military police. What is the civilian charged with?"
+    },
+    {
+      "chunk_id": "BNSS_527",
+      "question": "How does Section 527 of BNSS 2023 prevent self-dealing during state-run property auctions?"
+    },
+    {
+      "chunk_id": "BNS_272",
+      "question": "What is the consequence of establishing a higher tier of punishment for malignant transmission?"
+    },
+    {
+      "chunk_id": "BNSS_168",
+      "question": "A police officer sees a group of people gathering with weapons, clearly intending to commit a robbery. Does the officer need a Magistrate's order to step in and break up the group?"
+    },
+    {
+      "chunk_id": "BNS_80",
+      "question": "What is the legal outcome if a woman dies under suspicious circumstances shortly after her wedding, and her husband's family had been demanding money from her?"
+    },
+    {
+      "chunk_id": "BNS_144",
+      "question": "A man visits an underground brothel and pays for sex, seeing clear signs that the woman is locked inside and controlled by a pimp (giving him reason to believe she is trafficked). What crime has he committed?"
+    },
+    {
+      "chunk_id": "BNSS_124",
+      "question": "The government decides to apply this chapter to a neighboring contracting state, but wants to exempt certain types of bonds. Is this allowed?"
+    },
+    {
+      "chunk_id": "BNSS_433",
+      "question": "Does the third tie-breaking judge have to conduct a completely new trial with all the witnesses?"
+    },
+    {
+      "chunk_id": "BNSS_117",
+      "question": "What is the immediate consequence for the property owner when an order of attachment is made?"
+    },
+    {
+      "chunk_id": "BNS_281",
+      "question": "What is the consequence of criminalizing the \"likelihood\" of causing hurt in this section?"
+    },
+    {
+      "chunk_id": "BNSS_450",
+      "question": "Can a regular First Class Magistrate arbitrarily withdraw a case from *another* First Class Magistrate who sits in the next courtroom over?"
+    },
+    {
+      "chunk_id": "BNSS_452",
+      "question": "What is the consequence of forcing judges to record their reasons for case transfers?"
+    },
+    {
+      "chunk_id": "BNSS_391",
+      "question": "What is the consequence of this strict prohibition?"
+    },
+    {
+      "chunk_id": "BNSS_138",
+      "question": "What is the consequence of applying sub-section (1) to a currently imprisoned individual?"
+    },
+    {
+      "chunk_id": "BSA_77",
+      "question": "Can an act of the Central Government be proved by a simple oral statement from a government employee?"
+    },
+    {
+      "chunk_id": "BNS_178",
+      "question": "Under Explanation (3), if someone takes a genuine low-value stamp and alters it to look like a genuine high-value stamp, is that considered \"counterfeiting\" or just \"altering\"?"
+    },
+    {
+      "chunk_id": "BNS_32",
+      "question": "Can a gang member claim they were forced by their leader to commit robberies and therefore escape punishment?"
+    },
+    {
+      "chunk_id": "BSA_68",
+      "question": "What two specific things must be proven through handwriting analysis under this section?"
+    },
+    {
+      "chunk_id": "BNSS_488",
+      "question": "What are the three specific reasons listed in the section for why insufficient sureties might have been initially accepted?"
+    },
+    {
+      "chunk_id": "BSA_105",
+      "question": "What practical test does Section 105 of BSA 2023 provide for determining who has the burden of proof?"
+    },
+    {
+      "chunk_id": "BNSS_121",
+      "question": "What mechanism does Section 121 of BNSS 2023 provide?"
+    },
+    {
+      "chunk_id": "BNSS_321",
+      "question": "A Chief Judicial Magistrate in Chennai receives a commission to examine a witness for a Delhi court. The witness refuses to answer the Chennai Magistrate's questions, acting contemptuous. Does the Chennai Magistrate have the power to penalize the witness, or must they complain to the Delhi court?"
+    },
+    {
+      "chunk_id": "BSA_48",
+      "question": "In a trial for sexual assault, can the defense use the victim's past sexual history to argue they consented?"
+    },
+    {
+      "chunk_id": "BNSS_9",
+      "question": "Is it possible for a Civil Court Judge to exercise the powers of a Criminal Magistrate?"
+    },
+    {
+      "chunk_id": "BSA_110",
+      "question": "What specific time frame of known life triggers the burden of proof to shift to the person claiming death?"
+    },
+    {
+      "chunk_id": "BNS_217",
+      "question": "A citizen genuinely believes they saw a neighbor dealing drugs and reports it to the police. The police search the neighbor's house (annoying them) but find nothing. Is the citizen guilty under Section 217?"
+    },
+    {
+      "chunk_id": "BNS_262",
+      "question": "A shoplifter is stopped by a police officer. When the officer tries to put handcuffs on him, the shoplifter shoves the officer and runs away. What new offence has he committed?"
+    },
+    {
+      "chunk_id": "BSA_160",
+      "question": "How does Section 160 of BSA 2023 permit the use of a witness's past statements?"
+    },
+    {
+      "chunk_id": "BNSS_151",
+      "question": "Under sub-section (2), what core standard of behavior protects an Executive Magistrate or police officer from being deemed to have committed an offence?"
+    },
+    {
+      "chunk_id": "BNS_135",
+      "question": "What is the penalty for physically struggling with someone in an attempt to lock them up or confine them against their will?"
+    },
+    {
+      "chunk_id": "BNS_348",
+      "question": "What is the penalty for making or owning the tools used to fake property marks?"
+    },
+    {
+      "chunk_id": "BNSS_513",
+      "question": "What is the consequence of tying the limitation to \"taking cognizance\"?"
+    },
+    {
+      "chunk_id": "BNS_94",
+      "question": "What is the consequence of this law regarding public health and criminal investigations?"
+    },
+    {
+      "chunk_id": "BNSS_374",
+      "question": "If the court decides to deliver the acquitted person to a relative instead of a hospital, what two guarantees must the relative give as security under sub-section (3)?"
+    },
+    {
+      "chunk_id": "BNS_267",
+      "question": "How does Section 267 of BNS 2023 penalize contemptuous behavior in court?"
+    },
+    {
+      "chunk_id": "BNS_180",
+      "question": "Police raid a suspect's house and find stacks of fake currency in a safe. The suspect admits he knew they were fake and was waiting to spend them at a festival. What is the penalty?"
+    },
+    {
+      "chunk_id": "BNS_255",
+      "question": "A junior clerk makes a genuine clerical error while processing an arrest warrant, which accidentally results in a suspect being released early. Is the clerk guilty under Section 255?"
+    },
+    {
+      "chunk_id": "BNSS_197",
+      "question": "In which court should a criminal trial normally take place?"
+    },
+    {
+      "chunk_id": "BSA_30",
+      "question": "What types of maps or charts qualify for relevancy under this section?"
+    },
+    {
+      "chunk_id": "BNS_278",
+      "question": "A pharmacy runs out of an expensive heart medication. To keep making money, the pharmacist knowingly puts cheap vitamin pills into the heart medication bottles and sells them to patients. What is his offence?"
+    },
+    {
+      "chunk_id": "BNSS_155",
+      "question": "What does Section 155 of BNSS 2023 state?"
+    },
+    {
+      "chunk_id": "BNSS_192",
+      "question": "Are police officers required to keep a daily log of their investigation activities?"
+    },
+    {
+      "chunk_id": "BNSS_442",
+      "question": "What if a confused citizen accidentally files a \"revision\" application when they were legally supposed to file an \"appeal\"? Is the case thrown out?"
+    },
+    {
+      "chunk_id": "BSA_97",
+      "question": "How does this rule protect the integrity of written agreements?"
+    },
+    {
+      "chunk_id": "BNS_166",
+      "question": "How does Section 166 of BNS 2023 penalize civilians who incite military disobedience?"
+    },
+    {
+      "chunk_id": "BNS_214",
+      "question": "A suspect is arrested for theft. During interrogation, the police ask where he hid the stolen goods. He invokes his constitutional right against self-incrimination and refuses to answer. Is he guilty under Section 214?"
+    },
+    {
+      "chunk_id": "BNS_273",
+      "question": "A sailor disembarks from a ship at a port before the government issues the official quarantine order for that vessel. Is the sailor guilty of breaking quarantine?"
+    },
+    {
+      "chunk_id": "BSA_71",
+      "question": "What specific legal condition must be true about the document for this section to apply?"
+    },
+    {
+      "chunk_id": "BNSS_255",
+      "question": "What happens if the prosecution finishes presenting all its evidence, and the judge thinks they haven't proven anything?"
+    },
+    {
+      "chunk_id": "BNS_346",
+      "question": "What is the penalty for intentionally removing or damaging a property mark to cause harm or confusion?"
+    },
+    {
+      "chunk_id": "BNS_120",
+      "question": "Besides extorting a confession, what other specific purpose related to property triggers this section if someone uses violence?"
+    },
+    {
+      "chunk_id": "BNSS_385",
+      "question": "If a person commits a severe contempt in court, but the judge thinks the maximum 1000 rupee fine under the \"summary\" rules is too light and they deserve a longer prison sentence, what does the judge do?"
+    },
+    {
+      "chunk_id": "BNSS_195",
+      "question": "A police officer is investigating a fatal car crash. He issues a written summons to a 70-year-old man who witnessed it from his porch, ordering him to come down to the crash site to answer questions. Does the man have to go?"
+    },
+    {
+      "chunk_id": "BSA_94",
+      "question": "What three types of legal transactions does this section explicitly list as being subject to this exclusionary rule when written down?"
+    },
+    {
+      "chunk_id": "BNS_100",
+      "question": "How does Section 100 of BNS 2023 define culpable homicide?"
+    },
+    {
+      "chunk_id": "BNSS_471",
+      "question": "If the court orders a convicted criminal to pay the victim \"compensation\" or \"costs,\" but the law doesn't explain exactly how to force the criminal to pay it, what happens?"
+    },
+    {
+      "chunk_id": "BNS_82",
+      "question": "A woman, without getting a divorce, marries a new man and lies to him, saying she has never been married before. What specific penalty does she face?"
+    },
+    {
+      "chunk_id": "BNS_95",
+      "question": "What is the consequence of this section for organized crime syndicates that exploit juvenile justice laws?"
+    },
+    {
+      "chunk_id": "BSA_59",
+      "question": "What type of evidence is mandatory under this section for proving a document?"
+    },
+    {
+      "chunk_id": "BSA_67",
+      "question": "What is the primary rule established by Section 67 of BSA 2023 for attested documents?"
+    },
+    {
+      "chunk_id": "BNS_228",
+      "question": "How does Section 228 of BNS 2023 define fabricating false evidence?"
+    },
+    {
+      "chunk_id": "BSA_168",
+      "question": "Can the judge use this power to force a lawyer to reveal what their client told them in strict confidence?"
+    },
+    {
+      "chunk_id": "BNS_102",
+      "question": "An assassin shoots at a politician but misses, accidentally killing a child in the crowd. What is the assassin guilty of regarding the child?"
+    },
+    {
+      "chunk_id": "BNSS_201",
+      "question": "Where can a thief or someone caught with stolen property be put on trial?"
+    },
+    {
+      "chunk_id": "BSA_48",
+      "question": "If an accused claims a rape victim consented because she had a reputation for promiscuity, is that reputation admissible?"
+    },
+    {
+      "chunk_id": "BNS_275",
+      "question": "A grocery store clerk sells canned goods that are secretly contaminated with botulism from the factory. The cans look perfectly normal and are unexpired. Is the clerk guilty?"
+    },
+    {
+      "chunk_id": "BNSS_429",
+      "question": "What is the consequence of this strict certification process?"
+    },
+    {
+      "chunk_id": "BNSS_514",
+      "question": "Is there a time limit for bringing criminal charges against someone? Like, can I be charged for a minor crime I committed 10 years ago?"
+    },
+    {
+      "chunk_id": "BNSS_67",
+      "question": "An officer tries to serve a summons at a suspect's house. Nobody answers the door, so the officer immediately tapes the summons to the front door and leaves. Is this valid?"
+    },
+    {
+      "chunk_id": "BNS_357",
+      "question": "What is the legal consequence of criminalizing the breach of a civil contract in this specific context?"
+    },
+    {
+      "chunk_id": "BNS_317",
+      "question": "Does property obtained through cheating or criminal breach of trust count as \"stolen property\"?"
+    },
+    {
+      "chunk_id": "BSA_33",
+      "question": "Is there a rigid rule on exactly how many sentences surrounding a statement must be included?"
+    },
+    {
+      "chunk_id": "BSA_156",
+      "question": "Why does the law prevent lawyers from proving these collateral character accusations during the main trial?"
+    },
+    {
+      "chunk_id": "BNSS_200",
+      "question": "If an act is only a crime because it is connected to another crime committed elsewhere, where can the trial happen?"
+    },
+    {
+      "chunk_id": "BNS_150",
+      "question": "How does Section 150 of BNS 2023 penalize covering up an insurrection?"
+    },
+    {
+      "chunk_id": "BNS_248",
+      "question": "To get revenge on a business rival, a man falsely reports to the police that the rival committed murder (a capital offence), planting fake evidence. What is his penalty?"
+    },
+    {
+      "chunk_id": "BNS_300",
+      "question": "What happens if someone deliberately disrupts a peaceful religious gathering?"
+    },
+    {
+      "chunk_id": "BNS_247",
+      "question": "A creditor wins a lawsuit against a debtor for 10,000 rupees. The debtor pays the creditor in cash. The creditor then fraudulently goes to court and demands the court execute the original decree to seize the debtor's assets, claiming he was never paid. What is the offence?"
+    },
+    {
+      "chunk_id": "BNSS_263",
+      "question": "Besides presuming an offence was committed, what two jurisdictional elements must the Magistrate be satisfied with before framing a charge under this section?"
+    },
+    {
+      "chunk_id": "BNSS_47",
+      "question": "What condition requires an officer to inform an arrested person about arranging sureties?"
+    },
+    {
+      "chunk_id": "BSA_34",
+      "question": "If a person is sued for a debt they already successfully defended in a previous lawsuit, can they present the old judgment?"
+    },
+    {
+      "chunk_id": "BNSS_402",
+      "question": "What mandatory justification does Section 402 of BNSS 2023 require when courts deny rehabilitative sentencing?"
+    },
+    {
+      "chunk_id": "BNSS_271",
+      "question": "What final stage of a warrant-case trial is governed by Section 271 of BNSS 2023?"
+    },
+    {
+      "chunk_id": "BNSS_392",
+      "question": "What is the consequence of mandating that a copy of the judgment be uploaded to the court's portal within seven days (per the proviso in sub-section 4)?"
+    },
+    {
+      "chunk_id": "BNSS_48",
+      "question": "What specific details must be recorded in the police station's book regarding this notification?"
+    },
+    {
+      "chunk_id": "BNS_35",
+      "question": "If a man sees a thief trying to steal a stranger's motorcycle on the street, does he have the legal right to intervene and use force to stop the theft?"
+    },
+    {
+      "chunk_id": "BNS_344",
+      "question": "A junior bookkeeper accidentally enters a zero in the wrong column of a spreadsheet due to fatigue, throwing off the monthly balance by thousands of rupees. Is he guilty of falsification of accounts?"
+    }
+  ]
+}
