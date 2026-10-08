@@ -5,6 +5,7 @@ Run: uvicorn app.main:app --reload --port 8000
 from __future__ import annotations
 
 import json
+import os
 import re
 import time
 from contextlib import asynccontextmanager
@@ -21,6 +22,7 @@ from .schemas import (
     BifurcationResponse,
     ClarifyResponse,
     FailureResponse,
+    FixedConclusionParts,
     MappingResponse,
     OffenseDateUsed,
     PipelineStep,
@@ -31,6 +33,24 @@ from .schemas import (
     SectionLookupResponse,
     Source,
 )
+
+
+def _fixed_conclusion_enabled() -> bool:
+    """LAWSHIFT_FIXED_CONCLUSION: default on (1). Set to 0 for generated Conclusions."""
+    raw = os.environ.get("LAWSHIFT_FIXED_CONCLUSION", "1").strip().lower()
+    return raw not in {"0", "false", "no", "off"}
+
+
+def _fixed_conclusion_sentence(code: str, section: str, heading: str) -> str:
+    head = (heading or "").strip()
+    if head:
+        return (
+            f"On the facts described, this appears to fall within "
+            f"{code} {section} ({head})."
+        )
+    return (
+        f"On the facts described, this appears to fall within {code} {section}."
+    )
 
 # Bifurcation escape: last option; resolve clears pending and asks for facts.
 DESCRIBE_FACTS_OPTION = "None of these. I will describe what happened"
@@ -343,6 +363,24 @@ def _build_mapping(
         "conclusion": irac_parsed.get("conclusion", ""),
     }
 
+    statute_label = (
+        top_chunk.act if top_chunk.act in {"IPC", "BNS", "BNSS", "BSA"} else route
+    )
+    section_str = str(top_chunk.section_number)
+    heading = stage3.option_description(top_chunk)
+    fixed_parts: FixedConclusionParts | None = None
+    if _fixed_conclusion_enabled():
+        # Discard writer Conclusion; keep Issue / Rule / Application as generated.
+        irac["conclusion"] = _fixed_conclusion_sentence(
+            statute_label, section_str, heading
+        )
+        fixed_parts = FixedConclusionParts(
+            code=statute_label,
+            section=section_str,
+            heading=heading,
+        )
+
+    # Verifier sees Rule + the Conclusion that will be displayed (fixed or generated).
     try:
         verdict, explanation = stage4.verify_rule_only_14b_v2(
             irac["rule"], irac["conclusion"]
@@ -350,20 +388,23 @@ def _build_mapping(
     except Exception as exc:
         verdict, explanation = "SUPPORTED", f"Verifier unavailable: {exc}"
 
-    # Stage 5: Multilingual translation (post-processing only)
+    # Stage 5: Multilingual translation (post-processing only).
+    # When the Conclusion is code-fixed, do not machine-translate it — the
+    # client renders a localised template from fixed_conclusion parts.
     engine: str | None = None
     translation_note: str | None = None
+    translation_fallback_fields: list[str] | None = None
     if language and language != "en":
         try:
-            irac, engine, translation_note = stage5_translate.translate_irac(
-                irac, target_lang=language
+            skip = {"conclusion"} if fixed_parts is not None else None
+            irac, engine, translation_note, fb_fields = (
+                stage5_translate.translate_irac(
+                    irac, target_lang=language, skip_fields=skip
+                )
             )
+            translation_fallback_fields = fb_fields or None
         except Exception as exc:
             print(f"[stage5] Translation to '{language}' failed: {exc}")
-
-    statute_label = (
-        top_chunk.act if top_chunk.act in {"IPC", "BNS", "BNSS", "BSA"} else route
-    )
 
     pipeline_steps = [
         PipelineStep(
@@ -405,6 +446,8 @@ def _build_mapping(
         engine=engine,  # type: ignore[arg-type]
         translation_note=translation_note,
         offense_date_used=offense_date_used,
+        fixed_conclusion=fixed_parts,
+        translation_fallback_fields=translation_fallback_fields,
     )
 
 

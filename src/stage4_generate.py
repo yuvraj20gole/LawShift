@@ -105,6 +105,7 @@ def generate_irac(question, retrieved_text, source_citation):
             "model": MODEL,
             "prompt": prompt,
             "stream": False,
+            "keep_alive": "30m",
             "options": {"temperature": TEMPERATURE},
         },
         timeout=180,

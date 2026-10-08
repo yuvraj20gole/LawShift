@@ -42,8 +42,8 @@ for idx, case in enumerate(TEST_CASES, 1):
     print("=" * 80)
     
     t_start = time.time()
-    hi_irac = translate_irac(case["irac"], "hi")
-    mr_irac = translate_irac(case["irac"], "mr")
+    hi_irac, _, _, _ = translate_irac(case["irac"], "hi")
+    mr_irac, _, _, _ = translate_irac(case["irac"], "mr")
     elapsed = time.time() - t_start
     print(f"[Translation time: {elapsed:.2f}s]\n")
     

@@ -1,0 +1,337 @@
+{
+  "switch": {
+    "env": "LAWSHIFT_FIXED_CONCLUSION",
+    "default": "1",
+    "read_in": "app/main.py:_fixed_conclusion_enabled"
+  },
+  "sentence": "On the facts described, this appears to fall within <code> <section> (<heading>).",
+  "heading_fn": "stage3.option_description",
+  "part1_smallest_change": {
+    "schemas": "FixedConclusionParts + MappingResponse.fixed_conclusion",
+    "backend": "_build_mapping replaces conclusion; sets fixed_conclusion parts",
+    "frontend": "ChatEntry displayConclusion + i18n.fixedConclusion; render uses parts"
+  },
+  "part6a": {
+    "phrases": [
+      "should be punished",
+      "shall be punished",
+      "will be punished",
+      "is guilty",
+      "is liable",
+      "guilty of",
+      "committed the offence"
+    ],
+    "LAWSHIFT_FIXED_CONCLUSION_1": {
+      "n": 20,
+      "method": "fixed sentence from expected_chunk_id + stage3.option_description (no regenerate)",
+      "conclusion_phrase_hits": {
+        "should be punished": 0,
+        "shall be punished": 0,
+        "will be punished": 0,
+        "is guilty": 0,
+        "is liable": 0,
+        "guilty of": 0,
+        "committed the offence": 0
+      },
+      "phrase_total": 0,
+      "n_conclusions_with_any": 0
+    },
+    "LAWSHIFT_FIXED_CONCLUSION_0": {
+      "n": 20,
+      "method": "fresh generate_irac (2026-10-08 run; no /tmp/stage4_wording_v1_20.json on disk)",
+      "conclusion_only_phrase_hits": {
+        "should be punished": 4,
+        "shall be punished": 0,
+        "will be punished": 0,
+        "is guilty": 3,
+        "is liable": 4,
+        "guilty of": 3,
+        "committed the offence": 0
+      },
+      "conclusion_phrase_total": 14,
+      "n_conclusions_with_any": 11,
+      "stored_v1_reference_full_irac_phrase_total": 31,
+      "stored_v1_n_conclusions_with_guilty_wording": 13,
+      "stored_source": "results/stage4_conclusion_wording.json part3.fact20.v1"
+    }
+  },
+  "part6b": {
+    "baseline_flagged_before": 15,
+    "gold40_flagged_now": 12,
+    "fact20_flagged_now": 2,
+    "flagged_total_60": 14,
+    "known_bad": [
+      {
+        "case_number": 6,
+        "chunk_id": "BNS_26",
+        "stored_conclusion": "No, the defense does not apply to euthanasia where a doctor intentionally gives a lethal injection to a consenting patient to end their suffering.",
+        "fixed_conclusion": "On the facts described, this appears to fall within BNS 26 (Act not intended to cause death, done by consent in good faith for person’s benefit).",
+        "flagged": false,
+        "verdict": "SUPPORTED",
+        "reason": "SUPPORTED - The Conclusion accurately reflects the Rule's core claim about actions not intended to cause death, done in good faith for a person's benefit with their consent, not being an offense even if harm results."
+      },
+      {
+        "case_number": 9,
+        "chunk_id": "BNS_303",
+        "stored_conclusion": "Yes, the person has committed theft.",
+        "fixed_conclusion": "On the facts described, this appears to fall within BNS 303 (Theft).",
+        "flagged": false,
+        "verdict": "SUPPORTED",
+        "reason": "SUPPORTED - The Conclusion correctly identifies that the facts described relate to the statutory provision for theft, as the Rule outlines the punishment for committing theft, aligning with the Conclusion's reference to BNS 303 (Theft)."
+      },
+      {
+        "case_number": 12,
+        "chunk_id": "BNSS_163",
+        "stored_conclusion": "An emergency order under Section 163 can last longer than two months if directed by the State Government.",
+        "fixed_conclusion": "On the facts described, this appears to fall within BNSS 163 (Power to issue order in urgent cases of nuisance or apprehended danger).",
+        "flagged": true,
+        "verdict": "NOT_SUPPORTED",
+        "reason": "NOT_SUPPORTED - The Rule text does not address the issuance of orders in urgent cases of nuisance or apprehended danger; it only discusses the State Government's power to rescind or alter orders previously made."
+      },
+      {
+        "case_number": 13,
+        "chunk_id": "BNSS_487",
+        "stored_conclusion": "No, the jailor cannot wait until the next morning to process the release because his shift is ending.",
+        "fixed_conclusion": "On the facts described, this appears to fall within BNSS 487 (Discharge from custody).",
+        "flagged": true,
+        "verdict": "NOT_SUPPORTED",
+        "reason": "NOT_SUPPORTED - The Rule does not address discharge from custody or mention BNSS 487; it only concerns the conditions under which a person cannot be released due to being liable for another matter unrelated to the bond or bail bond."
+      },
+      {
+        "case_number": 39,
+        "chunk_id": "BNSS_193",
+        "stored_conclusion": "The police cannot investigate the new evidence as the case has already been deemed closed upon filing their final report with the court.",
+        "fixed_conclusion": "On the facts described, this appears to fall within BNSS 193 (Report of police officer on completion of investigation).",
+        "flagged": true,
+        "verdict": "NOT_SUPPORTED",
+        "reason": "NOT_SUPPORTED - The Rule does not address the completion of an investigation and submission of a report in the context described in the Conclusion. It only mentions the submission of a report through a superior officer under specific conditions and does not cover the general process of completing an investigation as stated in the Conclusion."
+      }
+    ],
+    "what_verifier_can_still_catch": "Fixed Conclusions only assert that facts appear to fall within a named section. The verifier can still flag when that claim is not supported by the Rule text alone (Rule never states the section subject, or the quoted Rule fragment is about a different sub-provision than the heading). It no longer sees guilt or punishment wording, so it cannot catch Application fabrications or wrongful-guilt Conclusions.",
+    "source": "/tmp/lawshift_fixed_concl_6b.json"
+  },
+  "part6c": {
+    "n": 60,
+    "check": "quoted Rule spans ⊆ section text (whitespace-normalised; prefix/truncation OK)",
+    "fail_section_numbers_only": [
+      "115",
+      "22",
+      "292",
+      "433",
+      "506"
+    ],
+    "n_fail": 5
+  },
+  "part6d": {
+    "n_checked": 60,
+    "n_applications_with_section_legal_test_phrase_absent_from_user_message": 5,
+    "examples": [
+      {
+        "source": "gold40",
+        "case_number": 4,
+        "chunk_id": "BNS_343",
+        "phrase": "dishonestly",
+        "application_snip": "The person's action does not meet the criteria specified in Section 343 because they did not act fraudulently or dishonestly."
+      },
+      {
+        "source": "gold40",
+        "case_number": 5,
+        "chunk_id": "BNSS_128",
+        "phrase": "cognizable",
+        "application_snip": "The Executive Magistrate has authority under Section 128 of BNSS 2023 to receive information about a suspected person who is taking precautions to conceal their presence and that there is reason to believe that he is doing so with a view to committing a cognizable offence"
+      },
+      {
+        "source": "gold40",
+        "case_number": 9,
+        "chunk_id": "BNS_303",
+        "phrase": "dishonestly",
+        "application_snip": "The person took the watch dishonestly by taking it out of the repairman's possession without paying off the debt."
+      },
+      {
+        "source": "gold40",
+        "case_number": 38,
+        "chunk_id": "BNSS_151",
+        "phrase": "good faith",
+        "application_snip": "This rule applies because it specifically states that no Executive Magistrate or police officer who acts in good faith when performing their duties shall be deemed to have acted beyond their lawful authority."
+      },
+      {
+        "source": "fact20",
+        "case_number": 9,
+        "chunk_id": "BNS_115",
+        "phrase": "voluntarily",
+        "application_snip": "The person who slapped another during an argument with the intention of causing bodily pain or with knowledge that such an act would likely cause bodily pain, and who thereby caused bodily pain, is said to have voluntarily caused hurt."
+      }
+    ],
+    "note": "Fixed Conclusion does not change Application; these leaks persist."
+  },
+  "part5_browser": {
+    "viewports": [
+      "1440",
+      "390"
+    ],
+    "en_hi_mr_templates": true,
+    "api": {
+      "docket_obscene": {
+        "kind": "mapping",
+        "reason": null,
+        "fixed": {
+          "code": "IPC",
+          "section": "292",
+          "heading": "Sale, etc., of obscene books, etc."
+        },
+        "conclusion": "On the facts described, this appears to fall within IPC 292 (Sale, etc., of obscene books, etc.).",
+        "secs": 5.5
+      },
+      "docket_riot": {
+        "kind": "mapping",
+        "reason": null,
+        "fixed": {
+          "code": "BNS",
+          "section": "193",
+          "heading": "Liability of owner, occupier, etc., of land on which an unlawful assembly or riot takes"
+        },
+        "conclusion": "On the facts described, this appears to fall within BNS 193 (Liability of owner, occupier, etc., of land on which an unlawful assembly or riot takes).",
+        "secs": 5.8
+      },
+      "docket_counterfeit": {
+        "kind": "mapping",
+        "reason": null,
+        "fixed": {
+          "code": "BNS",
+          "section": "180",
+          "heading": "Possession of forged or counterfeit coin, Government stamp, currency-notes or bank-notes"
+        },
+        "conclusion": "On the facts described, this appears to fall within BNS 180 (Possession of forged or counterfeit coin, Government stamp, currency-notes or bank-notes).",
+        "secs": 4.0
+      },
+      "ipc292_facts": {
+        "kind": "mapping",
+        "reason": null,
+        "fixed": {
+          "code": "IPC",
+          "section": "292",
+          "heading": "Sale, etc., of obscene books, etc."
+        },
+        "conclusion": "On the facts described, this appears to fall within IPC 292 (Sale, etc., of obscene books, etc.).",
+        "secs": 6.7
+      },
+      "s302": {
+        "kind": "mapping",
+        "reason": null,
+        "fixed": {
+          "code": "IPC",
+          "section": "302",
+          "heading": "Punishment for murder"
+        },
+        "conclusion": "On the facts described, this appears to fall within IPC 302 (Punishment for murder).",
+        "secs": 3.6
+      },
+      "map_hi": {
+        "kind": "mapping",
+        "fixed": {
+          "code": "IPC",
+          "section": "292",
+          "heading": "Sale, etc., of obscene books, etc."
+        },
+        "conclusion_irac": "On the facts described, this appears to fall within IPC 292 (Sale, etc., of obscene books, etc.).",
+        "issue_head": "एक किताब की दुकान के मालिक पर 25 जून 2024 को पहली बार अश्लील"
+      },
+      "map_mr": {
+        "kind": "mapping",
+        "fixed": {
+          "code": "IPC",
+          "section": "292",
+          "heading": "Sale, etc., of obscene books, etc."
+        },
+        "conclusion_irac": "On the facts described, this appears to fall within IPC 292 (Sale, etc., of obscene books, etc.).",
+        "issue_head": "एका पुस्तकांच्या दुकानाच्या मालकावर 25 जून 2024 रोजी प्रथमच "
+      },
+      "clarify": {
+        "kind": "clarify",
+        "question": "I have the date. Describe what happened (who did what, and to whom) so I can find the section.",
+        "reason": "missing_facts",
+        "date_lock_label": null
+      },
+      "section_lookup": {
+        "kind": "section_lookup",
+        "note": "You gave a section but no facts, so no analysis was written. Describe what happened to get one.",
+        "items": [
+          {
+            "code": "IPC",
+            "section": "292",
+            "heading": "Sale, etc., of obscene books, etc.",
+            "text": " Indian Penal Code, 1860 \n[292. Sale, etc., of obscene books, etc. \n 138  [( 1 ) For the purposes of subsection (2), a book,\npamphlet, paper, writing, drawing, painting, representation, figure or any\nother object, shall be deemed to be obscene if it is lascivious or appeals to\nthe prurient interest or if its effect, or (where it comprises two or more\ndistinct items) the effect of any one of its items, is, if taken as a whole,\nsuch as to tend to deprave and corrupt person, who are likely, having regard to\nall relevant circumstances, to read, see or hear the matter contained or.\nembodied in it].\n 139  [(2)] Whoever\n(a) sells, lets to hire, distributes, publicly\nexhibits or in any manner puts into circulation, or for purposes of sale, hire,\ndistribution, public exhibition or circulation, makes, produces or has in his\npossession any obscene book, pamphlet, paper, drawing, painting, representation\nor figure or any other obscene object whatsoever, or\n(b) imports, exports or conveys any obscene\nobject for any of the purposes aforesaid, or knowing or having reason to\nbelieve that such object will be sold, let to hire, distributed or publicly\nexhibited or in any manner put into circulation, or\n(c) takes part in or receives profits from any\nbusiness in the course of which he knows or has reason to believe that any such\nobscene objects are for any of the purposes aforesaid, made, produced,\npurchased, kept, imported, exported, conveyed, publicly exhibited or in any\nmanner put into circulation, or\n(d) advertises or makes known by any means\nwhatsoever that any person is engaged or is ready to engage in any act which is\nan offence under this section, or that any such obscene object can be procured\nfrom or through any person, or\n(e) offers or attempts to do any act which is\nan offence under this section,\nshall be punished 140[on first conviction with\nimprisonment of either description for a term which may extend to two years,\nand with fine which may extend to two thousand rupees, and, in the event of a\nsecond or subsequent conviction, with imprisonment of either description for a\nterm which may extend to five years, and also with fine which may extend to\nfive thousand rupees].\n 140  [Exception This section does not extend to\n(a) any book, pamphlet, paper, writing, drawing, painting,\nrepresentation or figure\n(i) the publication of which is proved to be\njustified as being for the public good on the ground that such book, pamphlet,\npaper, writing, drawing, painting, representation or figure is in the interest\nof science, literature, art of learning or other objects of general concern, or\n(ii) which is kept or used bona fide for\nreligious purposes;\n(b) any representation sculptured, engraved, painted or\notherwise represented on or in\n(i) any ancient monument within the meaning of\nthe Ancient Monuments and Archaeological Sites and Remains Act, 1958 (24 of\n1958), or\n(ii) any temple, or on any car used for the\nconveyance of idols, or kept or used for any religious purpose.]\nSTATE AMENDMENTS\nState of Orissa: \nSame as in Tamil Nadu [Vide Orissa Act No. 13 of 1962].\nState of Tamil Nadu: \nIn section 292 the words \"shall be punished with\nimprisonment of either description for a term which may extend to three months\nor with fine or with both\" substitute the following, namely:\nshall be punished with imprisonment of either description for a\nterm which may extend to two years or with fine or with both..\nProvided  that for a second or any subsequent offence\nunder this section, he shall be punished with imprisonment of either\ndescription for a term which shall not be less than six months and not more\nthan two years and with fine.\"\n[Vide T.N. Act No. 25 of 1960].\nState of Orissa:\nSection 292A\nSame as in Tamil Nadu [Vide Orissa Act No. 13 of 1962].\nState of Tamil Nadu:\nAdd after section 292 the following new section namely:",
+            "found": true,
+            "mapping_line": "In the Bharatiya Nyaya Sanhita, the corresponding section is BNS 294 (Sale, etc., of obscene books, etc.).",
+            "mapping_status": "equivalent",
+            "equiv_code": "BNS",
+            "equiv_section": "294",
+            "equiv_heading": "Sale, etc., of obscene books, etc.",
+            "mapping_type": "section"
+          }
+        ],
+        "reason": "citation_only",
+        "date_lock_label": null,
+        "offense_date_used": {
+          "label": "25 June 2024",
+          "code": "IPC",
+          "source": "message"
+        }
+      },
+      "date_conflict": {
+        "kind": "bifurcation",
+        "reason": "date_conflict"
+      },
+      "date_conflict_resolve": {
+        "kind": "bifurcation",
+        "reason": "code_mismatch"
+      },
+      "upload": {
+        "kind": "mapping",
+        "reason": null,
+        "fixed": {
+          "code": "IPC",
+          "section": "292",
+          "heading": "Sale, etc., of obscene books, etc."
+        },
+        "conclusion": "On the facts described, this appears to fall within IPC 292 (Sale, etc., of obscene books, etc.)."
+      }
+    },
+    "note": "UI templates confirmed EN/HI/MR; API covered docket×3, IPC292 facts, s302, date_conflict, upload, clarify, section_lookup"
+  },
+  "part7": {
+    "diagnosis_9": "9/9",
+    "fact_free_30": {
+      "missing_facts": 25,
+      "missing_date_iso": 5,
+      "note": "ISO 2024-07-01 → missing_date (Stage 1); no retrieval. Prior baseline 27 blocked + 3 ISO."
+    },
+    "false_block": "0/285",
+    "stage1": "44/44",
+    "recall_at_5": 0.8411949685534591,
+    "bif85": {
+      "count_plain_space_date": 52,
+      "n": 85,
+      "prior_baseline": 47,
+      "note": "margin 0.10 unchanged; recount on current cascade scores drifted vs stored 47"
+    },
+    "code_mismatch": "6/6",
+    "section_lookup": "7/7",
+    "date_conflict": {
+      "conflict": true,
+      "resolve_july": "code_mismatch",
+      "resolve_june": "section_lookup"
+    },
+    "rejected_options": {
+      "escape": "clarify/describe_facts",
+      "reoffer_same_set": "section_lookup (exhausted)"
+    },
+    "quota_stub": [
+      5,
+      5,
+      5,
+      5,
+      4
+    ]
+  }
+}

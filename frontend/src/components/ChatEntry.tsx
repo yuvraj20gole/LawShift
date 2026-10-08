@@ -69,6 +69,12 @@ type OffenseDateUsed = {
   source: "message" | "earlier_message" | "document";
 };
 
+type FixedConclusionParts = {
+  code: string;
+  section: string;
+  heading: string;
+};
+
 type Msg =
   | { role: "user"; text: string }
   | {
@@ -81,12 +87,37 @@ type Msg =
       language?: string;
       engine?: "indictrans2" | "ollama_fallback" | "unavailable" | null;
       translationNote?: string | null;
+      translationFallbackFields?: string[] | null;
       bifurcationOptions?: BifurcationOption[];
       sectionLookup?: SectionLookupItem[];
       offenseDateUsed?: OffenseDateUsed;
+      fixedConclusion?: FixedConclusionParts;
       showExceptionNotice?: boolean;
       showScope?: boolean;
     };
+
+function parseFixedConclusion(raw: unknown): FixedConclusionParts | undefined {
+  if (!raw || typeof raw !== "object") return undefined;
+  const o = raw as Record<string, unknown>;
+  if (typeof o.code !== "string" || typeof o.section !== "string") return undefined;
+  return {
+    code: o.code,
+    section: o.section,
+    heading: typeof o.heading === "string" ? o.heading : "",
+  };
+}
+
+function displayConclusion(
+  irac: Irac,
+  fixed: FixedConclusionParts | undefined,
+  lang: string,
+  dict: { fixedConclusion: (code: string, section: string, heading: string) => string },
+): string | undefined {
+  if (fixed) {
+    return dict.fixedConclusion(fixed.code, fixed.section, fixed.heading || "");
+  }
+  return irac.conclusion;
+}
 
 /** Display-only: strip corpus indexing prefix from statute text. */
 function stripIndexingContext(text: string): string {
@@ -335,6 +366,8 @@ export function ChatEntry({
         const irac: Irac = (data.irac as Irac) || {};
         const sources = parseSources(data.sources);
         const offenseDateUsed = parseOffenseDateUsed(data.offense_date_used);
+        const fixedConclusion = parseFixedConclusion(data.fixed_conclusion);
+        const conclusionText = displayConclusion(irac, fixedConclusion, lang, t);
         const rawVerification = parseVerification(data.verification);
         /* The all-clear line is fixed copy, so show it in the reader's language. */
         const verification = rawVerification
@@ -345,7 +378,7 @@ export function ChatEntry({
           irac.issue ? `${t.issue}: ${irac.issue}` : null,
           irac.rule ? `${t.rule}: ${irac.rule}` : null,
           irac.application ? `${t.application}: ${irac.application}` : null,
-          irac.conclusion ? `${t.conclusion}: ${irac.conclusion}` : null,
+          conclusionText ? `${t.conclusion}: ${conclusionText}` : null,
           verification?.flagged
             ? `${t.verifierNote}: ${verification.confidence_note || t.worthDoubleChecking}`
             : verification
@@ -376,10 +409,11 @@ export function ChatEntry({
           role: "assistant",
           text,
           summary: data.summary as string | undefined,
-          irac,
+          irac: conclusionText ? { ...irac, conclusion: conclusionText } : irac,
           sources,
           verification,
           offenseDateUsed,
+          fixedConclusion,
           showExceptionNotice,
           showScope: true,
           language: lang,
@@ -391,6 +425,11 @@ export function ChatEntry({
               : null,
           translationNote:
             typeof data.translation_note === "string" ? data.translation_note : null,
+          translationFallbackFields: Array.isArray(data.translation_fallback_fields)
+            ? (data.translation_fallback_fields as unknown[]).filter(
+                (x): x is string => typeof x === "string",
+              )
+            : null,
         };
       }
       if (data.kind === "clarify") {
@@ -709,7 +748,15 @@ export function ChatEntry({
                         ["issue", t.issue, m.irac.issue],
                         ["rule", t.rule, m.irac.rule],
                         ["application", t.application, m.irac.application],
-                        ["conclusion", t.conclusion, m.irac.conclusion],
+                        [
+                          "conclusion",
+                          t.conclusion,
+                          // Prefer the localised template from structured parts
+                          // so HI/MR (and language switches) do not show the
+                          // English fixed sentence baked at reply time.
+                          displayConclusion(m.irac, m.fixedConclusion, lang, t) ??
+                            m.irac.conclusion,
+                        ],
                       ] as const
                     ).map(([key, label, value]) =>
                       value ? (
@@ -831,6 +878,12 @@ export function ChatEntry({
 
                     {m.language && m.language !== "en" && m.engine === "indictrans2" ? (
                       <p className={styles.fallbackNote}>{t.machineTranslatedNote}</p>
+                    ) : null}
+                    {m.translationFallbackFields &&
+                    m.translationFallbackFields.length > 0 ? (
+                      <p className={styles.fallbackNote}>
+                        {t.numberGuardFallbackNote}
+                      </p>
                     ) : null}
                     {m.engine === "ollama_fallback" ? (
                       <p className={styles.fallbackNote}>

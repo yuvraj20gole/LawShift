@@ -887,4 +887,68 @@ Backend already exposed `OffenseDateUsed` on mapping / section_lookup schemas; t
 
 ---
 
-*End of process log. Generated from files in `results/` as of the unified comparison run, plus GovIntel README figures verified against the live Hugging Face card, plus the split-offense review and `split_detector_v2_eval.json`, Stage 4 generation and verifier evals (§16), citation-fix verifier evaluation (§17), backend integration / bifurcation validation (§18), multilingual Stage 5 / IndicTrans2 fix (§19), Ollama Metal / Rosetta fix and Stage 4 warm-up (§20), landing-page + live chat UI verification (§21), missing-facts gate (§22), IPC↔BNS code-mismatch intercept (§23), citation-only section lookup / bifurcation escape / date-lock diagnosis (§24), locked-date conflict handling (§25), Stage 4 conclusion-wording variant (§26), and bifurcation-escape / cited-section / mismatch-card rules (§27), and display-only chat answer lines (§28).*
+## 29. Fixed Conclusion (code-written)
+
+### Problem
+
+The Stage 4 writer’s Conclusion often asserted guilt or punishment (“should be punished”, “is guilty”, …) from incomplete facts. The 14B verifier only sees Rule + Conclusion, so Application fabrications stayed invisible. Earlier **0-of-40 fabricated** (hand review) and the **15-of-40 flagged** verifier figures describe the **generated** Conclusion era.
+
+### Change
+
+When `LAWSHIFT_FIXED_CONCLUSION` is on (default **1**), `_build_mapping` discards the writer Conclusion and sets:
+
+`On the facts described, this appears to fall within <code> <section> (<heading>).`
+
+Heading from `stage3.option_description` (same as bifurcation options). Issue / Rule / Application unchanged. Response adds `fixed_conclusion: {code, section, heading}` for client templates. Verifier code/prompt unchanged; it receives Rule + **this fixed** Conclusion. Stage 5 skips translating `conclusion` (`skip_fields={"conclusion"}`); HI/MR use i18n `fixedConclusion` (agent drafts, native review). ChatEntry renders the template from the structured parts (including on language switch). At **0**, the generated Conclusion is shown exactly as before.
+
+Env read: `app/main.py` → `_fixed_conclusion_enabled()`.
+
+### Numbers (see `results/fixed_conclusion.json`)
+
+| Check | Result |
+|--------|--------|
+| Fact-20 guilty phrase hits in **Conclusion** (switch **1**, fixed sentence) | **0** hits / 20 |
+| Fact-20 guilty phrase hits in **Conclusion** (switch **0**, fresh `generate_irac`) | **14** hits / 11 Conclusions (stored v1 ref: **13**/20; **31** full-IRAC hits in wording JSON) |
+| Verifier `verify_rule_only_14b_v2` on Rule + **fixed** Conclusion (gold 40) | **12** / 40 NOT_SUPPORTED vs **15** / 40 before (generated Conclusions) |
+| Same verifier (fact 20) | **2** / 20 NOT_SUPPORTED |
+| Known-bad five with fixed Conclusion | **6**, **9** SUPPORTED; **12**, **13**, **39** NOT_SUPPORTED |
+| Rule span ⊈ section (same 60 outputs, whitespace/ellipsis-tolerant) | **5** failures (section numbers only): 115, 22, 292, 433, 506 |
+| Application legal-test phrase from section absent from user message (same 60) | **5** (examples in JSON) |
+| Regressions (in-process TestClient + stored Stage 1 / Recall) | diagnosis **9/9**; fact-free **25** missing_facts + **5** ISO missing_date; false-block **0/285**; Stage 1 **44/44**; Recall@5 **0.841**; bif85 recount **52**/85 (prior baseline **47**, margin unchanged); code-mismatch **6/6**; section_lookup **7/7**; date-conflict + rejected-options pass; quota stub **5→5→5→5→4** |
+
+Harnesses under `/tmp` (`lawshift_fixed_concl_master.py`, `lawshift_fixed_concl_offline.py`, `lawshift_fixed_concl_regress.py`); verifier detail `/tmp/lawshift_fixed_concl_6b.json`.
+
+Plain statement: prior **0-of-40 fabricated** and **15-of-40 flagged** verifier results describe the **generated** Conclusion; they are not scores for the fixed sentence. With the fixed sentence the verifier can still catch Rule↔heading mismatch, but not Application fabrications or guilt wording.
+
+---
+
+## 30. Translation number guard (HI/MR)
+
+### Problem
+
+IndicTrans2 can change digit sequences in Issue / Rule / Application. Observed: Hindi Application for “Section 302 IPC … he killed a man” said **धारा 307** (attempt) while English said **Section 302** (murder). Conclusion was already fixed / not machine-translated (§29).
+
+### Change
+
+Pure check in `app/translation_number_guard.py`: after each field is translated, compare digit multisets (ASCII + Devanagari → ASCII). On mismatch, keep the English field and append the name to `translation_fallback_fields` on `MappingResponse`. Wired in `translate_irac` only (Stages 1–4, verifier, models, fixed Conclusion untouched).
+
+**List markers ignored:** 1–2 digit `(n)` without a nearby section cue, or `n.` / `n)` at line start. Section cues (`section` / IPC / BNS / BNSS / BSA / धारा / कलम / §) keep the number in the multiset. Unit tests: `tests/test_translation_number_guard.py`.
+
+Frontend: one-line note when any field fell back (`numberGuardFallbackNote`; HI/MR agent drafts, native review).
+
+### Numbers (`results/number_guard_measure.json`)
+
+| Check | Result |
+|--------|--------|
+| Raw drift on 100 stored/generated IRACs × HI (issue/rule/application) | **0** / 300 fields |
+| Raw drift on same × MR | **1** / 300 (Rule on gold40_14: translator **added** 16, 1908; not a section swap) |
+| Guard on those 100 | HI **0** answers fall back; MR **1** (rule) |
+| Kill-case raw HI Application 302→307 | **5** / 5 trials |
+| Kill-case with guard HI / MR | fallback **4**/5 HI (Application kept English 302); **0**/5 MR |
+| Regression | diagnosis **9/9**; false-block **0**/285; Stage 1 **44**/44; Recall@5 **0.841**; quota **5→5→5→5→4**; English answer unchanged; HI smoke falls back Application |
+
+Worth the cost: rare on the broad 100-set, but the murder/302 Hindi path drifts almost every time without the guard; the check is a cheap pure function.
+
+---
+
+*End of process log. Generated from files in `results/` as of the unified comparison run, plus GovIntel README figures verified against the live Hugging Face card, plus the split-offense review and `split_detector_v2_eval.json`, Stage 4 generation and verifier evals (§16), citation-fix verifier evaluation (§17), backend integration / bifurcation validation (§18), multilingual Stage 5 / IndicTrans2 fix (§19), Ollama Metal / Rosetta fix and Stage 4 warm-up (§20), landing-page + live chat UI verification (§21), missing-facts gate (§22), IPC↔BNS code-mismatch intercept (§23), citation-only section lookup / bifurcation escape / date-lock diagnosis (§24), locked-date conflict handling (§25), Stage 4 conclusion-wording variant (§26), bifurcation-escape / cited-section / mismatch-card rules (§27), display-only chat answer lines (§28), fixed Conclusion (§29), and translation number guard (§30).*

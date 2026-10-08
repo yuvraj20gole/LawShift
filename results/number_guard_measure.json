@@ -1,0 +1,295 @@
+{
+  "n_answers": 100,
+  "part1_raw_drift": {
+    "hi": {
+      "issue": {
+        "differ": 0,
+        "section_changed": 0,
+        "n": 100,
+        "examples": []
+      },
+      "rule": {
+        "differ": 0,
+        "section_changed": 0,
+        "n": 100,
+        "examples": []
+      },
+      "application": {
+        "differ": 0,
+        "section_changed": 0,
+        "n": 100,
+        "examples": []
+      }
+    },
+    "mr": {
+      "issue": {
+        "differ": 0,
+        "section_changed": 0,
+        "n": 100,
+        "examples": []
+      },
+      "rule": {
+        "differ": 1,
+        "section_changed": 0,
+        "n": 100,
+        "examples": [
+          {
+            "id": "gold40_14",
+            "english_only": [],
+            "translated_only": [
+              "16",
+              "1908",
+              "1908"
+            ],
+            "section_changed": false
+          }
+        ]
+      },
+      "application": {
+        "differ": 0,
+        "section_changed": 0,
+        "n": 100,
+        "examples": []
+      }
+    }
+  },
+  "part4_guard_on_translated": {
+    "hi": {
+      "answers_with_any_field_fallback": 0,
+      "field_fallback_counts": {},
+      "field_preserved_counts": {
+        "issue": 100,
+        "rule": 100,
+        "application": 100
+      }
+    },
+    "mr": {
+      "answers_with_any_field_fallback": 1,
+      "field_fallback_counts": {
+        "rule": 1
+      },
+      "field_preserved_counts": {
+        "issue": 100,
+        "rule": 99,
+        "application": 100
+      }
+    }
+  },
+  "list_marker_rule": "Ignore 1–2 digit tokens that are (n) without a nearby section cue, or n./n) at line start; section/IPC/BNS/धारा/कलम/§ cues keep the number.",
+  "part5_regression": {
+    "diagnosis_9": "9/9",
+    "false_block": {
+      "blocked": 0,
+      "total": 285
+    },
+    "stage1": "44/44",
+    "recall_at_5": 0.8411949685534591,
+    "quota_stub": [
+      5,
+      5,
+      5,
+      5,
+      4
+    ],
+    "english_unchanged": {
+      "kind": "mapping",
+      "engine": null,
+      "translation_fallback_fields": null,
+      "application_is_english_stub": true,
+      "no_hi_prefix": true
+    },
+    "hindi_guard_smoke": {
+      "kind": "mapping",
+      "fallback_fields": [
+        "application"
+      ],
+      "application_kept_302": true,
+      "application_not_307": true
+    }
+  },
+  "part4_kill_case": {
+    "message": "Section 302 IPC, 25 June 2024, he killed a man",
+    "hi_fallback_count": 4,
+    "mr_fallback_count": 0,
+    "runs": 5,
+    "results": {
+      "hi": [
+        {
+          "i": 1,
+          "kind": "mapping",
+          "fallback_fields": [
+            "application"
+          ],
+          "fallback_triggered": true,
+          "application_has_307": false,
+          "application_has_302": true,
+          "secs": 20.6
+        },
+        {
+          "i": 2,
+          "kind": "mapping",
+          "fallback_fields": [
+            "application"
+          ],
+          "fallback_triggered": true,
+          "application_has_307": false,
+          "application_has_302": true,
+          "secs": 8.3
+        },
+        {
+          "i": 3,
+          "kind": "mapping",
+          "fallback_fields": [],
+          "fallback_triggered": false,
+          "application_has_307": false,
+          "application_has_302": true,
+          "secs": 6.3
+        },
+        {
+          "i": 4,
+          "kind": "mapping",
+          "fallback_fields": [
+            "application"
+          ],
+          "fallback_triggered": true,
+          "application_has_307": false,
+          "application_has_302": true,
+          "secs": 6.1
+        },
+        {
+          "i": 5,
+          "kind": "mapping",
+          "fallback_fields": [
+            "application"
+          ],
+          "fallback_triggered": true,
+          "application_has_307": false,
+          "application_has_302": true,
+          "secs": 5.7
+        }
+      ],
+      "mr": [
+        {
+          "i": 1,
+          "kind": "mapping",
+          "fallback_fields": [],
+          "fallback_triggered": false,
+          "application_has_307": false,
+          "application_has_302": true,
+          "secs": 6.2
+        },
+        {
+          "i": 2,
+          "kind": "mapping",
+          "fallback_fields": [],
+          "fallback_triggered": false,
+          "application_has_307": false,
+          "application_has_302": true,
+          "secs": 5.9
+        },
+        {
+          "i": 3,
+          "kind": "mapping",
+          "fallback_fields": [],
+          "fallback_triggered": false,
+          "application_has_307": false,
+          "application_has_302": true,
+          "secs": 5.9
+        },
+        {
+          "i": 4,
+          "kind": "mapping",
+          "fallback_fields": [],
+          "fallback_triggered": false,
+          "application_has_307": false,
+          "application_has_302": true,
+          "secs": 5.8
+        },
+        {
+          "i": 5,
+          "kind": "mapping",
+          "fallback_fields": [],
+          "fallback_triggered": false,
+          "application_has_307": false,
+          "application_has_302": true,
+          "secs": 4.9
+        }
+      ]
+    }
+  },
+  "part4_kill_raw_drift": [
+    {
+      "lang": "hi",
+      "trial": 1,
+      "field": "application",
+      "english_only": [
+        "302"
+      ],
+      "translated_only": [
+        "307"
+      ],
+      "section_changed": true
+    },
+    {
+      "lang": "hi",
+      "trial": 2,
+      "field": "application",
+      "english_only": [
+        "302"
+      ],
+      "translated_only": [
+        "307"
+      ],
+      "section_changed": true
+    },
+    {
+      "lang": "hi",
+      "trial": 3,
+      "field": "application",
+      "english_only": [
+        "302"
+      ],
+      "translated_only": [
+        "307"
+      ],
+      "section_changed": true
+    },
+    {
+      "lang": "hi",
+      "trial": 4,
+      "field": "application",
+      "english_only": [
+        "302"
+      ],
+      "translated_only": [
+        "307"
+      ],
+      "section_changed": true
+    },
+    {
+      "lang": "hi",
+      "trial": 5,
+      "field": "application",
+      "english_only": [
+        "302"
+      ],
+      "translated_only": [
+        "307"
+      ],
+      "section_changed": true
+    }
+  ],
+  "part2": {
+    "module": "app/translation_number_guard.py",
+    "wired_in": "app/stage5_translate.translate_irac",
+    "response_field": "translation_fallback_fields",
+    "tests": "tests/test_translation_number_guard.py",
+    "list_marker_rule": "Ignore 1–2 digit tokens that are (n) without a nearby section cue, or n./n) at line start; section/IPC/BNS/धारा/कलम/§ cues keep the number."
+  },
+  "part3_frontend": {
+    "note_key": "numberGuardFallbackNote",
+    "en": "Part of this answer is shown in English because the translation changed a number.",
+    "hi_draft": "इस उत्तर का कुछ भाग अंग्रेज़ी में दिखाया गया है क्योंकि अनुवाद ने कोई संख्या बदल दी।",
+    "mr_draft": "या उत्तराचा काही भाग इंग्रजीत दाखवला आहे कारण भाषांतराने एखादी संख्या बदलली."
+  }
+}

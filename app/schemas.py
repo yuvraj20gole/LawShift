@@ -36,6 +36,14 @@ class OffenseDateUsed(BaseModel):
     )
 
 
+class FixedConclusionParts(BaseModel):
+    """Structured cite for a code-written Conclusion (localise on the client)."""
+
+    code: str
+    section: str
+    heading: str
+
+
 class MappingResponse(BaseModel):
     kind: Literal["mapping"] = "mapping"
     summary: str
@@ -74,6 +82,22 @@ class MappingResponse(BaseModel):
     offense_date_used: OffenseDateUsed | None = Field(
         default=None,
         description="Display-only offence date + code line for mapped answers.",
+    )
+    fixed_conclusion: FixedConclusionParts | None = Field(
+        default=None,
+        description=(
+            "When set (LAWSHIFT_FIXED_CONCLUSION=1), the client renders the "
+            "Conclusion from a localised template using these parts; "
+            "irac.conclusion holds the English fixed sentence for EN / verifier."
+        ),
+    )
+    translation_fallback_fields: list[str] | None = Field(
+        default=None,
+        description=(
+            "IRAC field names kept in English because Stage 5 translation "
+            "changed a number (section, date, year, or amount). Empty/None "
+            "when every translated field preserved its digit multiset."
+        ),
     )
 
 

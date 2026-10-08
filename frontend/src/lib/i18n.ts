@@ -94,6 +94,8 @@ export type Dictionary = {
   offenseDateFromDocument: string;
   exceptionProvisoNotice: string;
   scopeLine: string;
+  /** Code-written Conclusion; code/section/heading stay as stored. */
+  fixedConclusion: (code: string, section: string, heading: string) => string;
   langSwitchNote: (langName: string) => string;
   langNameEn: string;
   langNameHi: string;
@@ -109,6 +111,7 @@ export type Dictionary = {
     laterCode: string,
   ) => string;
   machineTranslatedNote: string;
+  numberGuardFallbackNote: string;
   bifurcationPrompt: (sections: string) => string;
   bifurcationMismatchFallback: (sections: string) => string;
   failureFallback: string;
@@ -260,6 +263,12 @@ const en: Dictionary = {
     "This section has an Exception, Explanation or Proviso that may change the result. Read the full text under Sources.",
   scopeLine:
     "This shows what the section says. Whether it applies to your facts is for a court to decide.",
+  fixedConclusion: (code, section, heading) => {
+    const head = (heading || "").trim();
+    return head
+      ? `On the facts described, this appears to fall within ${code} ${section} (${head}).`
+      : `On the facts described, this appears to fall within ${code} ${section}.`;
+  },
   langSwitchNote: (langName) =>
     `Answers already on screen stay in the language they were written in. New answers use ${langName}.`,
   langNameEn: "English",
@@ -278,6 +287,8 @@ const en: Dictionary = {
     `Earlier you gave ${earlierDate} (${earlierCode}). This message says ${laterDate} (${laterCode}). Which is the date of the offence?`,
   machineTranslatedNote:
     "Machine-translated after the legal analysis was done. Check the English if it matters.",
+  numberGuardFallbackNote:
+    "Part of this answer is shown in English because the translation changed a number.",
   bifurcationPrompt: (sections) =>
     `Several statutory sections look equally plausible for this query. Which one should I analyse: ${sections}?`,
   bifurcationMismatchFallback: (sections) =>
@@ -446,6 +457,13 @@ const hi: Dictionary = {
   scopeLine:
     // Agent draft — needs native review
     "यह दिखाता है कि धारा क्या कहती है। यह आपके तथ्यों पर लागू होती है या नहीं, न्यायालय तय करेगा।",
+  fixedConclusion: (code, section, heading) => {
+    // Agent draft — needs native review
+    const head = (heading || "").trim();
+    return head
+      ? `वर्णित तथ्यों के आधार पर, यह ${code} ${section} (${head}) के अंतर्गत आता प्रतीत होता है।`
+      : `वर्णित तथ्यों के आधार पर, यह ${code} ${section} के अंतर्गत आता प्रतीत होता है।`;
+  },
   langSwitchNote: (langName) =>
     // Agent draft — needs native review
     `स्क्रीन पर पहले से लिखे उत्तर जिस भाषा में हैं उसी में रहेंगे। नए उत्तर ${langName} में होंगे।`,
@@ -465,6 +483,9 @@ const hi: Dictionary = {
     `पहले आपने ${earlierDate} (${earlierCode}) दी थी। इस संदेश में ${laterDate} (${laterCode}) है। अपराध की तिथि कौन-सी है?`,
   machineTranslatedNote:
     "कानूनी विश्लेषण पूरा होने के बाद हिंदी में मशीन-अनुवाद किया गया। ज़रूरी हो तो अंग्रेज़ी पाठ देखें।",
+  numberGuardFallbackNote:
+    // Agent draft — needs native review
+    "इस उत्तर का कुछ भाग अंग्रेज़ी में दिखाया गया है क्योंकि अनुवाद ने कोई संख्या बदल दी।",
   bifurcationPrompt: (sections) =>
     `इस प्रश्न के लिए कई वैधानिक धाराएँ लगभग समान रूप से उपयुक्त लगती हैं। मैं किसका विश्लेषण करूँ: ${sections}?`,
   bifurcationMismatchFallback: (sections) =>
@@ -633,6 +654,13 @@ const mr: Dictionary = {
   scopeLine:
     // Agent draft — needs native review
     "हे कलम काय म्हणते ते दाखवते. तुमच्या तथ्यांवर लागू होते की नाही हे न्यायालय ठरवेल.",
+  fixedConclusion: (code, section, heading) => {
+    // Agent draft — needs native review
+    const head = (heading || "").trim();
+    return head
+      ? `वर्णन केलेल्या तथ्यांनुसार, हे ${code} ${section} (${head}) अंतर्गत येत असल्याचे दिसते.`
+      : `वर्णन केलेल्या तथ्यांनुसार, हे ${code} ${section} अंतर्गत येत असल्याचे दिसते.`;
+  },
   langSwitchNote: (langName) =>
     // Agent draft — needs native review
     `स्क्रीनवरील आधीचे उत्तरे ज्या भाषेत आहेत तशाच राहतील. नवीन उत्तरे ${langName} मध्ये असतील.`,
@@ -652,6 +680,9 @@ const mr: Dictionary = {
     `आधी तुम्ही ${earlierDate} (${earlierCode}) दिली. या संदेशात ${laterDate} (${laterCode}) आहे. गुन्ह्याची तारीख कोणती?`,
   machineTranslatedNote:
     "कायदेशीर विश्लेषणानंतर मराठीत मशीन-भाषांतर केले आहे. महत्त्वाचे असल्यास इंग्रजी मजकूर पाहा.",
+  numberGuardFallbackNote:
+    // Agent draft — needs native review
+    "या उत्तराचा काही भाग इंग्रजीत दाखवला आहे कारण भाषांतराने एखादी संख्या बदलली.",
   bifurcationPrompt: (sections) =>
     `या प्रश्नासाठी अनेक वैधानिक कलमे जवळपास सारखीच योग्य वाटतात. मी कोणत्याचे विश्लेषण करू: ${sections}?`,
   bifurcationMismatchFallback: (sections) =>

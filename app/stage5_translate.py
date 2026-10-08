@@ -293,14 +293,46 @@ def _translate_indic_batch(texts: list[str], target_lang: str) -> list[str]:
     return out
 
 
-def translate_irac(irac: dict, target_lang: str) -> tuple[dict, str | None, str | None]:
-    """Translate all four IRAC fields.
+def _apply_number_guard_to_fields(
+    english: dict,
+    translated: dict,
+    keys: list[str],
+) -> tuple[dict, list[str]]:
+    """Keep English for any translated field whose digit multiset drifted."""
+    from app.translation_number_guard import guard_translated_field
 
-    Returns (irac_dict, engine, note) where engine is "indictrans2",
-    "ollama_fallback", "unavailable", or None when no translation was attempted.
+    out = dict(translated)
+    fallback: list[str] = []
+    for k in keys:
+        if not isinstance(english.get(k), str):
+            continue
+        text, fell = guard_translated_field(english[k], out.get(k) or "")
+        out[k] = text
+        if fell:
+            fallback.append(k)
+    return out, fallback
+
+
+def translate_irac(
+    irac: dict,
+    target_lang: str,
+    skip_fields: set[str] | frozenset[str] | None = None,
+) -> tuple[dict, str | None, str | None, list[str]]:
+    """Translate IRAC fields.
+
+    skip_fields: keys left untranslated (e.g. {\"conclusion\"} when the
+    Conclusion is a code-written fixed sentence rendered via a client template).
+
+    Returns (irac_dict, engine, note, translation_fallback_fields) where engine
+    is "indictrans2", "ollama_fallback", "unavailable", or None when no
+    translation was attempted. translation_fallback_fields lists field names
+    kept in English because the translation changed a number.
     """
     if target_lang == "en" or not target_lang:
-        return irac, None, None
+        return irac, None, None, []
+
+    skip = {k.lower() for k in (skip_fields or set())}
+    held = {k: irac[k] for k in irac if k.lower() in skip}
 
     try:
         load_translator()
@@ -314,20 +346,29 @@ def translate_irac(irac: dict, target_lang: str) -> tuple[dict, str | None, str 
             print(
                 f"[stage5] IndicTrans2 unavailable ({type(exc).__name__}: {exc}); {note}"
             )
-            return irac, "unavailable", note
+            return irac, "unavailable", note, []
         print(
             f"[stage5] IndicTrans2 unavailable ({type(exc).__name__}: {exc}); "
             f"using batched Ollama fallback for '{target_lang}'"
         )
+        to_send = {k: v for k, v in irac.items() if k.lower() not in skip}
+        out = dict(irac)
+        translated = _translate_irac_ollama(to_send, target_lang)
+        out.update(translated)
+        guarded, fallback = _apply_number_guard_to_fields(
+            irac, out, list(to_send.keys())
+        )
+        guarded.update(held)
         return (
-            _translate_irac_ollama(irac, target_lang),
+            guarded,
             "ollama_fallback",
             "Machine-translated with a fallback model. Verify against the English text.",
+            fallback,
         )
 
     import time
 
-    keys = list(irac.keys())
+    keys = [k for k in irac.keys() if k.lower() not in skip]
     values = [irac[k] if isinstance(irac[k], str) else "" for k in keys]
     t0 = time.perf_counter()
     try:
@@ -340,18 +381,23 @@ def translate_irac(irac: dict, target_lang: str) -> tuple[dict, str | None, str 
                 f"{lang_name} translation is not currently available. Showing English."
             )
             print(f"[stage5] IndicTrans2 batch failed ({exc}); {note}")
-            return irac, "unavailable", note
+            return irac, "unavailable", note, []
         raise
     dt = time.perf_counter() - t0
     print(
         f"[stage5] IndicTrans2 batched {len(keys)} fields → '{target_lang}' in {dt:.2f}s"
+        + (f" (skipped {sorted(skip)})" if skip else "")
     )
 
-    translated = {
-        k: (translated_vals[i] if isinstance(irac[k], str) else irac[k])
-        for i, k in enumerate(keys)
-    }
-    return translated, "indictrans2", None
+    translated = dict(irac)
+    for i, k in enumerate(keys):
+        if isinstance(irac[k], str):
+            translated[k] = translated_vals[i]
+    guarded, fallback = _apply_number_guard_to_fields(irac, translated, keys)
+    if fallback:
+        print(f"[stage5] number-guard fallback fields: {fallback}")
+    guarded.update(held)
+    return guarded, "indictrans2", None, fallback
 
 
 __all__ = ["translate_text", "translate_irac", "load_translator", "LANG_CODES"]
