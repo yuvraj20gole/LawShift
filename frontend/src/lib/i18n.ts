@@ -144,6 +144,7 @@ export type Dictionary = {
   issue: string;
   rule: string;
   application: string;
+  generatedNote: string;
   conclusion: string;
 };
 
@@ -331,6 +332,7 @@ const en: Dictionary = {
   issue: "Issue",
   rule: "Rule",
   application: "Application",
+  generatedNote: "Generated text. It can say more than you told it. The statute text is under Sources.",
   conclusion: "Conclusion",
 };
 
@@ -528,6 +530,7 @@ const hi: Dictionary = {
   issue: "मुद्दा",
   rule: "नियम",
   application: "अनुप्रयोग",
+  generatedNote: "मॉडल द्वारा लिखा पाठ। यह आपके बताए से ज़्यादा कह सकता है। धारा का पाठ स्रोत में है।",
   conclusion: "निष्कर्ष",
 };
 
@@ -725,6 +728,7 @@ const mr: Dictionary = {
   issue: "मुद्दा",
   rule: "नियम",
   application: "अनुप्रयोग",
+  generatedNote: "मॉडेलने लिहिलेला मजकूर. तो तुम्ही सांगितल्यापेक्षा जास्त सांगू शकतो. कलमाचा मजकूर स्रोतांमध्ये आहे.",
   conclusion: "निष्कर्ष",
 };
 

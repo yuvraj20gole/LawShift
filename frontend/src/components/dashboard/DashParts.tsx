@@ -9,7 +9,7 @@ import { CheckIcon, FlagIcon } from "@/components/auth/AuthParts";
 import type { Code } from "@/lib/sampleData";
 
 /** IPC slate / BNS navy: the same two code colours as the landing page. */
-export function CodeBadge({ code }: { code: Code }) {
+export function CodeBadge({ code }: { code: Code | string }) {
   return <span className={code === "IPC" ? styles.badgeIpc : styles.badgeBns}>{code}</span>;
 }
 

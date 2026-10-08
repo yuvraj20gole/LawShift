@@ -36,10 +36,15 @@ export function DashboardShell({ children }: { children: ReactNode }) {
   ];
   const isActive = (i: (typeof items)[number]) => path?.startsWith(i.href);
   const current = items.find(isActive) ?? items[0];
-  /** Mapping and Rulings never show the strip; elsewhere gated by SHOW_SAMPLE_SIGNS. */
+  /** Mapping, Rulings, History and Settings are real and never show the strip; elsewhere gated by SHOW_SAMPLE_SIGNS. */
   const showPreview =
     SHOW_SAMPLE_SIGNS &&
-    !(path?.startsWith("/dashboard/mapping") || path?.startsWith("/dashboard/rulings"));
+    !(
+      path?.startsWith("/dashboard/mapping") ||
+      path?.startsWith("/dashboard/rulings") ||
+      path?.startsWith("/dashboard/history") ||
+      path?.startsWith("/dashboard/settings")
+    );
 
   return (
     <>

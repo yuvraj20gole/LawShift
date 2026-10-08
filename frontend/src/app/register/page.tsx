@@ -171,6 +171,7 @@ export default function RegisterPage() {
           ) : null}
         </form>
       )}
+      <p className={styles.hint}>{A.registerSavedNote}</p>
       <SwitchLine prompt={A.haveAccount} linkLabel={A.loginLink} href="/login" />
     </AuthShell>
   );

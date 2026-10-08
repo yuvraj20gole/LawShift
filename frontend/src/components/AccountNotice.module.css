@@ -1,0 +1,12 @@
+.notice {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  margin: 0;
+  padding: 0.7rem var(--gutter, 1rem);
+  background: var(--ok-wash);
+  color: var(--ok);
+  font-size: 0.92rem;
+  font-weight: 600;
+}

@@ -79,6 +79,18 @@ export type DashboardCopy = {
   /** Author draft — needs native review (HI/MR). */
   hiFlagEmptyBody: string;
   clearFilters: string;
+  hiSavedNote: string;
+  hiLoading: string;
+  hiError: string;
+  hiRetry: string;
+  hiDelete: string;
+  hiClearAll: string;
+  hiClearTitle: string;
+  hiClearBody: string;
+  hiClearConfirm: string;
+  hiCancel: string;
+  hiActionFailed: string;
+  stDeleteFailed: string;
 
   dcTitle: string;
   dcLede: string;
@@ -274,6 +286,18 @@ const en: DashboardCopy = {
   hiFlagEmptyTitle: "No flagged answers.", // author draft — needs native review
   hiFlagEmptyBody: "Answers marked “Worth double-checking” will appear here.", // author draft — needs native review
   clearFilters: "Clear search and filter",
+  hiSavedNote: "Your questions are saved in your account. Deleting your account removes them.",
+  hiLoading: "Loading your history…",
+  hiError: "Your history couldn't be loaded. Check your connection, then try again.",
+  hiRetry: "Try again",
+  hiDelete: "Delete",
+  hiClearAll: "Clear all history",
+  hiClearTitle: "Delete all your saved history?",
+  hiClearBody: "This removes every saved question from your account. It can't be undone.",
+  hiClearConfirm: "Yes, delete everything",
+  hiCancel: "Cancel",
+  hiActionFailed: "That didn't work. Try again.",
+  stDeleteFailed: "Your account could not be deleted. You are still logged in. Try again.",
 
   dcTitle: "Documents",
   dcLede: "Add a document and LawShift reads the facts and the date from it.",
@@ -394,10 +418,10 @@ const en: DashboardCopy = {
   stConfirm: "Confirm new password",
   stUpdate: "Update password",
   stUpdating: "Updating…",
-  stUpdated: "Password updated (placeholder: nothing was changed).",
+  stUpdated: "Password updated.",
   stDeleteTitle: "Delete account",
   stDeleteBody:
-    "This deletes your account, your case history and every document you have stored with us. It can't be undone.",
+    "This deletes your account and your saved case history. It can't be undone.",
   stDeleteType: (e) => `Type ${e} to confirm`,
   stDeleteButton: "Delete account",
   stDeleteDone:
@@ -479,6 +503,18 @@ const hi: DashboardCopy = {
   hiFlagEmptyTitle: "कोई फ़्लैग किया उत्तर नहीं।", // author draft — needs native review
   hiFlagEmptyBody: "“दोबारा जाँचने योग्य” चिह्नित उत्तर यहाँ दिखेंगे।", // author draft — needs native review
   clearFilters: "खोज और फ़िल्टर हटाएँ",
+  hiSavedNote: "आपके प्रश्न आपके खाते में सहेजे जाते हैं। खाता हटाने पर वे हट जाते हैं।",
+  hiLoading: "आपका इतिहास लोड हो रहा है…",
+  hiError: "आपका इतिहास लोड नहीं हो सका। कनेक्शन जाँचें, फिर दोबारा कोशिश करें।",
+  hiRetry: "दोबारा कोशिश करें",
+  hiDelete: "हटाएँ",
+  hiClearAll: "पूरा इतिहास साफ़ करें",
+  hiClearTitle: "आपका सहेजा हुआ पूरा इतिहास हटाएँ?",
+  hiClearBody: "इससे आपके खाते से हर सहेजा गया प्रश्न हट जाएगा। इसे वापस नहीं किया जा सकता।",
+  hiClearConfirm: "हाँ, सब हटाएँ",
+  hiCancel: "रद्द करें",
+  hiActionFailed: "यह नहीं हो सका। दोबारा कोशिश करें।",
+  stDeleteFailed: "आपका खाता हटाया नहीं जा सका। आप अब भी लॉग इन हैं। दोबारा कोशिश करें।",
 
   dcTitle: "दस्तावेज़",
   dcLede: "दस्तावेज़ जोड़ें, LawShift उससे तथ्य और तिथि पढ़ लेगा।",
@@ -599,10 +635,10 @@ const hi: DashboardCopy = {
   stConfirm: "नए पासवर्ड की पुष्टि करें",
   stUpdate: "पासवर्ड अपडेट करें",
   stUpdating: "अपडेट हो रहा है…",
-  stUpdated: "पासवर्ड अपडेट हुआ (प्लेसहोल्डर: कुछ नहीं बदला)।",
+  stUpdated: "पासवर्ड अपडेट हो गया।",
   stDeleteTitle: "खाता हटाएँ",
   stDeleteBody:
-    "इससे आपका खाता, केस इतिहास और हमारे पास सहेजे आपके सभी दस्तावेज़ हट जाएँगे। इसे वापस नहीं किया जा सकता।",
+    "इससे आपका खाता और सहेजा गया केस इतिहास हट जाएगा। इसे वापस नहीं किया जा सकता।",
   stDeleteType: (e) => `पुष्टि के लिए ${e} लिखें`,
   stDeleteButton: "खाता हटाएँ",
   stDeleteDone:
@@ -684,6 +720,18 @@ const mr: DashboardCopy = {
   hiFlagEmptyTitle: "कोणतेही ध्वजांकित उत्तर नाही.", // author draft — needs native review
   hiFlagEmptyBody: "“पुन्हा तपासण्यासारखे” चिन्हांकित उत्तरे येथे दिसतील.", // author draft — needs native review
   clearFilters: "शोध आणि फिल्टर काढा",
+  hiSavedNote: "तुमचे प्रश्न तुमच्या खात्यात जतन केले जातात. खाते हटवल्यास ते हटतात.",
+  hiLoading: "तुमचा इतिहास लोड होत आहे…",
+  hiError: "तुमचा इतिहास लोड करता आला नाही. कनेक्शन तपासा, मग पुन्हा प्रयत्न करा.",
+  hiRetry: "पुन्हा प्रयत्न करा",
+  hiDelete: "हटवा",
+  hiClearAll: "संपूर्ण इतिहास साफ करा",
+  hiClearTitle: "तुमचा जतन केलेला संपूर्ण इतिहास हटवायचा?",
+  hiClearBody: "यामुळे तुमच्या खात्यातील प्रत्येक जतन केलेला प्रश्न हटेल. हे परत करता येणार नाही.",
+  hiClearConfirm: "होय, सर्व हटवा",
+  hiCancel: "रद्द करा",
+  hiActionFailed: "ते झाले नाही. पुन्हा प्रयत्न करा.",
+  stDeleteFailed: "तुमचे खाते हटवता आले नाही. तुम्ही अजूनही लॉग इन आहात. पुन्हा प्रयत्न करा.",
 
   dcTitle: "दस्तऐवज",
   dcLede: "दस्तऐवज जोडा, LawShift त्यातून तथ्ये आणि तारीख वाचेल.",
@@ -804,10 +852,10 @@ const mr: DashboardCopy = {
   stConfirm: "नवीन पासवर्डची पुष्टी करा",
   stUpdate: "पासवर्ड अपडेट करा",
   stUpdating: "अपडेट होत आहे…",
-  stUpdated: "पासवर्ड अपडेट झाला (प्लेसहोल्डर: काहीही बदलले नाही).",
+  stUpdated: "पासवर्ड अपडेट झाला.",
   stDeleteTitle: "खाते हटवा",
   stDeleteBody:
-    "यामुळे तुमचे खाते, प्रकरण इतिहास आणि आमच्याकडे साठवलेले तुमचे सर्व दस्तऐवज हटतील. हे परत करता येणार नाही.",
+    "यामुळे तुमचे खाते आणि जतन केलेला प्रकरण इतिहास हटेल. हे परत करता येणार नाही.",
   stDeleteType: (e) => `पुष्टीसाठी ${e} लिहा`,
   stDeleteButton: "खाते हटवा",
   stDeleteDone:

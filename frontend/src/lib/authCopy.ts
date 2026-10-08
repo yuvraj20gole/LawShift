@@ -50,6 +50,10 @@ export type AuthCopy = {
   errWeak: string;
   errSignupOff: string;
   errGeneric: string;
+  errSamePassword: string;
+  errReauth: string;
+  registerSavedNote: string;
+  accountDeleted: string;
   confirmTitle: string;
   confirmBody: string;
 
@@ -113,6 +117,14 @@ const en: AuthCopy = {
     "New registrations are closed right now.",
   errGeneric:
     "Something went wrong on our side. Try again in a moment.",
+  errSamePassword:
+    "The new password is the same as your current one. Choose a different password.",
+  errReauth:
+    "For security, log in again, then change your password.",
+  registerSavedNote:
+    "When you are logged in, your questions are saved in your account history. You can delete them, or your account, at any time.",
+  accountDeleted:
+    "Your account was deleted.",
   confirmTitle:
     "Check your email",
   confirmBody:
@@ -178,6 +190,14 @@ const hi: AuthCopy = {
     "अभी नए पंजीकरण बंद हैं।",
   errGeneric:
     "हमारी ओर से कुछ गड़बड़ हो गई। थोड़ी देर में फिर कोशिश करें।",
+  errSamePassword:
+    "नया पासवर्ड आपके मौजूदा पासवर्ड जैसा ही है। कोई अलग पासवर्ड चुनें।",
+  errReauth:
+    "सुरक्षा के लिए फिर से लॉग इन करें, फिर पासवर्ड बदलें।",
+  registerSavedNote:
+    "लॉग इन रहने पर आपके प्रश्न आपके खाते के इतिहास में सहेजे जाते हैं। आप उन्हें, या अपना खाता, कभी भी हटा सकते हैं।",
+  accountDeleted:
+    "आपका खाता हटा दिया गया।",
   confirmTitle:
     "अपना ईमेल देखें",
   confirmBody:
@@ -243,6 +263,14 @@ const mr: AuthCopy = {
     "सध्या नवीन नोंदणी बंद आहे.",
   errGeneric:
     "आमच्या बाजूने काहीतरी बिघडले. थोड्या वेळाने पुन्हा प्रयत्न करा.",
+  errSamePassword:
+    "नवीन पासवर्ड तुमच्या सध्याच्या पासवर्डसारखाच आहे. वेगळा पासवर्ड निवडा.",
+  errReauth:
+    "सुरक्षिततेसाठी पुन्हा लॉग इन करा, मग पासवर्ड बदला.",
+  registerSavedNote:
+    "लॉग इन असताना तुमचे प्रश्न तुमच्या खात्याच्या इतिहासात जतन केले जातात. तुम्ही ते, किंवा तुमचे खाते, केव्हाही हटवू शकता.",
+  accountDeleted:
+    "तुमचे खाते हटवले गेले.",
   confirmTitle:
     "तुमचा ईमेल तपासा",
   confirmBody:

@@ -6,6 +6,7 @@ import type { Dictionary } from "@/lib/i18n";
 import { usePrefs } from "@/lib/prefs";
 import { authHeaders } from "@/lib/api";
 import { useSession } from "@/lib/useSession";
+import { labelToIso, saveCase } from "@/lib/caseHistory";
 import styles from "./ChatEntry.module.css";
 
 /** Hit FastAPI directly so long IRAC+translate jobs are not cut by the Next rewrite proxy. */
@@ -304,6 +305,23 @@ function FlagIcon() {
   );
 }
 
+/** Saves a mapped answer's metadata for a logged-in user. Non-blocking; failures are ignored. */
+function saveMapped(data: Record<string, unknown>, question: string, language: string) {
+  const badge = data.badge as { code?: string; section?: string; offenceName?: string } | undefined;
+  if (!badge || typeof badge.code !== "string" || typeof badge.section !== "string") return;
+  const odu = data.offense_date_used as { label?: string } | undefined;
+  const v = data.verification as { flagged?: boolean } | undefined;
+  void saveCase({
+    question,
+    offence_date: labelToIso(odu?.label),
+    code: badge.code,
+    section: badge.section,
+    heading: typeof badge.offenceName === "string" ? badge.offenceName : null,
+    flagged: Boolean(v?.flagged),
+    language,
+  });
+}
+
 type ChatEntryProps = {
   /** Hide the "N questions left" line (signed-in views). */
   hideCounter?: boolean;
@@ -332,6 +350,8 @@ export function ChatEntry({
   const { email: sessionEmail } = useSession();
   const outOfQuota = !unlimited && !sessionEmail && remaining <= 0;
   const [conversationId] = useState(newConversationId);
+  /** The user's own message that started the current case (kept across bifurcation choices). */
+  const heldQuestion = useRef("");
   const [error, setError] = useState<string | null>(null);
   const [landed, setLanded] = useState(0);
   /** Expanded source bodies: `${messageIndex}:${sourceIndex}` */
@@ -599,6 +619,7 @@ export function ChatEntry({
       setError(null);
       setBusy(true);
       setDraft("");
+      heldQuestion.current = trimmed;
       setMessages((m) => [...m, { role: "user", text: display ?? trimmed }]);
 
       try {
@@ -616,6 +637,7 @@ export function ChatEntry({
         // Free-question limit: only mapped answers count (not clarify /
         // bifurcation / failure). Network errors never reach here.
         if (data.kind === "mapping") {
+          saveMapped(data, trimmed, lang);
           setRemaining((n) => Math.max(0, n - 1));
         }
       } catch {
@@ -654,6 +676,7 @@ export function ChatEntry({
         setMessages((m) => [...m, replyFromData(data)]);
         // Mapped answer after a bifurcation choice counts once.
         if (data.kind === "mapping") {
+          saveMapped(data, heldQuestion.current, lang);
           setRemaining((n) => Math.max(0, n - 1));
         }
       } catch {
@@ -765,7 +788,16 @@ export function ChatEntry({
                       value ? (
                         <div key={key} className={styles.iracField}>
                           <span className={styles.iracLabel}>{label}</span>
-                          <p className={styles.statute}>{value}</p>
+                          {/* One grid cell for note + body — a third child would
+                              wrap into the 6.25rem label column and squeeze text. */}
+                          <div className={styles.iracValue}>
+                            {key === "application" ? (
+                              <p className={styles.generatedNote}>
+                                {t.generatedNote}
+                              </p>
+                            ) : null}
+                            <p className={styles.statute}>{value}</p>
+                          </div>
                         </div>
                       ) : null,
                     )}

@@ -1,13 +1,15 @@
 "use client";
 
-import { useEffect, useRef, useState, type FormEvent } from "react";
+import { useState, type FormEvent } from "react";
+import { useRouter } from "next/navigation";
 import { usePrefs, type Lang } from "@/lib/prefs";
 import { getDashboardCopy } from "@/lib/dashboardCopy";
 import { getAuthCopy } from "@/lib/authCopy";
+import { authErrorMessage } from "@/lib/authErrors";
+import { createClient } from "@/lib/supabase/client";
 import { useSession } from "@/lib/useSession";
-import { SHOW_SAMPLE_SIGNS } from "@/lib/showSampleSigns";
 import { PageHead, Row } from "@/components/dashboard/DashParts";
-import { Field, OkNote, PasswordChecklist, PasswordField, SubmitButton } from "@/components/auth/AuthParts";
+import { Field, FormError, OkNote, PasswordChecklist, PasswordField, SubmitButton } from "@/components/auth/AuthParts";
 import { passwordChecks } from "@/components/auth/validate";
 import { FlagIcon } from "@/components/auth/AuthParts";
 import styles from "@/components/dashboard/dashboard.module.css";
@@ -20,40 +22,71 @@ const LANGS: { code: Lang; label: string }[] = [
 
 export default function SettingsPage() {
   const { lang, setLang } = usePrefs();
+  const router = useRouter();
   const C = getDashboardCopy(lang);
   const A = getAuthCopy(lang);
   const { email: sessionEmail } = useSession();
   const accountEmail = sessionEmail ?? "";
 
-  const [cur, setCur] = useState("");
   const [pw, setPw] = useState("");
   const [cf, setCf] = useState("");
   const [status, setStatus] = useState<"idle" | "busy" | "done">("idle");
-  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  useEffect(() => () => {
-    if (timer.current) clearTimeout(timer.current);
-  }, []);
+  const [pwFailure, setPwFailure] = useState<string | null>(null);
 
   const checks = passwordChecks(pw);
   const matches = cf.length > 0 && cf === pw;
-  const valid = cur.length > 0 && checks.every(Boolean) && matches;
+  const valid = checks.every(Boolean) && matches;
   const confirmError = cf.length > 0 && cf !== pw ? A.mismatch : null;
 
-  function onPassword(e: FormEvent) {
+  async function onPassword(e: FormEvent) {
     e.preventDefault();
     if (!valid || status === "busy") return;
     setStatus("busy");
-    timer.current = setTimeout(() => {
-      setStatus("done");
-      setCur("");
+    setPwFailure(null);
+    try {
+      const { error } = await createClient().auth.updateUser({ password: pw });
+      if (error) {
+        const code = (error as { code?: string }).code ?? "";
+        setPwFailure(
+          code === "same_password"
+            ? A.errSamePassword
+            : code === "reauthentication_needed" || code === "session_expired" || code === "session_not_found"
+              ? A.errReauth
+              : authErrorMessage(error, A),
+        );
+        setStatus("idle");
+        return;
+      }
       setPw("");
       setCf("");
-    }, 1400);
+      setStatus("done");
+    } catch {
+      setPwFailure(A.errGeneric);
+      setStatus("idle");
+    }
   }
 
   const [typed, setTyped] = useState("");
-  const [deleted, setDeleted] = useState(false);
-  const canDelete = accountEmail !== "" && typed === accountEmail;
+  const [deleting, setDeleting] = useState(false);
+  const [deleteFailed, setDeleteFailed] = useState(false);
+  const canDelete = accountEmail !== "" && typed === accountEmail && !deleting;
+
+  async function onDelete() {
+    if (!canDelete) return;
+    setDeleting(true);
+    setDeleteFailed(false);
+    try {
+      const supabase = createClient();
+      const { error } = await supabase.rpc("delete_my_account");
+      if (error) throw error;
+      await supabase.auth.signOut({ scope: "local" });
+      router.replace("/?account=deleted");
+      router.refresh();
+    } catch {
+      setDeleteFailed(true);
+      setDeleting(false);
+    }
+  }
 
   return (
     <>
@@ -86,20 +119,14 @@ export default function SettingsPage() {
       <Row title={C.stPasswordTitle}>
         <form onSubmit={onPassword} noValidate className={styles.stack}>
           <PasswordField
-            id="st-current"
-            label={C.stCurrent}
-            autoComplete="current-password"
-            value={cur}
-            onChange={setCur}
-            disabled={status === "busy"}
-            copy={A}
-          />
-          <PasswordField
             id="st-new"
             label={C.stNew}
             autoComplete="new-password"
             value={pw}
-            onChange={setPw}
+            onChange={(v) => {
+              setPw(v);
+              setStatus("idle");
+            }}
             describedBy="st-rules"
             disabled={status === "busy"}
             copy={A}
@@ -118,6 +145,7 @@ export default function SettingsPage() {
           >
             {matches ? <OkNote>{A.matchOk}</OkNote> : null}
           </PasswordField>
+          {pwFailure ? <FormError>{pwFailure}</FormError> : null}
           <SubmitButton busy={status === "busy"} disabled={!valid} label={C.stUpdate} busyLabel={C.stUpdating} />
           {status === "done" ? <OkNote>{C.stUpdated}</OkNote> : null}
         </form>
@@ -133,19 +161,20 @@ export default function SettingsPage() {
             value={typed}
             onChange={(v) => {
               setTyped(v);
-              setDeleted(false);
+              setDeleteFailed(false);
             }}
             autoComplete="off"
+            disabled={deleting}
           />
-          <button type="button" className={styles.dangerBtn} disabled={!canDelete} onClick={() => setDeleted(true)}>
+          <button type="button" className={styles.dangerBtn} disabled={!canDelete} onClick={() => void onDelete()}>
             {C.stDeleteButton}
           </button>
-          {deleted && SHOW_SAMPLE_SIGNS ? (
+          {deleteFailed ? (
             <p className={styles.flagNote} role="alert">
               <span className={styles.mark}>
                 <FlagIcon />
               </span>
-              {C.stDeleteDone}
+              {C.stDeleteFailed}
             </p>
           ) : null}
         </div>

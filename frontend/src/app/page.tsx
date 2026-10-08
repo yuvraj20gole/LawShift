@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import { Header } from "@/components/Header";
+import { AccountNotice } from "@/components/AccountNotice";
 import { ChatEntry } from "@/components/ChatEntry";
 import { Docket } from "@/components/Docket";
 import { Compare } from "@/components/Compare";
@@ -88,6 +89,7 @@ export default function HomePage() {
   return (
     <>
       <Header />
+      <AccountNotice />
       <main id="main">
         <section className={styles.hero} aria-labelledby="hero-title">
           <div className="container">

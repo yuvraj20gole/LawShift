@@ -1901,3 +1901,70 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ---- saved history ---- */
+
+.secQuestion {
+  display: -webkit-box;
+  max-width: 28rem;
+  margin-top: 0.3rem;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  color: var(--ink-tertiary);
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+.rowActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.1rem;
+}
+
+.rowDelete {
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--flag);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.clearRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+  margin-top: 1.25rem;
+}
+
+.confirmActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.4rem;
+}
+
+.savedNote {
+  margin: 0;
+  color: var(--ink-tertiary);
+  font-size: 0.85rem;
+}
+
+.loadingLine {
+  color: var(--ink-secondary);
+}
+
+/* Open is a button now (it hands the question to the Workspace): drop the default chrome. */
+button.linkBtn {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-family: inherit;
+  cursor: pointer;
+}
