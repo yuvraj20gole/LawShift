@@ -1,134 +1,133 @@
 # LawShift: working notes for Claude Code
 
-Detail lives in `PROCESS_LOG.md` (sections 1-28) and `DESIGN.md`. This file is the quick start.
+Detail lives in `PROCESS_LOG.md` (sections 1-32) and `DESIGN.md`. This file is the quick start. Where this file and the repo disagree, trust the repo and fix this file.
 
-## 1. What LawShift is
+## 1. What LawShift is, and where it stands
 
 LawShift helps law students, junior advocates and journalists find out whether the Indian Penal Code (IPC) or the Bharatiya Nyaya Sanhita (BNS) applies to an offence, then shows the section text as stored, with a one-sentence-per-field IRAC answer and a "worth double-checking" flag. It is an informational research tool, not legal advice.
 
 **The rule that drives it:** the offence date decides the substantive code. Before 1 July 2024 is IPC; on or after it is BNS. This is a hard date comparison in code (`app/stage2.py`), never a model decision.
 
+**State:** `main` is at the `demo-v2` tag (commit 9257433). `demo-v1` is the earlier safe build from before accounts. `feature/accounts` points at the same commit as `main`, so it was merged (checked from `.git/refs`, not with git). Working tree state is the owner's to check.
+
 ## 2. RULES for working in this repo
 
-- **No git writes.** Never run `git add`, `commit`, `push`, `stash`, `rebase`, `reset`, or anything that changes history or the index. Never add a Co-authored-by line. Reading commands (`status`, `log`, `diff`) are fine. The owner commits and pushes from a plain Terminal. (Also in `.cursor/rules/no-git.mdc`.)
-- **Measure before changing the pipeline.** Do not change retrieval, the bifurcation margin (0.10), the Stage 4 prompts, the verifier or the models without measuring against the regression suite (section 8) first.
+- **No git writes.** Never run `git add`, `commit`, `push`, `stash`, `rebase` or `reset`, or anything that changes history or the index. Never add a Co-authored-by line. Some prompts also forbid reading git; follow the prompt. The owner commits and pushes from a plain Terminal. Prompts for any tool must never include commit or push steps.
+- **Measure before changing the pipeline.** Do not change retrieval, the bifurcation margin (0.10), the Stage 4 prompts, the verifier or the models without running the regression suite (section 8) first.
 - **Never invent** data, cases, judgments or holdings. Anything unverified is `verified:false` or "to verify". Sample data is labelled as sample data.
 - **Statute text is shown as stored.** It has digitisation slips; do not "fix" it in `data/clean/`.
 - **Hindi and Marathi strings written by AI are drafts** that need native review. Keep them listed (section 10).
-- **Design:** follow `DESIGN.md` (Bare Act system). No stock images, no stat tiles, no gradients, no icon circles. Every claim scoped or sourced; verification states always icon + words.
-- **Tool split so far:** Cursor for backend, data and diagnosis work; Claude Code for design and structural UI work. Prompts for either tool must never include commit or push steps.
-- **Public repo.** No tokens, keys, personal data, or real party names from any case in any committed file.
+- **Design:** follow `DESIGN.md` (Bare Act system). No stock images, stat tiles, gradients or icon circles. Every claim scoped or sourced; verification states always icon + words.
+- **Public repo.** No tokens, keys, emails, personal data or real party names in any committed file. Never print a key. Only the publishable Supabase key is used in the frontend; never use a service-role or secret key.
+- **Do not touch the other project** in `~/Downloads` (`Dependency_map`): it uses ports 5001 (unverified) and 3055 (seen running). Never kill processes by a broad pattern such as `next-server`; kill only this repo's PIDs.
+- **Tool split:** Cursor for backend, data and diagnosis; Claude Code for design and structural UI work.
 
 ## 3. How to run it
 
-Three things must be running: Ollama (both models), the backend on 8000, the frontend on 3000.
+Four things must be running: Ollama (both models), the backend on 8000, the frontend on **3000 only**. The backend CORS list and Supabase accept only `http://localhost:3000` (not `127.0.0.1:3000`).
 
 ```
-ollama serve                                   # native arm64 build
+ollama serve                                   # own terminal tab; native arm64 build
 ollama pull qwen2.5:3b-instruct                # writer
 ollama pull qwen2.5:14b-instruct               # verifier
 # backend (repo root)
+SUPABASE_URL=<project url> LAWSHIFT_ALLOWED_ORIGINS=http://localhost:3000 \
+LAWSHIFT_ENABLE_DOCS=0 LAWSHIFT_TRUST_PROXY=0 \
 .venv/bin/uvicorn app.main:app --reload --port 8000
 # frontend
 cd frontend && npm run dev                     # next dev --turbopack, port 3000
 ```
 
-Frontend calls `http://127.0.0.1:8000` (`frontend/src/lib/api.ts`, override with `NEXT_PUBLIC_API_BASE`); `next.config.ts` also rewrites `/api/*` to 8000.
+- The three `LAWSHIFT_*` values above are also the code defaults. `SUPABASE_URL` has a built-in default in `app/security_settings.py` (the project's public URL); set it explicitly anyway.
+- `frontend/.env.local` (git-ignored) holds `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` (a publishable `sb_publishable_` key). `frontend/.env.local.example` has empty placeholders. If either is missing, auth cannot work.
+- Frontend calls `http://127.0.0.1:8000` (`frontend/src/lib/api.ts`, override with `NEXT_PUBLIC_API_BASE`).
+- Hugging Face (IndicTrans2 is gated): `app/stage5_translate.py` reads `HUGGINGFACE_HUB_TOKEN`/`HF_TOKEN` if set, else the cached `huggingface-cli` login. Never write a token into a file.
+- `requirements-backend.txt` adds PyJWT and pytest/httpx. Install into the venv.
 
-**Cold-start checklist (after a restart):**
-1. Ollama is the native **arm64** build and runs on the GPU: `ollama ps` shows `100% GPU`. The Intel build under Rosetta ran on CPU and was about 20 times slower (PROCESS_LOG section 20).
-2. `transformers` stays at **4.44.2** (`.venv/bin/python -c "import transformers"`; this is what the venv has now). `app/stage5_translate.py` carries a shim in case it is ever upgraded.
-3. `HUGGINGFACE_HUB_TOKEN` is in the shell that starts uvicorn (IndicTrans2 is a gated model). Never write the token into a file.
-4. `LAWSHIFT_FORCE_OLLAMA_TRANSLATE=0` (the default) uses the real IndicTrans2; `=1` forces the Ollama fallback, which gave wrong dates and subjects in Hindi/Marathi.
-5. `models/finetuned-bge-small-ipc-bns-e8` exists (gitignored, see section 7).
-6. Startup logs `[startup] Ready.` after Stage 3 loads and both Ollama models are warmed (about 11 s).
-7. Stale frontend bundle? Kill `next dev`, `rm -rf frontend/.next`, restart.
+**Cold-start checklist:**
+1. Ollama is the native **arm64** build on the GPU: `ollama ps` shows `100% GPU` (Intel/Rosetta was about 20 times slower, PROCESS_LOG section 20).
+2. `transformers` stays at **4.44.2**; `app/stage5_translate.py` has a shim if upgraded.
+3. `LAWSHIFT_FORCE_OLLAMA_TRANSLATE=0` (default) uses real IndicTrans2; `=1` gave wrong dates and subjects in Hindi/Marathi.
+4. `models/finetuned-bge-small-ipc-bns-e8` exists (git-ignored, section 7).
+5. Startup logs `[startup] Ready.` after Stage 3 loads and both models are warmed (about 11 s).
+6. Stale frontend bundle? Kill this repo's `next dev`, `rm -rf frontend/.next`, restart. A `next build` also overwrites `.next`, so stop dev first.
 
 Earlier ML runs also set `TRANSFORMERS_NO_TF=1 TRANSFORMERS_NO_FLAX=1 USE_TF=0 TOKENIZERS_PARALLELISM=false TORCHDYNAMO_DISABLE=1` (system TensorFlow aborts on that CPU).
 
-## 4. Pipeline (order a message passes through; code in `app/main.py`, `handle_query`)
+**Speed and hosting:** on the Apple GPU an answer takes about 6 to 23 seconds. A CPU-only or free host is about 20 times slower or cannot hold the models. A rented 24 GB GPU is the proper deployment (check current prices; unverified).
 
-- **Stage 1: date extraction** (`app/stage1.py`, wraps `src/stage1_entity_extraction.py`). Rule-based, no LLM. Does not parse ISO dates (2024-07-01), so the chat asks for the date instead. Rejects ambiguous numeric dates; keyword-context scoring for multi-date text.
-- **Date lock per conversation** (`_LOCKED_DATES`, in server memory, lost on restart). First resolved date wins. **Date-conflict rule:** a later different date on the same side of 1 July 2024 keeps the lock and adds a one-line note; on the opposite side it returns a `bifurcation` with `reason=date_conflict` (two dates as options), no retrieval; choosing one replaces the lock and re-runs the held message.
+## 4. Pipeline (code in `app/main.py`, `handle_query`)
+
+- **Stage 1: date extraction** (`app/stage1.py`, wraps `src/stage1_entity_extraction.py`). Rule-based, no LLM. Does not parse ISO dates (2024-07-01); the chat asks for the date. Rejects ambiguous numeric dates.
+- **Date lock per conversation** (`_LOCKED_DATES`, memory only). First resolved date wins. A later different date on the same side of 1 July 2024 keeps the lock with a one-line note; on the opposite side it returns a `bifurcation` with `reason=date_conflict`.
 - **Stage 2 gate** (`app/stage2.py`): `< 2024-07-01` is IPC, else BNS; no date gives a `clarify`.
-- **Missing-facts gate:** after Stage 2, before retrieval. Strips the date, drops stopwords and `MISSING_FACTS_META_WORDS` (word list constant in `app/main.py`) and pure digits; if no content word is left, `clarify` with `reason=missing_facts`. Explicit section citations pass through (`EXPLICIT_CITATION_RE`).
-- **Code-mismatch rule:** an explicit IPC or BNS citation that disagrees with the date's code is intercepted before Stage 3 and looked up in the mapping table; equivalents are offered as a `bifurcation` (`reason=code_mismatch`), none gives a `clarify`. BNSS/BSA/CrPC and bare numbers are not intercepted.
-- **`section_lookup`:** a citation-only message (no facts) whose code matches the route skips retrieval and writing and returns up to three cards (code, section, heading, text as stored, mapping line). No IRAC; the counter does not decrement.
-- **Stage 3** (`app/stage3.py`): act-aware cascade (exact section match plus dense retrieval, fine-tuned `bge-small-en-v1.5` e8, k=5). **Bifurcation:** `detect_bifurcation(margin=0.10)` looks at the next 3 scores. Every bifurcation ends with the option "None of these. I will describe what happened"; choosing it returns `clarify` (`reason=describe_facts`). Rejected options are remembered per conversation (`_REJECTED_BIFURCATION_SECTIONS`): if a later set is entirely rejected, cards are returned instead of asking again. A message that already cites an in-force section of the routed code plus facts skips bifurcation and answers under the cited section (an `info_note` if the section is missing).
-- **Stage 4 writer** (`src/stage4_generate.py`, wrapped by `app/stage4.py`): `qwen2.5:3b-instruct`, temperature 0.1, **no seed** (so runs are not reproducible). A v2 prompt exists behind `STAGE4_PROMPT_VERSION=v2` and is **not** the default (PROCESS_LOG section 26).
-- **Stage 4 verifier:** `qwen2.5:14b-instruct`, rule-only v3 prompt (`src/stage4_verify_ruleonly_14b_v2.py`), sees only the generated Rule and Conclusion. It produces a soft "worth double-checking" flag, never a hard block.
-- **Stage 5 translation** (`app/stage5_translate.py`): IndicTrans2 for HI/MR after Stages 1-4, batched; language never changes routing, retrieval or verification.
-- **Document upload** (`app/stage0_document.py`): `pdfplumber` text, Tesseract OCR fallback for scanned PDFs; extracted text then goes through the same pipeline. Date-only extracts give `missing_facts`.
-- **Display lines (frontend):** "Offence date used" (from `offense_date_used`: label, code, source), the Exception/Explanation/Proviso notice (when the source text matches), the scope line after verification, and the `[Context: ...` prefix stripped from displayed statute text.
+- **Missing-facts gate:** after Stage 2, before retrieval. If no content word is left once the date, stopwords and `MISSING_FACTS_META_WORDS` are removed, `clarify` with `reason=missing_facts`. Explicit section citations pass.
+- **Code-mismatch rule:** an explicit IPC/BNS citation that disagrees with the date's code is looked up in the mapping table; equivalents become a `bifurcation` (`reason=code_mismatch`), none gives a `clarify`.
+- **`section_lookup`:** a citation-only message whose code matches the route returns up to three cards, no IRAC, no quota use.
+- **Stage 3** (`app/stage3.py`): act-aware cascade (exact section match plus dense retrieval, fine-tuned `bge-small-en-v1.5` e8, k=5). `detect_bifurcation(margin=0.10)`; every bifurcation ends with "None of these. I will describe what happened" (`clarify`, `reason=describe_facts`). Rejected options are remembered per conversation. A message citing an in-force section plus facts skips bifurcation.
+- **Stage 4 writer** (`src/stage4_generate.py`, wrapped by `app/stage4.py`): `qwen2.5:3b-instruct`, temperature 0.1, no seed (runs are not reproducible), `keep_alive` 30m. Writes Issue, Rule and Application only. Prompt v2 exists behind `STAGE4_PROMPT_VERSION=v2`, not default.
+- **Fixed Conclusion (Option B, implemented)**: with `LAWSHIFT_FIXED_CONCLUSION` (default 1) the Conclusion is a sentence written by code: "On the facts described, this appears to fall within <code> <section> (<heading>)." The response carries `fixed_conclusion`; the frontend renders a localised template for Hindi and Marathi (not translated). `=0` restores the generated Conclusion (PROCESS_LOG section 29).
+- **Stage 4 verifier:** `qwen2.5:14b-instruct`, rule-only prompt (`src/stage4_verify_ruleonly_14b_v2.py`), `keep_alive` 30m. Sees only the Rule and the fixed Conclusion. Soft "worth double-checking" flag, never a block.
+- **Stage 5 translation** (`app/stage5_translate.py`): IndicTrans2 for HI/MR after Stages 1-4. **Number guard** (`app/translation_number_guard.py`): if translation changes a number in a field, that field stays English, it is listed in `translation_fallback_fields`, and the chat shows a note. Number words ("two years") are not checked. Language never changes routing, retrieval or verification.
+- **Document upload** (`app/stage0_document.py`): `pdfplumber` text, Tesseract OCR fallback. The route needs a login; the frontend does not call it yet (section 6).
+- **Display lines (frontend):** "Offence date used", the Exception/Explanation/Proviso notice, the scope line, the `[Context: ...` prefix stripped, and a muted "Generated text..." line above the Application.
 
-## 5. API routes (all in `app/main.py`; CORS open)
+## 5. Backend API (`app/main.py`; hardening in PROCESS_LOG section 32)
 
-- `POST /api/query` (`QueryRequest`: message, `conversation_id`, `language`) returns one of `mapping` (IRAC, sources, verification, pipeline steps), `clarify` (reasons include missing_facts, code_mismatch, describe_facts), `bifurcation` (options; reasons score_gap, code_mismatch, date_conflict), `section_lookup` (cards; reasons citation_only, bifurcation_exhausted), `failure` (no_mapping, ambiguous, source_unavailable). Schemas in `app/schemas.py`.
-- `POST /api/query/resolve_bifurcation` takes the chosen option. For score-gap it skips retrieval and runs Stage 4 on the chosen chunk; for date_conflict it replaces the lock and re-runs.
-- `POST /api/upload_document` returns the same response kinds from an uploaded PDF/image.
-- `GET /api/map?code=IPC|BNS&section=` is a read-only lookup over `mapping.jsonl` plus statute text, no model calls (`app/mapping_lookup.py`). `GET /api/map/sections?code=` gives numbers and titles for suggestions.
-- `GET /api/rulings` reads `data/rulings_index.json`: filters `court`, `branch`, `q`, `bench`; paging `limit`, `offset`; newest first; returns `totalMatching` and a bench facet.
-- `GET /health` returns status plus counts of locked conversations and pending bifurcations.
+- `POST /api/query` (`message`, `conversation_id`, `language`) returns `mapping`, `clarify`, `bifurcation`, `section_lookup` or `failure`. `POST /api/query/resolve_bifurcation` takes the chosen option. `POST /api/upload_document` returns the same kinds. Schemas in `app/schemas.py`.
+- `GET /api/map?code=&section=` and `GET /api/map/sections?code=` read `mapping.jsonl` (no models). `GET /api/rulings` reads `data/rulings_index.json`. `GET /health` returns `{"status":"ok"}` only.
+- **Auth** (`app/auth_supabase.py`): an optional Bearer token on query and resolve, required on upload. Verified against the project's JWKS (ES256), with an HS256 `SUPABASE_JWT_SECRET` fallback. A bad or expired token gives a clean 401. The pipeline works without a token.
+- **Limits** (`app/limits.py`, `app/security_settings.py`): per-IP hourly caps on `/api/query` (12 anonymous, 120 logged in); a generation semaphore (default 2, 45 s wait, then 503 "busy"); uploads up to 10 MB with a PDF/JPEG/PNG type check; other bodies up to 100 KB. The client IP comes from `X-Forwarded-For` only when `LAWSHIFT_TRUST_PROXY=1`. Origins come from `LAWSHIFT_ALLOWED_ORIGINS`; `/docs` is off unless `LAWSHIFT_ENABLE_DOCS=1`.
+- Date locks, pending bifurcations and rate-limit counters live in memory and reset on restart.
 
-## 6. Frontend map (`frontend/`, Next.js App Router, CSS Modules)
+## 6. Frontend (`frontend/`, Next.js 15 App Router, CSS Modules)
 
-- `/` landing: hero, embedded `ChatEntry`, comparison cards, "Where it stops" band, FAQ. `/about` has the raw metrics.
-- `/login`, `/register`, `/forgot-password`: **UI only**, nothing is sent or saved, a "Preview" note says so.
-- `/dashboard` redirects to `/dashboard/workspace`. Pages: Workspace (real chat, `ChatEntry hideCounter hideExamples unlimited`), Mapping (real data), Case history, Documents, Rulings (real data), Settings.
-- **Sample data + "Preview" strip:** Case history, Documents, Settings (and Workspace's attach control is a stub). The strip is hidden on Mapping and Rulings (`DashboardShell.tsx`).
-- `ChatEntry` props: `hideCounter`, `hideExamples`, `initialDraft` (prefill from Mapping's "Ask in Workspace" via sessionStorage), `unlimited`. The counter starts at 5 and decrements **only on `kind === "mapping"` answers**; the 5-question limit applies to anonymous landing-page visitors only (dashboard passes `unlimited`).
-- Shared: `components/CodeCompare.tsx` (landing and Mapping), `lib/wordDiff.ts`, `lib/useRulingsGroup.ts`, `components/dashboard/BenchTip.tsx`.
-- i18n (EN/HI/MR): `lib/landingCopy.ts`, `lib/dashboardCopy.ts`, `lib/authCopy.ts`, `lib/i18n.ts` (chat and static page dictionary).
-- Unused leftovers: `components/dashboard/ComingNext.tsx`, `lib/useLatestRulings.ts`, old keys `mapWill`, `rulWill`, `soon*` in `dashboardCopy.ts`. `frontend/_archive/` is old work; do not copy from it.
+- **Auth:** Supabase email + password via `@supabase/ssr` (cookie sessions). `src/middleware.ts` refreshes the session with `getClaims()`, sends signed-out `/dashboard/**` to `/login?next=<path>` (`lib/safeNext.ts` accepts same-site paths only), and sends signed-in users away from `/login` and `/register`. `/auth/callback` exchanges email-confirmation codes. Email confirmation is off on the project as last seen (it can be changed in the Supabase dashboard). `/forgot-password` is a labelled placeholder. Clients are in `lib/supabase/`; `lib/useSession.ts` gives the session email; `lib/api.ts` has `authHeaders()`.
+- **Landing `/`:** hero, docket, chat (`ChatEntry`), compare, "when it is not sure", evidence, "where it stops", footer with licences. `/about` has the raw metrics (English only). The 5-question limit applies to anonymous visitors only; a logged-in user is unlimited on the landing page too.
+- **Dashboard** (`/dashboard/*`): Workspace (real chat), Mapping (real), Rulings (real), **Case history (real)**, **Settings (real)**, Documents (preview: nothing stored or read). The Workspace attach control is a preview. The "Preview: sample data" strip stays on Documents and the Workspace; it is hidden on Mapping, Rulings, History and Settings. `SHOW_SAMPLE_SIGNS` stays `true`.
+- **Saved history:** a logged-in user's mapped answer saves one row in `public.case_history` (question, offence date, code, section, heading, flagged, language; never generated text) from `ChatEntry` through `lib/caseHistory.ts`. Failures are ignored quietly; nothing is saved for anonymous visitors. The table, its row-level security (read and delete own rows, insert listed columns, update only `starred`) and `delete_my_account()` live in Supabase, not in this repo (unverified from the repo). History supports search, filters, stars, Open (carries the question to the Workspace through `sessionStorage` key `lawshift-carry`), delete and Clear all.
+- **Settings:** read-only email, default answer language, password change (`updateUser`), account deletion (`delete_my_account` RPC, then sign out and `/?account=deleted`).
+- `ChatEntry` props: `hideCounter`, `hideExamples`, `initialDraft`, `unlimited`.
+- i18n (EN/HI/MR): `lib/landingCopy.ts`, `lib/dashboardCopy.ts`, `lib/authCopy.ts`, `lib/i18n.ts`. Shared: `components/CodeCompare.tsx`, `lib/wordDiff.ts`, `lib/useRulingsGroup.ts`.
+- Unused leftovers: `components/dashboard/ComingNext.tsx`, `lib/useLatestRulings.ts`, old keys `mapWill`, `rulWill`, `soon*`, `stCurrent`, `stDeleteDone` in `dashboardCopy.ts`. `frontend/_archive/` is old work; do not copy from it.
 
 ## 7. Data
 
-- `data/clean/mapping.jsonl`: 562 IPC-BNS rows (section 294, partial 122, merged 117, dropped 29). `data/clean/statutes.jsonl`: 1059 BNS/BNSS/BSA sections (each text carries a `[Context:...]` prefix). `data/clean/ipc_statutes.jsonl`: 562 IPC sections built from the mapping.
-- `data/rulings_index.json`: built by `scripts/build_rulings_index.py` from the open AWS archives (anonymous S3, CC BY 4.0, Dattam Labs). Supreme Court: 200 most recent records. Bombay High Court: a weekly sample (60 per week over 26 weeks, bench labels only from PDF headers). The archive lags the courts and its dates can be wrong. Index rows have no `topic` field, so the "IPC & BNS" chip only matches curated entries.
-- `frontend/src/data/rulings.ts`: curated Featured and Background entries. All `verified:false` until a human has read the judgment. `HIDE_UNVERIFIED` is `false` and must be `true` before launch. Fields saying "to verify" currently: one Background entry's `decidedOn`.
-- `models/` is gitignored (about 1.3 GB). A fresh clone cannot run retrieval without it.
+- `data/clean/mapping.jsonl`: 562 IPC-BNS rows (section 294, partial 122, merged 117, dropped 29). `statutes.jsonl`: 1059 BNS/BNSS/BSA sections (text carries a `[Context:...]` prefix). `ipc_statutes.jsonl`: 562 IPC sections built from the mapping.
+- `data/rulings_index.json`: built by `scripts/build_rulings_index.py` from the open court archive (CC BY 4.0, Dattam Labs). Supreme Court: 200 most recent. Bombay High Court: a weekly sample. The archive lags the courts and its dates can be wrong.
+- `frontend/src/data/rulings.ts`: curated entries, all `verified:false`. `HIDE_UNVERIFIED` is `false` and must be `true` before launch.
+- `models/` is git-ignored (about 1.3 GB). A fresh clone cannot run retrieval without it.
 
-## 8. Regression suite
+## 8. Regression suite (in the repo)
 
-Any pipeline change is checked against these, with numbers. The harnesses were written under `/tmp` (`/tmp/lawshift_*.py`), not in the repo, and may be gone after a restart (rewrite them if needed); only the Stage 1 and Stage 3 data files are in the repo.
+```
+.venv/bin/python scripts/regression/run_all.py        # no Ollama, no live backend
+.venv/bin/pytest tests/                                # hardening, HTTP routes, number guard
+```
 
-| Check | Expected | Where |
-|---|---|---|
-| Nine diagnosis queries (fact-free: clarify; with facts: unchanged) | 9/9 | `/tmp` (script not in repo) |
-| About 30 fact-free variants | 27 blocked, 3 not (ISO dates, no date parsed) | `/tmp` |
-| False-block test, 285 questions + a date | 0 blocked | `/tmp` |
-| Stage 1 (30 real + 14 stress) | 44/44 | `results/stage1_real_eval.json`, `stage1_stress_test.json`, `stage1_v2_eval.json` |
-| Stage 3 Recall@5 on test (n=636) | 0.841 (535/636) | `results/final_selected_model_test_eval.json`; harness `src/final_retrieval_test.py` |
-| 85-question bifurcation count at margin 0.10 | 47 (46 with comma-appended date, a punctuation artifact) | `/tmp/lawshift_bif85_recount.py` |
-| Six code-mismatch cases | 6/6 | `/tmp` |
-| Seven section_lookup cases | 7/7 | `/tmp` |
-| Date-conflict cases | all pass | `/tmp` |
-| Stubbed counter 5, 5, 5, 5, 4 | exact | `/tmp` |
+It calls `handle_query` in-process with Stage 4 and 5 stubbed. Expectations are in `scripts/regression/expectations.json` and sit beside the case files; the runner reports FAIL and the delta. Last recorded: **12 PASS, 0 FAIL, 1 INFO** (PROCESS_LOG section 32; not re-run when this file was written). Covers diagnosis 9/9, fact-free 30 (27 `missing_facts` + 3 `missing_date`), false-block 0/285, Stage 1 44/44, paper Recall@5 **0.8412** (535/636) vs production **0.8381** (533/636), `bif85_labeled` **48/85**, code-mismatch 6/6, section_lookup 7/7, date-conflict, rejected-options, quota stub 5,5,5,5,4. The informational first-85 bifurcation count is 52. The 2-question recall gap is the year-as-section parse ("BNSS 2023" read as section 2023).
 
-## 9. Known issues and limits
+## 9. Known limits (state plainly)
 
-- The writer's Application and Conclusion can assert facts the user did not give and sometimes say "is guilty" or "should be punished". The checker only sees Rule and Conclusion, so it cannot see what the Rule left out, and its verdict on identical input can differ between runs.
-- Translation can change how firm a sentence is (shall, may, would).
-- Fresh writer runs do not reproduce the stored 40 outputs (temperature 0.1, no seed); "0 of 40 fabricated" was a hand review.
-- Stage 1 does not parse ISO dates; the chat asks for the date.
-- Bifurcation fires often (47 of 85 plain questions).
-- Date locks, pending bifurcations and rejected options live in server memory and are lost on restart.
-- Auth is UI only and `/dashboard` is open to anyone. Do not deploy before real auth.
-- The 3B model unloads after about 5 idle minutes (no `keep_alive` is set for it); the 14B and translation calls set `keep_alive: 30m`. The keep-alive check has not reported back (unverified).
-- LawShift picks the substantive code from the offence date and does not model procedure; High Courts have reached different results on which procedural code applies to older offences.
-- Mapping table is community-maintained; check the official text.
+- The Application can say more than the user did; it can assert facts not given. A "Generated text" line is shown above it. The Rule can be reworded (5 of 60 in one check).
+- The checker only sees the Rule and the fixed Conclusion, so it cannot see the Application; its verdict on identical input can differ between runs.
+- Translation can change number words and how firm a sentence sounds; the guard checks digits only.
+- Stage 1 does not parse ISO dates. Bifurcation fires on 48 of 85 labelled questions. Writer runs are not reproducible (no seed); "0 of 40 fabricated" was a hand review of the older generated Conclusions.
+- Date locks and rate limits reset on restart. A session-token problem shows in the chat as "Unexpected response" (from reading the code; not reproduced live).
+- Documents page and the Workspace attach control are previews. Forgot-password is a placeholder. Featured rulings are all `verified:false`.
+- The 390px layout has about 12 to 14 px of horizontal overflow (Compare cards and evidence rows). The Mapping page's Hindi "no equivalent" bullet starts with "Dropped:" in English.
+- LawShift picks the substantive code from the offence date and does not model procedure; High Courts differ on which procedural code applies to older offences. The mapping table is community-maintained.
 
-## 10. Open work, in planned order
+## 10. Open work, in order
 
-1. **Pending decision from the owner:** keep the generated Conclusion (Option A), or replace it with a fixed sentence the code writes (Option B: "On the facts described, this appears to fall within <code> <section> (<heading>)"). If B, re-measure against section 8 and note it for the paper.
-2. Keep-alive check for both Ollama models.
-3. Landing copy pass (Claude Code): docket card says "BNS 178, 179 or 180" (`components/Docket.tsx`) but the pipeline offers 180 and 179; chat legend wording; a row for "you give a date but no facts"; "where it stops" lines about the checker's blind spot and translation changing firmness; licence names (CC BY 4.0, CC BY-NC 4.0) beside GovIntel and nyaya-eval-v0 in the footer. (The "Procedure can follow a different date" row is done.)
-4. Owner checks: Mapping and Rulings in HI and MR; read the featured Supreme Court judgments before setting `verified:true`; the Marathi flow from a fresh page.
-5. Cleanups: move three procedural Bombay outcomes to `BOMBAY_OUTCOMES_EXCLUDED` (which three: unverified); delete unused `ComingNext.tsx`, old copy keys and `useLatestRulings.ts`; exclude `frontend/_archive` from the type-check; a README on obtaining `models/`.
-6. Functionality phase: make the Workspace attach control real (upload, extract, confirm the date, lock it, follow-ups); Supabase auth; Supabase data (settings, history and stars, document storage and picker, privacy wording); a rate limit; native HI/MR review of every AI-written string, collected in one document; deployment last.
-
-**AI-drafted HI/MR strings awaiting native review:** all HI/MR text in `landingCopy.ts`, `dashboardCopy.ts`, `authCopy.ts`; chat fallbacks in `i18n.ts` (clarify, mismatch, `sectionLookupExhaustedNote`, `sectionMissingSearchNote`, `mappingPhraseMerged`, offence-date lines, scope line, language-switch note). Curated ruling titles and holdings are English only.
+1. Native Hindi and Marathi review of every AI draft, collected in one document. Drafts live in `landingCopy.ts`, `dashboardCopy.ts`, `authCopy.ts` and `i18n.ts` (chat fallbacks, `fixedConclusion`, `generatedNote`, offence-date lines, number-guard note); curated ruling titles are English only.
+2. The Application text: the label is done. Option B hides it behind a toggle and shows the verbatim statute as the Rule; option C removes it. Needs the owner's choice.
+3. Fix the year-as-section parse (recovers the 2 held-out questions); re-run the suite.
+4. Cleanups: move three procedural Bombay outcomes to `BOMBAY_OUTCOMES_EXCLUDED` in `scripts/build_rulings_index.py` (which three: unverified); delete `ComingNext.tsx`, `useLatestRulings.ts` and unused copy keys; exclude `frontend/_archive` from the type check; a README on obtaining `models/`.
+5. Document storage and a real Workspace attach control (upload, extract, confirm the date, lock it).
+6. Deployment: a rented 24 GB GPU host, or the Mac behind a tunnel. Set `LAWSHIFT_ALLOWED_ORIGINS` and `LAWSHIFT_TRUST_PROXY=1` behind a trusted proxy, set `HIDE_UNVERIFIED` to `true`, and keep auth on before any public URL.
+7. Owner checks: read the featured Supreme Court judgments before setting `verified:true`; Mapping and Rulings in HI and MR.
 
 ## 11. Files to read first
 
-`CLAUDE.md`, `DESIGN.md`, `PRODUCT.md`, `PROCESS_LOG.md` (sections 18-28 for the live pipeline), `app/main.py` (`handle_query`, `resolve_bifurcation`), `app/schemas.py`, `app/stage3.py`, `src/stage4_generate.py`, `frontend/src/components/ChatEntry.tsx`, `frontend/src/lib/dashboardCopy.ts`, `frontend/src/data/rulings.ts`, `scripts/build_rulings_index.py`.
+`CLAUDE.md`, `DESIGN.md`, `PRODUCT.md`, `PROCESS_LOG.md` (sections 22-32 for the live pipeline), `app/main.py` (`handle_query`, `resolve_bifurcation`), `app/schemas.py`, `app/stage3.py`, `src/stage4_generate.py`, `frontend/src/middleware.ts`, `frontend/src/components/ChatEntry.tsx`, `frontend/src/lib/caseHistory.ts`, `frontend/src/lib/dashboardCopy.ts`, `frontend/src/data/rulings.ts`, `scripts/regression/run_all.py`.
