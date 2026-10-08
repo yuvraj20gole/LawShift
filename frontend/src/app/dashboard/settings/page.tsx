@@ -8,6 +8,8 @@ import { getAuthCopy } from "@/lib/authCopy";
 import { authErrorMessage } from "@/lib/authErrors";
 import { createClient } from "@/lib/supabase/client";
 import { useSession } from "@/lib/useSession";
+import { getDocCopy } from "@/lib/documentsCopy";
+import { purgeUserFiles } from "@/lib/documents";
 import { PageHead, Row } from "@/components/dashboard/DashParts";
 import { Field, FormError, OkNote, PasswordChecklist, PasswordField, SubmitButton } from "@/components/auth/AuthParts";
 import { passwordChecks } from "@/components/auth/validate";
@@ -68,13 +70,21 @@ export default function SettingsPage() {
 
   const [typed, setTyped] = useState("");
   const [deleting, setDeleting] = useState(false);
-  const [deleteFailed, setDeleteFailed] = useState(false);
+  const [deleteFailed, setDeleteFailed] = useState<"files" | "account" | null>(null);
+  const DC = getDocCopy(lang);
   const canDelete = accountEmail !== "" && typed === accountEmail && !deleting;
 
   async function onDelete() {
     if (!canDelete) return;
     setDeleting(true);
-    setDeleteFailed(false);
+    setDeleteFailed(null);
+    try {
+      await purgeUserFiles();
+    } catch {
+      setDeleteFailed("files");
+      setDeleting(false);
+      return;
+    }
     try {
       const supabase = createClient();
       const { error } = await supabase.rpc("delete_my_account");
@@ -83,7 +93,7 @@ export default function SettingsPage() {
       router.replace("/?account=deleted");
       router.refresh();
     } catch {
-      setDeleteFailed(true);
+      setDeleteFailed("account");
       setDeleting(false);
     }
   }
@@ -161,7 +171,7 @@ export default function SettingsPage() {
             value={typed}
             onChange={(v) => {
               setTyped(v);
-              setDeleteFailed(false);
+              setDeleteFailed(null);
             }}
             autoComplete="off"
             disabled={deleting}
@@ -174,7 +184,7 @@ export default function SettingsPage() {
               <span className={styles.mark}>
                 <FlagIcon />
               </span>
-              {C.stDeleteFailed}
+              {deleteFailed === "files" ? DC.stFilesFailed : C.stDeleteFailed}
             </p>
           ) : null}
         </div>

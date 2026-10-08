@@ -2,44 +2,42 @@
 
 import { useRef, useState, type DragEvent } from "react";
 import { usePrefs } from "@/lib/prefs";
-import { getDashboardCopy } from "@/lib/dashboardCopy";
+import { getDocCopy } from "@/lib/documentsCopy";
+import { DocError, checkFile, docErrorMessage } from "@/lib/documents";
 import { FlagIcon } from "@/components/auth/AuthParts";
 import styles from "./dashboard.module.css";
 
-const OK_TYPES = ["application/pdf", "image/jpeg", "image/png"];
-const OK_EXT = /\.(pdf|jpe?g|png)$/i;
-const WORD_EXT = /\.docx?$/i;
-
 /**
- * Reusable upload control (PDF, JPG, PNG). UI only: it hands accepted files
- * to `onFiles` and shows a flag-styled message for anything else. Also used
- * in the workspace, where `compact` trims it down.
+ * Upload control for one file (PDF, JPG, PNG or DOCX, up to 10 MB). It checks the type and
+ * size, then hands the file to `onFile`; anything else gets a flag-styled message.
  */
 export function Dropzone({
-  onFiles,
+  onFile,
   compact = false,
   id = "dropzone",
-  acceptWord = false,
+  disabled = false,
 }: {
-  onFiles: (files: File[]) => void;
+  onFile: (file: File) => void;
   compact?: boolean;
   id?: string;
-  /** Offer DOCX in the file chooser; Word is not connected yet, so it is refused with a plain note. */
-  acceptWord?: boolean;
+  disabled?: boolean;
 }) {
   const { lang } = usePrefs();
-  const C = getDashboardCopy(lang);
+  const C = getDocCopy(lang);
   const input = useRef<HTMLInputElement>(null);
   const [over, setOver] = useState(false);
-  const [bad, setBad] = useState<"type" | "word" | null>(null);
+  const [bad, setBad] = useState<string | null>(null);
 
   function take(list: FileList | null) {
-    if (!list || list.length === 0) return;
-    const files = Array.from(list);
-    const good = files.filter((f) => OK_TYPES.includes(f.type) || OK_EXT.test(f.name));
-    const word = files.some((f) => WORD_EXT.test(f.name));
-    setBad(good.length === files.length ? null : word ? "word" : "type");
-    if (good.length) onFiles(good);
+    if (disabled || !list || list.length === 0) return;
+    const f = list[0];
+    const problem = checkFile(f);
+    if (problem) {
+      setBad(docErrorMessage(new DocError(problem), C));
+      return;
+    }
+    setBad(null);
+    onFile(f);
   }
 
   function onDrop(e: DragEvent) {
@@ -61,20 +59,16 @@ export function Dropzone({
       >
         <p className={styles.dzLine}>
           {C.dzTitle}{" "}
-          <button type="button" className={styles.dzBtn} onClick={() => input.current?.click()}>
+          <button type="button" className={styles.dzBtn} disabled={disabled} onClick={() => input.current?.click()}>
             {C.dzChoose}
           </button>
         </p>
-        <p className={styles.dzTypes}>{acceptWord ? C.dzTypesWord : C.dzTypes}</p>
+        <p className={styles.dzTypes}>{C.dzTypes}</p>
         <input
           ref={input}
           id={id}
           type="file"
-          accept={
-            acceptWord
-              ? ".pdf,.jpg,.jpeg,.png,.docx,application/pdf,image/jpeg,image/png"
-              : ".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"
-          }
+          accept=".pdf,.jpg,.jpeg,.png,.docx,application/pdf,image/jpeg,image/png,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
           className="sr-only"
           tabIndex={-1}
           aria-label={C.dzChoose}
@@ -89,10 +83,9 @@ export function Dropzone({
           <span className={styles.mark}>
             <FlagIcon />
           </span>
-          {bad === "word" ? C.dzWord : C.dzBad}
+          {bad}
         </p>
       ) : null}
-      <p className={styles.dzOcr}>{C.dzOcr}</p>
     </div>
   );
 }

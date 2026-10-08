@@ -69,7 +69,7 @@ type SectionLookupItem = {
 type OffenseDateUsed = {
   label: string;
   code: "IPC" | "BNS";
-  source: "message" | "earlier_message" | "document";
+  source: "message" | "earlier_message" | "document" | "confirmed";
 };
 
 type FixedConclusionParts = {
@@ -137,7 +137,7 @@ function parseOffenseDateUsed(raw: unknown): OffenseDateUsed | undefined {
   if (typeof o.label !== "string") return undefined;
   if (o.code !== "IPC" && o.code !== "BNS") return undefined;
   const source =
-    o.source === "earlier_message" || o.source === "document"
+    o.source === "earlier_message" || o.source === "document" || o.source === "confirmed"
       ? o.source
       : "message";
   return { label: o.label, code: o.code, source };
@@ -156,7 +156,9 @@ function formatOffenseDateUsedLine(
       ? dict.offenseDateFromEarlier
       : odu.source === "document"
         ? dict.offenseDateFromDocument
-        : "";
+        : odu.source === "confirmed"
+          ? dict.offenseDateConfirmed
+          : "";
   const base = dict.offenseDateUsedLine(odu.label, codeName);
   return origin ? `${base} ${origin}` : base;
 }
@@ -306,13 +308,13 @@ function FlagIcon() {
 }
 
 /** Saves a mapped answer's metadata for a logged-in user. Non-blocking; failures are ignored. */
-function saveMapped(data: Record<string, unknown>, question: string, language: string) {
+function saveMapped(data: Record<string, unknown>, question: string, language: string, documentName?: string | null) {
   const badge = data.badge as { code?: string; section?: string; offenceName?: string } | undefined;
   if (!badge || typeof badge.code !== "string" || typeof badge.section !== "string") return;
   const odu = data.offense_date_used as { label?: string } | undefined;
   const v = data.verification as { flagged?: boolean } | undefined;
   void saveCase({
-    question,
+    question: documentName ? `[Document: ${documentName}] ${question}`.slice(0, 4000) : question,
     offence_date: labelToIso(odu?.label),
     code: badge.code,
     section: badge.section,
@@ -331,6 +333,10 @@ type ChatEntryProps = {
   unlimited?: boolean;
   /** Text to start the composer with (carried over from another screen). */
   initialDraft?: string;
+  /** Use this conversation id (the Workspace needs it to attach a document to the same chat). */
+  conversationId?: string;
+  /** Name of the attached document: the saved History question is prefixed with it. */
+  documentName?: string | null;
 };
 
 export function ChatEntry({
@@ -338,6 +344,8 @@ export function ChatEntry({
   hideExamples = false,
   unlimited = false,
   initialDraft = "",
+  conversationId: conversationIdProp,
+  documentName = null,
 }: ChatEntryProps = {}) {
   const { lang, t } = usePrefs();
   const reduceMotion = useReducedMotion();
@@ -349,7 +357,10 @@ export function ChatEntry({
   const [remaining, setRemaining] = useState(5);
   const { email: sessionEmail } = useSession();
   const outOfQuota = !unlimited && !sessionEmail && remaining <= 0;
-  const [conversationId] = useState(newConversationId);
+  const [ownConversationId] = useState(newConversationId);
+  const conversationId = conversationIdProp ?? ownConversationId;
+  const documentNameRef = useRef<string | null>(documentName);
+  documentNameRef.current = documentName;
   /** The user's own message that started the current case (kept across bifurcation choices). */
   const heldQuestion = useRef("");
   const [error, setError] = useState<string | null>(null);
@@ -637,7 +648,7 @@ export function ChatEntry({
         // Free-question limit: only mapped answers count (not clarify /
         // bifurcation / failure). Network errors never reach here.
         if (data.kind === "mapping") {
-          saveMapped(data, trimmed, lang);
+          saveMapped(data, trimmed, lang, documentNameRef.current);
           setRemaining((n) => Math.max(0, n - 1));
         }
       } catch {
@@ -676,7 +687,7 @@ export function ChatEntry({
         setMessages((m) => [...m, replyFromData(data)]);
         // Mapped answer after a bifurcation choice counts once.
         if (data.kind === "mapping") {
-          saveMapped(data, heldQuestion.current, lang);
+          saveMapped(data, heldQuestion.current, lang, documentNameRef.current);
           setRemaining((n) => Math.max(0, n - 1));
         }
       } catch {

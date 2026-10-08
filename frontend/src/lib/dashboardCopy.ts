@@ -12,12 +12,6 @@ export type DashboardCopy = {
   navSettings: string;
   logout: string;
 
-  previewNote: string;
-  previewShow: string;
-  previewSample: string;
-  previewEmpty: string;
-  tagSample: string;
-  tagReal: string;
 
   describeCase: string;
   open: string;
@@ -28,24 +22,6 @@ export type DashboardCopy = {
 
   wsTitle: string;
   wsLede: string;
-  atTitle: string;
-  atFrom: string;
-  atUpload: string;
-  atPickLabel: string;
-  atNoDocs: string;
-  atWord: string;
-  atChip: string;
-  atRemove: string;
-  atDateFound: (d: string) => string;
-  atDateNone: string;
-  atEdit: string;
-  atConfirm: string;
-  atSave: string;
-  atDateLabel: string;
-  atConfirmed: (d: string) => string;
-  atChange: string;
-  atScanNote: string;
-  atPreview: string;
 
   hiTitle: string;
   hiLede: string;
@@ -93,25 +69,6 @@ export type DashboardCopy = {
   stDeleteFailed: string;
 
   dcTitle: string;
-  dcLede: string;
-  dzTitle: string;
-  dzChoose: string;
-  dzTypes: string;
-  dzTypesWord: string;
-  dzOcr: string;
-  dzBad: string;
-  dzWord: string;
-  dcListTitle: string;
-  colFile: string;
-  colDate: string;
-  colRead: string;
-  colResult: string;
-  readDirect: string;
-  readOcr: string;
-  readPending: string;
-  viewResult: string;
-  dcEmptyTitle: string;
-  dcEmptyBody: string;
 
   soonTag: string;
   soonNothing: string;
@@ -222,12 +179,6 @@ const en: DashboardCopy = {
   navSettings: "Settings",
   logout: "Log out",
 
-  previewNote: "Preview: sample data, nothing is saved.",
-  previewShow: "Show",
-  previewSample: "Sample data",
-  previewEmpty: "Empty account",
-  tagSample: "Sample data",
-  tagReal: "Real archive data",
 
   describeCase: "Describe a case",
   open: "Open",
@@ -238,24 +189,6 @@ const en: DashboardCopy = {
 
   wsTitle: "Workspace",
   wsLede: "Describe what happened and when. Answers come from the statute text.",
-  atTitle: "Attach a document",
-  atFrom: "From your documents",
-  atUpload: "Upload new",
-  atPickLabel: "Choose a document",
-  atNoDocs: "You have no stored documents yet. Use Upload new.",
-  atWord: "Word (.docx) is not connected yet in this preview.",
-  atChip: "Attached",
-  atRemove: "Remove",
-  atDateFound: (d) => `Date found: ${d}, read from the document`,
-  atDateNone: "No date found yet. Enter the offence date from the document.",
-  atEdit: "Edit",
-  atConfirm: "Confirm date",
-  atSave: "Save date",
-  atDateLabel: "Offence date",
-  atConfirmed: (d) => `Offence date confirmed: ${d}. Follow-up questions in this conversation use it.`,
-  atChange: "Change",
-  atScanNote: "Scanned documents can misread dates and digits. Confirm the date before you ask.",
-  atPreview: "Preview: attaching a document doesn't change what the chat sends yet.",
 
   hiTitle: "Case history",
   hiLede: "Every question you have asked, with the code it was routed to.",
@@ -300,26 +233,6 @@ const en: DashboardCopy = {
   stDeleteFailed: "Your account could not be deleted. You are still logged in. Try again.",
 
   dcTitle: "Documents",
-  dcLede: "Add a document and LawShift reads the facts and the date from it.",
-  dzTitle: "Drop a file here, or",
-  dzChoose: "choose a file",
-  dzTypes: "PDF, JPG or PNG",
-  dzTypesWord: "PDF, JPG, PNG or DOCX (Word is not connected yet)",
-  dzOcr:
-    "Typed PDFs are read directly. Scanned documents and photos are read with OCR, which can misread dates and digits, so check the date it found.",
-  dzBad: "That file type isn't supported. Use a PDF, JPG or PNG.",
-  dzWord: "Word (.docx) isn't connected yet in this preview. Use a PDF, JPG or PNG.",
-  dcListTitle: "Uploaded documents",
-  colFile: "File",
-  colDate: "Added",
-  colRead: "How it was read",
-  colResult: "Result",
-  readDirect: "Typed PDF, read directly",
-  readOcr: "Read with OCR",
-  readPending: "Not processed (preview)",
-  viewResult: "View result",
-  dcEmptyTitle: "No documents yet",
-  dcEmptyBody: "Files you add will be listed here with how their text was read.",
 
   soonTag: "Coming next",
   soonNothing: "Nothing is listed here yet, because this page isn't built.",
@@ -421,7 +334,7 @@ const en: DashboardCopy = {
   stUpdated: "Password updated.",
   stDeleteTitle: "Delete account",
   stDeleteBody:
-    "This deletes your account and your saved case history. It can't be undone.",
+    "This deletes your account, your saved case history and your saved documents (the files and your descriptions). It can't be undone.",
   stDeleteType: (e) => `Type ${e} to confirm`,
   stDeleteButton: "Delete account",
   stDeleteDone:
@@ -439,12 +352,6 @@ const hi: DashboardCopy = {
   navSettings: "सेटिंग्स",
   logout: "लॉग आउट",
 
-  previewNote: "पूर्वावलोकन: नमूना डेटा, कुछ भी सहेजा नहीं जाता।",
-  previewShow: "दिखाएँ",
-  previewSample: "नमूना डेटा",
-  previewEmpty: "खाली खाता",
-  tagSample: "नमूना डेटा",
-  tagReal: "असली अभिलेखागार डेटा",
 
   describeCase: "एक केस बताएँ",
   open: "खोलें",
@@ -455,24 +362,6 @@ const hi: DashboardCopy = {
 
   wsTitle: "कार्यक्षेत्र",
   wsLede: "बताएँ कि क्या हुआ और कब। उत्तर वैधानिक पाठ से आते हैं।",
-  atTitle: "दस्तावेज़ संलग्न करें",
-  atFrom: "आपके दस्तावेज़ों से",
-  atUpload: "नया अपलोड करें",
-  atPickLabel: "दस्तावेज़ चुनें",
-  atNoDocs: "अभी आपके कोई सहेजे दस्तावेज़ नहीं हैं। नया अपलोड करें का उपयोग करें।",
-  atWord: "इस पूर्वावलोकन में Word (.docx) अभी जुड़ा नहीं है।",
-  atChip: "संलग्न",
-  atRemove: "हटाएँ",
-  atDateFound: (d) => `मिली तिथि: ${d}, दस्तावेज़ से पढ़ी गई`,
-  atDateNone: "अभी कोई तिथि नहीं मिली। दस्तावेज़ से अपराध की तिथि लिखें।",
-  atEdit: "बदलें",
-  atConfirm: "तिथि की पुष्टि करें",
-  atSave: "तिथि सहेजें",
-  atDateLabel: "अपराध की तिथि",
-  atConfirmed: (d) => `अपराध की तिथि की पुष्टि हुई: ${d}। इस बातचीत के आगे के प्रश्न इसी का उपयोग करेंगे।`,
-  atChange: "बदलें",
-  atScanNote: "स्कैन किए दस्तावेज़ तिथियाँ और अंक गलत पढ़ सकते हैं। पूछने से पहले तिथि की पुष्टि करें।",
-  atPreview: "पूर्वावलोकन: दस्तावेज़ संलग्न करने से अभी चैट जो भेजती है वह नहीं बदलता।",
 
   hiTitle: "केस इतिहास",
   hiLede: "आपके पूछे हर प्रश्न, और जिस संहिता में वह गया।",
@@ -517,26 +406,6 @@ const hi: DashboardCopy = {
   stDeleteFailed: "आपका खाता हटाया नहीं जा सका। आप अब भी लॉग इन हैं। दोबारा कोशिश करें।",
 
   dcTitle: "दस्तावेज़",
-  dcLede: "दस्तावेज़ जोड़ें, LawShift उससे तथ्य और तिथि पढ़ लेगा।",
-  dzTitle: "फ़ाइल यहाँ छोड़ें, या",
-  dzChoose: "फ़ाइल चुनें",
-  dzTypes: "PDF, JPG या PNG",
-  dzTypesWord: "PDF, JPG, PNG या DOCX (Word अभी जुड़ा नहीं है)",
-  dzOcr:
-    "टाइप किए PDF सीधे पढ़े जाते हैं। स्कैन किए दस्तावेज़ और फ़ोटो OCR से पढ़े जाते हैं, जो तिथियाँ और अंक गलत पढ़ सकता है, इसलिए मिली तिथि जाँच लें।",
-  dzBad: "यह फ़ाइल प्रकार समर्थित नहीं है। PDF, JPG या PNG का उपयोग करें।",
-  dzWord: "इस पूर्वावलोकन में Word (.docx) अभी जुड़ा नहीं है। PDF, JPG या PNG का उपयोग करें।",
-  dcListTitle: "अपलोड किए दस्तावेज़",
-  colFile: "फ़ाइल",
-  colDate: "जोड़ा गया",
-  colRead: "कैसे पढ़ा गया",
-  colResult: "परिणाम",
-  readDirect: "टाइप किया PDF, सीधे पढ़ा गया",
-  readOcr: "OCR से पढ़ा गया",
-  readPending: "संसाधित नहीं (पूर्वावलोकन)",
-  viewResult: "परिणाम देखें",
-  dcEmptyTitle: "अभी कोई दस्तावेज़ नहीं",
-  dcEmptyBody: "आपके जोड़े फ़ाइलें यहाँ दिखेंगी, साथ में कि उनका पाठ कैसे पढ़ा गया।",
 
   soonTag: "आगे आ रहा है",
   soonNothing: "यहाँ अभी कुछ सूचीबद्ध नहीं है, क्योंकि यह पृष्ठ बना नहीं है।",
@@ -638,7 +507,7 @@ const hi: DashboardCopy = {
   stUpdated: "पासवर्ड अपडेट हो गया।",
   stDeleteTitle: "खाता हटाएँ",
   stDeleteBody:
-    "इससे आपका खाता और सहेजा गया केस इतिहास हट जाएगा। इसे वापस नहीं किया जा सकता।",
+    "इससे आपका खाता, सहेजा गया केस इतिहास और सहेजे गए दस्तावेज़ (फ़ाइलें और आपके विवरण) हट जाएँगे। इसे वापस नहीं किया जा सकता।",
   stDeleteType: (e) => `पुष्टि के लिए ${e} लिखें`,
   stDeleteButton: "खाता हटाएँ",
   stDeleteDone:
@@ -656,12 +525,6 @@ const mr: DashboardCopy = {
   navSettings: "सेटिंग्ज",
   logout: "लॉग आउट",
 
-  previewNote: "पूर्वावलोकन: नमुना डेटा, काहीही जतन केले जात नाही.",
-  previewShow: "दाखवा",
-  previewSample: "नमुना डेटा",
-  previewEmpty: "रिकामे खाते",
-  tagSample: "नमुना डेटा",
-  tagReal: "खरा संग्रह डेटा",
 
   describeCase: "एक प्रकरण सांगा",
   open: "उघडा",
@@ -672,24 +535,6 @@ const mr: DashboardCopy = {
 
   wsTitle: "कार्यक्षेत्र",
   wsLede: "काय घडले आणि कधी ते सांगा. उत्तरे वैधानिक मजकुरातून येतात.",
-  atTitle: "दस्तऐवज जोडा",
-  atFrom: "तुमच्या दस्तऐवजांतून",
-  atUpload: "नवीन अपलोड करा",
-  atPickLabel: "दस्तऐवज निवडा",
-  atNoDocs: "अजून तुमचे कोणतेही जतन केलेले दस्तऐवज नाहीत. नवीन अपलोड करा वापरा.",
-  atWord: "या पूर्वावलोकनात Word (.docx) अजून जोडलेले नाही.",
-  atChip: "जोडले",
-  atRemove: "काढा",
-  atDateFound: (d) => `सापडलेली तारीख: ${d}, दस्तऐवजातून वाचलेली`,
-  atDateNone: "अजून तारीख सापडली नाही. दस्तऐवजातून गुन्ह्याची तारीख लिहा.",
-  atEdit: "बदला",
-  atConfirm: "तारखेची पुष्टी करा",
-  atSave: "तारीख जतन करा",
-  atDateLabel: "गुन्ह्याची तारीख",
-  atConfirmed: (d) => `गुन्ह्याच्या तारखेची पुष्टी झाली: ${d}. या संभाषणातील पुढचे प्रश्न तीच वापरतील.`,
-  atChange: "बदला",
-  atScanNote: "स्कॅन केलेले दस्तऐवज तारखा आणि अंक चुकीचे वाचू शकतात. विचारण्यापूर्वी तारखेची पुष्टी करा.",
-  atPreview: "पूर्वावलोकन: दस्तऐवज जोडल्याने चॅट जे पाठवते ते अजून बदलत नाही.",
 
   hiTitle: "प्रकरण इतिहास",
   hiLede: "तुम्ही विचारलेले प्रत्येक प्रश्न, आणि तो ज्या संहितेकडे गेला.",
@@ -734,26 +579,6 @@ const mr: DashboardCopy = {
   stDeleteFailed: "तुमचे खाते हटवता आले नाही. तुम्ही अजूनही लॉग इन आहात. पुन्हा प्रयत्न करा.",
 
   dcTitle: "दस्तऐवज",
-  dcLede: "दस्तऐवज जोडा, LawShift त्यातून तथ्ये आणि तारीख वाचेल.",
-  dzTitle: "फाइल येथे सोडा, किंवा",
-  dzChoose: "फाइल निवडा",
-  dzTypes: "PDF, JPG किंवा PNG",
-  dzTypesWord: "PDF, JPG, PNG किंवा DOCX (Word अजून जोडलेले नाही)",
-  dzOcr:
-    "टाइप केलेले PDF थेट वाचले जातात. स्कॅन केलेले दस्तऐवज आणि फोटो OCR ने वाचले जातात, जे तारखा आणि अंक चुकीचे वाचू शकते, म्हणून सापडलेली तारीख तपासा.",
-  dzBad: "हा फाइल प्रकार समर्थित नाही. PDF, JPG किंवा PNG वापरा.",
-  dzWord: "या पूर्वावलोकनात Word (.docx) अजून जोडलेले नाही. PDF, JPG किंवा PNG वापरा.",
-  dcListTitle: "अपलोड केलेले दस्तऐवज",
-  colFile: "फाइल",
-  colDate: "जोडले",
-  colRead: "कसे वाचले",
-  colResult: "निकाल",
-  readDirect: "टाइप केलेले PDF, थेट वाचले",
-  readOcr: "OCR ने वाचले",
-  readPending: "प्रक्रिया नाही (पूर्वावलोकन)",
-  viewResult: "निकाल पाहा",
-  dcEmptyTitle: "अजून कोणतेही दस्तऐवज नाहीत",
-  dcEmptyBody: "तुम्ही जोडलेल्या फाइल्स येथे दिसतील, त्यांचा मजकूर कसा वाचला गेला यासह.",
 
   soonTag: "पुढे येत आहे",
   soonNothing: "येथे अजून काहीही यादीत नाही, कारण हे पान तयार झालेले नाही.",
@@ -855,7 +680,7 @@ const mr: DashboardCopy = {
   stUpdated: "पासवर्ड अपडेट झाला.",
   stDeleteTitle: "खाते हटवा",
   stDeleteBody:
-    "यामुळे तुमचे खाते आणि जतन केलेला प्रकरण इतिहास हटेल. हे परत करता येणार नाही.",
+    "यामुळे तुमचे खाते, जतन केलेला प्रकरण इतिहास आणि जतन केलेले दस्तऐवज (फाइल्स आणि तुमची वर्णने) हटतील. हे परत करता येणार नाही.",
   stDeleteType: (e) => `पुष्टीसाठी ${e} लिहा`,
   stDeleteButton: "खाते हटवा",
   stDeleteDone:

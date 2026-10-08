@@ -1,29 +1,19 @@
 "use client";
 
-import { createContext, useContext, useState, type ReactNode } from "react";
+import { useState, type ReactNode } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Header } from "@/components/Header";
 import { usePrefs } from "@/lib/prefs";
 import { getDashboardCopy } from "@/lib/dashboardCopy";
 import { useSession } from "@/lib/useSession";
-import { SHOW_SAMPLE_SIGNS } from "@/lib/showSampleSigns";
 import styles from "./dashboard.module.css";
-
-type Mode = "sample" | "empty";
-const ModeContext = createContext<Mode>("sample");
-
-/** Pages read this to show either the populated or the empty state. */
-export function usePreviewMode() {
-  return useContext(ModeContext);
-}
 
 export function DashboardShell({ children }: { children: ReactNode }) {
   const { lang } = usePrefs();
   const C = getDashboardCopy(lang);
   const path = usePathname();
   const { email } = useSession();
-  const [mode, setMode] = useState<Mode>("sample");
   const [menuOpen, setMenuOpen] = useState(false);
 
   const items = [
@@ -36,16 +26,6 @@ export function DashboardShell({ children }: { children: ReactNode }) {
   ];
   const isActive = (i: (typeof items)[number]) => path?.startsWith(i.href);
   const current = items.find(isActive) ?? items[0];
-  /** Mapping, Rulings, History and Settings are real and never show the strip; elsewhere gated by SHOW_SAMPLE_SIGNS. */
-  const showPreview =
-    SHOW_SAMPLE_SIGNS &&
-    !(
-      path?.startsWith("/dashboard/mapping") ||
-      path?.startsWith("/dashboard/rulings") ||
-      path?.startsWith("/dashboard/history") ||
-      path?.startsWith("/dashboard/settings")
-    );
-
   return (
     <>
       <Header account={{ email: email ?? "", logout: C.logout }} />
@@ -81,35 +61,9 @@ export function DashboardShell({ children }: { children: ReactNode }) {
         </aside>
 
         <main id="main" className={styles.main}>
-          {showPreview ? (
-          <div className={styles.preview} role="note">
-            <p>{C.previewNote}</p>
-            <div className={styles.previewSwitch} role="group" aria-label={C.previewShow}>
-              <span>{C.previewShow}</span>
-              <button
-                type="button"
-                aria-pressed={mode === "sample"}
-                className={mode === "sample" ? styles.segOn : styles.seg}
-                onClick={() => setMode("sample")}
-              >
-                {C.previewSample}
-              </button>
-              <button
-                type="button"
-                aria-pressed={mode === "empty"}
-                className={mode === "empty" ? styles.segOn : styles.seg}
-                onClick={() => setMode("empty")}
-              >
-                {C.previewEmpty}
-              </button>
-            </div>
+          <div key={path} className={styles.content}>
+            {children}
           </div>
-          ) : null}
-          <ModeContext.Provider value={mode}>
-            <div key={`${mode}-${path}`} className={styles.content}>
-              {children}
-            </div>
-          </ModeContext.Provider>
         </main>
       </div>
     </>

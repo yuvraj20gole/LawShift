@@ -1,0 +1,334 @@
+/* Documents: the review step, the list actions and the Workspace chip. */
+
+.review {
+  display: grid;
+  gap: 1.1rem;
+  max-width: 44rem;
+  margin-top: 1rem;
+  padding: 1.15rem 1.25rem 1.25rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.review::before {
+  content: "";
+  width: 2.25rem;
+  height: 3px;
+  background: var(--cutoff);
+}
+
+.reviewTitle {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+}
+
+.facts {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+}
+
+.facts div {
+  display: grid;
+  grid-template-columns: 9rem minmax(0, 1fr);
+  gap: 0.75rem;
+}
+
+.facts dt {
+  color: var(--ink-tertiary);
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+
+.facts dd {
+  margin: 0;
+}
+
+.fname {
+  overflow-wrap: anywhere;
+  font-family: var(--font-serif);
+  font-weight: 600;
+}
+
+.warns {
+  display: grid;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.warns li {
+  margin: 0;
+}
+
+.dateSet {
+  display: grid;
+  gap: 0.6rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.dateSet legend {
+  padding: 0;
+  margin-bottom: 0.3rem;
+}
+
+.opts {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.opt {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 0.7rem;
+  min-height: 44px;
+  padding: 0.5rem 0.5rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+}
+
+.opt input,
+.confirmBox input {
+  width: 18px;
+  height: 18px;
+  margin-top: 0.15rem;
+  accent-color: var(--bns);
+}
+
+.ctx {
+  display: block;
+  margin-top: 0.15rem;
+  overflow-wrap: anywhere;
+  color: var(--ink-secondary);
+  font-size: 0.86rem;
+}
+
+.manual {
+  display: grid;
+  gap: 0.3rem;
+  max-width: 16rem;
+}
+
+.confirmBox {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 0.7rem;
+  padding: 0.7rem 0.75rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: var(--paper);
+  font-size: 0.93rem;
+  cursor: pointer;
+}
+
+.factsBlock {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.factsBox {
+  width: 100%;
+  min-height: 9rem;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.readText {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  padding: 0.2rem 0.85rem;
+}
+
+.readText summary {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.readText[open] {
+  padding-bottom: 0.85rem;
+}
+
+.readBox {
+  width: 100%;
+  padding: 0.6rem 0.7rem;
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--paper);
+  color: var(--ink-secondary);
+  font: inherit;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.counter {
+  margin: 0;
+  color: var(--ink-secondary);
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 0.8rem;
+}
+
+.cancelBtn {
+  min-height: 44px;
+  padding: 0 0.4rem;
+  border: 0;
+  background: transparent;
+  color: var(--ink-secondary);
+  font: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.cancelBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ---- Documents page ---- */
+
+.store {
+  max-width: 44rem;
+  margin: 0 0 1.25rem;
+  color: var(--ink-secondary);
+  font-size: 0.9rem;
+}
+
+.readingLine {
+  margin: 0.75rem 0 0;
+  color: var(--ink-secondary);
+}
+
+.savedLine {
+  display: flex;
+  gap: 0.5rem;
+  margin: 0.75rem 0 0;
+  color: var(--ok);
+  font-weight: 600;
+}
+
+.docName {
+  display: block;
+  overflow-wrap: anywhere;
+  white-space: normal;
+  font-family: var(--font-serif);
+}
+
+.docActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 1.1rem;
+}
+
+.docActions button {
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--bns);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.docActions button.del {
+  color: var(--flag);
+}
+
+.docActions button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.listBar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+}
+
+.errLine {
+  max-width: 44rem;
+}
+
+/* ---- Workspace chip ---- */
+
+.chipWrap {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.chipMeta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.75rem;
+  margin: 0;
+  color: var(--ink-secondary);
+  font-size: 0.88rem;
+}
+
+.chipName {
+  overflow-wrap: anywhere;
+}
+
+.after {
+  margin: 0;
+  font-weight: 600;
+}
+
+.textBtn {
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--bns);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+@media (max-width: 40rem) {
+  .facts div {
+    grid-template-columns: 1fr;
+    gap: 0.1rem;
+  }
+
+  .review {
+    padding: 1rem;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .opt:hover {
+    background: var(--sunken);
+  }
+}

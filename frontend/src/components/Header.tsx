@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { detachActiveBestEffort } from "@/lib/documents";
 import { createClient } from "@/lib/supabase/client";
 import { ScrollProgress } from "./ScrollProgress";
 import { usePrefs, type Lang } from "@/lib/prefs";
@@ -33,6 +34,8 @@ export function Header({
 
   async function logOut() {
     try {
+      // While the token is still valid: drop any attached document from this chat (waits at most 1.5 s).
+      await Promise.race([detachActiveBestEffort(), new Promise((r) => setTimeout(r, 1500))]);
       await createClient().auth.signOut();
     } finally {
       router.replace("/");

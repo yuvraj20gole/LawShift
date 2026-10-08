@@ -6,7 +6,8 @@ import { Rise } from "@/components/Rise";
 import { SplitText } from "@/components/SplitText";
 import styles from "./dashboard.module.css";
 import { CheckIcon, FlagIcon } from "@/components/auth/AuthParts";
-import type { Code } from "@/lib/sampleData";
+
+type Code = "IPC" | "BNS";
 
 /** IPC slate / BNS navy: the same two code colours as the landing page. */
 export function CodeBadge({ code }: { code: Code | string }) {

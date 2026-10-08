@@ -92,6 +92,7 @@ export type Dictionary = {
   offenseDateUsedLine: (date: string, codeName: string) => string;
   offenseDateFromEarlier: string;
   offenseDateFromDocument: string;
+  offenseDateConfirmed: string;
   exceptionProvisoNotice: string;
   scopeLine: string;
   /** Code-written Conclusion; code/section/heading stay as stored. */
@@ -260,6 +261,7 @@ const en: Dictionary = {
     `Offence date used: ${date} (${codeName})`,
   offenseDateFromEarlier: "(from your earlier message)",
   offenseDateFromDocument: "(read from your document)",
+  offenseDateConfirmed: "(confirmed by you)",
   exceptionProvisoNotice:
     "This section has an Exception, Explanation or Proviso that may change the result. Read the full text under Sources.",
   scopeLine:
@@ -453,6 +455,9 @@ const hi: Dictionary = {
   offenseDateFromDocument:
     // Agent draft — needs native review
     "(आपके दस्तावेज़ से पढ़ी गई)",
+  offenseDateConfirmed:
+    // Agent draft — needs native review
+    "(आपके द्वारा पुष्टि की गई)",
   exceptionProvisoNotice:
     // Agent draft — needs native review
     "इस धारा में Exception, Explanation या Proviso हो सकता है जो परिणाम बदल सके। स्रोतों में पूरा पाठ पढ़ें।",
@@ -651,6 +656,9 @@ const mr: Dictionary = {
   offenseDateFromDocument:
     // Agent draft — needs native review
     "(तुमच्या दस्तऐवजातून वाचले)",
+  offenseDateConfirmed:
+    // Agent draft — needs native review
+    "(तुम्ही पुष्टी केलेली)",
   exceptionProvisoNotice:
     // Agent draft — needs native review
     "या कलमात Exception, Explanation किंवा Proviso असू शकते जे निकाल बदलू शकते. स्रोतांखाली संपूर्ण मजकूर वाचा.",
