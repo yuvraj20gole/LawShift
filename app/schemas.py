@@ -101,6 +101,28 @@ class MappingResponse(BaseModel):
             "when every translated field preserved its digit multiset."
         ),
     )
+    application_text: str | None = Field(
+        default=None,
+        description=(
+            "Same string as irac.application when present. Exposed so clients "
+            "can treat Application as optional without parsing irac."
+        ),
+    )
+    application_generated: bool = Field(
+        default=True,
+        description=(
+            "True when Application was produced by the writer model. "
+            "False would mean a future code-written or omitted Application."
+        ),
+    )
+    rule_truncated: bool = Field(
+        default=False,
+        description=(
+            "True when irac.rule is a proper prefix of the cleaned statute "
+            "text (Exception / Explanation / Provided that / Illustration "
+            "cut away). False when the Rule is the full cleaned section."
+        ),
+    )
 
 
 class ClarifyResponse(BaseModel):

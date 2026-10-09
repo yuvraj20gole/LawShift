@@ -95,6 +95,7 @@ type Msg =
       sectionLookup?: SectionLookupItem[];
       offenseDateUsed?: OffenseDateUsed;
       fixedConclusion?: FixedConclusionParts;
+      ruleTruncated?: boolean;
       showExceptionNotice?: boolean;
       showScope?: boolean;
     };
@@ -369,6 +370,8 @@ export function ChatEntry({
   const [expandedSources, setExpandedSources] = useState<Record<string, boolean>>(
     {},
   );
+  /** Application bodies shown by the reader, per answer (message index). Not stored. */
+  const [shownApps, setShownApps] = useState<Record<number, boolean>>({});
   const [langSwitchNote, setLangSwitchNote] = useState<string | null>(null);
   const prevLangRef = useRef(lang);
 
@@ -397,7 +400,10 @@ export function ChatEntry({
   const replyFromData = useCallback(
     (data: Record<string, unknown>): Msg => {
       if (data.kind === "mapping") {
-        const irac: Irac = (data.irac as Irac) || {};
+        const irac: Irac = { ...((data.irac as Irac) || {}) };
+        if (typeof data.application_text === "string" && data.application_text) {
+          irac.application = data.application_text;
+        }
         const sources = parseSources(data.sources);
         const offenseDateUsed = parseOffenseDateUsed(data.offense_date_used);
         const fixedConclusion = parseFixedConclusion(data.fixed_conclusion);
@@ -410,8 +416,7 @@ export function ChatEntry({
         const parts = [
           data.summary ? `${t.mapped}: ${data.summary}` : null,
           irac.issue ? `${t.issue}: ${irac.issue}` : null,
-          irac.rule ? `${t.rule}: ${irac.rule}` : null,
-          irac.application ? `${t.application}: ${irac.application}` : null,
+          irac.rule ? `${t.ruleStatute}: ${irac.rule}` : null,
           conclusionText ? `${t.conclusion}: ${conclusionText}` : null,
           verification?.flagged
             ? `${t.verifierNote}: ${verification.confidence_note || t.worthDoubleChecking}`
@@ -448,6 +453,7 @@ export function ChatEntry({
           verification,
           offenseDateUsed,
           fixedConclusion,
+          ruleTruncated: data.rule_truncated === true,
           showExceptionNotice,
           showScope: true,
           language: lang,
@@ -705,6 +711,10 @@ export function ChatEntry({
     void send(draft);
   }
 
+  function toggleApp(messageIndex: number) {
+    setShownApps((prev) => ({ ...prev, [messageIndex]: !prev[messageIndex] }));
+  }
+
   function toggleSource(messageIndex: number, sourceIndex: number) {
     const key = `${messageIndex}:${sourceIndex}`;
     setExpandedSources((prev) => ({ ...prev, [key]: !prev[key] }));
@@ -783,7 +793,7 @@ export function ChatEntry({
                     {(
                       [
                         ["issue", t.issue, m.irac.issue],
-                        ["rule", t.rule, m.irac.rule],
+                        ["rule", t.ruleStatute, m.irac.rule],
                         ["application", t.application, m.irac.application],
                         [
                           "conclusion",
@@ -803,11 +813,41 @@ export function ChatEntry({
                               wrap into the 6.25rem label column and squeeze text. */}
                           <div className={styles.iracValue}>
                             {key === "application" ? (
-                              <p className={styles.generatedNote}>
-                                {t.generatedNote}
-                              </p>
-                            ) : null}
-                            <p className={styles.statute}>{value}</p>
+                              <>
+                                <button
+                                  type="button"
+                                  className={styles.appToggle}
+                                  aria-expanded={Boolean(shownApps[i])}
+                                  aria-controls={`app-${i}`}
+                                  onClick={() => toggleApp(i)}
+                                >
+                                  {shownApps[i] ? t.hideApplication : t.showApplication}
+                                </button>
+                                {shownApps[i] ? (
+                                  <div id={`app-${i}`}>
+                                    <p className={styles.generatedNote}>
+                                      {t.generatedNote}
+                                    </p>
+                                    <p className={styles.statute}>{value}</p>
+                                  </div>
+                                ) : null}
+                              </>
+                            ) : (
+                              <>
+                                <p className={styles.statute}>{value}</p>
+                                {key === "rule" &&
+                                ((m.language && m.language !== "en") || m.ruleTruncated) ? (
+                                  <p className={styles.generatedNote}>
+                                    {[
+                                      m.language && m.language !== "en" ? t.statuteInEnglish : null,
+                                      m.ruleTruncated ? t.ruleTruncated : null,
+                                    ]
+                                      .filter(Boolean)
+                                      .join(" ")}
+                                  </p>
+                                ) : null}
+                              </>
+                            )}
                           </div>
                         </div>
                       ) : null,

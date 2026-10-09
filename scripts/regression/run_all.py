@@ -46,6 +46,7 @@ os.environ.setdefault("USE_TF", "0")
 os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
 os.environ.setdefault("TORCHDYNAMO_DISABLE", "1")
 os.environ.setdefault("LAWSHIFT_FIXED_CONCLUSION", "1")
+os.environ.setdefault("LAWSHIFT_VERIFY_WITH_APPLICATION", "0")
 
 
 def log(msg: str) -> None:

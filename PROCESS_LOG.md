@@ -1041,3 +1041,20 @@ By length (mode b / after): 800 → 0.333 top5; 1500 → 0.275; 3000 → 0.233; 
 ---
 
 *End of process log. Generated from files in `results/` as of the unified comparison run, plus GovIntel README figures verified against the live Hugging Face card, plus the split-offense review and `split_detector_v2_eval.json`, Stage 4 generation and verifier evals (§16), citation-fix verifier evaluation (§17), backend integration / bifurcation validation (§18), multilingual Stage 5 / IndicTrans2 fix (§19), Ollama Metal / Rosetta fix and Stage 4 warm-up (§20), landing-page + live chat UI verification (§21), missing-facts gate (§22), IPC↔BNS code-mismatch intercept (§23), citation-only section lookup / bifurcation escape / date-lock diagnosis (§24), locked-date conflict handling (§25), Stage 4 conclusion-wording variant (§26), bifurcation-escape / cited-section / mismatch-card rules (§27), display-only chat answer lines (§28), fixed Conclusion (§29), translation number guard (§30), the checked-in regression suite (§31), public API hardening (§32), and M3 document extract/attach (§33).*
+
+## Answer card: Rule as statute text, Application collapsed (frontend, branch feature/answer-rule)
+
+- `ChatEntry`: Rule is labelled "Rule (statute text)". Application sits behind a button ("Show generated application" / "Hide generated application"), collapsed by default, per answer in component state only (nothing stored). When open it keeps the "Generated text. It can say more than you told it." label. The Application is also left out of the plain-text fallback of the answer. It reads `application_text`, falling back to `irac.application`.
+- The fixed Conclusion is separate from the Application, so it reads correctly with the Application collapsed.
+- In Hindi and Marathi a note under the Rule says the statute text is shown in English. The response has no field saying the Rule was left untranslated; the note is keyed on the answer language being not English, relying on the backend skipping `rule` in Stage 5 for every non-English language.
+
+### AI-drafted Hindi and Marathi strings (need native review)
+`ruleStatute`, `showApplication`, `hideApplication`, `statuteInEnglish` in the `hi` and `mr` dictionaries of `frontend/src/lib/i18n.ts`. The English key `rule` was renamed to `ruleStatute`.
+
+### Not verified
+No browser check yet (dev servers were not allowed): 390px width and light/dark themes still need a look.
+
+### Rule truncation note (frontend, branch feature/answer-rule)
+- When the response has `rule_truncated: true`, one line under the Rule says "This shows the main clause. The rest is under Sources." Nothing is shown when it is false or absent. In Hindi and Marathi it is joined into the same line as the "statute text is shown in English" note, so the two read as one short paragraph and nothing repeats.
+- AI-drafted Hindi and Marathi string (needs native review): `ruleTruncated` in the `hi` and `mr` dictionaries of `frontend/src/lib/i18n.ts`.
+- Long Rules were checked by reading the layout and CSS only; no browser check yet.

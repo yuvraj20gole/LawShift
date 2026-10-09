@@ -480,6 +480,24 @@
   }
 }
 
+.appToggle {
+  min-height: 44px;
+  padding: 0.4rem 0.7rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--bns);
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+
+.appToggle[aria-expanded="true"] {
+  margin-bottom: 0.5rem;
+}
+
 .generatedNote {
   margin: 0 0 0.3rem;
   color: var(--ink-tertiary);

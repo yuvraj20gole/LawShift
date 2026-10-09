@@ -143,9 +143,13 @@ export type Dictionary = {
   you: string;
   assistant: string;
   issue: string;
-  rule: string;
+  ruleStatute: string;
   application: string;
   generatedNote: string;
+  showApplication: string;
+  hideApplication: string;
+  statuteInEnglish: string;
+  ruleTruncated: string;
   conclusion: string;
 };
 
@@ -332,9 +336,13 @@ const en: Dictionary = {
   you: "You",
   assistant: "LawShift",
   issue: "Issue",
-  rule: "Rule",
+  ruleStatute: "Rule (statute text)",
   application: "Application",
   generatedNote: "Generated text. It can say more than you told it. The statute text is under Sources.",
+  showApplication: "Show generated application",
+  hideApplication: "Hide generated application",
+  statuteInEnglish: "The statute text is shown in English.",
+  ruleTruncated: "This shows the main clause. The rest is under Sources.",
   conclusion: "Conclusion",
 };
 
@@ -533,9 +541,13 @@ const hi: Dictionary = {
   you: "आप",
   assistant: "LawShift",
   issue: "मुद्दा",
-  rule: "नियम",
+  ruleStatute: "नियम (वैधानिक पाठ)",
   application: "अनुप्रयोग",
   generatedNote: "मॉडल द्वारा लिखा पाठ। यह आपके बताए से ज़्यादा कह सकता है। धारा का पाठ स्रोत में है।",
+  showApplication: "मॉडल द्वारा लिखा अनुप्रयोग दिखाएँ",
+  hideApplication: "मॉडल द्वारा लिखा अनुप्रयोग छिपाएँ",
+  statuteInEnglish: "वैधानिक पाठ अंग्रेज़ी में दिखाया गया है।",
+  ruleTruncated: "यह मुख्य उपवाक्य दिखाता है। शेष स्रोत में है।",
   conclusion: "निष्कर्ष",
 };
 
@@ -734,9 +746,13 @@ const mr: Dictionary = {
   you: "तुम्ही",
   assistant: "LawShift",
   issue: "मुद्दा",
-  rule: "नियम",
+  ruleStatute: "नियम (वैधानिक मजकूर)",
   application: "अनुप्रयोग",
   generatedNote: "मॉडेलने लिहिलेला मजकूर. तो तुम्ही सांगितल्यापेक्षा जास्त सांगू शकतो. कलमाचा मजकूर स्रोतांमध्ये आहे.",
+  showApplication: "मॉडेलने लिहिलेला अनुप्रयोग दाखवा",
+  hideApplication: "मॉडेलने लिहिलेला अनुप्रयोग लपवा",
+  statuteInEnglish: "वैधानिक मजकूर इंग्रजीत दाखवला आहे.",
+  ruleTruncated: "हे मुख्य उपवाक्य दाखवते. उर्वरित स्रोतांमध्ये आहे.",
   conclusion: "निष्कर्ष",
 };
 

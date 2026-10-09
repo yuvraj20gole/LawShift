@@ -17,6 +17,7 @@ from fastapi import Depends, FastAPI, File, HTTPException, Query, Request, Uploa
 from fastapi.middleware.cors import CORSMiddleware
 
 from . import mapping_lookup, stage1, stage2, stage3, stage4, stage5_translate
+from .statute_rule import main_clause_rule_text, rule_is_truncated
 from .auth_supabase import AuthUser, optional_auth, require_auth
 from .case_attach import (
     attach_case,
@@ -59,6 +60,11 @@ def _fixed_conclusion_enabled() -> bool:
     """LAWSHIFT_FIXED_CONCLUSION: default on (1). Set to 0 for generated Conclusions."""
     raw = os.environ.get("LAWSHIFT_FIXED_CONCLUSION", "1").strip().lower()
     return raw not in {"0", "false", "no", "off"}
+
+
+def _verify_with_application_enabled() -> bool:
+    """LAWSHIFT_VERIFY_WITH_APPLICATION: default off. Set 1 to include Application."""
+    return stage4.verify_with_application_enabled()
 
 
 def _fixed_conclusion_sentence(code: str, section: str, heading: str) -> str:
@@ -386,10 +392,16 @@ def _build_mapping(
         )
 
     irac_parsed = stage4.parse_irac(irac_text)
+    # Rule = verbatim main clause from the retrieved section (not model-written).
+    # Exception / Explanation / Provided that / Illustration stay in Sources
+    # (full top_chunk.text) when a safe anchored cut is applied.
+    rule_text = main_clause_rule_text(top_chunk.text)
+    rule_truncated = rule_is_truncated(top_chunk.text, rule_text)
+    application_text = irac_parsed.get("application", "") or ""
     irac = {
         "issue": irac_parsed.get("issue", ""),
-        "rule": irac_parsed.get("rule", ""),
-        "application": irac_parsed.get("application", ""),
+        "rule": rule_text,
+        "application": application_text,
         "conclusion": irac_parsed.get("conclusion", ""),
     }
 
@@ -400,7 +412,7 @@ def _build_mapping(
     heading = stage3.option_description(top_chunk)
     fixed_parts: FixedConclusionParts | None = None
     if _fixed_conclusion_enabled():
-        # Discard writer Conclusion; keep Issue / Rule / Application as generated.
+        # Discard writer Conclusion; Issue / Application from the model; Rule from statute.
         irac["conclusion"] = _fixed_conclusion_sentence(
             statute_label, section_str, heading
         )
@@ -410,29 +422,41 @@ def _build_mapping(
             heading=heading,
         )
 
-    # Verifier sees Rule + the Conclusion that will be displayed (fixed or generated).
+    # Verifier sees Rule + Conclusion; Application only when env flag is on.
     try:
-        verdict, explanation = stage4.verify_rule_only_14b_v2(
-            irac["rule"], irac["conclusion"]
-        )
+        if _verify_with_application_enabled():
+            verdict, explanation = stage4.verify_rule_only_14b_v2(
+                irac["rule"],
+                irac["conclusion"],
+                application_text=irac["application"],
+            )
+        else:
+            verdict, explanation = stage4.verify_rule_only_14b_v2(
+                irac["rule"], irac["conclusion"]
+            )
     except Exception as exc:
         verdict, explanation = "SUPPORTED", f"Verifier unavailable: {exc}"
 
     # Stage 5: Multilingual translation (post-processing only).
+    # Rule is statute copy — skip translation so it stays verbatim as stored.
     # When the Conclusion is code-fixed, do not machine-translate it — the
     # client renders a localised template from fixed_conclusion parts.
+    # Number guard still runs on translated fields (issue / application).
     engine: str | None = None
     translation_note: str | None = None
     translation_fallback_fields: list[str] | None = None
     if language and language != "en":
         try:
-            skip = {"conclusion"} if fixed_parts is not None else None
+            skip: set[str] = {"rule"}
+            if fixed_parts is not None:
+                skip.add("conclusion")
             irac, engine, translation_note, fb_fields = (
                 stage5_translate.translate_irac(
                     irac, target_lang=language, skip_fields=skip
                 )
             )
             translation_fallback_fields = fb_fields or None
+            application_text = irac.get("application", "") or ""
         except Exception as exc:
             print(f"[stage5] Translation to '{language}' failed: {exc}")
 
@@ -478,6 +502,9 @@ def _build_mapping(
         offense_date_used=offense_date_used,
         fixed_conclusion=fixed_parts,
         translation_fallback_fields=translation_fallback_fields,
+        application_text=application_text or None,
+        application_generated=True,
+        rule_truncated=rule_truncated,
     )
 
 

@@ -1,0 +1,623 @@
+{
+  "written_at": "2026-10-09T09:37:12",
+  "elapsed_sec": 101.8,
+  "summary": {
+    "env": "LAWSHIFT_VERIFY_WITH_APPLICATION",
+    "default": "0 (OFF)",
+    "n_messages": 19,
+    "n_mapping_off": 13,
+    "n_mapping_on": 13,
+    "applications_flagged_off": 0,
+    "applications_flagged_on": 0,
+    "verify_latency_ms_off": {
+      "n": 13,
+      "mean": 3347.4,
+      "max": 7225.4,
+      "min": 1589.5,
+      "per_call": [
+        6069.0,
+        2773.9,
+        4715.6,
+        2295.4,
+        1996.7,
+        1589.5,
+        2624.6,
+        7225.4,
+        1972.7,
+        2736.3,
+        2333.9,
+        4767.3,
+        2415.6
+      ]
+    },
+    "verify_latency_ms_on": {
+      "n": 13,
+      "mean": 3911.4,
+      "max": 10279.6,
+      "min": 1983.8,
+      "per_call": [
+        10279.6,
+        2872.5,
+        5174.8,
+        2518.2,
+        2603.2,
+        1983.8,
+        2411.1,
+        7153.8,
+        2733.3,
+        3553.1,
+        2487.3,
+        4878.6,
+        2198.6
+      ]
+    },
+    "note": "Generate stubbed; verifier is live 14B. Latency is per answer (answer_ms) and per verify call. Flag default remains OFF."
+  },
+  "rows": [
+    {
+      "id": "diag_0",
+      "message": "25 June 2024",
+      "off": {
+        "kind": "clarify",
+        "answer_ms": 0.5,
+        "has_application": false,
+        "verify_calls": [],
+        "flagged": null
+      },
+      "on": {
+        "kind": "clarify",
+        "answer_ms": 0.1,
+        "has_application": false,
+        "verify_calls": [],
+        "flagged": null
+      }
+    },
+    {
+      "id": "diag_1",
+      "message": "Which law applies to this? 10 August 2024",
+      "off": {
+        "kind": "clarify",
+        "answer_ms": 0.1,
+        "has_application": false,
+        "verify_calls": [],
+        "flagged": null
+      },
+      "on": {
+        "kind": "clarify",
+        "answer_ms": 0.1,
+        "has_application": false,
+        "verify_calls": [],
+        "flagged": null
+      }
+    },
+    {
+      "id": "diag_2",
+      "message": "Tell me the section. 5 September 2024",
+      "off": {
+        "kind": "clarify",
+        "answer_ms": 0.1,
+        "has_application": false,
+        "verify_calls": [],
+        "flagged": null
+      },
+      "on": {
+        "kind": "clarify",
+        "answer_ms": 0.1,
+        "has_application": false,
+        "verify_calls": [],
+        "flagged": null
+      }
+    },
+    {
+      "id": "diag_3",
+      "message": "Is this legal? 12 March 2024",
+      "off": {
+        "kind": "clarify",
+        "answer_ms": 0.1,
+        "has_application": false,
+        "verify_calls": [],
+        "flagged": null
+      },
+      "on": {
+        "kind": "clarify",
+        "answer_ms": 0.1,
+        "has_application": false,
+        "verify_calls": [],
+        "flagged": null
+      }
+    },
+    {
+      "id": "diag_4",
+      "message": "Help. 1 July 2024",
+      "off": {
+        "kind": "clarify",
+        "answer_ms": 0.1,
+        "has_application": false,
+        "verify_calls": [],
+        "flagged": null
+      },
+      "on": {
+        "kind": "clarify",
+        "answer_ms": 0.0,
+        "has_application": false,
+        "verify_calls": [],
+        "flagged": null
+      }
+    },
+    {
+      "id": "diag_5",
+      "message": "Which section is this case for? 25 June 2024",
+      "off": {
+        "kind": "clarify",
+        "answer_ms": 0.0,
+        "has_application": false,
+        "verify_calls": [],
+        "flagged": null
+      },
+      "on": {
+        "kind": "clarify",
+        "answer_ms": 0.0,
+        "has_application": false,
+        "verify_calls": [],
+        "flagged": null
+      }
+    },
+    {
+      "id": "diag_6",
+      "message": "On 25 June 2024, a bookstore owner sold obscene magazines for the first time.",
+      "off": {
+        "kind": "mapping",
+        "answer_ms": 6086.3,
+        "has_application": true,
+        "verify_calls": [
+          {
+            "mode": "rule_conclusion",
+            "elapsed_ms": 6069.0,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "flagged": false
+      },
+      "on": {
+        "kind": "mapping",
+        "answer_ms": 10314.8,
+        "has_application": true,
+        "verify_calls": [
+          {
+            "mode": "with_application",
+            "elapsed_ms": 10279.6,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "flagged": false
+      }
+    },
+    {
+      "id": "diag_7",
+      "message": "On 5 September 2024, a person was found in possession of counterfeit currency notes.",
+      "off": {
+        "kind": "mapping",
+        "answer_ms": 2808.5,
+        "has_application": true,
+        "verify_calls": [
+          {
+            "mode": "rule_conclusion",
+            "elapsed_ms": 2773.9,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "flagged": false
+      },
+      "on": {
+        "kind": "mapping",
+        "answer_ms": 2911.9,
+        "has_application": true,
+        "verify_calls": [
+          {
+            "mode": "with_application",
+            "elapsed_ms": 2872.5,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "flagged": false
+      }
+    },
+    {
+      "id": "diag_8",
+      "message": "On 10 August 2024, a riot occurred for a landowner's benefit and the agent failed to prevent it.",
+      "off": {
+        "kind": "mapping",
+        "answer_ms": 4749.0,
+        "has_application": true,
+        "verify_calls": [
+          {
+            "mode": "rule_conclusion",
+            "elapsed_ms": 4715.6,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "flagged": false
+      },
+      "on": {
+        "kind": "mapping",
+        "answer_ms": 5210.8,
+        "has_application": true,
+        "verify_calls": [
+          {
+            "mode": "with_application",
+            "elapsed_ms": 5174.8,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "flagged": false
+      }
+    },
+    {
+      "id": "extra_0",
+      "message": "On 25 June 2024, a person dishonestly took a mobile phone from a shop counter without paying.",
+      "off": {
+        "kind": "mapping",
+        "answer_ms": 2332.2,
+        "has_application": true,
+        "verify_calls": [
+          {
+            "mode": "rule_conclusion",
+            "elapsed_ms": 2295.4,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "flagged": false
+      },
+      "on": {
+        "kind": "mapping",
+        "answer_ms": 2551.0,
+        "has_application": true,
+        "verify_calls": [
+          {
+            "mode": "with_application",
+            "elapsed_ms": 2518.2,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "flagged": false
+      }
+    },
+    {
+      "id": "extra_1",
+      "message": "On 10 August 2024, a driver hit a pedestrian and fled without stopping.",
+      "off": {
+        "kind": "mapping",
+        "answer_ms": 2039.1,
+        "has_application": true,
+        "verify_calls": [
+          {
+            "mode": "rule_conclusion",
+            "elapsed_ms": 1996.7,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "flagged": false
+      },
+      "on": {
+        "kind": "mapping",
+        "answer_ms": 2638.3,
+        "has_application": true,
+        "verify_calls": [
+          {
+            "mode": "with_application",
+            "elapsed_ms": 2603.2,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "flagged": false
+      }
+    },
+    {
+      "id": "extra_2",
+      "message": "On 5 September 2024, a cashier accepted a bribe to clear a file.",
+      "off": {
+        "kind": "mapping",
+        "answer_ms": 1629.5,
+        "has_application": true,
+        "verify_calls": [
+          {
+            "mode": "rule_conclusion",
+            "elapsed_ms": 1589.5,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "flagged": false
+      },
+      "on": {
+        "kind": "mapping",
+        "answer_ms": 2016.7,
+        "has_application": true,
+        "verify_calls": [
+          {
+            "mode": "with_application",
+            "elapsed_ms": 1983.8,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "flagged": false
+      }
+    },
+    {
+      "id": "extra_3",
+      "message": "On 12 March 2024, a landlord locked a tenant out of the flat and kept the belongings.",
+      "off": {
+        "kind": "mapping",
+        "answer_ms": 2658.0,
+        "has_application": true,
+        "verify_calls": [
+          {
+            "mode": "rule_conclusion",
+            "elapsed_ms": 2624.6,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "flagged": false
+      },
+      "on": {
+        "kind": "mapping",
+        "answer_ms": 2444.2,
+        "has_application": true,
+        "verify_calls": [
+          {
+            "mode": "with_application",
+            "elapsed_ms": 2411.1,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "flagged": false
+      }
+    },
+    {
+      "id": "extra_4",
+      "message": "On 1 July 2024, a person forged a signature on a property sale deed.",
+      "off": {
+        "kind": "mapping",
+        "answer_ms": 7260.4,
+        "has_application": true,
+        "verify_calls": [
+          {
+            "mode": "rule_conclusion",
+            "elapsed_ms": 7225.4,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "flagged": false
+      },
+      "on": {
+        "kind": "mapping",
+        "answer_ms": 7196.2,
+        "has_application": true,
+        "verify_calls": [
+          {
+            "mode": "with_application",
+            "elapsed_ms": 7153.8,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "flagged": false
+      }
+    },
+    {
+      "id": "extra_5",
+      "message": "On 20 June 2024, two people fought in a market and one caused a simple hurt injury.",
+      "off": {
+        "kind": "mapping",
+        "answer_ms": 2006.7,
+        "has_application": true,
+        "verify_calls": [
+          {
+            "mode": "rule_conclusion",
+            "elapsed_ms": 1972.7,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "flagged": false
+      },
+      "on": {
+        "kind": "mapping",
+        "answer_ms": 2776.6,
+        "has_application": true,
+        "verify_calls": [
+          {
+            "mode": "with_application",
+            "elapsed_ms": 2733.3,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "flagged": false
+      }
+    },
+    {
+      "id": "extra_6",
+      "message": "On 15 August 2024, a person threatened another with a knife to take their wallet.",
+      "off": {
+        "kind": "mapping",
+        "answer_ms": 2788.3,
+        "has_application": true,
+        "verify_calls": [
+          {
+            "mode": "rule_conclusion",
+            "elapsed_ms": 2736.3,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "flagged": false
+      },
+      "on": {
+        "kind": "mapping",
+        "answer_ms": 3586.0,
+        "has_application": true,
+        "verify_calls": [
+          {
+            "mode": "with_application",
+            "elapsed_ms": 3553.1,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "flagged": false
+      }
+    },
+    {
+      "id": "extra_7",
+      "message": "On 3 May 2024, a shopkeeper sold food knowing it was unfit for human consumption.",
+      "off": {
+        "kind": "mapping",
+        "answer_ms": 2382.7,
+        "has_application": true,
+        "verify_calls": [
+          {
+            "mode": "rule_conclusion",
+            "elapsed_ms": 2333.9,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "flagged": false
+      },
+      "on": {
+        "kind": "mapping",
+        "answer_ms": 2520.5,
+        "has_application": true,
+        "verify_calls": [
+          {
+            "mode": "with_application",
+            "elapsed_ms": 2487.3,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "flagged": false
+      }
+    },
+    {
+      "id": "extra_8",
+      "message": "On 22 September 2024, a person broke into a house at night to commit theft.",
+      "off": {
+        "kind": "mapping",
+        "answer_ms": 4800.1,
+        "has_application": true,
+        "verify_calls": [
+          {
+            "mode": "rule_conclusion",
+            "elapsed_ms": 4767.3,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "flagged": false
+      },
+      "on": {
+        "kind": "mapping",
+        "answer_ms": 4911.9,
+        "has_application": true,
+        "verify_calls": [
+          {
+            "mode": "with_application",
+            "elapsed_ms": 4878.6,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "flagged": false
+      }
+    },
+    {
+      "id": "extra_9",
+      "message": "On 8 June 2024, a public servant used a forged certificate to obtain a job.",
+      "off": {
+        "kind": "mapping",
+        "answer_ms": 2448.9,
+        "has_application": true,
+        "verify_calls": [
+          {
+            "mode": "rule_conclusion",
+            "elapsed_ms": 2415.6,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "flagged": false
+      },
+      "on": {
+        "kind": "mapping",
+        "answer_ms": 2231.0,
+        "has_application": true,
+        "verify_calls": [
+          {
+            "mode": "with_application",
+            "elapsed_ms": 2198.6,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "flagged": false
+      }
+    }
+  ],
+  "mapping_ids": [
+    "diag_6",
+    "diag_7",
+    "diag_8",
+    "extra_0",
+    "extra_1",
+    "extra_2",
+    "extra_3",
+    "extra_4",
+    "extra_5",
+    "extra_6",
+    "extra_7",
+    "extra_8",
+    "extra_9"
+  ]
+}
