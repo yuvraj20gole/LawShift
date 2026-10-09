@@ -1,0 +1,1010 @@
+{
+  "written_at": "2026-10-09T10:20:10",
+  "elapsed_sec": 195.3,
+  "summary": {
+    "env": "LAWSHIFT_VERIFY_WITH_APPLICATION",
+    "default": "0 (OFF)",
+    "n_questions": 20,
+    "n_mapping_off": 20,
+    "n_mapping_on": 20,
+    "applications_flagged_off": 0,
+    "applications_flagged_on": 9,
+    "answer_latency_ms_off": {
+      "n": 20,
+      "mean": 4532.6,
+      "max": 6866.6,
+      "min": 3337.0,
+      "per_call": [
+        6423.3,
+        4491.7,
+        6428.3,
+        3537.6,
+        3534.1,
+        3337.0,
+        3494.8,
+        6855.6,
+        4227.1,
+        4782.0,
+        4359.8,
+        6866.6,
+        3589.0,
+        4417.6,
+        4105.8,
+        3883.8,
+        4800.9,
+        3430.2,
+        3785.8,
+        4300.2
+      ]
+    },
+    "answer_latency_ms_on": {
+      "n": 20,
+      "mean": 4868.7,
+      "max": 8174.3,
+      "min": 3370.0,
+      "per_call": [
+        6218.9,
+        5574.3,
+        6614.1,
+        3900.5,
+        5047.4,
+        3370.0,
+        4703.0,
+        5455.9,
+        3968.7,
+        4665.3,
+        4529.3,
+        8174.3,
+        4022.8,
+        5201.8,
+        4351.7,
+        3589.4,
+        4873.1,
+        4175.1,
+        4943.4,
+        3995.3
+      ]
+    },
+    "verify_latency_ms_off": {
+      "n": 20,
+      "mean": 2855.6,
+      "max": 4759.7,
+      "min": 1696.5,
+      "per_call": [
+        4076.6,
+        2830.5,
+        4752.7,
+        2347.3,
+        2003.5,
+        2239.1,
+        2333.0,
+        3547.0,
+        2820.0,
+        2732.3,
+        2989.5,
+        4759.7,
+        2069.5,
+        2743.8,
+        2718.6,
+        2738.8,
+        2537.5,
+        1696.5,
+        2339.0,
+        2837.7
+      ]
+    },
+    "verify_latency_ms_on": {
+      "n": 20,
+      "mean": 3636.5,
+      "max": 6654.7,
+      "min": 2403.3,
+      "per_call": [
+        4830.6,
+        4134.0,
+        5500.2,
+        2809.4,
+        3363.3,
+        2403.3,
+        3709.3,
+        3867.9,
+        2711.0,
+        3505.7,
+        3397.6,
+        6654.7,
+        2981.6,
+        3655.3,
+        3172.2,
+        2631.4,
+        4065.3,
+        2655.6,
+        3694.9,
+        2986.8
+      ]
+    },
+    "ipc292_row": {
+      "id": "q00",
+      "message": "On 25 June 2024, a bookstore owner sold obscene magazines for the first time.",
+      "off": {
+        "kind": "mapping",
+        "answer_ms": 6423.3,
+        "section": "292",
+        "code": "IPC",
+        "rule_truncated": true,
+        "flagged": false,
+        "verify_calls": [
+          {
+            "mode": "rule_conclusion",
+            "elapsed_ms": 4076.6,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "application_mentions_exception": false,
+        "application_preview": "The facts state that the bookstore owner sold obscene magazines for the first time on 25 June 2024. The statutory text in IPC_292 covers the act of selling obscene books, pamphlets, papers, drawings, paintings, representations, or figures, "
+      },
+      "on": {
+        "kind": "mapping",
+        "answer_ms": 6218.9,
+        "section": "292",
+        "code": "IPC",
+        "rule_truncated": true,
+        "flagged": false,
+        "verify_calls": [
+          {
+            "mode": "with_application",
+            "elapsed_ms": 4830.6,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "application_mentions_exception": true,
+        "application_preview": "The facts state that the bookstore owner sold obscene magazines for the first time on 25 June 2024. The statutory text does not specify any exceptions for religious or ancient monuments, nor does it provide details about the specific magazi"
+      }
+    },
+    "note": "Real writer (3B) + real verifier (14B). Generate not stubbed."
+  },
+  "rows": [
+    {
+      "id": "q00",
+      "message": "On 25 June 2024, a bookstore owner sold obscene magazines for the first time.",
+      "off": {
+        "kind": "mapping",
+        "answer_ms": 6423.3,
+        "section": "292",
+        "code": "IPC",
+        "rule_truncated": true,
+        "flagged": false,
+        "verify_calls": [
+          {
+            "mode": "rule_conclusion",
+            "elapsed_ms": 4076.6,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "application_mentions_exception": false,
+        "application_preview": "The facts state that the bookstore owner sold obscene magazines for the first time on 25 June 2024. The statutory text in IPC_292 covers the act of selling obscene books, pamphlets, papers, drawings, paintings, representations, or figures, "
+      },
+      "on": {
+        "kind": "mapping",
+        "answer_ms": 6218.9,
+        "section": "292",
+        "code": "IPC",
+        "rule_truncated": true,
+        "flagged": false,
+        "verify_calls": [
+          {
+            "mode": "with_application",
+            "elapsed_ms": 4830.6,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "application_mentions_exception": true,
+        "application_preview": "The facts state that the bookstore owner sold obscene magazines for the first time on 25 June 2024. The statutory text does not specify any exceptions for religious or ancient monuments, nor does it provide details about the specific magazi"
+      }
+    },
+    {
+      "id": "q01",
+      "message": "On 5 September 2024, a person was found in possession of counterfeit currency notes.",
+      "off": {
+        "kind": "mapping",
+        "answer_ms": 4491.7,
+        "section": "180",
+        "code": "BNS",
+        "rule_truncated": true,
+        "flagged": false,
+        "verify_calls": [
+          {
+            "mode": "rule_conclusion",
+            "elapsed_ms": 2830.5,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "application_mentions_exception": true,
+        "application_preview": "The facts state that the person was found in possession of counterfeit currency notes on 5 September 2024. The statutory text requires that the person must have known or had reason to believe the notes to be forged or counterfeit and intend"
+      },
+      "on": {
+        "kind": "mapping",
+        "answer_ms": 5574.3,
+        "section": "180",
+        "code": "BNS",
+        "rule_truncated": true,
+        "flagged": false,
+        "verify_calls": [
+          {
+            "mode": "with_application",
+            "elapsed_ms": 4134.0,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "application_mentions_exception": true,
+        "application_preview": "The facts state that a person was found in possession of counterfeit currency notes on 5 September 2024. The statutory text requires that the person must have known or had reason to believe the notes to be forged or counterfeit and intended"
+      }
+    },
+    {
+      "id": "q02",
+      "message": "On 10 August 2024, a riot occurred for a landowner's benefit and the agent failed to prevent it.",
+      "off": {
+        "kind": "mapping",
+        "answer_ms": 6428.3,
+        "section": "193",
+        "code": "BNS",
+        "rule_truncated": false,
+        "flagged": false,
+        "verify_calls": [
+          {
+            "mode": "rule_conclusion",
+            "elapsed_ms": 4752.7,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "application_mentions_exception": false,
+        "application_preview": "The facts state that a riot occurred on 10 August 2024 for the benefit of a landowner. The agent of this landowner is not established by the facts given, as the question does not specify who the agent is. Therefore, the application of the s"
+      },
+      "on": {
+        "kind": "mapping",
+        "answer_ms": 6614.1,
+        "section": "193",
+        "code": "BNS",
+        "rule_truncated": false,
+        "flagged": true,
+        "verify_calls": [
+          {
+            "mode": "with_application",
+            "elapsed_ms": 5500.2,
+            "verdict": "NOT_SUPPORTED",
+            "flagged": true,
+            "error": null
+          }
+        ],
+        "application_mentions_exception": false,
+        "application_preview": "The facts state that a riot occurred on 10 August 2024 for the benefit of a landowner. The agent of this landowner is not established by the facts given, as the question does not specify who the agent is. Therefore, the application of the s"
+      }
+    },
+    {
+      "id": "q03",
+      "message": "On 25 June 2024, a person dishonestly took a mobile phone from a shop counter without paying.",
+      "off": {
+        "kind": "mapping",
+        "answer_ms": 3537.6,
+        "section": "424",
+        "code": "IPC",
+        "rule_truncated": false,
+        "flagged": false,
+        "verify_calls": [
+          {
+            "mode": "rule_conclusion",
+            "elapsed_ms": 2347.3,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "application_mentions_exception": false,
+        "application_preview": "The facts state that the person took a mobile phone from a shop counter without paying, which aligns with the statutory text of 424 Dishonesty or Fraudulent Removal or Concealment of Property. The facts are sufficient to establish that the "
+      },
+      "on": {
+        "kind": "mapping",
+        "answer_ms": 3900.5,
+        "section": "424",
+        "code": "IPC",
+        "rule_truncated": false,
+        "flagged": false,
+        "verify_calls": [
+          {
+            "mode": "with_application",
+            "elapsed_ms": 2809.4,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "application_mentions_exception": false,
+        "application_preview": "The facts provided state that the person took a mobile phone from a shop counter without paying. This aligns with the statutory text, which describes a person dishonestly or fraudulently removing property of another person. The statutory te"
+      }
+    },
+    {
+      "id": "q04",
+      "message": "On 10 August 2024, a driver hit a pedestrian and fled without stopping.",
+      "off": {
+        "kind": "mapping",
+        "answer_ms": 3534.1,
+        "section": "40",
+        "code": "BNS",
+        "rule_truncated": false,
+        "flagged": false,
+        "verify_calls": [
+          {
+            "mode": "rule_conclusion",
+            "elapsed_ms": 2003.5,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "application_mentions_exception": false,
+        "application_preview": "The facts state that a driver hit a pedestrian and fled without stopping on 10 August 2024. The statutory text indicates that the right of private defence of the body commences when a reasonable apprehension of danger to the body arises fro"
+      },
+      "on": {
+        "kind": "mapping",
+        "answer_ms": 5047.4,
+        "section": "40",
+        "code": "BNS",
+        "rule_truncated": false,
+        "flagged": true,
+        "verify_calls": [
+          {
+            "mode": "with_application",
+            "elapsed_ms": 3363.3,
+            "verdict": "NOT_SUPPORTED",
+            "flagged": true,
+            "error": null
+          }
+        ],
+        "application_mentions_exception": false,
+        "application_preview": "The facts state that a driver hit a pedestrian on 10 August 2024 and fled without stopping. This scenario meets the requirement that a reasonable apprehension of danger to the body arises from an attempt to commit an offence (the hit and ru"
+      }
+    },
+    {
+      "id": "q05",
+      "message": "On 5 September 2024, a cashier accepted a bribe to clear a file.",
+      "off": {
+        "kind": "mapping",
+        "answer_ms": 3337.0,
+        "section": "173",
+        "code": "BNS",
+        "rule_truncated": false,
+        "flagged": false,
+        "verify_calls": [
+          {
+            "mode": "rule_conclusion",
+            "elapsed_ms": 2239.1,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "application_mentions_exception": false,
+        "application_preview": "The facts state that a cashier accepted a bribe to clear a file on 5 September 2024. The statutory text does not specify the nature of the bribe, so it is not established whether the bribe was of the \"treating\" type, which would allow for a"
+      },
+      "on": {
+        "kind": "mapping",
+        "answer_ms": 3370.0,
+        "section": "173",
+        "code": "BNS",
+        "rule_truncated": false,
+        "flagged": false,
+        "verify_calls": [
+          {
+            "mode": "with_application",
+            "elapsed_ms": 2403.3,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "application_mentions_exception": false,
+        "application_preview": "The facts state that a cashier accepted a bribe to clear a file on 5 September 2024. The statutory text does not specify the nature of the bribe, so it is not established whether the bribe was of the \"treating\" type, which would allow for p"
+      }
+    },
+    {
+      "id": "q06",
+      "message": "On 12 March 2024, a landlord locked a tenant out of the flat and kept the belongings.",
+      "off": {
+        "kind": "mapping",
+        "answer_ms": 3494.8,
+        "section": "410",
+        "code": "IPC",
+        "rule_truncated": false,
+        "flagged": false,
+        "verify_calls": [
+          {
+            "mode": "rule_conclusion",
+            "elapsed_ms": 2333.0,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "application_mentions_exception": false,
+        "application_preview": "The facts state that the landlord locked the tenant out of the flat and kept the belongings. This situation does not specify whether the transfer of possession was by theft, extortion, robbery, or criminal misappropriation. Therefore, it is"
+      },
+      "on": {
+        "kind": "mapping",
+        "answer_ms": 4703.0,
+        "section": "410",
+        "code": "IPC",
+        "rule_truncated": false,
+        "flagged": true,
+        "verify_calls": [
+          {
+            "mode": "with_application",
+            "elapsed_ms": 3709.3,
+            "verdict": "NOT_SUPPORTED",
+            "flagged": true,
+            "error": null
+          }
+        ],
+        "application_mentions_exception": false,
+        "application_preview": "The facts state that the landlord locked the tenant out of the flat and kept the belongings. This situation does not specify whether the transfer of possession was by theft, extortion, robbery, or criminal misappropriation. Therefore, it is"
+      }
+    },
+    {
+      "id": "q07",
+      "message": "On 1 July 2024, a person forged a signature on a property sale deed.",
+      "off": {
+        "kind": "mapping",
+        "answer_ms": 6855.6,
+        "section": "335",
+        "code": "BNS",
+        "rule_truncated": true,
+        "flagged": false,
+        "verify_calls": [
+          {
+            "mode": "rule_conclusion",
+            "elapsed_ms": 3547.0,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "application_mentions_exception": false,
+        "application_preview": "The facts provided state that a person forged a signature on a property sale deed on 1 July 2024. This aligns with the statutory text, which defines forgery as making a false document or electronic record with the intention that it be belie"
+      },
+      "on": {
+        "kind": "mapping",
+        "answer_ms": 5455.9,
+        "section": "335",
+        "code": "BNS",
+        "rule_truncated": true,
+        "flagged": false,
+        "verify_calls": [
+          {
+            "mode": "with_application",
+            "elapsed_ms": 3867.9,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "application_mentions_exception": false,
+        "application_preview": "The facts provided state that a person forged a signature on a property sale deed on 1 July 2024. This aligns with the statutory text, which defines forgery as making a false document or electronic record with the intention that it be belie"
+      }
+    },
+    {
+      "id": "q08",
+      "message": "On 20 June 2024, two people fought in a market and one caused a simple hurt injury.",
+      "off": {
+        "kind": "mapping",
+        "answer_ms": 4227.1,
+        "section": "319",
+        "code": "IPC",
+        "rule_truncated": false,
+        "flagged": false,
+        "verify_calls": [
+          {
+            "mode": "rule_conclusion",
+            "elapsed_ms": 2820.0,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "application_mentions_exception": false,
+        "application_preview": "The question states that two people fought in a market and one caused a simple hurt injury. The statutory text requires that the defendant caused bodily pain, disease, or infirmity to the victim. The facts state that a simple hurt injury oc"
+      },
+      "on": {
+        "kind": "mapping",
+        "answer_ms": 3968.7,
+        "section": "319",
+        "code": "IPC",
+        "rule_truncated": false,
+        "flagged": true,
+        "verify_calls": [
+          {
+            "mode": "with_application",
+            "elapsed_ms": 2711.0,
+            "verdict": "NOT_SUPPORTED",
+            "flagged": true,
+            "error": null
+          }
+        ],
+        "application_mentions_exception": false,
+        "application_preview": "The question states that two people fought in a market and one caused a simple hurt injury. The statutory text requires that the defendant caused bodily pain, disease or infirmity to the victim. The facts state that a simple hurt injury occ"
+      }
+    },
+    {
+      "id": "q09",
+      "message": "On 15 August 2024, a person threatened another with a knife to take their wallet.",
+      "off": {
+        "kind": "mapping",
+        "answer_ms": 4782.0,
+        "section": "309",
+        "code": "BNS",
+        "rule_truncated": true,
+        "flagged": false,
+        "verify_calls": [
+          {
+            "mode": "rule_conclusion",
+            "elapsed_ms": 2732.3,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "application_mentions_exception": false,
+        "application_preview": "The facts state that a person threatened another with a knife to take their wallet. This scenario aligns with the statutory text, as it involves the offender causing the victim to be in fear of instant wrongful restraint (theft by threat). "
+      },
+      "on": {
+        "kind": "mapping",
+        "answer_ms": 4665.3,
+        "section": "309",
+        "code": "BNS",
+        "rule_truncated": true,
+        "flagged": false,
+        "verify_calls": [
+          {
+            "mode": "with_application",
+            "elapsed_ms": 3505.7,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "application_mentions_exception": false,
+        "application_preview": "The facts state that a person threatened another with a knife to take their wallet. This scenario aligns with the statutory text, as it involves the offender causing the victim to be in fear of instant wrongful restraint (theft by threat). "
+      }
+    },
+    {
+      "id": "q10",
+      "message": "On 3 May 2024, a shopkeeper sold food knowing it was unfit for human consumption.",
+      "off": {
+        "kind": "mapping",
+        "answer_ms": 4359.8,
+        "section": "273",
+        "code": "IPC",
+        "rule_truncated": false,
+        "flagged": false,
+        "verify_calls": [
+          {
+            "mode": "rule_conclusion",
+            "elapsed_ms": 2989.5,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "application_mentions_exception": false,
+        "application_preview": "The facts state that the shopkeeper sold food knowing it was unfit for human consumption on 3 May 2024. This aligns with the statutory text, which requires selling or offering for sale an article known to be noxious as food or drink. The fa"
+      },
+      "on": {
+        "kind": "mapping",
+        "answer_ms": 4529.3,
+        "section": "273",
+        "code": "IPC",
+        "rule_truncated": false,
+        "flagged": false,
+        "verify_calls": [
+          {
+            "mode": "with_application",
+            "elapsed_ms": 3397.6,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "application_mentions_exception": false,
+        "application_preview": "The facts state that the shopkeeper sold food knowing it was unfit for human consumption on 3 May 2024. This aligns with the statutory text, which requires selling or offering for sale an article known to be noxious as food or drink. The st"
+      }
+    },
+    {
+      "id": "q11",
+      "message": "On 22 September 2024, a person broke into a house at night to commit theft.",
+      "off": {
+        "kind": "mapping",
+        "answer_ms": 6866.6,
+        "section": "331",
+        "code": "BNS",
+        "rule_truncated": false,
+        "flagged": false,
+        "verify_calls": [
+          {
+            "mode": "rule_conclusion",
+            "elapsed_ms": 4759.7,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "application_mentions_exception": false,
+        "application_preview": "The facts state that the person broke into a house at night to commit theft. According to the statutory text, whoever commits lurking house-trespass or house-breaking after sunset and before sunrise is punished with imprisonment of either d"
+      },
+      "on": {
+        "kind": "mapping",
+        "answer_ms": 8174.3,
+        "section": "331",
+        "code": "BNS",
+        "rule_truncated": false,
+        "flagged": true,
+        "verify_calls": [
+          {
+            "mode": "with_application",
+            "elapsed_ms": 6654.7,
+            "verdict": "NOT_SUPPORTED",
+            "flagged": true,
+            "error": null
+          }
+        ],
+        "application_mentions_exception": false,
+        "application_preview": "The facts state that the person broke into a house at night to commit theft. According to the statutory text, whoever commits lurking house-trespass or house-breaking after sunset and before sunrise is subject to imprisonment of either desc"
+      }
+    },
+    {
+      "id": "q12",
+      "message": "On 8 June 2024, a public servant used a forged certificate to obtain a job.",
+      "off": {
+        "kind": "mapping",
+        "answer_ms": 3589.0,
+        "section": "198",
+        "code": "IPC",
+        "rule_truncated": false,
+        "flagged": false,
+        "verify_calls": [
+          {
+            "mode": "rule_conclusion",
+            "elapsed_ms": 2069.5,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "application_mentions_exception": false,
+        "application_preview": "The facts provided state that a public servant used a forged certificate to obtain a job on 8 June 2024. The statutory text requires that the certificate be known to be false and used as a true certificate in a material point. The facts sta"
+      },
+      "on": {
+        "kind": "mapping",
+        "answer_ms": 4022.8,
+        "section": "198",
+        "code": "IPC",
+        "rule_truncated": false,
+        "flagged": true,
+        "verify_calls": [
+          {
+            "mode": "with_application",
+            "elapsed_ms": 2981.6,
+            "verdict": "NOT_SUPPORTED",
+            "flagged": true,
+            "error": null
+          }
+        ],
+        "application_mentions_exception": false,
+        "application_preview": "The facts state that a public servant used a forged certificate to obtain a job. The statutory text requires that the certificate be known to be false and used as a true certificate in a material point. The facts do not establish that the c"
+      }
+    },
+    {
+      "id": "q13",
+      "message": "On 25 June 2024, a person made a false statement under oath in a judicial proceeding.",
+      "off": {
+        "kind": "mapping",
+        "answer_ms": 4417.6,
+        "section": "181",
+        "code": "IPC",
+        "rule_truncated": false,
+        "flagged": false,
+        "verify_calls": [
+          {
+            "mode": "rule_conclusion",
+            "elapsed_ms": 2743.8,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "application_mentions_exception": false,
+        "application_preview": "The facts state that on 25 June 2024, a person made a false statement under oath in a judicial proceeding. The statutory text requires that the person be legally bound by an oath or affirmation to state the truth on any subject to a public "
+      },
+      "on": {
+        "kind": "mapping",
+        "answer_ms": 5201.8,
+        "section": "181",
+        "code": "IPC",
+        "rule_truncated": false,
+        "flagged": true,
+        "verify_calls": [
+          {
+            "mode": "with_application",
+            "elapsed_ms": 3655.3,
+            "verdict": "NOT_SUPPORTED",
+            "flagged": true,
+            "error": null
+          }
+        ],
+        "application_mentions_exception": false,
+        "application_preview": "The facts provided state that on 25 June 2024, a person made a false statement under oath in a judicial proceeding. The statutory text requires that the person be legally bound by an oath or affirmation to state the truth on any subject to "
+      }
+    },
+    {
+      "id": "q14",
+      "message": "On 2 August 2024, a doctor operated without consent and caused grievous hurt.",
+      "off": {
+        "kind": "mapping",
+        "answer_ms": 4105.8,
+        "section": "116",
+        "code": "BNS",
+        "rule_truncated": false,
+        "flagged": false,
+        "verify_calls": [
+          {
+            "mode": "rule_conclusion",
+            "elapsed_ms": 2718.6,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "application_mentions_exception": false,
+        "application_preview": "The facts state that the doctor caused grievous hurt on 2 August 2024 without consent. The statutory text does not specify consent as a requirement for grievous hurt, so the facts are sufficient to establish that grievous hurt occurred. The"
+      },
+      "on": {
+        "kind": "mapping",
+        "answer_ms": 4351.7,
+        "section": "116",
+        "code": "BNS",
+        "rule_truncated": false,
+        "flagged": false,
+        "verify_calls": [
+          {
+            "mode": "with_application",
+            "elapsed_ms": 3172.2,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "application_mentions_exception": false,
+        "application_preview": "The facts state that the doctor caused grievous hurt on 2 August 2024 without consent. The statutory text does not specify consent as a requirement for grievous hurt, so the facts are sufficient to establish that grievous hurt occurred. The"
+      }
+    },
+    {
+      "id": "q15",
+      "message": "On 18 June 2024, a person kidnapped a child from a school gate.",
+      "off": {
+        "kind": "mapping",
+        "answer_ms": 3883.8,
+        "section": "369",
+        "code": "IPC",
+        "rule_truncated": false,
+        "flagged": false,
+        "verify_calls": [
+          {
+            "mode": "rule_conclusion",
+            "elapsed_ms": 2738.8,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "application_mentions_exception": false,
+        "application_preview": "The facts state that the kidnapping occurred on 18 June 2024, and the child was taken from a school gate. The statutory text requires that the child be under the age of ten years and that the intent was to take movable property from the chi"
+      },
+      "on": {
+        "kind": "mapping",
+        "answer_ms": 3589.4,
+        "section": "369",
+        "code": "IPC",
+        "rule_truncated": false,
+        "flagged": false,
+        "verify_calls": [
+          {
+            "mode": "with_application",
+            "elapsed_ms": 2631.4,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "application_mentions_exception": false,
+        "application_preview": "The facts state that the kidnapping occurred on 18 June 2024 and involved a child from a school gate. The statutory text requires that the child be under the age of ten years and that the intent was to steal from the child's person. These f"
+      }
+    },
+    {
+      "id": "q16",
+      "message": "On 11 September 2024, a company director cheated investors with a false prospectus.",
+      "off": {
+        "kind": "mapping",
+        "answer_ms": 4800.9,
+        "section": "316",
+        "code": "BNS",
+        "rule_truncated": true,
+        "flagged": false,
+        "verify_calls": [
+          {
+            "mode": "rule_conclusion",
+            "elapsed_ms": 2537.5,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "application_mentions_exception": false,
+        "application_preview": "The facts provided do not establish that the company director was entrusted with property, or that they dishonestly used or disposed of that property in violation of any direction of law or legal contract. Therefore, the statutory text does"
+      },
+      "on": {
+        "kind": "mapping",
+        "answer_ms": 4873.1,
+        "section": "316",
+        "code": "BNS",
+        "rule_truncated": true,
+        "flagged": true,
+        "verify_calls": [
+          {
+            "mode": "with_application",
+            "elapsed_ms": 4065.3,
+            "verdict": "NOT_SUPPORTED",
+            "flagged": true,
+            "error": null
+          }
+        ],
+        "application_mentions_exception": false,
+        "application_preview": "The statutory text does not provide any specific scenarios involving a company director, a false prospectus, or investors. Therefore, it is not established whether the facts of the case align with the statutory requirements for criminal bre"
+      }
+    },
+    {
+      "id": "q17",
+      "message": "On 30 June 2024, a person defamed another in a newspaper article.",
+      "off": {
+        "kind": "mapping",
+        "answer_ms": 3430.2,
+        "section": "500",
+        "code": "IPC",
+        "rule_truncated": false,
+        "flagged": false,
+        "verify_calls": [
+          {
+            "mode": "rule_conclusion",
+            "elapsed_ms": 1696.5,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "application_mentions_exception": false,
+        "application_preview": "The facts state that a person defamed another in a newspaper article on 30 June 2024. The statutory text requires punishment for defaming another, which may include simple imprisonment for a term which may extend to two years, or with a fin"
+      },
+      "on": {
+        "kind": "mapping",
+        "answer_ms": 4175.1,
+        "section": "500",
+        "code": "IPC",
+        "rule_truncated": false,
+        "flagged": false,
+        "verify_calls": [
+          {
+            "mode": "with_application",
+            "elapsed_ms": 2655.6,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "application_mentions_exception": false,
+        "application_preview": "The facts state that a person defamed another in a newspaper article on 30 June 2024. The statutory text requires punishment for defaming another, which may include simple imprisonment for a term which may extend to two years, or with a fin"
+      }
+    },
+    {
+      "id": "q18",
+      "message": "On 7 July 2024, a person caused death by rash driving on a highway.",
+      "off": {
+        "kind": "mapping",
+        "answer_ms": 3785.8,
+        "section": "281",
+        "code": "BNS",
+        "rule_truncated": false,
+        "flagged": false,
+        "verify_calls": [
+          {
+            "mode": "rule_conclusion",
+            "elapsed_ms": 2339.0,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "application_mentions_exception": false,
+        "application_preview": "The facts state that the death occurred on 7 July 2024 due to rash driving on a highway. The statutory text requires that the driving was in a manner so rash or negligent as to endanger human life or be likely to cause hurt or injury to any"
+      },
+      "on": {
+        "kind": "mapping",
+        "answer_ms": 4943.4,
+        "section": "281",
+        "code": "BNS",
+        "rule_truncated": false,
+        "flagged": true,
+        "verify_calls": [
+          {
+            "mode": "with_application",
+            "elapsed_ms": 3694.9,
+            "verdict": "NOT_SUPPORTED",
+            "flagged": true,
+            "error": null
+          }
+        ],
+        "application_mentions_exception": false,
+        "application_preview": "The facts state that the incident occurred on 7 July 2024 and involved rash driving on a highway. The statutory text requires that the driving was done in a manner so rash or negligent as to endanger human life or be likely to cause hurt or"
+      }
+    },
+    {
+      "id": "q19",
+      "message": "On 14 March 2024, a person voluntarily caused hurt with a dangerous weapon.",
+      "off": {
+        "kind": "mapping",
+        "answer_ms": 4300.2,
+        "section": "324",
+        "code": "IPC",
+        "rule_truncated": false,
+        "flagged": false,
+        "verify_calls": [
+          {
+            "mode": "rule_conclusion",
+            "elapsed_ms": 2837.7,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "application_mentions_exception": true,
+        "application_preview": "The facts state that a person voluntarily caused hurt with a dangerous weapon on 14 March 2024. This aligns with the statutory text, which covers the use of various dangerous weapons and means to cause hurt. The statutory text does not spec"
+      },
+      "on": {
+        "kind": "mapping",
+        "answer_ms": 3995.3,
+        "section": "324",
+        "code": "IPC",
+        "rule_truncated": false,
+        "flagged": false,
+        "verify_calls": [
+          {
+            "mode": "with_application",
+            "elapsed_ms": 2986.8,
+            "verdict": "SUPPORTED",
+            "flagged": false,
+            "error": null
+          }
+        ],
+        "application_mentions_exception": true,
+        "application_preview": "The facts state that a person voluntarily caused hurt on 14 March 2024. The statutory text provides penalties for causing hurt by means of various dangerous weapons or substances. The facts do not specify which type of dangerous weapon was "
+      }
+    }
+  ]
+}

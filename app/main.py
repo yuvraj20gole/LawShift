@@ -17,7 +17,11 @@ from fastapi import Depends, FastAPI, File, HTTPException, Query, Request, Uploa
 from fastapi.middleware.cors import CORSMiddleware
 
 from . import mapping_lookup, stage1, stage2, stage3, stage4, stage5_translate
-from .statute_rule import main_clause_rule_text, rule_is_truncated
+from .statute_rule import (
+    main_clause_rule_text,
+    rule_is_truncated,
+    writer_statute_text,
+)
 from .auth_supabase import AuthUser, optional_auth, require_auth
 from .case_attach import (
     attach_case,
@@ -384,7 +388,14 @@ def _build_mapping(
     offense_date_used: OffenseDateUsed | None = None,
 ) -> MappingResponse | FailureResponse:
     try:
-        irac_text = stage4.generate_irac(message, top_chunk.text, top_chunk.chunk_id)
+        # Footnotes/title stripped so the writer does not cite digitisation
+        # markers (e.g. "section 138") as law. Full cleaned text is passed so
+        # Exception / Explanation remain visible; the Rule field is cut below.
+        irac_text = stage4.generate_irac(
+            message,
+            writer_statute_text(top_chunk.text),
+            top_chunk.chunk_id,
+        )
     except Exception as exc:
         return FailureResponse(
             reason="source_unavailable",
@@ -392,9 +403,8 @@ def _build_mapping(
         )
 
     irac_parsed = stage4.parse_irac(irac_text)
-    # Rule = verbatim main clause from the retrieved section (not model-written).
-    # Exception / Explanation / Provided that / Illustration stay in Sources
-    # (full top_chunk.text) when a safe anchored cut is applied.
+    # Rule = display-cleaned main clause (not model-written). Ancillary blocks
+    # stay in Sources (full top_chunk.text) when a safe anchored cut applies.
     rule_text = main_clause_rule_text(top_chunk.text)
     rule_truncated = rule_is_truncated(top_chunk.text, rule_text)
     application_text = irac_parsed.get("application", "") or ""

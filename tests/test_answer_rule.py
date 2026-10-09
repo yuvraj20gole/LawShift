@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import sys
 from datetime import date
 from pathlib import Path
@@ -17,9 +18,11 @@ os.environ.setdefault("LAWSHIFT_FIXED_CONCLUSION", "1")
 os.environ.setdefault("LAWSHIFT_VERIFY_WITH_APPLICATION", "0")
 
 from app.statute_rule import (  # noqa: E402
+    clean_statute_display,
     main_clause_rule_text,
     rule_is_truncated,
     strip_context_prefix,
+    writer_statute_text,
 )
 from app import stage4  # noqa: E402
 from app.main import _build_mapping  # noqa: E402
@@ -91,19 +94,17 @@ def test_main_clause_keeps_except_in_definition():
 def test_false_positive_cuts_gone_corpus_cases():
     """Former mid-sentence false positives must not recur.
 
-    IPC_7 / IPC_85 / IPC_94 / BNS_23: no anchored marker → full cleaned text.
-    IPC_499 / BNS_3: may still cut at a real capitalised Illustration(s) block;
-    they must not end on the old false-positive tails.
+    IPC_7 / IPC_85 / BNS_23: no anchored marker → full display-cleaned text.
+    IPC_94 / IPC_499 / BNS_3: cut at real Explanation / Illustration labels.
     """
     texts = _load_by_chunk_id(
         "IPC_499", "IPC_7", "IPC_85", "IPC_94", "BNS_3", "BNS_23"
     )
-    full_only = {"IPC_7", "IPC_85", "IPC_94", "BNS_23"}
+    full_only = {"IPC_7", "IPC_85", "BNS_23"}
     for cid, text in texts.items():
-        cleaned = strip_context_prefix(text)
+        cleaned = clean_statute_display(text)
         rule = main_clause_rule_text(text)
         assert cleaned.startswith(rule), cid
-        # Old false-positive endings (case-insensitive mid-sentence cuts).
         assert not rule.rstrip().endswith("conformity with the"), cid
         assert not rule.rstrip().endswith("within the"), cid
         assert not rule.rstrip().endswith("benefit of this"), cid
@@ -112,7 +113,6 @@ def test_false_positive_cuts_gone_corpus_cases():
             assert rule == cleaned, f"{cid}: unexpected truncation"
             assert rule_is_truncated(text, rule) is False
         else:
-            # Safe Illustration cut is OK; mid-sentence 'exception.' cut is not.
             assert "cashierare within the" not in rule
             if rule != cleaned:
                 assert rule_is_truncated(text, rule) is True
@@ -123,7 +123,7 @@ def test_proviso_bnss_413_weak_end_falls_back():
     """Line-start Provided that after 'of' must fall back to full text."""
     texts = _load_by_chunk_id("BNSS_413")
     text = texts["BNSS_413"]
-    cleaned = strip_context_prefix(text)
+    cleaned = clean_statute_display(text)
     rule = main_clause_rule_text(text)
     assert rule == cleaned
     assert "Provided that" in rule
@@ -134,7 +134,7 @@ def test_proviso_ipc_376ab_handling():
     """IPC_376AB: safe proviso cut kept, or full text if cut would be weak."""
     texts = _load_by_chunk_id("IPC_376AB")
     text = texts["IPC_376AB"]
-    cleaned = strip_context_prefix(text)
+    cleaned = clean_statute_display(text)
     rule = main_clause_rule_text(text)
     assert cleaned.startswith(rule)
     if rule != cleaned:
@@ -146,19 +146,18 @@ def test_proviso_ipc_376ab_handling():
         assert rule[-1] not in {":", ";", ","}
         assert rule_is_truncated(text, rule) is True
     else:
-        # Fallback is acceptable when the only cut ends weakly.
         assert "Provided that" in rule
         assert rule_is_truncated(text, rule) is False
 
 
 def test_rule_verbatim_prefix_all_1621_sections():
-    """Rule is always an exact prefix of cleaned full text (never rewritten)."""
+    """Rule is always an exact prefix of display-cleaned text (never rewritten)."""
     n = 0
     for path in (IPC_PATH, STATUTES_PATH):
         for line in path.open(encoding="utf-8"):
             o = json.loads(line)
             text = o.get("text") or ""
-            cleaned = strip_context_prefix(text)
+            cleaned = clean_statute_display(text)
             rule = main_clause_rule_text(text)
             assert cleaned.startswith(rule), (
                 o.get("chunk_id") or o.get("ipc_section"),
@@ -166,6 +165,74 @@ def test_rule_verbatim_prefix_all_1621_sections():
             )
             n += 1
     assert n == 1621
+
+
+def test_ipc_292_499_300_bns_294_read_cleanly():
+    texts = _load_by_chunk_id("IPC_292", "IPC_499", "IPC_300", "BNS_294")
+    for cid, text in texts.items():
+        rule = main_clause_rule_text(text)
+        cleaned = clean_statute_display(text)
+        assert cleaned.startswith(rule), cid
+        assert rule_is_truncated(text, rule) is True, cid
+        assert "STATE AMENDMENTS" not in rule.upper(), cid
+        assert not re.search(r"\d+\s*\[", rule), cid
+        assert "Exception" not in rule, cid
+        assert not rule.startswith("["), cid
+    # IPC 292: no title bracket, no footnote 138, ends before Exception.
+    r292 = main_clause_rule_text(texts["IPC_292"])
+    assert "138" not in r292
+    assert "Sale, etc." not in r292
+    assert "rupees" in r292.lower()
+    # Writer sees Exception, without footnote digits+[
+    w292 = writer_statute_text(texts["IPC_292"])
+    assert "Exception" in w292
+    assert not re.search(r"\d+\s*\[", w292)
+    assert "STATE AMENDMENTS" in w292.upper()
+
+
+def test_build_mapping_passes_cleaned_text_to_writer(monkeypatch):
+    texts = _load_by_chunk_id("IPC_292")
+    chunk = SimpleNamespace(
+        text=texts["IPC_292"],
+        act="IPC",
+        section_number="292",
+        section_title="Sale, etc., of obscene books, etc.",
+        chunk_id="IPC_292",
+    )
+    seen = {}
+
+    def fake_generate(question, retrieved_text, source_citation):
+        seen["retrieved"] = retrieved_text
+        return (
+            "Issue: Whether selling magazines engages the section.\n"
+            "Application: The facts describe a sale; an Exception may affect the result.\n"
+        )
+
+    def fake_verify(rule_text, conclusion_text, application_text=None):
+        return "SUPPORTED", "stub"
+
+    monkeypatch.setattr(stage4, "generate_irac", fake_generate)
+    monkeypatch.setattr(stage4, "verify_rule_only_14b_v2", fake_verify)
+    monkeypatch.setattr(
+        "app.main.stage3.option_description",
+        lambda c: c.section_title or "",
+    )
+
+    resp = _build_mapping(
+        message="On 25 June 2024, a bookstore owner sold obscene magazines for the first time.",
+        offense_date=date(2024, 6, 25),
+        matched_text="25 June 2024",
+        reason="explicit",
+        route="IPC",
+        top_chunk=chunk,  # type: ignore[arg-type]
+        retrieve_detail="stub",
+        language="en",
+    )
+    assert seen["retrieved"] == writer_statute_text(chunk.text)
+    assert not re.search(r"\d+\s*\[", seen["retrieved"])
+    assert "Exception" in seen["retrieved"]
+    assert "Exception" not in resp.irac["rule"]
+    assert resp.rule_truncated is True
 
 
 def test_build_mapping_uses_statute_rule_not_model(monkeypatch):
