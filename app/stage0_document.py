@@ -15,7 +15,7 @@ from datetime import date
 from pathlib import Path
 from typing import Any, Literal
 
-from PIL import Image, ImageFile
+from PIL import Image, ImageFile, ImageOps
 
 from . import stage1
 
@@ -267,6 +267,9 @@ def extract_text_from_image(file_bytes: bytes) -> str:
     try:
         img = Image.open(io.BytesIO(file_bytes))
         img.load()
+        # Phone JPEGs often store a sideways buffer + EXIF Orientation.
+        # Apply it so OCR sees upright pixels; no-op when EXIF is absent.
+        img = ImageOps.exif_transpose(img) or img
     except Image.DecompressionBombError as exc:
         raise ExtractError(
             "image_too_large",
@@ -480,8 +483,12 @@ def _extract_image(data: bytes) -> tuple[str, list[str]]:
     warnings: list[str] = ["ocr_may_misread_digits"]
     try:
         img = Image.open(io.BytesIO(data))
-        # Trigger pixel-count check.
+        # Trigger pixel-count check (respects Image.MAX_IMAGE_PIXELS).
         img.load()
+        # Phone JPEGs often store a sideways buffer + EXIF Orientation
+        # (e.g. tag 6). Transpose before OCR so text is upright. Safe when
+        # there is no EXIF: exif_transpose returns a copy or the same image.
+        img = ImageOps.exif_transpose(img) or img
     except Image.DecompressionBombError as exc:
         raise ExtractError(
             "image_too_large",

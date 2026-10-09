@@ -146,6 +146,41 @@ def _jpeg_bytes() -> bytes:
     return buf.getvalue()
 
 
+def _draw_fir_line_image(text: str, *, size=(900, 220)) -> Image.Image:
+    """Render a short line of text large enough for tesseract."""
+    from PIL import ImageDraw, ImageFont
+
+    img = Image.new("RGB", size, (255, 255, 255))
+    draw = ImageDraw.Draw(img)
+    font = None
+    for path in (
+        "/System/Library/Fonts/Supplemental/Arial.ttf",
+        "/System/Library/Fonts/Helvetica.ttc",
+        "/Library/Fonts/Arial.ttf",
+    ):
+        try:
+            font = ImageFont.truetype(path, 48)
+            break
+        except OSError:
+            continue
+    if font is None:
+        font = ImageFont.load_default()
+    # Generous margins so digits are not clipped after rotate + JPEG encode.
+    draw.text((40, 70), text, fill=(0, 0, 0), font=font)
+    return img
+
+
+def _jpeg_with_exif_orientation6(upright: Image.Image) -> bytes:
+    """Store pixels rotated 90° CCW with EXIF Orientation=6 (needs CW to view)."""
+    # Orientation 6: rotate 90° CW for display → store as CCW-rotated buffer.
+    stored = upright.transpose(Image.Transpose.ROTATE_90)
+    exif = stored.getexif()
+    exif[274] = 6  # Orientation
+    buf = io.BytesIO()
+    stored.save(buf, format="JPEG", quality=98, exif=exif, subsampling=0)
+    return buf.getvalue()
+
+
 @pytest.fixture(autouse=True)
 def _reset(monkeypatch):
     reset_rate_limits()
@@ -312,6 +347,55 @@ def test_extract_image_ocr_path():
         assert result.read_method == "ocr"
     except ExtractError as exc:
         assert exc.code == "no_text_found"
+
+
+@pytest.mark.skipif(not HAS_TESSERACT, reason="tesseract not installed")
+def test_extract_jpeg_exif_orientation6_finds_date():
+    """Sideways pixel buffer + Orientation=6 must OCR upright and find the date."""
+    upright = _draw_fir_line_image("Date of occurrence 25/06/2024")
+    data = _jpeg_with_exif_orientation6(upright)
+    from PIL import Image as PILImage
+
+    stored = PILImage.open(io.BytesIO(data))
+    assert stored.getexif().get(274) == 6
+    # Stored pixels are transposed vs upright (W,H) → (H,W).
+    assert stored.size == (upright.size[1], upright.size[0])
+
+    result = extract_document(data, "phone.jpg")
+    assert result.kind == "image"
+    assert result.read_method == "ocr"
+    assert result.date is not None, (result.warnings, result.text[:200])
+    assert result.date["iso"] == "2024-06-25"
+    # Upright OCR (without transpose this would be sideways gibberish).
+    lowered = result.text.lower()
+    assert "occurrence" in lowered or "25/06/2024" in result.text or "25-06-2024" in result.text
+
+
+@pytest.mark.skipif(not HAS_TESSERACT, reason="tesseract not installed")
+def test_extract_jpeg_no_exif_finds_date():
+    upright = _draw_fir_line_image("Offence on 25 June 2024")
+    buf = io.BytesIO()
+    upright.save(buf, format="JPEG", quality=95)
+    data = buf.getvalue()
+    stored = Image.open(io.BytesIO(data))
+    assert stored.getexif().get(274) is None
+
+    result = extract_document(data, "plain.jpg")
+    assert result.kind == "image"
+    assert result.date is not None
+    assert result.date["iso"] == "2024-06-25"
+
+
+@pytest.mark.skipif(not HAS_TESSERACT, reason="tesseract not installed")
+def test_extract_png_finds_date():
+    upright = _draw_fir_line_image("Incident date 25 June 2024")
+    buf = io.BytesIO()
+    upright.save(buf, format="PNG")
+    result = extract_document(buf.getvalue(), "scan.png")
+    assert result.kind == "image"
+    assert result.read_method == "ocr"
+    assert result.date is not None
+    assert result.date["iso"] == "2024-06-25"
 
 
 # ---------------------------------------------------------------------------
