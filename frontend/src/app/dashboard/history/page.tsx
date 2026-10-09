@@ -96,6 +96,7 @@ export default function HistoryPage() {
   function openRow(row: CaseRow) {
     try {
       sessionStorage.setItem("lawshift-carry", openingText(row.question, row.offence_date));
+      sessionStorage.setItem("lawshift-open", row.id);
     } catch {
       /* the Workspace just opens empty */
     }

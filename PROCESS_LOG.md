@@ -1058,3 +1058,20 @@ No browser check yet (dev servers were not allowed): 390px width and light/dark 
 - When the response has `rule_truncated: true`, one line under the Rule says "This shows the main clause. The rest is under Sources." Nothing is shown when it is false or absent. In Hindi and Marathi it is joined into the same line as the "statute text is shown in English" note, so the two read as one short paragraph and nothing repeats.
 - AI-drafted Hindi and Marathi string (needs native review): `ruleTruncated` in the `hi` and `mr` dictionaries of `frontend/src/lib/i18n.ts`.
 - Long Rules were checked by reading the layout and CSS only; no browser check yet.
+
+## History "Open" shows the saved answer (frontend, branch feature/history-results)
+
+- Saving: `saveCase` now also stores the finished answer card as `result` (jsonb, `{v:1, card, meta}`): Issue, Rule, Application, Conclusion parts, `rule_truncated`, offence date and its source, code, section, heading, notices, language, summary, verification line and the sources text. A result over 110000 bytes is left out (the row is saved without it). If the insert is refused with the result attached, it is retried once without it. All inside try/catch; it never blocks the answer. This replaces the earlier rule that History kept no generated text.
+- Opening: History "Open" stores the row id; the Workspace fetches that row's `result` on demand (the History list does not select it). With a result it shows the question and the saved card (language it was saved in, Application collapsed, generated-text labels kept), the line "Saved answer from <date>. Not re-run.", and the buttons "Ask a follow-up" (question into the composer) and "Run again" (re-sends it). Without a result it keeps the old behaviour and shows a note that no saved answer exists.
+- The answer card moved out of `ChatEntry` into `components/AnswerCard.tsx` so the chat and the saved view use the same component.
+
+### AI-drafted Hindi and Marathi strings (need native review)
+`savedFrom`, `savedFollowUp`, `savedRunAgain`, `savedNone`, `savedLoading` in the `hi` and `mr` dictionaries of `frontend/src/lib/dashboardCopy.ts`.
+
+### Not verified
+Typecheck and build only; no browser run and the SQL was not applied from here. Stored answers are read back with strict type checks; a malformed one falls back to the "no saved answer" path.
+
+### Copy corrected: answers are now saved with history rows (branch feature/history-results)
+Statements that said only questions are saved, or that nothing long-term is stored, were updated in EN, HI and MR: `registerSavedNote` (`authCopy.ts`); `stDeleteBody`, `hiLede`, `hiSavedNote`, `hiEmptyBody`, `hiClearBody` (`dashboardCopy.ts`); `faqA3` (`i18n.ts`, the landing FAQ "Is my data stored?"). CLAUDE.md "Saved history" now describes the saved answer and says the Application is saved as generated text under its label.
+
+AI-drafted Hindi and Marathi strings (need native review): the `hi` and `mr` versions of `registerSavedNote`, `stDeleteBody`, `hiLede`, `hiSavedNote`, `hiEmptyBody`, `hiClearBody` and `faqA3`.

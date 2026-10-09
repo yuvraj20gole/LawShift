@@ -22,6 +22,11 @@ export type DashboardCopy = {
 
   wsTitle: string;
   wsLede: string;
+  savedFrom: (date: string) => string;
+  savedFollowUp: string;
+  savedRunAgain: string;
+  savedNone: string;
+  savedLoading: string;
 
   hiTitle: string;
   hiLede: string;
@@ -189,9 +194,14 @@ const en: DashboardCopy = {
 
   wsTitle: "Workspace",
   wsLede: "Describe what happened and when. Answers come from the statute text.",
+  savedFrom: (date) => `Saved answer from ${date}. Not re-run.`,
+  savedFollowUp: "Ask a follow-up",
+  savedRunAgain: "Run again",
+  savedNone: "No saved answer exists for this entry. Your question is in the box below.",
+  savedLoading: "Loading the saved answer…",
 
   hiTitle: "Case history",
-  hiLede: "Every question you have asked, with the code it was routed to.",
+  hiLede: "Every question you have asked, with the code it was routed to. Open one to see its saved answer.",
   hiSearch: "Search cases",
   hiSearchHint: "Search by section, title or question",
   hiFilter: "Code",
@@ -211,7 +221,7 @@ const en: DashboardCopy = {
   unstar: (l) => `Remove star from ${l}`,
   hiCount: (n) => `${n} ${n === 1 ? "case" : "cases"}`,
   hiEmptyTitle: "No cases yet",
-  hiEmptyBody: "Questions you ask in the workspace will be listed here with their section and check result.",
+  hiEmptyBody: "Questions you ask in the workspace will be listed here with their section and check result, and you can open the saved answer.",
   hiNoMatchTitle: "No cases match",
   hiNoMatchBody: "Try a different word, or show every case.",
   hiStarEmptyTitle: "No starred cases",
@@ -219,14 +229,14 @@ const en: DashboardCopy = {
   hiFlagEmptyTitle: "No flagged answers.", // author draft — needs native review
   hiFlagEmptyBody: "Answers marked “Worth double-checking” will appear here.", // author draft — needs native review
   clearFilters: "Clear search and filter",
-  hiSavedNote: "Your questions are saved in your account. Deleting your account removes them.",
+  hiSavedNote: "Your questions and the answers shown for them are saved privately in your account. Only you can see them. Deleting an entry, using Clear all or deleting your account removes them.",
   hiLoading: "Loading your history…",
   hiError: "Your history couldn't be loaded. Check your connection, then try again.",
   hiRetry: "Try again",
   hiDelete: "Delete",
   hiClearAll: "Clear all history",
   hiClearTitle: "Delete all your saved history?",
-  hiClearBody: "This removes every saved question from your account. It can't be undone.",
+  hiClearBody: "This removes every saved question and its saved answer from your account. It can't be undone.",
   hiClearConfirm: "Yes, delete everything",
   hiCancel: "Cancel",
   hiActionFailed: "That didn't work. Try again.",
@@ -334,7 +344,7 @@ const en: DashboardCopy = {
   stUpdated: "Password updated.",
   stDeleteTitle: "Delete account",
   stDeleteBody:
-    "This deletes your account, your saved case history and your saved documents (the files and your descriptions). It can't be undone.",
+    "This deletes your account, your saved questions and the answers saved with them, and your saved documents (the files and your descriptions). Only you could see them, and they cannot be recovered.",
   stDeleteType: (e) => `Type ${e} to confirm`,
   stDeleteButton: "Delete account",
   stDeleteDone:
@@ -362,9 +372,14 @@ const hi: DashboardCopy = {
 
   wsTitle: "कार्यक्षेत्र",
   wsLede: "बताएँ कि क्या हुआ और कब। उत्तर वैधानिक पाठ से आते हैं।",
+  savedFrom: (date) => `${date} का सहेजा हुआ उत्तर। दोबारा नहीं चलाया गया।`,
+  savedFollowUp: "अनुवर्ती प्रश्न पूछें",
+  savedRunAgain: "फिर से चलाएँ",
+  savedNone: "इस प्रविष्टि के लिए कोई सहेजा हुआ उत्तर नहीं है। आपका प्रश्न नीचे दिए बॉक्स में है।",
+  savedLoading: "सहेजा हुआ उत्तर लोड हो रहा है…",
 
   hiTitle: "केस इतिहास",
-  hiLede: "आपके पूछे हर प्रश्न, और जिस संहिता में वह गया।",
+  hiLede: "आपके पूछे हर प्रश्न, और जिस संहिता में वह गया। उसका सहेजा हुआ उत्तर देखने के लिए उसे खोलें।",
   hiSearch: "केस खोजें",
   hiSearchHint: "धारा, शीर्षक या प्रश्न से खोजें",
   hiFilter: "संहिता",
@@ -384,7 +399,7 @@ const hi: DashboardCopy = {
   unstar: (l) => `${l} से तारा हटाएँ`,
   hiCount: (n) => `${n} केस`,
   hiEmptyTitle: "अभी कोई केस नहीं",
-  hiEmptyBody: "कार्यक्षेत्र में आपके पूछे प्रश्न धारा और जाँच परिणाम के साथ यहाँ दिखेंगे।",
+  hiEmptyBody: "कार्यक्षेत्र में आपके पूछे प्रश्न धारा और जाँच परिणाम के साथ यहाँ दिखेंगे, और आप उनका सहेजा हुआ उत्तर खोल सकेंगे।",
   hiNoMatchTitle: "कोई केस मेल नहीं खाता",
   hiNoMatchBody: "कोई दूसरा शब्द आज़माएँ, या सभी केस दिखाएँ।",
   hiStarEmptyTitle: "कोई तारांकित केस नहीं",
@@ -392,14 +407,14 @@ const hi: DashboardCopy = {
   hiFlagEmptyTitle: "कोई फ़्लैग किया उत्तर नहीं।", // author draft — needs native review
   hiFlagEmptyBody: "“दोबारा जाँचने योग्य” चिह्नित उत्तर यहाँ दिखेंगे।", // author draft — needs native review
   clearFilters: "खोज और फ़िल्टर हटाएँ",
-  hiSavedNote: "आपके प्रश्न आपके खाते में सहेजे जाते हैं। खाता हटाने पर वे हट जाते हैं।",
+  hiSavedNote: "आपके प्रश्न और उनके लिए दिखाए गए उत्तर आपके खाते में निजी रूप से सहेजे जाते हैं। उन्हें केवल आप देख सकते हैं। प्रविष्टि हटाने, पूरा इतिहास साफ़ करने या खाता हटाने पर वे हट जाते हैं।",
   hiLoading: "आपका इतिहास लोड हो रहा है…",
   hiError: "आपका इतिहास लोड नहीं हो सका। कनेक्शन जाँचें, फिर दोबारा कोशिश करें।",
   hiRetry: "दोबारा कोशिश करें",
   hiDelete: "हटाएँ",
   hiClearAll: "पूरा इतिहास साफ़ करें",
   hiClearTitle: "आपका सहेजा हुआ पूरा इतिहास हटाएँ?",
-  hiClearBody: "इससे आपके खाते से हर सहेजा गया प्रश्न हट जाएगा। इसे वापस नहीं किया जा सकता।",
+  hiClearBody: "इससे आपके खाते से हर सहेजा गया प्रश्न और उसका सहेजा गया उत्तर हट जाएगा। इसे वापस नहीं किया जा सकता।",
   hiClearConfirm: "हाँ, सब हटाएँ",
   hiCancel: "रद्द करें",
   hiActionFailed: "यह नहीं हो सका। दोबारा कोशिश करें।",
@@ -507,7 +522,7 @@ const hi: DashboardCopy = {
   stUpdated: "पासवर्ड अपडेट हो गया।",
   stDeleteTitle: "खाता हटाएँ",
   stDeleteBody:
-    "इससे आपका खाता, सहेजा गया केस इतिहास और सहेजे गए दस्तावेज़ (फ़ाइलें और आपके विवरण) हट जाएँगे। इसे वापस नहीं किया जा सकता।",
+    "इससे आपका खाता, सहेजे गए प्रश्न और उनके साथ सहेजे गए उत्तर, और सहेजे गए दस्तावेज़ (फ़ाइलें और आपके विवरण) हट जाएँगे। इन्हें केवल आप देख सकते थे, और इन्हें वापस नहीं पाया जा सकता।",
   stDeleteType: (e) => `पुष्टि के लिए ${e} लिखें`,
   stDeleteButton: "खाता हटाएँ",
   stDeleteDone:
@@ -535,9 +550,14 @@ const mr: DashboardCopy = {
 
   wsTitle: "कार्यक्षेत्र",
   wsLede: "काय घडले आणि कधी ते सांगा. उत्तरे वैधानिक मजकुरातून येतात.",
+  savedFrom: (date) => `${date} रोजीचे जतन केलेले उत्तर. पुन्हा चालवलेले नाही.`,
+  savedFollowUp: "पुढील प्रश्न विचारा",
+  savedRunAgain: "पुन्हा चालवा",
+  savedNone: "या नोंदीसाठी जतन केलेले उत्तर नाही. तुमचा प्रश्न खालील बॉक्समध्ये आहे.",
+  savedLoading: "जतन केलेले उत्तर लोड होत आहे…",
 
   hiTitle: "प्रकरण इतिहास",
-  hiLede: "तुम्ही विचारलेले प्रत्येक प्रश्न, आणि तो ज्या संहितेकडे गेला.",
+  hiLede: "तुम्ही विचारलेले प्रत्येक प्रश्न, आणि तो ज्या संहितेकडे गेला. त्याचे जतन केलेले उत्तर पाहण्यासाठी तो उघडा.",
   hiSearch: "प्रकरणे शोधा",
   hiSearchHint: "कलम, शीर्षक किंवा प्रश्नाने शोधा",
   hiFilter: "संहिता",
@@ -557,7 +577,7 @@ const mr: DashboardCopy = {
   unstar: (l) => `${l} वरील तारा काढा`,
   hiCount: (n) => `${n} प्रकरणे`,
   hiEmptyTitle: "अजून कोणतेही प्रकरण नाही",
-  hiEmptyBody: "कार्यक्षेत्रात तुम्ही विचारलेले प्रश्न कलम आणि तपासणी निकालासह येथे दिसतील.",
+  hiEmptyBody: "कार्यक्षेत्रात तुम्ही विचारलेले प्रश्न कलम आणि तपासणी निकालासह येथे दिसतील, आणि तुम्ही त्यांचे जतन केलेले उत्तर उघडू शकाल.",
   hiNoMatchTitle: "कोणतेही प्रकरण जुळत नाही",
   hiNoMatchBody: "वेगळा शब्द वापरून पाहा, किंवा सर्व प्रकरणे दाखवा.",
   hiStarEmptyTitle: "कोणतेही तारांकित प्रकरण नाही",
@@ -565,14 +585,14 @@ const mr: DashboardCopy = {
   hiFlagEmptyTitle: "कोणतेही ध्वजांकित उत्तर नाही.", // author draft — needs native review
   hiFlagEmptyBody: "“पुन्हा तपासण्यासारखे” चिन्हांकित उत्तरे येथे दिसतील.", // author draft — needs native review
   clearFilters: "शोध आणि फिल्टर काढा",
-  hiSavedNote: "तुमचे प्रश्न तुमच्या खात्यात जतन केले जातात. खाते हटवल्यास ते हटतात.",
+  hiSavedNote: "तुमचे प्रश्न आणि त्यांसाठी दाखवलेली उत्तरे तुमच्या खात्यात खासगीरीत्या जतन केली जातात. ती फक्त तुम्हीच पाहू शकता. नोंद हटवल्यास, संपूर्ण इतिहास साफ केल्यास किंवा खाते हटवल्यास ती हटतात.",
   hiLoading: "तुमचा इतिहास लोड होत आहे…",
   hiError: "तुमचा इतिहास लोड करता आला नाही. कनेक्शन तपासा, मग पुन्हा प्रयत्न करा.",
   hiRetry: "पुन्हा प्रयत्न करा",
   hiDelete: "हटवा",
   hiClearAll: "संपूर्ण इतिहास साफ करा",
   hiClearTitle: "तुमचा जतन केलेला संपूर्ण इतिहास हटवायचा?",
-  hiClearBody: "यामुळे तुमच्या खात्यातील प्रत्येक जतन केलेला प्रश्न हटेल. हे परत करता येणार नाही.",
+  hiClearBody: "यामुळे तुमच्या खात्यातील प्रत्येक जतन केलेला प्रश्न आणि त्याचे जतन केलेले उत्तर हटेल. हे परत करता येणार नाही.",
   hiClearConfirm: "होय, सर्व हटवा",
   hiCancel: "रद्द करा",
   hiActionFailed: "ते झाले नाही. पुन्हा प्रयत्न करा.",
@@ -680,7 +700,7 @@ const mr: DashboardCopy = {
   stUpdated: "पासवर्ड अपडेट झाला.",
   stDeleteTitle: "खाते हटवा",
   stDeleteBody:
-    "यामुळे तुमचे खाते, जतन केलेला प्रकरण इतिहास आणि जतन केलेले दस्तऐवज (फाइल्स आणि तुमची वर्णने) हटतील. हे परत करता येणार नाही.",
+    "यामुळे तुमचे खाते, जतन केलेले प्रश्न आणि त्यांच्यासोबत जतन केलेली उत्तरे, आणि जतन केलेले दस्तऐवज (फाइल्स आणि तुमची वर्णने) हटतील. ती फक्त तुम्हीच पाहू शकत होता, आणि ती परत मिळवता येणार नाहीत.",
   stDeleteType: (e) => `पुष्टीसाठी ${e} लिहा`,
   stDeleteButton: "खाते हटवा",
   stDeleteDone:

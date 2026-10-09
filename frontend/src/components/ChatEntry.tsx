@@ -7,6 +7,21 @@ import { usePrefs } from "@/lib/prefs";
 import { authHeaders } from "@/lib/api";
 import { useSession } from "@/lib/useSession";
 import { labelToIso, saveCase } from "@/lib/caseHistory";
+import {
+  AnswerCard,
+  CheckIcon,
+  FlagIcon,
+  displayConclusion,
+  formatOffenseDateUsedLine,
+  parseFixedConclusion,
+  parseOffenseDateUsed,
+  parseSources,
+  parseVerification,
+  stripIndexingContext,
+  toSavedResult,
+  type CardData,
+  type Irac,
+} from "./AnswerCard";
 import styles from "./ChatEntry.module.css";
 
 /** Hit FastAPI directly so long IRAC+translate jobs are not cut by the Next rewrite proxy. */
@@ -32,25 +47,7 @@ const EXAMPLES = [
   },
 ] as const;
 
-type Irac = {
-  issue?: string;
-  rule?: string;
-  application?: string;
-  conclusion?: string;
-};
-
 type BifurcationOption = { section: string; description: string };
-
-type Source = {
-  statute?: string;
-  section?: string;
-  text?: string;
-};
-
-type Verification = {
-  flagged?: boolean;
-  confidence_note?: string;
-};
 
 type SectionLookupItem = {
   code: string;
@@ -66,102 +63,17 @@ type SectionLookupItem = {
   mapping_type?: "section" | "partial" | "merged" | null;
 };
 
-type OffenseDateUsed = {
-  label: string;
-  code: "IPC" | "BNS";
-  source: "message" | "earlier_message" | "document" | "confirmed";
-};
-
-type FixedConclusionParts = {
-  code: string;
-  section: string;
-  heading: string;
-};
-
 type Msg =
   | { role: "user"; text: string }
-  | {
+  | ({
       role: "assistant";
       text: string;
-      summary?: string;
-      irac?: Irac;
-      sources?: Source[];
-      verification?: Verification | null;
-      language?: string;
-      engine?: "indictrans2" | "ollama_fallback" | "unavailable" | null;
-      translationNote?: string | null;
-      translationFallbackFields?: string[] | null;
       bifurcationOptions?: BifurcationOption[];
       sectionLookup?: SectionLookupItem[];
-      offenseDateUsed?: OffenseDateUsed;
-      fixedConclusion?: FixedConclusionParts;
-      ruleTruncated?: boolean;
-      showExceptionNotice?: boolean;
-      showScope?: boolean;
-    };
-
-function parseFixedConclusion(raw: unknown): FixedConclusionParts | undefined {
-  if (!raw || typeof raw !== "object") return undefined;
-  const o = raw as Record<string, unknown>;
-  if (typeof o.code !== "string" || typeof o.section !== "string") return undefined;
-  return {
-    code: o.code,
-    section: o.section,
-    heading: typeof o.heading === "string" ? o.heading : "",
-  };
-}
-
-function displayConclusion(
-  irac: Irac,
-  fixed: FixedConclusionParts | undefined,
-  lang: string,
-  dict: { fixedConclusion: (code: string, section: string, heading: string) => string },
-): string | undefined {
-  if (fixed) {
-    return dict.fixedConclusion(fixed.code, fixed.section, fixed.heading || "");
-  }
-  return irac.conclusion;
-}
-
-/** Display-only: strip corpus indexing prefix from statute text. */
-function stripIndexingContext(text: string): string {
-  return text.replace(/^\[Context:[^\]]*\]\s*/i, "");
-}
+    } & CardData);
 
 function sectionHasExceptionNotice(text: string): boolean {
   return /\b(Exception|Explanation|Proviso)\b/.test(text);
-}
-
-function parseOffenseDateUsed(raw: unknown): OffenseDateUsed | undefined {
-  if (!raw || typeof raw !== "object") return undefined;
-  const o = raw as Record<string, unknown>;
-  if (typeof o.label !== "string") return undefined;
-  if (o.code !== "IPC" && o.code !== "BNS") return undefined;
-  const source =
-    o.source === "earlier_message" || o.source === "document" || o.source === "confirmed"
-      ? o.source
-      : "message";
-  return { label: o.label, code: o.code, source };
-}
-
-function formatOffenseDateUsedLine(
-  odu: OffenseDateUsed,
-  lang: string,
-  dict: Dictionary,
-): string {
-  // EN example: "Indian Penal Code" (drop leading "the " from dictionary names).
-  const rawName = odu.code === "IPC" ? dict.codeNameIpc : dict.codeNameBns;
-  const codeName = rawName.replace(/^the\s+/i, "");
-  const origin =
-    odu.source === "earlier_message"
-      ? dict.offenseDateFromEarlier
-      : odu.source === "document"
-        ? dict.offenseDateFromDocument
-        : odu.source === "confirmed"
-          ? dict.offenseDateConfirmed
-          : "";
-  const base = dict.offenseDateUsedLine(odu.label, codeName);
-  return origin ? `${base} ${origin}` : base;
 }
 
 function langDisplayName(lang: string, dict: Dictionary): string {
@@ -259,69 +171,40 @@ function newConversationId() {
   return `web-${crypto.randomUUID()}`;
 }
 
-function parseSources(raw: unknown): Source[] {
-  if (!Array.isArray(raw)) return [];
-  return raw
-    .filter((s): s is Record<string, unknown> => !!s && typeof s === "object")
-    .map((s) => ({
-      statute: typeof s.statute === "string" ? s.statute : undefined,
-      section: typeof s.section === "string" ? s.section : undefined,
-      text: typeof s.text === "string" ? s.text : undefined,
-    }));
-}
-
-function parseVerification(raw: unknown): Verification | null {
-  if (!raw || typeof raw !== "object") return null;
-  const v = raw as Record<string, unknown>;
-  return {
-    flagged: Boolean(v.flagged),
-    confidence_note:
-      typeof v.confidence_note === "string" ? v.confidence_note : undefined,
-  };
-}
-
-function CheckIcon() {
-  return (
-    <svg viewBox="0 0 16 16" width="16" height="16" fill="none" aria-hidden>
-      <path
-        d="M3.5 8.5l3 3 6-7"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-function FlagIcon() {
-  return (
-    <svg viewBox="0 0 16 16" width="16" height="16" fill="none" aria-hidden>
-      <path
-        d="M4 14V2.5m0 0h7.5l-1.6 3 1.6 3H4"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
-
-/** Saves a mapped answer's metadata for a logged-in user. Non-blocking; failures are ignored. */
-function saveMapped(data: Record<string, unknown>, question: string, language: string, documentName?: string | null) {
+/** Saves a mapped answer (metadata plus the finished answer card) for a logged-in user. Non-blocking; failures are ignored. */
+function saveMapped(
+  data: Record<string, unknown>,
+  question: string,
+  language: string,
+  documentName: string | null | undefined,
+  card: CardData,
+) {
   const badge = data.badge as { code?: string; section?: string; offenceName?: string } | undefined;
   if (!badge || typeof badge.code !== "string" || typeof badge.section !== "string") return;
   const odu = data.offense_date_used as { label?: string } | undefined;
   const v = data.verification as { flagged?: boolean } | undefined;
+  const offenceDate = labelToIso(odu?.label);
+  let result: unknown;
+  try {
+    result = toSavedResult(card, {
+      code: badge.code,
+      section: badge.section,
+      heading: typeof badge.offenceName === "string" ? badge.offenceName : null,
+      offence_date: offenceDate,
+      date_source: (data.offense_date_used as { source?: string } | undefined)?.source ?? null,
+    });
+  } catch {
+    result = undefined; // the row is still saved, without the answer
+  }
   void saveCase({
     question: documentName ? `[Document: ${documentName}] ${question}`.slice(0, 4000) : question,
-    offence_date: labelToIso(odu?.label),
+    offence_date: offenceDate,
     code: badge.code,
     section: badge.section,
     heading: typeof badge.offenceName === "string" ? badge.offenceName : null,
     flagged: Boolean(v?.flagged),
     language,
+    result,
   });
 }
 
@@ -370,10 +253,9 @@ export function ChatEntry({
   const [expandedSources, setExpandedSources] = useState<Record<string, boolean>>(
     {},
   );
-  /** Application bodies shown by the reader, per answer (message index). Not stored. */
-  const [shownApps, setShownApps] = useState<Record<number, boolean>>({});
   const [langSwitchNote, setLangSwitchNote] = useState<string | null>(null);
   const prevLangRef = useRef(lang);
+  const sendRef = useRef<(text: string, display?: string) => Promise<void>>(async () => {});
 
   /** The landing page's recorded cases hand their text to the composer. */
   useEffect(() => {
@@ -386,6 +268,16 @@ export function ChatEntry({
     }
     window.addEventListener("lawshift:ask", onAsk);
     return () => window.removeEventListener("lawshift:ask", onAsk);
+  }, []);
+
+  /** A saved History answer can ask for its question to be run again. */
+  useEffect(() => {
+    function onRun(e: Event) {
+      const text = (e as CustomEvent<{ text?: string }>).detail?.text;
+      if (text) void sendRef.current(text);
+    }
+    window.addEventListener("lawshift:run", onRun);
+    return () => window.removeEventListener("lawshift:run", onRun);
   }, []);
 
   useEffect(() => {
@@ -650,11 +542,12 @@ export function ChatEntry({
           }),
         });
         const data = await res.json();
-        setMessages((m) => [...m, replyFromData(data)]);
+        const reply = replyFromData(data);
+        setMessages((m) => [...m, reply]);
         // Free-question limit: only mapped answers count (not clarify /
         // bifurcation / failure). Network errors never reach here.
         if (data.kind === "mapping") {
-          saveMapped(data, trimmed, lang, documentNameRef.current);
+          saveMapped(data, trimmed, lang, documentNameRef.current, reply as CardData);
           setRemaining((n) => Math.max(0, n - 1));
         }
       } catch {
@@ -690,10 +583,11 @@ export function ChatEntry({
           }),
         });
         const data = await res.json();
-        setMessages((m) => [...m, replyFromData(data)]);
+        const reply = replyFromData(data);
+        setMessages((m) => [...m, reply]);
         // Mapped answer after a bifurcation choice counts once.
         if (data.kind === "mapping") {
-          saveMapped(data, heldQuestion.current, lang, documentNameRef.current);
+          saveMapped(data, heldQuestion.current, lang, documentNameRef.current, reply as CardData);
           setRemaining((n) => Math.max(0, n - 1));
         }
       } catch {
@@ -706,13 +600,11 @@ export function ChatEntry({
     [busy, conversationId, lang, outOfQuota, replyFromData, t],
   );
 
+  sendRef.current = send;
+
   function onSubmit(e: FormEvent) {
     e.preventDefault();
     void send(draft);
-  }
-
-  function toggleApp(messageIndex: number) {
-    setShownApps((prev) => ({ ...prev, [messageIndex]: !prev[messageIndex] }));
   }
 
   function toggleSource(messageIndex: number, sourceIndex: number) {
@@ -779,207 +671,7 @@ export function ChatEntry({
                   {m.role === "user" ? t.you : t.assistant}
                 </span>
                 {m.role === "assistant" && m.irac ? (
-                  <div className={styles.iracBlock}>
-                    {m.offenseDateUsed ? (
-                      <p className={styles.displayMeta}>
-                        {formatOffenseDateUsedLine(m.offenseDateUsed, lang, t)}
-                      </p>
-                    ) : null}
-                    {m.summary ? (
-                      <p className={styles.summaryLine}>
-                        {t.mapped}: {m.summary}
-                      </p>
-                    ) : null}
-                    {(
-                      [
-                        ["issue", t.issue, m.irac.issue],
-                        ["rule", t.ruleStatute, m.irac.rule],
-                        ["application", t.application, m.irac.application],
-                        [
-                          "conclusion",
-                          t.conclusion,
-                          // Prefer the localised template from structured parts
-                          // so HI/MR (and language switches) do not show the
-                          // English fixed sentence baked at reply time.
-                          displayConclusion(m.irac, m.fixedConclusion, lang, t) ??
-                            m.irac.conclusion,
-                        ],
-                      ] as const
-                    ).map(([key, label, value]) =>
-                      value ? (
-                        <div key={key} className={styles.iracField}>
-                          <span className={styles.iracLabel}>{label}</span>
-                          {/* One grid cell for note + body — a third child would
-                              wrap into the 6.25rem label column and squeeze text. */}
-                          <div className={styles.iracValue}>
-                            {key === "application" ? (
-                              <>
-                                <button
-                                  type="button"
-                                  className={styles.appToggle}
-                                  aria-expanded={Boolean(shownApps[i])}
-                                  aria-controls={`app-${i}`}
-                                  onClick={() => toggleApp(i)}
-                                >
-                                  {shownApps[i] ? t.hideApplication : t.showApplication}
-                                </button>
-                                {shownApps[i] ? (
-                                  <div id={`app-${i}`}>
-                                    <p className={styles.generatedNote}>
-                                      {t.generatedNote}
-                                    </p>
-                                    <p className={styles.statute}>{value}</p>
-                                  </div>
-                                ) : null}
-                              </>
-                            ) : (
-                              <>
-                                <p className={styles.statute}>{value}</p>
-                                {key === "rule" &&
-                                ((m.language && m.language !== "en") || m.ruleTruncated) ? (
-                                  <p className={styles.generatedNote}>
-                                    {[
-                                      m.language && m.language !== "en" ? t.statuteInEnglish : null,
-                                      m.ruleTruncated ? t.ruleTruncated : null,
-                                    ]
-                                      .filter(Boolean)
-                                      .join(" ")}
-                                  </p>
-                                ) : null}
-                              </>
-                            )}
-                          </div>
-                        </div>
-                      ) : null,
-                    )}
-
-                    {m.sources && m.sources.length > 0 ? (
-                      <div className={styles.sourcesBlock}>
-                        <span className={styles.iracLabel}>
-                          {t.sourcesHeading(m.sources.length)}
-                        </span>
-                        <ul className={styles.sourcesList}>
-                          {m.sources.map((src, si) => {
-                            const key = `${i}:${si}`;
-                            const open = Boolean(expandedSources[key]);
-                            const cite = [src.statute, src.section]
-                              .filter(Boolean)
-                              .join(" ");
-                            return (
-                              <li key={key} className={styles.sourceItem}>
-                                <button
-                                  type="button"
-                                  className={styles.sourceToggle}
-                                  aria-expanded={open}
-                                  onClick={() => toggleSource(i, si)}
-                                >
-                                  <strong>{cite || t.sourcesHeading(1)}</strong>
-                                  <span>
-                                    {open ? t.hideSourceText : t.showSourceText}
-                                  </span>
-                                </button>
-                                <AnimatePresence initial={false}>
-                                  {open && src.text ? (
-                                    <motion.div
-                                      key="src"
-                                      className={styles.sourceTextWrap}
-                                      initial={
-                                        reduceMotion
-                                          ? { opacity: 0 }
-                                          : { height: 0, opacity: 0 }
-                                      }
-                                      animate={
-                                        reduceMotion
-                                          ? { opacity: 1 }
-                                          : { height: "auto", opacity: 1 }
-                                      }
-                                      exit={
-                                        reduceMotion
-                                          ? { opacity: 0 }
-                                          : { height: 0, opacity: 0 }
-                                      }
-                                      transition={
-                                        reduceMotion
-                                          ? { duration: 0.12 }
-                                          : {
-                                              height: {
-                                                duration: 0.2,
-                                                ease: [0.23, 1, 0.32, 1],
-                                              },
-                                              opacity: { duration: 0.15 },
-                                            }
-                                      }
-                                    >
-                                      <p className={styles.sourceText}>
-                                        {stripIndexingContext(src.text ?? "")}
-                                      </p>
-                                    </motion.div>
-                                  ) : null}
-                                </AnimatePresence>
-                              </li>
-                            );
-                          })}
-                        </ul>
-                      </div>
-                    ) : null}
-
-                    {m.verification ? (
-                      <div
-                        className={
-                          m.verification.flagged ? styles.verifyFlagged : styles.verifyOk
-                        }
-                        role="status"
-                      >
-                        {m.verification.flagged ? (
-                          <>
-                            <span className={styles.verifyMark}>
-                              <FlagIcon />
-                            </span>
-                            <div>
-                              <strong>{t.worthDoubleChecking}</strong>
-                              {m.verification.confidence_note ? (
-                                <p className={styles.verifyNote}>
-                                  {m.verification.confidence_note}
-                                </p>
-                              ) : null}
-                            </div>
-                          </>
-                        ) : (
-                          <>
-                            <span className={styles.verifyMark}>
-                              <CheckIcon />
-                            </span>
-                            <span>{m.verification.confidence_note || t.verifyOk}</span>
-                          </>
-                        )}
-                      </div>
-                    ) : null}
-
-                    {m.showScope ? (
-                      <p className={styles.displayMeta}>{t.scopeLine}</p>
-                    ) : null}
-                    {m.showExceptionNotice ? (
-                      <p className={styles.displayMeta}>{t.exceptionProvisoNotice}</p>
-                    ) : null}
-
-                    {m.language && m.language !== "en" && m.engine === "indictrans2" ? (
-                      <p className={styles.fallbackNote}>{t.machineTranslatedNote}</p>
-                    ) : null}
-                    {m.translationFallbackFields &&
-                    m.translationFallbackFields.length > 0 ? (
-                      <p className={styles.fallbackNote}>
-                        {t.numberGuardFallbackNote}
-                      </p>
-                    ) : null}
-                    {m.engine === "ollama_fallback" ? (
-                      <p className={styles.fallbackNote}>
-                        {m.translationNote || t.translationFallbackNote}
-                      </p>
-                    ) : null}
-                    {m.engine === "unavailable" && m.translationNote ? (
-                      <p className={styles.fallbackNote}>{m.translationNote}</p>
-                    ) : null}
-                  </div>
+                  <AnswerCard card={m} />
                 ) : m.role === "assistant" && m.sectionLookup?.length ? (
                   <div className={styles.iracBlock}>
                     {m.offenseDateUsed ? (

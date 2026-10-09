@@ -122,7 +122,7 @@ const en: AuthCopy = {
   errReauth:
     "For security, log in again, then change your password.",
   registerSavedNote:
-    "When you are logged in, your questions are saved in your account history, and documents you choose to save, with your description, are stored in your account. You can delete them, or your account, at any time.",
+    "When you are logged in, your questions and the answers shown for them are saved privately in your account, and only you can see them. Documents you choose to save, with your description, are stored there too. A history entry is deleted when you delete it or use Clear all, and everything is deleted when you delete your account.",
   accountDeleted:
     "Your account was deleted.",
   confirmTitle:
@@ -195,7 +195,7 @@ const hi: AuthCopy = {
   errReauth:
     "सुरक्षा के लिए फिर से लॉग इन करें, फिर पासवर्ड बदलें।",
   registerSavedNote:
-    "लॉग इन रहने पर आपके प्रश्न आपके खाते के इतिहास में सहेजे जाते हैं, और जो दस्तावेज़ आप सहेजना चुनते हैं, आपके विवरण के साथ, आपके खाते में रखे जाते हैं। आप उन्हें, या अपना खाता, कभी भी हटा सकते हैं।",
+    "लॉग इन रहने पर आपके प्रश्न और उनके लिए दिखाए गए उत्तर आपके खाते में निजी रूप से सहेजे जाते हैं, और उन्हें केवल आप देख सकते हैं। जो दस्तावेज़ आप सहेजना चुनते हैं, आपके विवरण के साथ, वे भी वहीं रखे जाते हैं। इतिहास की कोई प्रविष्टि हटाने या “पूरा इतिहास साफ़ करें” चुनने पर वह हट जाती है, और खाता हटाने पर सब कुछ हट जाता है।",
   accountDeleted:
     "आपका खाता हटा दिया गया।",
   confirmTitle:
@@ -268,7 +268,7 @@ const mr: AuthCopy = {
   errReauth:
     "सुरक्षिततेसाठी पुन्हा लॉग इन करा, मग पासवर्ड बदला.",
   registerSavedNote:
-    "लॉग इन असताना तुमचे प्रश्न तुमच्या खात्याच्या इतिहासात जतन केले जातात, आणि तुम्ही जतन करण्यासाठी निवडलेले दस्तऐवज, तुमच्या वर्णनासह, तुमच्या खात्यात साठवले जातात. तुम्ही ते, किंवा तुमचे खाते, केव्हाही हटवू शकता.",
+    "लॉग इन असताना तुमचे प्रश्न आणि त्यांसाठी दाखवलेली उत्तरे तुमच्या खात्यात खासगीरीत्या जतन केली जातात, आणि ती फक्त तुम्हीच पाहू शकता. तुम्ही जतन करण्यासाठी निवडलेले दस्तऐवज, तुमच्या वर्णनासह, तिथेच साठवले जातात. इतिहासातील नोंद हटवल्यास किंवा “संपूर्ण इतिहास साफ करा” वापरल्यास ती हटते, आणि खाते हटवल्यास सर्व काही हटते.",
   accountDeleted:
     "तुमचे खाते हटवले गेले.",
   confirmTitle:

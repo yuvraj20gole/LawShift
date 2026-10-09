@@ -187,6 +187,7 @@ export default function MappingPage() {
         : `BNS ${result.section}${ipc ? ` (IPC ${ipc} in the mapping table)` : ""}`;
     try {
       sessionStorage.setItem("lawshift-carry", `I am looking at ${subject}. The offence happened on `);
+      sessionStorage.removeItem("lawshift-open");
     } catch {
       /* ignore */
     }

@@ -1,0 +1,28 @@
+/* A saved History answer shown above the Workspace chat. */
+
+.saved {
+  display: grid;
+  gap: 0.9rem;
+  max-width: 48rem;
+  margin: 0 0 1.5rem;
+  padding: 1.1rem 1.25rem 1.2rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.answer {
+  margin-top: 0.9rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 0.8rem;
+}
+
+@media (max-width: 40rem) {
+  .saved {
+    padding: 1rem;
+  }
+}

@@ -326,7 +326,7 @@ const en: Dictionary = {
     "Queries run in English. Finished IRAC answers can be translated to Hindi (hi) or Marathi (mr) via the language toggle — a post-hoc step that never changes routing, retrieval, or verification. Use the EN / HI / MR control in the header.",
   faqQ3: "Is my data stored?",
   faqA3:
-    "Conversation state used for date locking and bifurcation resolution is held in the running API process for the session. There is no long-term document warehouse in the current deployment. Do not paste privileged client files you are not authorized to process.",
+    "Conversation state used for date locking and bifurcation resolution is held in the running API process for the session. When you are not logged in, nothing is saved to an account. When you are logged in, your questions and the answers shown for them are saved privately in your account, only you can see them, and you can erase them by deleting an entry, using Clear all, or deleting your account. Documents you choose to save are kept in your account too. Do not paste privileged client files you are not authorized to process.",
   faqQ4: "How accurate is this?",
   faqA4:
     "Stage 2 routing is 100% accurate by construction against the 1 July 2024 cutoff. Held-out retrieval Recall@5 is 0.841 on the selected model test set. Across 40 constrained generations, zero fabricated citations were found; logical consistency failures still occur and are surfaced by the Rule-only verifier when possible.",
@@ -531,7 +531,7 @@ const hi: Dictionary = {
     "क्वेरी अंग्रेज़ी में चलती हैं। पूर्ण IRAC उत्तर भाषा टॉगल से हिंदी (hi) या मराठी (mr) में अनुवादित हो सकते हैं — यह केवल पोस्ट-हॉक चरण है; रूटिंग, रिट्रीवल या सत्यापन नहीं बदलता। हेडर में EN / HI / MR नियंत्रण उपयोग करें।",
   faqQ3: "क्या मेरा डेटा संग्रहीत होता है?",
   faqA3:
-    "तिथि लॉक और द्विभाजन समाधान के लिए वार्तालाप स्थिति सत्र भर API प्रक्रिया में रहती है। वर्तमान परिनियोजन में दीर्घकालिक दस्तावेज़ भंडार नहीं है। ऐसे विशेषाधिकार प्राप्त फ़ाइलें न चिपकाएँ जिनके प्रसंस्करण का अधिकार आपके पास नहीं है।",
+    "तिथि लॉक और द्विभाजन समाधान के लिए वार्तालाप स्थिति सत्र भर API प्रक्रिया में रहती है। लॉग इन न होने पर कुछ भी खाते में सहेजा नहीं जाता। लॉग इन होने पर आपके प्रश्न और उनके लिए दिखाए गए उत्तर आपके खाते में निजी रूप से सहेजे जाते हैं, उन्हें केवल आप देख सकते हैं, और आप किसी प्रविष्टि को, पूरा इतिहास साफ़ करके या खाता हटाकर उन्हें मिटा सकते हैं। जिन दस्तावेज़ों को आप सहेजना चुनते हैं वे भी आपके खाते में रखे जाते हैं। ऐसे विशेषाधिकार प्राप्त फ़ाइलें न चिपकाएँ जिनके प्रसंस्करण का अधिकार आपके पास नहीं है।",
   faqQ4: "यह कितना सटीक है?",
   faqA4:
     "स्टेज 2 रूटिंग 1 जुलाई 2024 कटऑफ के सापेक्ष संरचना द्वारा 100% सटीक है। चयनित मॉडल के held-out परीक्षण पर रिट्रीवल Recall@5 0.841 है। 40 बाध्य जनरेशन में शून्य गढ़े गए उद्धरण मिले; तार्किक-संगति विफलताएँ अलग श्रेणी हैं और संभव होने पर Rule-only सत्यापनकर्ता उन्हें दिखाता है।",
@@ -736,7 +736,7 @@ const mr: Dictionary = {
     "क्वेरी इंग्रजीत चालतात. पूर्ण IRAC उत्तरे भाषा टॉगलने हिंदी (hi) किंवा मराठी (mr) मध्ये अनुवादित होऊ शकतात — हे केवळ नंतरचे पाऊल आहे; रूटिंग, रिट्रीवल किंवा सत्यापन बदलत नाही. हेडरमधील EN / HI / MR नियंत्रण वापरा.",
   faqQ3: "माझा डेटा साठवला जातो का?",
   faqA3:
-    "तारीख लॉक आणि द्विभाजन निराकरणासाठी संभाषण स्थिती सत्रात API प्रक्रियेत ठेवली जाते. सध्याच्या तैनातीत दीर्घकालीन दस्तऐवज भांडार नाही. ज्या विशेषाधिकारित फाइल्सवर प्रक्रिया करण्याचा अधिकार नाही त्या पेस्ट करू नका.",
+    "तारीख लॉक आणि द्विभाजन निराकरणासाठी संभाषण स्थिती सत्रात API प्रक्रियेत ठेवली जाते. लॉग इन नसल्यास खात्यात काहीही जतन होत नाही. लॉग इन असल्यास तुमचे प्रश्न आणि त्यांसाठी दाखवलेली उत्तरे तुमच्या खात्यात खासगीरीत्या जतन केली जातात, ती फक्त तुम्हीच पाहू शकता, आणि नोंद हटवून, संपूर्ण इतिहास साफ करून किंवा खाते हटवून तुम्ही ती मिटवू शकता. तुम्ही जतन करण्यासाठी निवडलेले दस्तऐवजही तुमच्या खात्यात ठेवले जातात. ज्या विशेषाधिकारित फाइल्सवर प्रक्रिया करण्याचा अधिकार नाही त्या पेस्ट करू नका.",
   faqQ4: "हे किती अचूक आहे?",
   faqA4:
     "स्टेज २ रूटिंग १ जुलै २०२४ कटऑफच्या तुलनेत रचनेनुसार १००% अचूक आहे. निवडलेल्या मॉडेलच्या held-out चाचणीवर रिट्रीवल Recall@5 ०.८४१ आहे. ४० बंधित जनरेशनमध्ये शून्य बनावट उद्धरणे आढळली; तार्किक-सुसंगतता अपयश वेगळी श्रेणी आहेत आणि शक्य असल्यास Rule-only सत्यापनकर्ता ती दाखवतो.",
