@@ -57,6 +57,20 @@ export type AuthCopy = {
   confirmTitle: string;
   confirmBody: string;
 
+  forgotSend: string;
+  forgotSending: string;
+  forgotSentTitle: string;
+  forgotSentBody: string;
+  resetTitle: string;
+  resetLede: string;
+  resetChecking: string;
+  newPasswordLabel: string;
+  resetSubmit: string;
+  resetSaving: string;
+  resetLinkBadTitle: string;
+  resetLinkBadBody: string;
+  requestNewLink: string;
+  resetDone: string;
 };
 
 const en: AuthCopy = {
@@ -101,7 +115,7 @@ const en: AuthCopy = {
   registerLink: "Register",
 
   forgotTitle: "Reset your password",
-  forgotLede: "Password reset is not available yet.",
+  forgotLede: "Enter your email address and we will send you a link to set a new password.",
   backToLogin: "Back to log in",
   errInvalid:
     "The email or password is wrong. Check both and try again.",
@@ -130,6 +144,22 @@ const en: AuthCopy = {
   confirmBody:
     "We sent a confirmation link to your address. Open it to finish creating your account, then log in.",
 
+  forgotSend: "Send reset link",
+  forgotSending: "Sending…",
+  forgotSentTitle: "Check your email",
+  forgotSentBody:
+    "If an account exists for that address, we have sent a link to reset the password. The link works once and expires after a while. If nothing arrives, check your spam folder.",
+  resetTitle: "Set a new password",
+  resetLede: "Choose a new password for your account.",
+  resetChecking: "Checking your reset link…",
+  newPasswordLabel: "New password",
+  resetSubmit: "Save new password",
+  resetSaving: "Saving…",
+  resetLinkBadTitle: "This reset link cannot be used",
+  resetLinkBadBody:
+    "The link may have expired, been used already, or been opened in a different browser from the one where you asked for it. Request a new link and open it in the same browser.",
+  requestNewLink: "Request a new link",
+  resetDone: "Your password was changed. Log in with the new password.",
 };
 
 const hi: AuthCopy = {
@@ -174,7 +204,7 @@ const hi: AuthCopy = {
   registerLink: "पंजीकरण करें",
 
   forgotTitle: "पासवर्ड रीसेट करें",
-  forgotLede: "पासवर्ड रीसेट अभी उपलब्ध नहीं है।",
+  forgotLede: "अपना ईमेल पता लिखें, हम नया पासवर्ड सेट करने का लिंक भेजेंगे।",
   backToLogin: "लॉग इन पर वापस जाएँ",
   errInvalid:
     "ईमेल या पासवर्ड गलत है। दोनों जाँचकर फिर कोशिश करें।",
@@ -203,6 +233,22 @@ const hi: AuthCopy = {
   confirmBody:
     "हमने आपके पते पर पुष्टि लिंक भेजा है। खाता पूरा करने के लिए उसे खोलें, फिर लॉग इन करें।",
 
+  forgotSend: "रीसेट लिंक भेजें",
+  forgotSending: "भेजा जा रहा है…",
+  forgotSentTitle: "अपना ईमेल देखें",
+  forgotSentBody:
+    "अगर इस पते से कोई खाता है, तो हमने पासवर्ड रीसेट करने का लिंक भेजा है। लिंक एक ही बार काम करता है और कुछ समय बाद समाप्त हो जाता है। कुछ न आए तो स्पैम फ़ोल्डर देखें।",
+  resetTitle: "नया पासवर्ड सेट करें",
+  resetLede: "अपने खाते के लिए नया पासवर्ड चुनें।",
+  resetChecking: "आपका रीसेट लिंक जाँचा जा रहा है…",
+  newPasswordLabel: "नया पासवर्ड",
+  resetSubmit: "नया पासवर्ड सहेजें",
+  resetSaving: "सहेजा जा रहा है…",
+  resetLinkBadTitle: "यह रीसेट लिंक इस्तेमाल नहीं हो सकता",
+  resetLinkBadBody:
+    "हो सकता है लिंक की अवधि समाप्त हो गई हो, वह पहले इस्तेमाल हो चुका हो, या उसे उस ब्राउज़र से अलग ब्राउज़र में खोला गया हो जिसमें आपने अनुरोध किया था। नया लिंक माँगें और उसे उसी ब्राउज़र में खोलें।",
+  requestNewLink: "नया लिंक माँगें",
+  resetDone: "आपका पासवर्ड बदल दिया गया। नए पासवर्ड से लॉग इन करें।",
 };
 
 const mr: AuthCopy = {
@@ -247,7 +293,7 @@ const mr: AuthCopy = {
   registerLink: "नोंदणी करा",
 
   forgotTitle: "पासवर्ड रीसेट करा",
-  forgotLede: "पासवर्ड रीसेट सध्या उपलब्ध नाही.",
+  forgotLede: "तुमचा ईमेल पत्ता लिहा, आम्ही नवीन पासवर्ड सेट करण्यासाठी लिंक पाठवू.",
   backToLogin: "लॉग इनकडे परत जा",
   errInvalid:
     "ईमेल किंवा पासवर्ड चुकीचा आहे. दोन्ही तपासून पुन्हा प्रयत्न करा.",
@@ -276,6 +322,22 @@ const mr: AuthCopy = {
   confirmBody:
     "आम्ही तुमच्या पत्त्यावर पुष्टी लिंक पाठवली आहे. खाते पूर्ण करण्यासाठी ती उघडा, मग लॉग इन करा.",
 
+  forgotSend: "रीसेट लिंक पाठवा",
+  forgotSending: "पाठवत आहे…",
+  forgotSentTitle: "तुमचा ईमेल तपासा",
+  forgotSentBody:
+    "या पत्त्यावर खाते असल्यास, आम्ही पासवर्ड रीसेट करण्यासाठी लिंक पाठवली आहे. ही लिंक एकदाच चालते आणि काही वेळाने कालबाह्य होते. काही आले नाही तर स्पॅम फोल्डर तपासा.",
+  resetTitle: "नवीन पासवर्ड सेट करा",
+  resetLede: "तुमच्या खात्यासाठी नवीन पासवर्ड निवडा.",
+  resetChecking: "तुमची रीसेट लिंक तपासली जात आहे…",
+  newPasswordLabel: "नवीन पासवर्ड",
+  resetSubmit: "नवीन पासवर्ड जतन करा",
+  resetSaving: "जतन होत आहे…",
+  resetLinkBadTitle: "ही रीसेट लिंक वापरता येत नाही",
+  resetLinkBadBody:
+    "लिंक कालबाह्य झाली असेल, आधीच वापरली गेली असेल, किंवा तुम्ही विनंती केलेल्या ब्राउझरपेक्षा वेगळ्या ब्राउझरमध्ये उघडली असेल. नवीन लिंक मागवा आणि ती त्याच ब्राउझरमध्ये उघडा.",
+  requestNewLink: "नवीन लिंक मागवा",
+  resetDone: "तुमचा पासवर्ड बदलला गेला. नवीन पासवर्डने लॉग इन करा.",
 };
 
 const DICTS: Record<Lang, AuthCopy> = { en, hi, mr };

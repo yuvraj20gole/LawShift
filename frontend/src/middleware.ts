@@ -14,6 +14,8 @@ export async function middleware(request: NextRequest) {
     return redirectWithCookies(url, response);
   }
 
+  // /reset-password and /forgot-password are deliberately not gated: the reset email lands on
+  // /reset-password with a ?code= and a recovery session that is "signed in" once exchanged.
   if (signedIn && (pathname === "/login" || pathname === "/register")) {
     const url = request.nextUrl.clone();
     url.pathname = "/dashboard/workspace";

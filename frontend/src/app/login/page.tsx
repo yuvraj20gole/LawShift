@@ -1,12 +1,13 @@
 "use client";
 
-import { useRef, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { AuthShell } from "@/components/auth/AuthShell";
 import {
   Field,
   FormError,
+  OkNote,
   PasswordField,
   SubmitButton,
   SwitchLine,
@@ -30,9 +31,15 @@ export default function LoginPage() {
   const [tried, setTried] = useState(false);
   const [busy, setBusy] = useState(false);
   const [failure, setFailure] = useState<string | null>(null);
+  const [justReset, setJustReset] = useState(false);
 
   const emailRef = useRef<HTMLInputElement>(null);
   const pwRef = useRef<HTMLInputElement>(null);
+
+  // Set by /reset-password after a successful change (read after mount to avoid a hydration mismatch).
+  useEffect(() => {
+    setJustReset(new URLSearchParams(window.location.search).get("reset") === "1");
+  }, []);
 
   const emailOk = isEmail(email);
   // Any password is accepted here: this checks an existing account, so no strength rules.
@@ -77,6 +84,7 @@ export default function LoginPage() {
 
   return (
     <AuthShell title={A.loginTitle} lede={A.loginLede}>
+      {justReset ? <OkNote>{A.resetDone}</OkNote> : null}
       <form onSubmit={onSubmit} noValidate className={styles.form}>
         <Field
           id="login-email"

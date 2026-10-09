@@ -1041,3 +1041,16 @@ By length (mode b / after): 800 → 0.333 top5; 1500 → 0.275; 3000 → 0.233; 
 ---
 
 *End of process log. Generated from files in `results/` as of the unified comparison run, plus GovIntel README figures verified against the live Hugging Face card, plus the split-offense review and `split_detector_v2_eval.json`, Stage 4 generation and verifier evals (§16), citation-fix verifier evaluation (§17), backend integration / bifurcation validation (§18), multilingual Stage 5 / IndicTrans2 fix (§19), Ollama Metal / Rosetta fix and Stage 4 warm-up (§20), landing-page + live chat UI verification (§21), missing-facts gate (§22), IPC↔BNS code-mismatch intercept (§23), citation-only section lookup / bifurcation escape / date-lock diagnosis (§24), locked-date conflict handling (§25), Stage 4 conclusion-wording variant (§26), bifurcation-escape / cited-section / mismatch-card rules (§27), display-only chat answer lines (§28), fixed Conclusion (§29), translation number guard (§30), the checked-in regression suite (§31), public API hardening (§32), and M3 document extract/attach (§33).*
+
+## 34. Password reset (Supabase email), branch feature/password-reset
+
+### Change (scope: `frontend/` only)
+- `/forgot-password` asks for the email and calls `resetPasswordForEmail` with `redirectTo = <origin>/reset-password`. It shows one confirmation whether or not the address has an account (Supabase does not report unknown addresses; only rate limits and outages show an error).
+- `/reset-password` (new): the browser client exchanges the `?code=` for a recovery session; no session shows a "link cannot be used" message with a way to request a new one. Same five password rules and confirm field as Register. On success it calls `updateUser`, signs out globally, and redirects to `/login?reset=1`, which shows "Your password was changed".
+- Login keeps its "Forgot password?" link. `authErrorMessage` maps `same_password`. Middleware logic is unchanged (neither new page is gated; `/dashboard/**` stays protected); a comment explains why.
+
+### AI-drafted Hindi and Marathi strings (need native review)
+All new `forgotSend`, `forgotSending`, `forgotSentTitle`, `forgotSentBody`, `resetTitle`, `resetLede`, `resetChecking`, `newPasswordLabel`, `resetSubmit`, `resetSaving`, `resetLinkBadTitle`, `resetLinkBadBody`, `requestNewLink`, `resetDone` in the `hi` and `mr` blocks of `frontend/src/lib/authCopy.ts`, and the rewritten `forgotLede` in both.
+
+### Not verified
+No live email was sent in this change. The flow needs the Supabase dashboard settings below and a manual test with a throwaway account.
