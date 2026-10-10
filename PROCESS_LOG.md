@@ -1075,3 +1075,16 @@ Typecheck and build only; no browser run and the SQL was not applied from here. 
 Statements that said only questions are saved, or that nothing long-term is stored, were updated in EN, HI and MR: `registerSavedNote` (`authCopy.ts`); `stDeleteBody`, `hiLede`, `hiSavedNote`, `hiEmptyBody`, `hiClearBody` (`dashboardCopy.ts`); `faqA3` (`i18n.ts`, the landing FAQ "Is my data stored?"). CLAUDE.md "Saved history" now describes the saved answer and says the Application is saved as generated text under its label.
 
 AI-drafted Hindi and Marathi strings (need native review): the `hi` and `mr` versions of `registerSavedNote`, `stDeleteBody`, `hiLede`, `hiSavedNote`, `hiEmptyBody`, `hiClearBody` and `faqA3`.
+
+## 34. Password reset (Supabase email), branch feature/password-reset
+
+### Change (scope: `frontend/` only)
+- `/forgot-password` asks for the email and calls `resetPasswordForEmail` with `redirectTo = <origin>/reset-password`. It shows one confirmation whether or not the address has an account (Supabase does not report unknown addresses; only rate limits and outages show an error).
+- `/reset-password` (new): the browser client exchanges the `?code=` for a recovery session; no session shows a "link cannot be used" message with a way to request a new one. Same five password rules and confirm field as Register. On success it calls `updateUser`, signs out globally, and redirects to `/login?reset=1`, which shows "Your password was changed".
+- Login keeps its "Forgot password?" link. `authErrorMessage` maps `same_password`. Middleware logic is unchanged (neither new page is gated; `/dashboard/**` stays protected); a comment explains why.
+
+### AI-drafted Hindi and Marathi strings (need native review)
+All new `forgotSend`, `forgotSending`, `forgotSentTitle`, `forgotSentBody`, `resetTitle`, `resetLede`, `resetChecking`, `newPasswordLabel`, `resetSubmit`, `resetSaving`, `resetLinkBadTitle`, `resetLinkBadBody`, `requestNewLink`, `resetDone` in the `hi` and `mr` blocks of `frontend/src/lib/authCopy.ts`, and the rewritten `forgotLede` in both.
+
+### Not verified
+No live email was sent in this change. The flow needs the Supabase dashboard settings below and a manual test with a throwaway account.

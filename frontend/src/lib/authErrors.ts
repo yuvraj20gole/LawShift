@@ -10,6 +10,7 @@ export function authErrorMessage(err: AuthErrLike, A: AuthCopy): string {
   if (code === "email_not_confirmed") return A.errUnconfirmed;
   if (status === 429 || code.startsWith("over_")) return A.errRate;
   if (code === "user_already_exists" || code === "email_exists") return A.errExists;
+  if (code === "same_password") return A.errSamePassword;
   if (code === "weak_password") return A.errWeak;
   if (code === "signup_disabled" || code === "email_provider_disabled") return A.errSignupOff;
   return A.errGeneric;
