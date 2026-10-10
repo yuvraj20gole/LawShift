@@ -91,12 +91,15 @@ Fine-tuning is what moved the needle. Averaged over the question types, the hit 
   <img src="paper_figures/figure3_retrieval_progression.png" alt="Mean hit rate at 5, from BM25 (0.361) and off-the-shelf dense retrieval (0.596) to the final fine-tuned cascade (0.840)" width="720">
 </p>
 
-<!--
-Screenshots (add these to docs/screenshots/ and uncomment):
 <p align="center">
-  <img src="docs/screenshots/workspace-answer.png" alt="An answer card in the workspace" width="720">
+  <img src="docs/screenshots/landing.png" alt="LawShift landing page" width="720">
 </p>
--->
+<p align="center">
+  <img src="docs/screenshots/workspace-answer.png" alt="An answer card in the workspace: issue, rule, collapsed application, conclusion and sources" width="720">
+</p>
+<p align="center">
+  <img src="docs/screenshots/login.png" alt="LawShift sign-in page" width="480">
+</p>
 
 ## Datasets
 
