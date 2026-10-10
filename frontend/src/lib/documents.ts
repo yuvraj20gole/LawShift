@@ -1,4 +1,4 @@
-import { API_BASE, authHeaders } from "@/lib/api";
+import { API_BASE, authHeaders, fetchWithTimeout } from "@/lib/api";
 import { createClient } from "@/lib/supabase/client";
 import type { DocCopy } from "@/lib/documentsCopy";
 
@@ -138,7 +138,7 @@ export async function extractDocument(file: File): Promise<Extraction> {
   try {
     const body = new FormData();
     body.append("file", file);
-    res = await fetch(`${API_BASE}/api/documents/extract`, {
+    res = await fetchWithTimeout(`${API_BASE}/api/documents/extract`, {
       method: "POST",
       headers: { ...(await authHeaders()) },
       body,
@@ -303,7 +303,7 @@ export async function purgeUserFiles(): Promise<void> {
 async function postJson(path: string, body: unknown, failure: DocErrorKind): Promise<unknown> {
   let res: Response;
   try {
-    res = await fetch(`${API_BASE}${path}`, {
+    res = await fetchWithTimeout(`${API_BASE}${path}`, {
       method: "POST",
       headers: { "Content-Type": "application/json", ...(await authHeaders()) },
       body: JSON.stringify(body),

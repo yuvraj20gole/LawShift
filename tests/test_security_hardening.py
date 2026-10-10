@@ -361,3 +361,16 @@ def test_body_size_middleware():
 
 def test_docs_disabled_by_default_setting():
     assert _settings().enable_docs is False
+
+
+def test_supabase_url_required(monkeypatch):
+    monkeypatch.delenv("SUPABASE_URL", raising=False)
+    monkeypatch.delenv("LAWSHIFT_USE_TEST_SUPABASE_URL", raising=False)
+    with pytest.raises(RuntimeError, match="SUPABASE_URL"):
+        SecuritySettings.from_environ()
+
+
+def test_supabase_url_test_override(monkeypatch):
+    monkeypatch.delenv("SUPABASE_URL", raising=False)
+    monkeypatch.setenv("LAWSHIFT_USE_TEST_SUPABASE_URL", "1")
+    assert SecuritySettings.from_environ().supabase_url == "https://example-test.supabase.co"

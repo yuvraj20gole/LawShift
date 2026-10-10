@@ -304,7 +304,7 @@ const en: Dictionary = {
   failureFallback: "Could not complete this query.",
   unexpected: "Unexpected response from the pipeline.",
   apiError:
-    "Could not reach the LawShift API. Start the FastAPI backend on port 8000, then try again.",
+    "The AI service is not connected to this site right now. It runs on the project machine.",
   translationFallbackNote:
     "Machine-translated with a fallback model. Verify against the English text.",
   howHeading: "How it works",
@@ -508,8 +508,9 @@ const hi: Dictionary = {
     `आपने ऐसी संहिता की धारा लिखी है जो इस अपराध तिथि पर लागू नहीं होती। मैपिंग तालिका में लागू संहिता की समकक्ष धाराएँ हैं: ${sections}। मैं किसका विश्लेषण करूँ?`,
   failureFallback: "यह क्वेरी पूरी नहीं हो सकी।",
   unexpected: "पाइपलाइन से अप्रत्याशित प्रतिक्रिया।",
+  // Agent draft — needs native review
   apiError:
-    "LawShift API तक पहुँच नहीं हो सकी। पोर्ट 8000 पर FastAPI बैकएंड चालू करें, फिर पुनः प्रयास करें।",
+    "AI सेवा अभी इस साइट से जुड़ी नहीं है। यह प्रोजेक्ट मशीन पर चलती है।",
   translationFallbackNote:
     "फ़ॉलबैक मॉडल से मशीन-अनुवादित। अंग्रेज़ी पाठ से सत्यापित करें।",
   howHeading: "यह कैसे काम करता है",
@@ -713,8 +714,9 @@ const mr: Dictionary = {
     `तुम्ही अशा संहितेचे कलम लिहिले आहे जे या गुन्ह्याच्या तारखेला लागू नाही. मॅपिंग तक्त्यात लागू संहितेची समकक्ष कलमे आहेत: ${sections}. मी कोणत्याचे विश्लेषण करू?`,
   failureFallback: "ही क्वेरी पूर्ण होऊ शकली नाही.",
   unexpected: "पाइपलाइनकडून अनपेक्षित प्रतिसाद.",
+  // Agent draft — needs native review
   apiError:
-    "LawShift API पर्यंत पोहोचता आले नाही. पोर्ट ८००० वर FastAPI बॅकएंड सुरू करा आणि पुन्हा प्रयत्न करा.",
+    "AI सेवा सध्या या साइटशी जोडलेली नाही. ती प्रोजेक्ट मशीनवर चालते.",
   translationFallbackNote:
     "फॉलबॅक मॉडेलने मशीन-अनुवादित. इंग्रजी मजकुराशी पडताळा.",
   howHeading: "हे कसे काम करते",

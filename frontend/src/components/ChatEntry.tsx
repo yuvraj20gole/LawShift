@@ -4,7 +4,7 @@ import { FormEvent, useCallback, useEffect, useId, useRef, useState } from "reac
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import type { Dictionary } from "@/lib/i18n";
 import { usePrefs } from "@/lib/prefs";
-import { authHeaders } from "@/lib/api";
+import { API_BASE, authHeaders, fetchWithTimeout } from "@/lib/api";
 import { useSession } from "@/lib/useSession";
 import { labelToIso, saveCase } from "@/lib/caseHistory";
 import {
@@ -23,10 +23,6 @@ import {
   type Irac,
 } from "./AnswerCard";
 import styles from "./ChatEntry.module.css";
-
-/** Hit FastAPI directly so long IRAC+translate jobs are not cut by the Next rewrite proxy. */
-const API_BASE =
-  process.env.NEXT_PUBLIC_API_BASE?.replace(/\/$/, "") || "http://127.0.0.1:8000";
 
 /** The three cases the pipeline was smoke-tested on (PROCESS_LOG §18). */
 const EXAMPLES = [
@@ -532,7 +528,7 @@ export function ChatEntry({
       setMessages((m) => [...m, { role: "user", text: display ?? trimmed }]);
 
       try {
-        const res = await fetch(`${API_BASE}/api/query`, {
+        const res = await fetchWithTimeout(`${API_BASE}/api/query`, {
           method: "POST",
           headers: { "Content-Type": "application/json", ...(await authHeaders()) },
           body: JSON.stringify({
@@ -573,7 +569,7 @@ export function ChatEntry({
         { role: "user", text: display ?? section },
       ]);
       try {
-        const res = await fetch(`${API_BASE}/api/query/resolve_bifurcation`, {
+        const res = await fetchWithTimeout(`${API_BASE}/api/query/resolve_bifurcation`, {
           method: "POST",
           headers: { "Content-Type": "application/json", ...(await authHeaders()) },
           body: JSON.stringify({

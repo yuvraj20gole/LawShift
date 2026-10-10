@@ -212,7 +212,7 @@ export const FEATURED_RULINGS: RulingEntry[] = [
  * are shown. While it is false, unverified entries carry the
  * "Draft: not yet checked" badge instead.
  */
-export const HIDE_UNVERIFIED = false;
+export const HIDE_UNVERIFIED = true;
 
 /** Entries the Rulings page may show right now. */
 export function visibleRulings(list: RulingEntry[]): RulingEntry[] {

@@ -51,10 +51,18 @@ class SecuritySettings:
         origins = [o.strip() for o in origins_raw.split(",") if o.strip()]
         if not origins:
             origins = ["http://localhost:3000"]
+        supabase_url = _env_str("SUPABASE_URL", "")
+        if not supabase_url:
+            if _env_bool("LAWSHIFT_USE_TEST_SUPABASE_URL", False):
+                supabase_url = "https://example-test.supabase.co"
+            else:
+                raise RuntimeError(
+                    "SUPABASE_URL is required. Set it to your Supabase project URL "
+                    "(https://<project-ref>.supabase.co). "
+                    "For in-process tests only, set LAWSHIFT_USE_TEST_SUPABASE_URL=1."
+                )
         return cls(
-            supabase_url=_env_str(
-                "SUPABASE_URL", "https://xkrbmuljvznwchbdseyi.supabase.co"
-            ).rstrip("/"),
+            supabase_url=supabase_url.rstrip("/"),
             supabase_jwt_secret=_env_str("SUPABASE_JWT_SECRET", ""),
             jwt_audience=_env_str("LAWSHIFT_JWT_AUDIENCE", "authenticated"),
             # Tests only: PEM public key so verification needs no network.

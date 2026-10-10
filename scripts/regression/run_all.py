@@ -47,6 +47,7 @@ os.environ.setdefault("TOKENIZERS_PARALLELISM", "false")
 os.environ.setdefault("TORCHDYNAMO_DISABLE", "1")
 os.environ.setdefault("LAWSHIFT_FIXED_CONCLUSION", "1")
 os.environ.setdefault("LAWSHIFT_VERIFY_WITH_APPLICATION", "0")
+os.environ.setdefault("SUPABASE_URL", "https://example-test.supabase.co")
 
 
 def log(msg: str) -> None:
