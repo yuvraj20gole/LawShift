@@ -1087,4 +1087,4 @@ AI-drafted Hindi and Marathi strings (need native review): the `hi` and `mr` ver
 All new `forgotSend`, `forgotSending`, `forgotSentTitle`, `forgotSentBody`, `resetTitle`, `resetLede`, `resetChecking`, `newPasswordLabel`, `resetSubmit`, `resetSaving`, `resetLinkBadTitle`, `resetLinkBadBody`, `requestNewLink`, `resetDone` in the `hi` and `mr` blocks of `frontend/src/lib/authCopy.ts`, and the rewritten `forgotLede` in both.
 
 ### Not verified
-No live email was sent in this change. The flow needs the Supabase dashboard settings below and a manual test with a throwaway account.
+Tested manually on 10 October 2026 with a throwaway account: the reset email arrived, the link opened the form, a new password was set, sign-in with the new password worked, and the old password was rejected. A reused link and the bare reset page both showed the friendly error. Weak and mismatched passwords were not tested. Supabase's built-in email sender is capped at 2 emails per hour, so a custom SMTP provider is needed for real users. The flow also needs the Supabase dashboard settings below.
