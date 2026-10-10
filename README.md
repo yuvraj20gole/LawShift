@@ -196,3 +196,7 @@ PRODUCT.md      Product notes
 ## Acknowledgements
 
 Built as a semester NLP project. Thanks to the creators of the datasets above, and to the open-source projects this builds on: Ollama, Qwen, BAAI bge, IndicTrans2, Next.js, FastAPI and Supabase.
+
+---
+
+<p align="center">Made by <b>Yooraj Gole</b></p>
