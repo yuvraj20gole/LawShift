@@ -40,7 +40,7 @@ Thumbs.db
 *~
 
 # Local screenshots (not for repo)
-screenshots/
+/screenshots/
 
 # Misc local / tooling caches
 .impeccable/
